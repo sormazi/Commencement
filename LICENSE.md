@@ -7,3 +7,5 @@ Original location artwork and procedural scene source in `dist/locations.js`, `d
 Reference photographs and their respective authors/licenses are credited in `dist/credits.html`. Their pixels are not distributed in the game.
 
 Vendored Three.js code, including Reflector, retains its MIT license; see `dist/vendor/THREE-LICENSE.txt`.
+
+Historical advertising artwork in `dist/assets/ads/` retains the public-domain status documented per asset in `manifest.json`; this is separate from the source-code license. Trademarks remain with their respective owners. No sponsorship or endorsement is claimed.

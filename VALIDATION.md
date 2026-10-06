@@ -40,3 +40,7 @@
 - Physics, traffic/damage and three-world construction/destruction tests passed with the new pipeline.
 - Browser rendered Times Square with material shader masks, ledges, grass, faded markings and revised daylight palette; console errors were empty.
 - Shader masks and dense instancing were checked in the local WebGL browser. Broad GPU performance testing and photographic fidelity validation remain incomplete.
+
+## Environmental advertising (2026-10-06)
+
+All four Node suites passed, including asset-file hashes, geographic eligibility, Japanese-language preservation, fallback, deterministic surface policy and the sustained-power budget. World construction checks now cover advertising surface IDs, global disabling and selected-surface weather/illumination overrides. Browser verification: atlas artwork loaded, shaders compiled without reported warnings/errors, and the real-brand switch changed Coca-Cola to the original unbranded fallback and back. Performance has not been profiled across devices.

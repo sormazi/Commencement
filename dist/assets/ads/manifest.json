@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "scope": "Bundled artwork; no remote advertising requests, tracking, Google imagery, or brand campaigns generated.",
+  "rightsNote": "Copyright status documented by source; no trademark ownership or company sponsorship is claimed. Public-domain status of US works is jurisdiction-specific.",
+  "assets": [
+    {
+      "id": "coca-cola-1900",
+      "brand": "Coca-Cola",
+      "category": "beverage",
+      "year": "c. 1900",
+      "language": "en",
+      "file": "assets/ads/coca-cola-1900.jpg",
+      "regions": [
+        "times-square",
+        "soho"
+      ],
+      "source": "https://commons.wikimedia.org/wiki/File:Cocacola-5cents-1900_edit1.jpg",
+      "author": "Coca-Cola; Library of Congress scan, edited by Trialsanderrors",
+      "license": "Public domain in the US — published before 1931",
+      "status": "reviewed-archival",
+      "relevance": "Historic American beverage artwork; Times Square beverage-sign context. Archival reuse, not a surveyed installation.",
+      "downloaded": "2026-10-06",
+      "sha256": "2bb457d26b5d7e18a47fe7ef4da27ffb904907b7e699e57ecd0ca2f88120072d",
+      "modifications": "Downscaled to maximum 1024px; original campaign artwork retained. Runtime atlas letterboxing, fading, tears, cracks, grime and occlusion.",
+      "usageBasis": "Documented archival public-domain artwork; trademarks remain owned by their holders. Environmental depiction only, no endorsement or current-campaign claim.",
+      "placement": "Fictional archival reuse in an original procedural city; not a historical installation reconstruction."
+    },
+    {
+      "id": "kodak-1909",
+      "brand": "Eastman Kodak",
+      "category": "photography",
+      "year": "1909",
+      "language": "en",
+      "file": "assets/ads/kodak-1909.jpg",
+      "regions": [
+        "soho",
+        "times-square"
+      ],
+      "source": "https://commons.wikimedia.org/wiki/File:Eastman_Kodak_Company_advertisement_1909.jpg",
+      "author": "Eastman Kodak Company / unknown photographer",
+      "license": "Public domain in the US — published 1909",
+      "status": "reviewed-archival",
+      "relevance": "Published in The Independent (New York), May 6, 1909; photography/arts retail context in SoHo. Placement is fictional.",
+      "downloaded": "2026-10-06",
+      "sha256": "6b4a5ee6baa8f13edd604606be4e00aa1e4c89df867f8354a0191b8cdb76e019",
+      "modifications": "Downscaled to maximum 1024px; original campaign artwork retained. Runtime atlas letterboxing, fading, tears, cracks, grime and occlusion.",
+      "usageBasis": "Documented archival public-domain artwork; trademarks remain owned by their holders. Environmental depiction only, no endorsement or current-campaign claim.",
+      "placement": "Fictional archival reuse in an original procedural city; not a historical installation reconstruction."
+    },
+    {
+      "id": "mitsukoshi-1911",
+      "brand": "三越 / Mitsukoshi",
+      "category": "fashion retail",
+      "year": "1911",
+      "language": "ja",
+      "file": "assets/ads/mitsukoshi-1911.jpg",
+      "regions": [
+        "shibuya"
+      ],
+      "source": "https://commons.wikimedia.org/wiki/File:Goy%C5%8D_Hashiguchi-poster.jpg",
+      "author": "Goyō Hashiguchi (1880–1921)",
+      "license": "Public domain — PD-Japan and PD-old; published 1911",
+      "status": "reviewed-archival",
+      "relevance": "Japanese department-store poster with original Japanese typography. Tokyo retail context; not evidence of a Mitsukoshi storefront in this corridor.",
+      "downloaded": "2026-10-06",
+      "sha256": "704c89ea2bc40d4913907cc387d8ee5eb474a40965be0e76c948c6ce9021dbed",
+      "modifications": "Downscaled to maximum 1024px; original campaign artwork retained. Runtime atlas letterboxing, fading, tears, cracks, grime and occlusion.",
+      "usageBasis": "Documented archival public-domain artwork; trademarks remain owned by their holders. Environmental depiction only, no endorsement or current-campaign claim.",
+      "placement": "Fictional archival reuse in an original procedural city; not a historical installation reconstruction."
+    },
+    {
+      "id": "local-us",
+      "brand": "Fictional fallback",
+      "category": "local culture",
+      "language": "en",
+      "regions": [
+        "times-square",
+        "soho"
+      ],
+      "status": "original-fictional",
+      "license": "Original NightView artwork",
+      "source": null,
+      "relevance": "Unbranded local arts poster; used when assets are unavailable or real brands are disabled.",
+      "downloaded": "2026-10-06",
+      "modifications": "Original procedural local-culture artwork"
+    },
+    {
+      "id": "local-jp",
+      "brand": "Fictional fallback",
+      "category": "local culture",
+      "language": "ja",
+      "regions": [
+        "shibuya"
+      ],
+      "status": "original-fictional",
+      "license": "Original NightView artwork",
+      "source": null,
+      "relevance": "Unbranded Japanese-language local culture poster.",
+      "downloaded": "2026-10-06",
+      "modifications": "Original procedural local-culture artwork"
+    }
+  ]
+}

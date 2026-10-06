@@ -115,3 +115,7 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) to keep working on the project. Test cov
 ## Reclamation pipeline
 
 The development build now includes reusable surface weathering, facade ivy, seam grasses with wind, moss decals, puddles, shop shutters, physical billboard supports and location-specific story profiles. See [ENVIRONMENT.md](ENVIRONMENT.md) for implementation and remaining visual-quality limits.
+
+## Environmental advertising
+
+World-space advertisements now use documented archival Coca-Cola, Kodak and Mitsukoshi artwork, with location-aware placement, surface weathering and mostly failed digital displays. Inspect assets or disable real brands in **Options → Driving → Advertising inspector**. No companies sponsor or endorse NightView. These are fictional archival placements, not surveyed campaigns. [System and asset policy →](ADVERTISING.md) · [Asset manifest →](dist/assets/ads/manifest.json)

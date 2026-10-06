@@ -1,10 +1,12 @@
-import {DriveAudio} from './audio.js?v=15';
-import {trafficPose,trafficCount} from './traffic.js?v=15';
-import {CityRenderer} from './renderer3d.js?v=15';
-import {cars,FixedVehicleLoop,inputFromKeys,resolveContact} from './physics.js?v=15';
-import {locations} from './locations.js?v=15';
+import {installAdInspector} from './ad-inspector.js?v=16';
+import {DriveAudio} from './audio.js?v=16';
+import {trafficPose,trafficCount} from './traffic.js?v=16';
+import {CityRenderer} from './renderer3d.js?v=16';
+import {cars,FixedVehicleLoop,inputFromKeys,resolveContact} from './physics.js?v=16';
+import {locations} from './locations.js?v=16';
 const $=id=>document.getElementById(id),canvas=$('world'),city=new CityRenderer(canvas),mini=$('mini').getContext('2d');
 const audio=new DriveAudio();
+installAdInspector(()=>city.world?.advertising);
 let simulation=new FixedVehicleLoop(cars[0]),state=simulation.state,renderState=state,car=0,draftCar=0,mode='demo',draftMode='demo',locationId='times-square',draftLocation='times-square',playing=false,paused=false,optionsOpen=false,introActive=true,mph=true,keys={},last=0,controls={},time=0,collisionCooldown=0,prevCheckpoint=0,optionSnapshot=null,optionsReturnPaused=false;
 const carSVG=color=>`<svg viewBox="0 0 130 50" aria-hidden="true"><path d="M9 32l10-10 24-3 13-13h38l17 15 12 4 1 13H9z" fill="${color}"/><path d="M55 10h35l12 11H42z" fill="#16202d"/><circle cx="31" cy="36" r="10" fill="#080e17"/><circle cx="104" cy="36" r="10" fill="#080e17"/><circle cx="31" cy="36" r="5" fill="#8794a4"/><circle cx="104" cy="36" r="5" fill="#8794a4"/></svg>`;
 $('cars').innerHTML=cars.map((c,i)=>`<button class="carcard ${i===0?'selected':''}" data-car="${i}" aria-pressed="${i===0}">${carSVG(['#bec8cf','#829bb0','#ba895a'][i])}<div><strong>${c.name}</strong><small>${c.type} · ${Math.round(c.max*2.237)} MPH</small></div><em>${i===0?'✓':''}</em></button>`).join('');
@@ -26,7 +28,7 @@ $('drive').onclick=()=>closeOptions(true);$('closeOptions').onclick=$('cancelOpt
 function dismissIntro(){if(!introActive)return;introActive=false;$('boot').classList.add('fading');document.body.classList.remove('booting');paused=document.hidden;$('pauseDialog').hidden=!paused;setTimeout(()=>{$('boot').hidden=true;},850);}
 $('boot').onclick=dismissIntro;$('boot').onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();dismissIntro();}};
 window.addEventListener('keydown',e=>{audio.unlock();const k=e.key.toLowerCase();if(introActive){if(k==='enter'||k===' '){e.preventDefault();dismissIntro();}return;}
-if($('aboutDialog').open)return;
+if($('aboutDialog').open||$('adInspector').open)return;
 if(optionsOpen){if(k==='escape'){e.preventDefault();closeOptions(false);}if(k==='tab'){const focus=[...$('garage').querySelectorAll('button,input,select,a')].filter(x=>!x.disabled&&x.getClientRects().length);const first=focus[0],last=focus.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}return;}
 if(!playing||/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))return;if(k==='escape'){e.preventDefault();pause();return;}if(paused)return;if([' ','arrowup','arrowdown','arrowleft','arrowright','shift'].includes(k))e.preventDefault();if(k==='r'){reset();return;}keys[k]=true;});
 window.addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);window.addEventListener('blur',()=>pause(true));document.addEventListener('visibilitychange',()=>{if(document.hidden)pause(true);});
