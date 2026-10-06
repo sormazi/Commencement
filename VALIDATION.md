@@ -34,3 +34,9 @@
 - World/destruction suite passed alongside the vehicle replacement.
 - Live browser loaded the updated solver and renderer without console errors; driving HUD showed 34 MPH and the scene rendered traffic contacts, wheel/body movement and facade debris. Screenshot saved as nightview-physics.jpg. This is an integration observation, not controlled handling validation.
 - No Unreal/Chaos implementation is claimed. Detailed solver assumptions and remaining physical limits are documented in PHYSICS.md.
+
+## Environmental transformation
+
+- Physics, traffic/damage and three-world construction/destruction tests passed with the new pipeline.
+- Browser rendered Times Square with material shader masks, ledges, grass, faded markings and revised daylight palette; console errors were empty.
+- Shader masks and dense instancing were checked in the local WebGL browser. Broad GPU performance testing and photographic fidelity validation remain incomplete.

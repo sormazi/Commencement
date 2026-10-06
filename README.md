@@ -21,7 +21,7 @@ NightView is a browser arcade driving game set in cities overtaken by foliage, f
 
 Built with original procedural scenes, a vendored Three.js renderer and a standalone force-based vehicle simulation. The project is actively being developed.
 
-<p align="center"><img src="docs/media/gameplay.jpg" alt="NightView gameplay: an overgrown avenue surrounded by ominous fog" width="760"></p>
+<p align="center"><img src="docs/media/gameplay.jpg" alt="Current NightView gameplay: weathered facades, ivy and fog in Times Square" width="760"></p>
 
 ## Quick start
 
@@ -48,6 +48,12 @@ The app is static. The GitHub repository contains the playable files; GitHub Pag
 | **Times Square · New York** | Illuminated tower, damaged displays, plaza steps and avenue crossings |
 | **SoHo · New York** | Cast-iron facades, storefronts, fire escapes and a narrower cobbled corridor |
 | **Shibuya · Tokyo** | Scramble crossing, glass towers, rounded commercial corner and dense signage |
+
+| Times Square | SoHo | Shibuya |
+| :---: | :---: | :---: |
+| ![Times Square gameplay](docs/media/gameplay.jpg) | ![SoHo gameplay](docs/media/soho.jpg) | ![Shibuya gameplay](docs/media/shibuya.jpg) |
+
+Screenshots captured from the current playable build.
 
 All three feature overgrowth, masonry debris, wrecks, animated pedestrians, cycling signals and moving traffic. Police vehicles patrol with flashing roof lights. Choose **Overgrown daylight**, **Ash storm** or **Dusty dawn** in Options.
 
@@ -105,3 +111,7 @@ Touch driving buttons are provided on smaller screens. Transmission, atmosphere,
 | `tests/` | Dynamics, timing, traffic and world regression checks |
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) to keep working on the project. Test coverage includes deterministic replay, 30/60/144 Hz equivalence, tire force bounds, braking, load transfer, collision energy and a 200-second stability replay. [Validation notes →](VALIDATION.md)
+
+## Reclamation pipeline
+
+The development build now includes reusable surface weathering, facade ivy, seam grasses with wind, moss decals, puddles, shop shutters, physical billboard supports and location-specific story profiles. See [ENVIRONMENT.md](ENVIRONMENT.md) for implementation and remaining visual-quality limits.

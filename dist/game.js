@@ -1,8 +1,8 @@
-import {DriveAudio} from './audio.js?v=13';
-import {trafficPose,trafficCount} from './traffic.js?v=13';
-import {CityRenderer} from './renderer3d.js?v=13';
-import {cars,FixedVehicleLoop,inputFromKeys,resolveContact} from './physics.js?v=13';
-import {locations} from './locations.js?v=13';
+import {DriveAudio} from './audio.js?v=15';
+import {trafficPose,trafficCount} from './traffic.js?v=15';
+import {CityRenderer} from './renderer3d.js?v=15';
+import {cars,FixedVehicleLoop,inputFromKeys,resolveContact} from './physics.js?v=15';
+import {locations} from './locations.js?v=15';
 const $=id=>document.getElementById(id),canvas=$('world'),city=new CityRenderer(canvas),mini=$('mini').getContext('2d');
 const audio=new DriveAudio();
 let simulation=new FixedVehicleLoop(cars[0]),state=simulation.state,renderState=state,car=0,draftCar=0,mode='demo',draftMode='demo',locationId='times-square',draftLocation='times-square',playing=false,paused=false,optionsOpen=false,introActive=true,mph=true,keys={},last=0,controls={},time=0,collisionCooldown=0,prevCheckpoint=0,optionSnapshot=null,optionsReturnPaused=false;
