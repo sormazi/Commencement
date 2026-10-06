@@ -105,9 +105,3 @@ Touch driving buttons are provided on smaller screens. Transmission, atmosphere,
 | `tests/` | Dynamics, timing, traffic and world regression checks |
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) to keep working on the project. Test coverage includes deterministic replay, 30/60/144 Hz equivalence, tire force bounds, braking, load transfer, collision energy and a 200-second stability replay. [Validation notes →](VALIDATION.md)
-
-## Credits and licensing
-
-Created for **sormazi** with AI-assisted development. The original location artwork and scene source are CC BY-SA 4.0; vendored Three.js retains its MIT license. Remaining original application code has no open-source license grant at this time. See [LICENSE.md](LICENSE.md) and [location credits](dist/credits.html).
-
-NightView is an independent project with no affiliation with Need for Speed, Burnout, EA, Criterion or Black Box.
