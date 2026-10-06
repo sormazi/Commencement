@@ -1,0 +1,7 @@
+import assert from 'node:assert/strict';
+// CPU scene construction only; WebGL rendering is checked in the browser.
+const gradient={addColorStop(){}};const context=new Proxy({createLinearGradient(){return gradient;},createRadialGradient(){return gradient;}},{get(o,k){return k in o?o[k]:()=>{};}});
+globalThis.document={createElement(){return {width:0,height:0,getContext(){return context;}};}};
+const {LocationWorld,locations}=await import('../dist/locations.js');
+for(const location of locations){const w=new LocationWorld(location.id);for(const hazard of w.aftermath.wrecks){assert(w.aftermath.collision(hazard.s,hazard.x),'Wreck must collide at its visible position');assert(w.aftermath.collision(hazard.s+location.length,hazard.x),'Repeated scene must retain matching collider');}assert.equal(w.aftermath.collision(0,0),null);w.update(123,8,0);for(const p of w.props)assert(Number.isFinite(p.g.position.z));for(let frame=0;frame<480;frame++)w.update(frame*.4,frame/60,0);assert(w.destruction.emitted>0,'Driving past buildings must shed masonry');assert(w.destruction.panels.some(p=>!p.panel.visible&&p.cavity.visible),'A broken panel must expose its cavity');const emitted=w.destruction.emitted;for(let frame=0;frame<60;frame++)w.update(479*.4,8+frame/60,0);assert.equal(w.destruction.emitted,emitted,'Stationary car must not trigger more collapse');for(const c of w.destruction.chunks)assert(Number.isFinite(c.y)&&c.y>=0);w.dispose();}
+console.log('PASS: three world builders, visible wreck collision positions route wrapping and triggered facade destruction');

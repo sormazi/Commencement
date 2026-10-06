@@ -1,0 +1,56 @@
+import {FacadeDestruction} from './destruction.js?v=13';
+import {Aftermath} from './aftermath.js?v=13';
+import * as T from './vendor/three.module.js';
+export const locations=[
+{id:'times-square',name:'Times Square',city:'New York',street:'Seventh Avenue',halfWidth:11,length:900,spawn:0},
+{id:'soho',name:'SoHo',city:'New York',street:'Greene Street',halfWidth:5.8,length:800,spawn:0},
+{id:'shibuya',name:'Shibuya',city:'Tokyo',street:'Scramble Crossing',halfWidth:10,length:900,spawn:0}
+];
+const rnd=n=>{const v=Math.sin(n*127.1+31.7)*43758.54;return v-Math.floor(v);};
+const cube=new T.BoxGeometry(1,1,1),poleGeo=new T.CylinderGeometry(.09,.12,1,8);
+const materials={iron:new T.MeshStandardMaterial({color:0x283137,metalness:.6,roughness:.45}),stone:new T.MeshStandardMaterial({color:0x8b8981,roughness:.82}),glass:new T.MeshStandardMaterial({color:0x233c49,metalness:.6,roughness:.19}),curb:new T.MeshStandardMaterial({color:0x777a78,roughness:.8}),white:new T.MeshStandardMaterial({color:0xe1dfd3,roughness:.7}),red:new T.MeshStandardMaterial({color:0x812b24,roughness:.65})};
+function tex(w,h,draw){const c=document.createElement('canvas');c.width=w;c.height=h;draw(c.getContext('2d'),w,h);const t=new T.CanvasTexture(c);t.colorSpace=T.SRGBColorSpace;return t;}
+function box(g,x,y,z,w,h,d,mat){const m=new T.Mesh(cube,mat);m.position.set(x,y,z);m.scale.set(w,h,d);g.add(m);return m;}
+function mat(color){return new T.MeshStandardMaterial({color,roughness:.6,metalness:.12});}
+function label(text,bg='#134336',fg='#e4eddf',size=28){return tex(512,256,c=>{c.fillStyle=bg;c.fillRect(0,0,512,256);c.fillStyle=fg;c.font=`600 ${size}px Arial`;c.textAlign='center';c.fillText(text,256,143);});}
+function screen(g,x,y,z,w,h,text,colors,angle=0){const texture=tex(512,512,c=>{let gradient=c.createLinearGradient(0,0,512,512);gradient.addColorStop(0,colors[0]);gradient.addColorStop(1,colors[1]);c.fillStyle=gradient;c.fillRect(0,0,512,512);c.fillStyle=colors[2]||'#ffffff';for(let i=0;i<8;i++){c.globalAlpha=.16;c.beginPath();c.arc(260+Math.sin(i)*160,200+i*35,80+i*12,0,Math.PI*2);c.fill();}c.globalAlpha=1;c.textAlign='center';c.font='700 66px Arial';c.fillText(text,256,256);c.fillStyle='rgba(15,21,17,.6)';for(let i=0;i<20;i++)c.fillRect(rnd(i)*512,rnd(i+8)*512,2+rnd(i+30)*95,1+rnd(i+22)*6);c.strokeStyle='#233329';c.lineWidth=3;c.beginPath();c.moveTo(150,0);c.lineTo(205,130);c.lineTo(185,195);c.lineTo(245,310);c.lineTo(222,512);c.stroke();});const m=new T.Mesh(new T.PlaneGeometry(w,h),new T.MeshStandardMaterial({map:texture,emissiveMap:texture,emissive:0xffffff,emissiveIntensity:1.15,side:T.DoubleSide}));m.position.set(x,y,z);m.rotation.y=angle;g.add(m);return m;}
+function facade(seed,soho=false){const colors=['#b9b4a1','#acaa9b','#c0bab0','#775247','#858882'];return tex(256,512,c=>{c.fillStyle=soho?colors[seed%colors.length]:'#3a4755';c.fillRect(0,0,256,512);const rows=soho?5:15,cols=soho?4:8,dy=512/rows,dx=256/cols;for(let y=0;y<rows;y++){if(soho){c.fillStyle='#d2c9b5';c.fillRect(0,y*dy,256,7);c.fillStyle='#5a5c58';c.fillRect(0,y*dy+7,256,2);}for(let x=0;x<cols;x++){const lit=rnd(seed*77+x+y*31)>.65;c.fillStyle=lit?'#bfa577':'#25323a';c.fillRect(x*dx+dx*.16,y*dy+dy*.16,dx*.68,dy*.68);c.strokeStyle=soho?'#ded5c3':'#5d6b73';c.lineWidth=soho?3:1;c.strokeRect(x*dx+dx*.16,y*dy+dy*.16,dx*.68,dy*.68);c.fillStyle=soho?'#dad2bf':'#61737b';c.fillRect(x*dx+dx*.49,y*dy+dy*.16,2,dy*.68);c.fillRect(x*dx+dx*.16,y*dy+dy*.48,dx*.68,2);}}});}
+function surface(g,w,d,color,y=.012){const m=new T.Mesh(new T.PlaneGeometry(w,d),new T.MeshStandardMaterial({color,roughness:.64,side:T.DoubleSide}));m.rotation.x=-Math.PI/2;m.position.y=y;g.add(m);return m;}
+function zebra(g,x,z,w,angle=0){const cross=new T.Group();cross.position.set(x,.025,z);cross.rotation.y=angle;for(let i=0;i<12;i++)box(cross,0,0,(i-5.5)*.75,w,.015,.42,materials.white);g.add(cross);}
+function lamp(g,x,z,japan=false){const pole=new T.Mesh(poleGeo,materials.iron);pole.scale.y=japan?7:6;pole.position.set(x,pole.scale.y/2,z);g.add(pole);const glow=new T.MeshStandardMaterial({color:0xffe9c4,emissive:0xffcf86,emissiveIntensity:4});box(g,x,6,z,.45,.4,.45,glow);box(g,x,6.4,z,.65,.08,.65,materials.iron);box(g,x,2.1,z,.4,.07,.4,materials.iron);}
+function streetSign(g,x,z,street){lamp(g,x,z);const t=label(street,'#164939','#eef5e8',42);box(g,x+.8,4.8,z,2.2,.5,.08,new T.MeshStandardMaterial({map:t,roughness:.5}));}
+export class LocationWorld{
+constructor(id){this.config=locations.find(l=>l.id===id);if(!this.config)throw Error('Unknown location');this.group=new T.Group();this.props=[];this.screens=[];this.build();this.aftermath=new Aftermath(this);this.destruction=new FacadeDestruction(this);this.group.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;}});}
+add(g,s,x=0){this.group.add(g);this.props.push({g,s,x});return g;}
+build(){const c=this.config,soho=c.id==='soho',tokyo=c.id==='shibuya';const curb=soho?7:13;
+// Independently authored streetscape blocks, not extracted mapping or imagery.
+for(let i=0;i<44;i++){if((tokyo&&i<6)||(!tokyo&&!soho&&[0,2,4].includes(i)))continue;const g=new T.Group(),side=i%2?1:-1,depth=soho?13:20+rnd(i)*12,width=soho?16:22+rnd(i+4)*12,height=soho?17+rnd(i+9)*10:tokyo?25+rnd(i+7)*52:38+rnd(i+2)*68;
+const t=facade(i,soho),f=new T.MeshStandardMaterial({map:t,emissiveMap:t,emissive:0xd5cbb7,emissiveIntensity:soho?.06:.19,roughness:soho?.65:.35,metalness:soho?.08:.3});box(g,0,height/2,0,depth,height,width,f);box(g,0,height+.12,0,depth+.25,.5,width+.3,soho?materials.stone:materials.iron);box(g,-side*depth/2,1.8,0,.15,3.6,width,materials.glass);
+if(soho){for(let y=4;y<height;y+=4){box(g,-side*(depth/2+.18),y,0,.45,.25,width+.2,materials.stone);}for(let z=-width/2+1;z<width/2;z+=4){const column=new T.Mesh(new T.CylinderGeometry(.16,.2,height-1,8),materials.stone);column.position.set(-side*(depth/2+.21),(height-1)/2,z);g.add(column);}box(g,-side*(depth/2+.6),3.6,0,1.4,.15,width-1,mat(i%2?0x313a30:0x463e32));
+// Exterior fire escapes: landings and diagonal stairs on alternate blocks.
+if(i%3===0){for(let y=5;y<height;y+=4){box(g,-side*(depth/2+1),y,1,1.8,.12,3.5,materials.iron);box(g,-side*(depth/2+1.9),y+.5,1,.07,1,3.5,materials.iron);const stair=box(g,-side*(depth/2+1),y-1.6,0,.85,.1,4.7,materials.iron);stair.rotation.x=.75;}}
+}else{const front=-side*(depth/2+.15);if(i<18){let s=screen(g,front,8+rnd(i)*9,0,width*.8,8+rnd(i+2)*8,tokyo?['渋谷','音楽','TOKYO','映画'][i%4]:['CITY','LIVE','STAGE','MOTION'][i%4],[['#ff763c','#57339a'],['#10417f','#22aac1'],['#bd307b','#402172'],['#f4cb53','#ab493d']][i%4],-side*Math.PI/2);this.screens.push(s);}}
+this.add(g,60+i/2*(soho?24:36),side*(curb+depth/2+1+(!soho&&!tokyo&&side>0&&i<8?18:0)));}
+for(let i=0;i<34;i++){const g=new T.Group(),side=i%2?1:-1;box(g,side*(curb+1.7),.12,0,3.4,.24,24,materials.curb);lamp(g,side*(curb+.4),0,tokyo);if(!tokyo)box(g,side*(curb+1),.15,4,.3,.3,.3,mat(0x633733));this.add(g,30+i/2*46);}
+if(soho){for(let i=0;i<4;i++){const g=new T.Group();surface(g,160,16,0x404345);zebra(g,0,9,11);zebra(g,0,-9,11);streetSign(g,7.5,-10,['Spring St','Prince St','Broome St','Grand St'][i]);this.add(g,90+i*170);}const t=tex(512,512,c=>{c.fillStyle='#514f4b';c.fillRect(0,0,512,512);for(let y=0;y<512;y+=22)for(let x=0;x<512;x+=42){c.fillStyle=['#63605a','#757068','#4b4946'][Math.floor(rnd(x+y)*3)];c.fillRect(x+(y%44?21:0)+2,y+2,37,17);}});t.wrapS=t.wrapT=T.RepeatWrapping;t.repeat.set(3,130);this.roadTexture=t;
+}else if(tokyo){this.buildShibuya();}else{this.buildTimesSquare();}
+}
+buildTimesSquare(){const g=new T.Group();
+// Slender tower and stacked illuminated displays in the southern vista.
+box(g,0,44,0,10,88,14,mat(0x3d4149));for(let i=0;i<6;i++){const s=screen(g,0,7+i*12,7.1,9.5,11,['NYC','42','LIVE','ART','CITY','2026'][i],[['#24b5dd','#162252'],['#f0973b','#cb3165'],['#834bf7','#24347c']][i%3]);this.screens.push(s);}box(g,0,91,0,.18,7,.18,materials.iron);const ball=new T.Mesh(new T.SphereGeometry(1.1,16,12),new T.MeshStandardMaterial({color:0xe8f2ff,emissive:0xacc8ff,emissiveIntensity:2}));ball.position.set(0,95,0);g.add(ball);this.add(g,125,-23);
+const plaza=new T.Group();box(plaza,27,.15,0,20,.3,100,materials.stone);for(let i=0;i<12;i++)box(plaza,26,.28+i*.15,-i*.65,9,.3+i*.3,8-i*.6,materials.red);for(let i=0;i<10;i++)box(plaza,18,.5,18+i*6,.28,1,.28,materials.iron);streetSign(plaza,14,18,'W 47 St');this.add(plaza,88);
+for(let i=0;i<12;i++){const b=new T.Group(),side=i%2?1:-1;const s=screen(b,0,13+rnd(i)*10,0,14+rnd(i)*9,10+rnd(i+2)*8,['NYC','STAGE','LIVE','42'][i%4],[['#fe6149','#4f236c'],['#28419d','#55c4db'],['#dfbd57','#7c294c']][i%3],-side*Math.PI/3);this.screens.push(s);this.add(b,40+i*35,side*15);}
+for(let i=0;i<4;i++){const g=new T.Group();surface(g,160,16,0x383e46);zebra(g,0,-10,21);zebra(g,0,10,21);streetSign(g,-13,-12,['W 46 St','W 45 St','W 44 St','W 43 St'][i]);this.add(g,58+i*155);}
+// Broadway branches into the plaza, rendered as a scenic side road.
+const diagonal=new T.Group();const road=surface(diagonal,18,160,0x343c46);road.rotation.z=.23;diagonal.position.x=30;this.add(diagonal,150,32);
+}
+buildShibuya(){const crossing=new T.Group();surface(crossing,100,55,0x333b44);zebra(crossing,0,20,20);zebra(crossing,0,-20,20);zebra(crossing,-17,0,19,Math.PI/2);zebra(crossing,17,0,19,Math.PI/2);zebra(crossing,0,0,31,Math.PI/4);for(let side of [-1,1]){box(crossing,side*25,.18,0,16,.35,68,materials.curb);streetSign(crossing,side*18,-20,side===1?'道玄坂':'渋谷');}this.add(crossing,75);
+// Q-front inspired glass mass and rounded commercial corner silhouette.
+const q=new T.Group();box(q,0,25,0,25,50,28,materials.glass);for(let y=3;y<50;y+=4)box(q,0,y,14.15,25,.08,.08,materials.iron);screen(q,0,31,14.2,23,15,'SHIBUYA',['#0e6ba2','#783d89']);this.add(q,115,-28);
+const corner=new T.Group();const cyl=new T.Mesh(new T.CylinderGeometry(12,12,42,20),mat(0xaca79d));cyl.position.y=21;corner.add(cyl);for(let i=0;i<6;i++){const s=screen(corner,0,6+i*6.3,12.05,15,5.6,['渋谷','音楽','東京','映画','文化','109'][i],['#b83553','#171e40']);this.screens.push(s);}this.add(corner,126,30);
+const park=new T.Group();box(park,0,.17,0,19,.35,22,materials.curb);const leaf=mat(0x293c2a);for(let i=0;i<5;i++){box(park,i*3-6,2,0,.25,4,.25,materials.iron);const tree=new T.Mesh(new T.SphereGeometry(2.5,10,8),leaf);tree.position.set(i*3-6,5,0);park.add(tree);}this.add(park,43,24);
+for(let i=0;i<7;i++){const g=new T.Group();screen(g,0,8,0,3.2,13,['カフェ','映画','音楽','食堂'][i%4],['#f29759','#5a284a'],i%2?1.3:-1.3);this.add(g,160+i*60,i%2?15:-15);}
+}
+update(s,time,lateral=0){for(const p of this.props){const z=((p.s-s+70)%this.config.length+this.config.length)%this.config.length-70;p.g.position.set(p.x,0,-z);p.g.visible=z<380;}for(let i=0;i<this.screens.length;i++)this.screens[i].material.emissiveIntensity=i%3===0?.08:.45+Math.sin(time*5+i)*.13;this.aftermath.update(s,time,lateral);this.destruction.update(s,time);}
+dispose(){const geometries=new Set(),mats=new Set(),textures=new Set();this.group.traverse(o=>{if(o.geometry&&o.geometry!==cube&&o.geometry!==poleGeo)geometries.add(o.geometry);if(o.material)for(const m of Array.isArray(o.material)?o.material:[o.material])if(!Object.values(materials).includes(m)){mats.add(m);if(m.map)textures.add(m.map);}});geometries.forEach(g=>g.dispose());mats.forEach(m=>m.dispose());textures.forEach(t=>t.dispose());this.roadTexture?.dispose();}
+}
