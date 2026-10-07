@@ -45,3 +45,4 @@ Phase 2 massing pass done; stopped for Avi's review of the four skyline views.
 | Date | Commit | Summary |
 |---|---|---|
 | 2026-10-07 | efa26be | Phase 0: Washington Square free-roam location, campus data pipeline, tests, Phase 1 inventory draft |
+| 2026-10-07 | 18718a2 | Phase 2 massing from NYC 3D model, Paulson estimate, inventory draft 2 (LPC + Street View), skyline screenshots |
