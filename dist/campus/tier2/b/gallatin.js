@@ -1,0 +1,3 @@
+// Gallatin School, 1 Washington Pl (715 Broadway). 12 storeys, shares a lot with Tisch, NoHo Historic District. Not
+// separately checked; same loft treatment as 721 Broadway (estimate).
+export default {slug:"gallatin",name:"Gallatin School, 1 Washington Pl (715 Broadway)",bin:1008831,also:[],source:"12 storeys, shares a lot with Tisch, NoHo Historic District. Not separately checked; same loft treatment as 721 Broadway (estimate).",wall:'brickBuff',trim:'limestone',ground:{h:5.0,style:'storefront',mat:'limestone',pitch:4.6,pier:1.0},base:{to:9.4,mat:'limestone'},floor:3.8,pitch:4.6,win:[1.2,2.3],pair:1,sash:1,cornice:'modillion',doors:[{rank:0,at:.5,w:2.4,h:3.2}]};
