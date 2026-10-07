@@ -56,12 +56,12 @@ The plan in detail, with every decision so far, is in [PROGRESS.md](PROGRESS.md)
 ### From a fresh clone
 
 ```bash
-git clone -b nyu-campus https://github.com/sormazi/NightView.git
+git clone https://github.com/sormazi/NightView.git
 cd NightView
 python3 -m http.server 4173 --directory dist
 ```
 
-The `-b nyu-campus` gets the branch with the Washington Square work; `main` does not have it yet. If you have Node.js installed, `npm start` runs the same server command.
+If you have Node.js installed, `npm start` runs the same server command.
 
 Leave that Terminal window open and go to **http://localhost:4173**. The game starts on Fifth Avenue facing the Arch. Click the page or press a driving key to turn on sound. Press **Ctrl+C** in the Terminal to stop the server. After pulling new commits, hard-reload the page (**Cmd+Shift+R** on a Mac, **Ctrl+Shift+R** elsewhere) so the browser does not keep old files.
 
