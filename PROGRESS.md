@@ -137,3 +137,4 @@ Target is 60 fps at the Arch. My own checks run in a software renderer in the cl
 | 2026-10-07 | f0e00e5 | Atmosphere: soundtrack draft |
 | 2026-10-07 | 70d6885 | PROGRESS atmosphere review stop |
 | 2026-10-07 | f1bf788 | README/credits point at main |
+| 2026-10-07 | 09b609c | Real NYC time of day: NOAA sun, moon phase, continuous lamps and fog, ?time/?date preview, sky tests |
