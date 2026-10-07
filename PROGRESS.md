@@ -114,3 +114,4 @@ Target is 60 fps at the Arch. My own checks run in a software renderer in the cl
 | 2026-10-07 | 416d350 | CONTRIBUTING Node version |
 | 2026-10-07 | 9dfcbe7 | README clone command |
 | 2026-10-07 | fcf269e | README rewrite |
+| 2026-10-07 | cf46a10 | Atmosphere: decay (park slice) |
