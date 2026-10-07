@@ -1,0 +1,2 @@
+// 19 West 4th Street (Politics). 1900, 8 storeys; not in the 3D model. Not checked on Street View (estimate).
+export default {slug:"w4th19",name:"19 West 4th Street (Politics)",bin:1080098,also:[],source:"1900, 8 storeys; not in the 3D model. Not checked on Street View (estimate).",wall:'brickBuff',trim:'limestone',ground:{h:4.6,style:'storefront',mat:'limestone',pitch:4.4},floor:3.8,pitch:4.2,win:[1.1,2.2],pair:1,sash:1,cornice:'modillion',doors:[{rank:0,at:.5,w:2.2,h:3.2}]};
