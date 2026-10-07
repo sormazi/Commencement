@@ -542,3 +542,14 @@ Resolved from sources this round. Tags as above; W = web source, cited inline.
 Still open: Weinstein security desk, card readers, dining entrance and the East/West towers; Bobst main entrance bays; Public Safety booths; long-standing sidewalk sheds (your answers arrived as unfilled templates); which end of the Silver Center's Washington Sq E front has the loggia.
 
 Detail-pass checklists now live in `RESEARCH/checklists/` (arch.md, bobst.md, silver-center.md).
+
+## Research update 4 (detail pass batch 2, 7 Oct 2026)
+
+Resolved by me from Street View (looked at, not saved), reference photos and data, as Avi asked. Street View capture dates are given because street conditions change.
+
+| Item | Finding | Source / where observed | Status |
+|---|---|---|---|
+| Weinstein street frontage | Orange-red brick nine-storey slab; regular single windows with grey frames and louvre panels; concrete piers and storefront glass at street level; three segmental concrete canopies over the residence entrance a few bays in from E 8th St; NYU banner at the corner. Security desk and card readers dropped per Avi (not visible from the street). | SV University Pl at 40.73106 −73.99525 (h105), 40.73120 −73.99513 (h150), 40.73082 −73.99547 (h60); all Apr 2026 | Resolved |
+| Weinstein East and West towers | From University Pl and Waverly Pl the building reads as one continuous slab; the towers are the upper blocks at 32.6 m and 34.6 m in the 3D model against the 29.8 m main roof. | SV as above; NYC 3D model | Resolved |
+| Weinstein dining entrance | Part of the University Pl storefront run; no separately marked entrance visible from the street. | SV as above | Resolved (estimate of exact door) |
+| 1 University Place | Corner of University Pl and Waverly Pl is 1 University Place (dark brown brick, balconies), not Weinstein. | SV 40.73082 −73.99547 (Apr 2026) | Noted |

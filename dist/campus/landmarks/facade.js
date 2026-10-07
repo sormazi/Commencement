@@ -26,7 +26,7 @@ export function punched(P,w,y0,y1,s){const {wall='stone',glass='glass',trim=wall
  for(const [u0,v0,u1,v1] of wins)holes.push([[u0,v0],[u1,v0],[u1,v1],[u0,v1]]);P.poly(wall,w.face,[[0,y0],[L,y0],[L,y1],[0,y1]],holes,0);
  const back=new Face(w.face.at(0,0,0),w.face.u,w.face.v);
  for(const [u0,v0,u1,v1] of wins){P.recess(wall,back,u0,u1,v0,v1,reveal,glass);if(pair)P.block(frames,w.face,(u0+u1)/2-mullion/2,(u0+u1)/2+mullion/2,v0,v1,-reveal,-reveal+.06);
-  P.block(frames,w.face,u0,u1,v0+(v1-v0)*.62,v0+(v1-v0)*.62+.05,-reveal,-reveal+.04);if(sill)P.block(trim,w.face,u0-.08,u1+.08,v0-sill,v0,0,.1);
+  P.block(frames,w.face,u0,u1,v0+(v1-v0)*.62,v0+(v1-v0)*.62+.05,-reveal,-reveal+.04);if(s.louvre)P.block(s.louvre,w.face,u0,u1,v0,v0+(v1-v0)*.24,-reveal,-reveal+.03,{skip:['left','right','bottom']});if(sill)P.block(trim,w.face,u0-.08,u1+.08,v0-sill,v0,0,.1);
   if(surround){P.block(trim,w.face,u0-surround,u0,v0,v1,0,.06);P.block(trim,w.face,u1,u1+surround,v0,v1,0,.06);P.block(trim,w.face,u0-surround,u1+surround,v1,v1+surround,0,.06);}}}
 // Curtain wall: glass with vertical mullions every `mw` m and spandrel bands every `floor` m.
 export function curtain(P,w,y0,y1,{glass='glass',frames='frame',mw=1.5,floor=3.6,spandrel=0,depth=.12,spandrelName=frames}={}){const L=w.len;P.rect(glass,w.face,0,L,y0,y1,0);

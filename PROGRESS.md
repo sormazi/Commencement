@@ -14,7 +14,7 @@ Phase 2 detail pass, second batch (approved 2026-10-07 to continue): Kimmel, Jud
 
 ## In progress
 - Resolving the remaining open questions from Street View (Silver porch, Bobst entrance bays, Weinstein street frontage, Public Safety booths, sidewalk sheds); browser pane needed for Street View.
-- Detail pass: Kimmel, Judson and the Row done; Weinstein next.
+- Detail pass: Kimmel, Judson, the Row and Weinstein done; Brown Building + memorial next, then the review stop.
 
 ## Next (after Avi's review)
 - Phase 2 detail pass continues with Kimmel, Judson, the Row, Weinstein, Brown + memorial, Silver Towers + Sylvette, Vanderbilt, Tisch + KMC, Paulson (checklists in RESEARCH/checklists/).
