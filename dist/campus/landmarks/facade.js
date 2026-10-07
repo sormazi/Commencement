@@ -82,3 +82,8 @@ function reveal2(P,name,f,hole,depth,back){let cu=0,cv=0;for(const p of hole){cu
  for(let k=0;k<hole.length;k++){const p=hole[k],q=hole[(k+1)%hole.length],mu=(p[0]+q[0])/2-cu,mv=(p[1]+q[1])/2-cv,h=[-(f.u[0]*mu+f.v[0]*mv),-(f.u[1]*mu+f.v[1]*mv),-(f.u[2]*mu+f.v[2]*mv)];
   P.quad(name,f.at(p[0],p[1],0),f.at(q[0],q[1],0),f.at(q[0],q[1],-depth),f.at(p[0],p[1],-depth),h);}
  if(back)P.poly(back,new Face(f.at(0,0,-depth),f.u,f.v),hole);}
+// Merge colinear consecutive walls of the same piece and exposure (the 3D model splits many faces).
+export function mergeWalls(W,{gap=.3,dot=.995,off=.45}={}){const out=[];for(const w of W){const p=out[out.length-1];
+  if(p&&p.piece===w.piece&&Math.abs(p.y0-w.y0)<.05&&Math.hypot(p.b[0]-w.a[0],p.b[1]-w.a[1])<gap&&p.n[0]*w.n[0]+p.n[1]*w.n[1]>dot&&Math.abs((w.b[0]-p.a[0])*p.n[0]+(w.b[1]-p.a[1])*p.n[1])<off){
+   p.b=w.b;p.len=Math.hypot(p.b[0]-p.a[0],p.b[1]-p.a[1]);continue;}out.push({...w});}
+ for(const w of out){const dx=w.b[0]-w.a[0],dn=w.b[1]-w.a[1];w.face=new Face(v3(w.a),[dx,0,-dn],[0,1,0]);}return out;}

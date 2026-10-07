@@ -14,6 +14,7 @@ import {LANDMARK_BUILDINGS} from '../dist/campus/landmarks/index.js';
 import {SHEDS,shedParts} from '../dist/campus/landmarks/sheds.js';
 import {silverTowersParts,SILVER_TOWERS,SYLVETTE} from '../dist/campus/landmarks/silver-towers.js';
 import {vanderbiltParts,VANDERBILT} from '../dist/campus/landmarks/vanderbilt.js';
+import {sternParts,STERN} from '../dist/campus/landmarks/stern.js';
 import {CampusCollision} from '../dist/campus/collision.js';
 import {rectFrame} from '../dist/campus/geometry.js';
 let passed=0;const test=(name,fn)=>{fn();passed++;console.log('ok -',name);};
@@ -76,4 +77,8 @@ test('silver towers: three towers to the 82.5 m roof, 8- and 4-bay grids on ever
 test('vanderbilt: pedimented wing ends on the square, five-arch arcade with the entrance in the middle, court doorcase, pediments on MacDougal and Sullivan',()=>{const {P,info}=vanderbiltParts();
  assert.equal(info.wingEnds.length,2);assert.ok(info.arcade&&Math.abs(info.arcade.L-23.3)<1,'arcade');assert.ok(info.doorcase,'doorcase');assert.deepEqual(info.sides.map(s=>s.dir).sort(),['e','w']);assert.ok(info.windows>250,'windows '+info.windows);
  const b=bbox(verts(P));assert.ok(b[1][1]>26&&b[1][1]<29,'top '+b[1][1]);const vb=data.buildings.find(x=>x.bin===VANDERBILT.bin);assert.ok(near(verts(P),vb,3));});
+test('stern: KMC with its plaza rotunda and Tisch Hall with its plaza entrance; the Gould Plaza shed is in place',()=>{const {P,info}=sternParts();
+ assert.ok(info.rotunda&&Math.abs(info.rotunda.r-9.1)<.5,'rotunda');assert.ok(info.entrance&&info.entrance.w.len>30,'tisch entrance');
+ const b=bbox(verts(P));assert.ok(b[1][1]>51&&b[1][1]<53,'top '+b[1][1]);assert.ok(P.m.sternText&&P.m.drumWin&&P.m.redFrame,'rotunda lettering, window ring, red frames');
+ assert.ok(SHEDS.some(s=>/w4th-south/.test(s.id)),'Gould Plaza shed');});
 console.log(`landmarks: ${passed} passed`);
