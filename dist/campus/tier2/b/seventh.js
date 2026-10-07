@@ -1,0 +1,2 @@
+// Seventh Street Residence. 40 E 7th St, 1920, 3 storeys. Not checked on Street View (estimate).
+export default {slug:"seventh",name:"Seventh Street Residence",bin:1006649,also:[],source:"40 E 7th St, 1920, 3 storeys. Not checked on Street View (estimate).",wall:'brickRed',trim:'limestone',ground:{h:3.8,style:'base',mat:'limestone'},floor:3.3,pitch:2.8,win:[1.0,1.8],sash:1,lintel:.22,cornice:'modillion',doors:[{rank:0,at:.5,w:1.8,h:2.8}]};
