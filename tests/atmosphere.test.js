@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {inSlice,DECAY_BINS,treeBoost,decayKind,gu,gv} from '../dist/campus/atmosphere/decay.js';
 import {flicker} from '../dist/campus/atmosphere/night.js';
 import {crowdPlan} from '../dist/campus/atmosphere/crowd.js';
+import {SPEAKER} from '../dist/soundtrack.js';
 import data from '../dist/campus/data/campus-data.js';
 import {pointInRing,centroid} from '../dist/campus/geometry.js';
 let passed=0;const test=(name,fn)=>{fn();passed++;console.log('ok - '+name);};
@@ -20,4 +21,5 @@ test('loiterers: queues, card readers, wall-facers, lecture rows and gowns, all 
  for(const r of ['queue','reader','wall','lecture','lecturer','class','loiter','tree','steps'])assert.ok(roles.has(r),'role '+r);
  assert.ok(people.some(p=>p.pose==='gown'));for(const p of people)assert.ok(inSlice(p.home),'in slice');
  const brown=centroid(B(1008823).rings[0]);for(const p of people)assert.ok(Math.hypot(p.home[0]-brown[0],p.home[1]-brown[1])>40);});
+test('the broken loudspeaker stands just south of the Arch, on open ground',()=>{assert.ok(Math.hypot(SPEAKER.x,SPEAKER.z)<25);assert.ok(Math.hypot(SPEAKER.x+30,SPEAKER.z+46)>20,'clear of the fountain');});
 console.log('atmosphere: '+passed+' passed');
