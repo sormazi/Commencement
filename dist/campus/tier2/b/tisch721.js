@@ -1,0 +1,4 @@
+// Tisch School of the Arts, 721 Broadway. 1896, altered 1988 and 2001, 12 storeys, NoHo Historic District. User panorama
+// on Google Maps (Broadway at Waverly): pale beige stone and brick, heavy stone pilasters framing dark glass at the
+// ground storey, three-light windows above.
+export default {slug:"tisch721",name:"Tisch School of the Arts, 721 Broadway",bin:1088447,also:[],source:"1896, altered 1988 and 2001, 12 storeys, NoHo Historic District. User panorama on Google Maps (Broadway at Waverly): pale beige stone and brick, heavy stone pilasters framing dark glass at the ground storey, three-light windows above.",wall:'brickBuff',trim:'limestone',ground:{h:5.0,style:'storefront',mat:'limestone',pitch:4.6,pier:1.1},base:{to:9.4,mat:'limestone'},floor:3.8,pitch:4.6,win:[1.25,2.3],pair:1,sash:1,cornice:'modillion',doors:[{rank:0,at:.5,w:2.8,h:3.4,canopy:1.4}],flags:{rank:0,n:2,y:6}};
