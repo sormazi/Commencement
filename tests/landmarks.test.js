@@ -9,6 +9,8 @@ import {kimmelParts,KIMMEL} from '../dist/campus/landmarks/kimmel.js';
 import {judsonParts,JUDSON} from '../dist/campus/landmarks/judson.js';
 import {rowParts,ROW_BINS,ROW} from '../dist/campus/landmarks/row.js';
 import {weinsteinParts,WEINSTEIN} from '../dist/campus/landmarks/weinstein.js';
+import {brownParts,BROWN} from '../dist/campus/landmarks/brown.js';
+import {LANDMARK_BUILDINGS} from '../dist/campus/landmarks/index.js';
 import {CampusCollision} from '../dist/campus/collision.js';
 import {rectFrame} from '../dist/campus/geometry.js';
 let passed=0;const test=(name,fn)=>{fn();passed++;console.log('ok -',name);};
@@ -52,4 +54,7 @@ test('the row: fronts for Nos. 1-13 and 19-26 with porticoes, attic frieze, rail
 const wb=data.buildings.find(b=>b.bin===WEINSTEIN.bin),{P:wp,front:wf}=weinsteinParts(wb),wv=verts(wp);
 test('weinstein: slab to the 34.6 m tower roof, University Pl front found, three canopies, on its block',()=>{const b=bbox(wv);assert.ok(Math.abs(b[1][1]-34.6)<.3,'top '+b[1][1]);assert.ok(wf&&wf.len>35,'front');
  assert.ok(near(wv,wb,4));const canopy=verts(wp,['concrete']).filter(([x,y])=>y>3.5&&y<4.2);assert.ok(canopy.length>200);});
+const brb=data.buildings.find(b=>b.bin===BROWN.bin),brp=brownParts(brb),brv=verts(brp);
+test('brown building: preserved, cornice at 42.9 m, penthouse, memorial ribbon on both fronts',()=>{assert.equal(LANDMARK_BUILDINGS[BROWN.bin].preserve,true);const b=bbox(brv);assert.ok(Math.abs(b[1][1]-45.9)<.3,'top '+b[1][1]);
+ const rib=verts(brp,['ribbon']);assert.equal(rib.length,12);assert.ok(rib.every(([x,y])=>y>4.3&&y<5.1));assert.ok(near(brv,brb,3));});
 console.log(`landmarks: ${passed} passed`);
