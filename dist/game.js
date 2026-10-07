@@ -1,13 +1,13 @@
-import {installAdInspector} from './ad-inspector.js?v=20';
-import {DriveAudio} from './audio.js?v=20';
-import {Soundtrack} from './soundtrack.js?v=20';
-import {trafficPose,trafficCount} from './traffic.js?v=20';
-import {CityRenderer} from './renderer3d.js?v=20';
+import {installAdInspector} from './ad-inspector.js?v=21';
+import {DriveAudio} from './audio.js?v=21';
+import {Soundtrack} from './soundtrack.js?v=21';
+import {trafficPose,trafficCount} from './traffic.js?v=21';
+import {CityRenderer} from './renderer3d.js?v=21';
 import * as THREE from './vendor/three.module.js';
-import {cars,FixedVehicleLoop,inputFromKeys,resolveContact} from './physics.js?v=20';
-import {locations} from './locations.js?v=20';
-import {campus,snapToStreet} from './campus/campus.js?v=20';
-import {CampusMinimap} from './campus/minimap.js?v=20';
+import {cars,FixedVehicleLoop,inputFromKeys,resolveContact} from './physics.js?v=21';
+import {locations} from './locations.js?v=21';
+import {campus,snapToStreet} from './campus/campus.js?v=21';
+import {CampusMinimap} from './campus/minimap.js?v=21';
 const $=id=>document.getElementById(id),canvas=$('world'),city=new CityRenderer(canvas),mini=$('mini').getContext('2d');
 const audio=new DriveAudio(),soundtrack=new Soundtrack();
 // Sound starts on the first key press, click or tap (browsers require a gesture).
@@ -64,13 +64,17 @@ function setFps(on){fpsMeter.on=on;city.renderer.info.autoReset=!on;fpsMeter.el=
 function fpsTick(t,dt){if(!fpsMeter.on)return;const info=city.renderer.info;info.autoReset=false;const calls=info.render.calls,tris=info.render.triangles;info.reset();if(!fpsMeter.t0){fpsMeter.t0=t;return;}fpsMeter.frames++;fpsMeter.worst=Math.max(fpsMeter.worst,dt*1000);const span=t-fpsMeter.t0;if(span<500)return;
  const fps=fpsMeter.frames*1000/span;let extra='';extra=` · ${calls} calls · ${(tris/1000).toFixed(0)}k tris`;
  fpsMeter.el.textContent=`${fps.toFixed(0)} fps · worst ${fpsMeter.worst.toFixed(1)} ms${extra}`;fpsMeter.el.classList.toggle('slow',fps<55);fpsMeter.frames=0;fpsMeter.t0=t;fpsMeter.worst=0;}
-function tick(t){const dt=Math.max(0,(t-last)/1000||0);last=t;fpsTick(t,dt);
+// Options note under Atmosphere: what Real NYC time is showing right now (refreshed about once a second).
+let skyNoteAt=0;function skyNote(t){if(t<skyNoteAt)return;skyNoteAt=t+1000;const loc=locations.find(l=>l.id===(optionsOpen?draftLocation:locationId)),on=$('preset').value==='realtime',note=$('skyNote');
+ if(!on){note.hidden=true;return;}note.hidden=false;const i=city.sky.info();note.textContent=!loc.freeRoam?'Real NYC time lights Washington Square. Other locations use Dead of night.':i?i.text+(i.preview?' (preview)':''):'';}
+function tick(t){const dt=Math.max(0,(t-last)/1000||0);last=t;fpsTick(t,dt);skyNote(t);
 if(playing&&!paused){renderState=simulation.advance(dt,inputFromKeys(keys,$('transmission').value==='manual'),(s,h,simTime)=>{time=simTime;contacts(s);let cp=Math.floor(s.distance/250);if(cp>prevCheckpoint){s.score+=500;prevCheckpoint=cp;}s.checkpoint=cp%8+1;});state=simulation.state;controls=simulation.controls;}else{simulation.accumulator=0;simulation.previous=structuredClone(simulation.state);renderState=simulation.state;}
 render(dt);audio.update(state,controls,paused||optionsOpen||introActive,$('sound').value==='on');soundtrack.update(!paused&&!optionsOpen&&!introActive&&$('sound').value==='on'&&$('music').value==='on'&&!!currentLocation().freeRoam,{x:state.position?.x||0,z:state.position?.z||0},state.orientation?.yaw||0);$('speed').textContent=String(Math.round(Math.abs(state.speed)*(mph?2.237:3.6))).padStart(3,'0');$('gear').textContent=state.speed<-.3?'R':state.gear;$('score').textContent=String(Math.floor(state.score)).padStart(6,'0');$('distance').textContent=(state.distance/1000).toFixed(2);$('top').textContent=Math.round(state.top*(mph?2.237:3.6));$('drift').textContent=Math.floor(state.drift);$('rpmBar').style.width=Math.min(100,state.rpm/8000*100)+'%';$('boostBar').style.width=state.boost+'%';$('damageBar').style.width=state.damage*100+'%';if(!currentLocation().freeRoam)$('checkpoint').textContent=`CHECKPOINT ${state.checkpoint} / 8`;$('speedlines').style.opacity=playing?Math.max(0,(Math.abs(state.speed)-40)/100):0;requestAnimationFrame(tick);}requestAnimationFrame(tick);
 window.NightView={start,pause,reset,openOptions,closeOptions,
 // Developer helpers for review screenshots in free-roam locations (map metres: x east, z north; yaw 0 = north).
 teleport:(x,z,yaw=0)=>{if(!currentLocation().freeRoam)return false;simulation=new FixedVehicleLoop(cars[car]);state=simulation.state;placeVehicle({x,z,yaw});return true;},
 viewFrom:o=>{city.cameraOverride=o||null;if(!o)city.preset='';},
+sky:()=>city.sky.info(),
 renderInfo:()=>{let meshes=0,tris=0;const cam=city.camera,fr=new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse));
  city.scene.traverseVisible(o=>{if(!o.isMesh||!o.geometry)return;if(o.geometry.boundingSphere==null)o.geometry.computeBoundingSphere();const s=o.geometry.boundingSphere.clone().applyMatrix4(o.matrixWorld);if(!fr.intersectsSphere(s))return;meshes++;const g=o.geometry,n=(g.index?g.index.count:g.attributes.position.count)/3;tris+=n*(o.isInstancedMesh?o.count:1);});return {drawCalls:meshes,triangles:Math.round(tris)};},
 getState:()=>({...state,playing,paused,optionsOpen,mode,location:locationId,car,intro:introActive})};

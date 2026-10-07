@@ -1,8 +1,9 @@
-import {cars as vehicleConfigs} from './physics.js?v=20';
+import {cars as vehicleConfigs} from './physics.js?v=21';
 import * as T from './vendor/three.module.js';
-import {createWorld,locations} from './locations.js?v=20';
-import {trafficPose,trafficCount} from './traffic.js?v=20';
+import {createWorld,locations} from './locations.js?v=21';
+import {trafficPose,trafficCount} from './traffic.js?v=21';
 import {Reflector} from './vendor/Reflector.js';
+import {SkyDriver} from './campus/atmosphere/sky-driver.js?v=21';
 const center=s=>0;
 const tangent=s=>0;
 const rand=n=>{let x=Math.sin(n*127.1+311.7)*43758.5453;return x-Math.floor(x);};
@@ -62,15 +63,15 @@ const smokeGeo=new T.SphereGeometry(1,8,6);this.smoke=Array.from({length:35},()=
 this.skidIndex=0;this.skids=Array.from({length:100},()=>{const m=new T.Mesh(new T.PlaneGeometry(.23,1.7),new T.MeshBasicMaterial({color:0x171c16,transparent:true,opacity:.6,depthWrite:false}));m.rotation.x=-Math.PI/2;m.visible=false;this.scene.add(m);return {m,s:0,x:0,life:0};});
 this.sparks=Array.from({length:28},()=>{const m=new T.Mesh(new T.BoxGeometry(.025,.025,.17),new T.MeshBasicMaterial({color:0xffc776}));m.visible=false;this.scene.add(m);return {m,life:0,v:new T.Vector3(),p:new T.Vector3()};});this.previousImpact=0;
 
-this.target=new T.WebGLRenderTarget(1,1,{type:T.HalfFloatType});this.postScene=new T.Scene();this.postCamera=new T.OrthographicCamera(-1,1,1,-1,0,1);this.postMat=new T.ShaderMaterial({uniforms:{image:{value:this.target.texture},resolution:{value:new T.Vector2(1,1)},amount:{value:0},motion:{value:0},clock:{value:0}},vertexShader:'varying vec2 uv0;void main(){uv0=uv;gl_Position=vec4(position.xy,0.,1.);}',fragmentShader:`uniform sampler2D image;uniform vec2 resolution;uniform float amount;uniform float motion;uniform float clock;varying vec2 uv0;void main(){vec2 delta=(uv0-.5)*amount*.003;vec3 col=vec3(texture2D(image,uv0+delta).r,texture2D(image,uv0).g,texture2D(image,uv0-delta).b);// Radial shutter smear follows the road perspective; shield the player car.
+this.target=new T.WebGLRenderTarget(1,1,{type:T.HalfFloatType});this.postScene=new T.Scene();this.postCamera=new T.OrthographicCamera(-1,1,1,-1,0,1);this.postMat=new T.ShaderMaterial({uniforms:{image:{value:this.target.texture},resolution:{value:new T.Vector2(1,1)},amount:{value:0},motion:{value:0},clock:{value:0},desat:{value:0}},vertexShader:'varying vec2 uv0;void main(){uv0=uv;gl_Position=vec4(position.xy,0.,1.);}',fragmentShader:`uniform sampler2D image;uniform vec2 resolution;uniform float amount;uniform float motion;uniform float clock;uniform float desat;varying vec2 uv0;void main(){vec2 delta=(uv0-.5)*amount*.003;vec3 col=vec3(texture2D(image,uv0+delta).r,texture2D(image,uv0).g,texture2D(image,uv0-delta).b);// Radial shutter smear follows the road perspective; shield the player car.
 vec2 travel=(uv0-vec2(.5,.53))*motion*.055;
 float carShield=1.-smoothstep(.12,.25,abs(uv0.x-.5));carShield*=1.-smoothstep(.35,.49,uv0.y);
 vec3 smear=vec3(0.);for(int i=0;i<8;i++){float phase=float(i)/7.-.5;smear+=texture2D(image,clamp(uv0+travel*phase,vec2(.001),vec2(.999))).rgb/8.;}
 col=mix(col,smear,clamp(motion*.8,0.,.9)*(1.-carShield));
-vec3 bloom=vec3(0.);for(int x=-2;x<=2;x++){for(int y=-2;y<=2;y++){vec3 s=texture2D(image,uv0+vec2(float(x),float(y))*3./resolution).rgb;bloom+=max(s-.7,0.)/25.;}}col+=bloom*.8;float vig=1.-smoothstep(.25,.8,length(uv0-.5));col*=.76+.24*vig;float grain=fract(sin(dot(uv0*resolution+clock,vec2(12.9898,78.233)))*43758.5453);col+=(grain-.5)*.012;gl_FragColor=vec4(col,1.);
+vec3 bloom=vec3(0.);for(int x=-2;x<=2;x++){for(int y=-2;y<=2;y++){vec3 s=texture2D(image,uv0+vec2(float(x),float(y))*3./resolution).rgb;bloom+=max(s-.7,0.)/25.;}}col+=bloom*.8;float vig=1.-smoothstep(.25,.8,length(uv0-.5));col*=.76+.24*vig;float grain=fract(sin(dot(uv0*resolution+clock,vec2(12.9898,78.233)))*43758.5453);col=mix(col,vec3(dot(col,vec3(.2126,.7152,.0722))),desat);col+=(grain-.5)*.012;gl_FragColor=vec4(col,1.);
 #include <tonemapping_fragment>
 #include <colorspace_fragment>
-}`});this.postScene.add(new T.Mesh(new T.PlaneGeometry(2,2),this.postMat));this.resize();window.addEventListener('resize',()=>this.resize());this.preset='';}
+}`});this.postScene.add(new T.Mesh(new T.PlaneGeometry(2,2),this.postMat));this.resize();window.addEventListener('resize',()=>this.resize());this.preset='';this.sky=new SkyDriver(this);}
 // Free-roam rendering: the car moves through a static world in map space (three z = -north).
 updateFreeRoam(state,controls,time,dt,car,playing){
 const yaw=state.orientation?.yaw||0,X=state.position.x,Z=-state.position.z,fx=Math.sin(yaw),fz=-Math.cos(yaw),rx=Math.cos(yaw),rz=Math.sin(yaw);
@@ -83,7 +84,7 @@ this.player.userData.tail.emissiveIntensity=controls.braking?9:3;this.player.use
 this.contact.visible=true;this.contact.position.set(X,ground+.04,Z);this.contact.rotation.z=-yaw;
 for(let i=0;i<2;i++){const side=i?.6:-.6,hx=X+rx*side+fx*2.1,hz=Z+rz*side+fz*2.1;this.headlights[i].position.set(hx,ground+.75,hz);this.headlights[i].target.position.set(hx+fx*35,ground,hz+fz*35);}
 this.fill.position.set(X-rx*4-fx*4,ground+3,Z-rz*4-fz*4);this.under.position.set(X,ground+.2,Z);
-if(!this.sun.target.parent)this.scene.add(this.sun.target);this.sun.position.set(X-40,80,Z-80);this.sun.target.position.set(X,0,Z);
+if(!this.sun.target.parent)this.scene.add(this.sun.target);if(this.preset==='realtime')this.sky.update(dt,X,Z,this.world);else{this.sun.position.set(X-40,80,Z-80);this.sun.target.position.set(X,0,Z);}
 this.gate.visible=false;
 if((controls.drifting||controls.burnout||state.damage>.6)&&playing){let p=this.smoke[this.smokeIndex++%this.smoke.length];p.life=1;const side=this.smokeIndex%2?1:-1;p.x=X+rx*side-fx*1.8;p.z=Z+rz*side-fz*1.8;p.y=ground;}
 for(let p of this.smoke){p.life=Math.max(0,p.life-dt*.9);p.m.visible=p.life>0;if(p.life){p.m.position.set(p.x+(1-p.life)*Math.sin(time)*2,(p.y||0)+.4+(1-p.life)*1.8,p.z);p.m.scale.setScalar(.15+(1-p.life)*1.8);p.m.material.opacity=p.life*.25;p.m.material.color.set(state.damage>.6?0x343a30:0xa3a390);}}
@@ -96,11 +97,13 @@ const back=playing?8.4:7.2,height=playing?3.2:2.4,desired=new T.Vector3(X-cfx*ba
 this.camera.position.lerp(desired,1-Math.exp(-dt*7));this.camera.lookAt(X+cfx*14,ground+1.05,Z+cfz*14);
 // Developer/review camera: fixed viewpoint in map metres (x east, n north), used for skyline checks.
 const o=this.cameraOverride;if(o){this.camera.fov=o.fov||55;this.camera.updateProjectionMatrix();this.camera.position.set(o.x,o.y,-o.n);this.camera.lookAt(o.lx,o.ly??o.y,-o.ln);this.scene.fog.density=o.fog??this.scene.fog.density;}
-this.world.viewDistance=o?.view;this.world.update(state,time,this.camera);
+if(this.preset==='realtime')this.sky.place(this.camera);this.world.viewDistance=o?.view;this.world.update(state,time,this.camera);
 this.postMat.uniforms.amount.value=controls.boosting?1:speed/100;this.postMat.uniforms.motion.value=controls.motionActive?Math.min(1.5,Math.max(0,(speed-9)/55)+(controls.boosting?.3:0)):0;this.postMat.uniforms.clock.value=time;this.renderer.setRenderTarget(this.target);this.renderer.render(this.scene,this.camera);this.renderer.setRenderTarget(null);this.renderer.render(this.postScene,this.postCamera);}
 resize(){this.renderer.setSize(innerWidth,innerHeight,false);this.camera.aspect=innerWidth/innerHeight;this.camera.updateProjectionMatrix();const v=new T.Vector2();this.renderer.getDrawingBufferSize(v);this.target.setSize(v.x,v.y);this.postMat.uniforms.resolution.value.copy(v);}
 setLocation(id){if(this.locationId===id)return;if(this.world){this.scene.remove(this.world.group);this.world.dispose();}this.world=createWorld(id);this.locationId=id;this.scene.add(this.world.group);this.world.setPreset?.(this.preset);const free=!!this.world.freeRoam;this.road.visible=!free;for(const m of this.markings)m.visible=!free;for(const t of this.traffic)t.visible=false;this.skids.forEach(k=>{k.life=0;k.m.visible=false;});if(!free){this.road.material.map=this.world.roadTexture||asphalt;this.road.material.needsUpdate=true;}for(const b of this.blocks)b.g.visible=false;for(const l of this.streetObjects)l.g.visible=false;for(const b of this.billboards)b.g.visible=false;this.gate.visible=false;}
-applyPreset(preset){if(preset===this.preset)return;this.preset=preset;this.world?.setPreset?.(preset);const storm=preset==='storm',dawn=preset==='dawn';
+applyPreset(preset){// Real NYC time drives the campus every frame (SkyDriver); the original locations keep Dead of night for it.
+  if(preset==='realtime'&&!this.world?.freeRoam)preset='night';if(preset===this.preset)return;this.preset=preset;this.world?.setPreset?.(preset);this.postMat.uniforms.desat.value=0;
+  if(preset==='realtime'){this.sky.snap();this.sky.shadows=null;this.road.material.roughness=.85;this.road.material.color.set(0x9d9d91);this.mirror.visible=false;return;}this.sky.hide();const storm=preset==='storm',dawn=preset==='dawn';
   // Dead of night: moonlight only, no sun shadows (also saves the shadow pass), dense cold fog.
   if(preset==='night'){this.scene.background.set(0x05070c);this.scene.fog.color.set(0x0a0e15);this.scene.fog.density=.021;this.sun.intensity=.2;this.sun.color.set(0x9fb4d6);this.sun.castShadow=false;this.hemi.intensity=.24;this.hemi.color.set(0x3c4a64);this.hemi.groundColor.set(0x15130f);this.renderer.toneMappingExposure=1.0;this.road.material.roughness=.85;this.road.material.color.set(0x9d9d91);this.mirror.visible=false;return;}
   this.sun.castShadow=true;this.scene.background.set(storm?0x66747b:dawn?0xaaa291:0x96a3a7);this.scene.fog.color.copy(this.scene.background);this.scene.fog.density=storm?.014:.0065;this.sun.intensity=storm?1.2:dawn?3.2:2.6;this.sun.color.set(dawn?0xffd2a0:0xffe6ca);this.hemi.intensity=storm?1.4:1.8;this.hemi.color.set(0xc6d8e1);this.hemi.groundColor.set(0x514a3d);this.renderer.toneMappingExposure=1.05;this.road.material.roughness=.85;this.road.material.color.set(0x9d9d91);this.mirror.visible=false;}

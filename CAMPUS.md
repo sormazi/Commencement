@@ -2,7 +2,7 @@
 
 A free-roam reconstruction of NYU's Washington Square campus a hundred years from now. It is the default location. Times Square, SoHo and Shibuya are unchanged repeating corridors.
 
-**Status: Phase 2 massing pass done (awaiting review).** Buildings use the NYC 3D Building Model's roof forms and setbacks; no facades, decay, crowds, billboards or soundtrack yet.
+**Status:** massing for every building, detailed priority landmarks, a first-draft atmosphere slice around the park, and real New York time of day. Second- and third-tier buildings and the billboards are still to come. PROGRESS.md has the current state.
 
 ## World model
 
@@ -42,7 +42,15 @@ The car can drive on every road, on sidewalks and through the park's paved paths
 
 ## Developer helpers
 
-In the browser console: `NightView.teleport(x, z, yaw)` moves the car to map metres (x east, z north, yaw 0 = north). `NightView.viewFrom({x, y, n, lx, ly, ln, fov, fog, view})` fixes the camera for review screenshots; `NightView.viewFrom(null)` returns to the chase camera. `NightView.renderInfo()` reports draw calls and triangles inside the current view.
+In the browser console: `NightView.teleport(x, z, yaw)` moves the car to map metres (x east, z north, yaw 0 = north). `NightView.viewFrom({x, y, n, lx, ly, ln, fov, fog, view})` fixes the camera for review screenshots; `NightView.viewFrom(null)` returns to the chase camera. `NightView.renderInfo()` reports draw calls and triangles inside the current view. `NightView.sky()` reports the New York time, sun and moon position, lamp level and whether shadows are on; add `?time=HH:MM`, `?date=YYYY-MM-DD` and `?speed=N` to the address to preview other times.
+
+## Time of day (real New York time)
+
+- `dist/campus/atmosphere/sky.js` (pure functions, tested in Node): `nyParts` and `nyDate` convert between instants and New York wall time with `Intl.DateTimeFormat` (time zone America/New_York), so DST follows the browser's time-zone data. `sunPosition` is the NOAA Solar Calculator algorithm (Meeus): Julian century, geometric mean longitude and anomaly, equation of centre, apparent longitude, obliquity, declination, equation of time, hour angle, then elevation with NOAA's refraction correction and azimuth from true north. `sunTimes` finds sunrise and sunset (zenith 90.833°) by scanning the New York day in 10-minute steps and bisecting each crossing. `moonPosition` is a low-precision series (about 1° in position, no topocentric parallax) with illuminated fraction and waxing flag. `lookAt(elevation)` blends six keyframes (−12°, −6°, −1°, 6°, 20°, 50°); the −12° keyframe is exactly the Dead of night preset.
+- `dist/campus/atmosphere/sky-driver.js`: samples the sky every 5 s (every 0.5 s in a `?speed` preview) and eases every value toward it with a 3 s time constant. It sets the scene background, FogExp2, hemisphere light, key light colour, intensity and direction, exposure and a post-process desaturation. The key light is the sun while it is up; below the horizon it is moonlight from the moon's real direction (or a dim glow from high in the south when the moon is down). The shadow box (±55 m) stays centred on the car. Shadows switch on above +0.5° and off below −0.5°.
+- `night.js` now takes continuous levels (`setLevels(lamps, fog)`) instead of on/off, so lamps and ground fog fade with the light. Manual presets still set them to fixed values.
+- Sources checked for the tests: the sunrise-sunset.org New York table for October 2026, solarwatch.app (5 Nov 2026 after the clocks go back, June and December extremes) and sunrisesunset.io (31 Oct 2026, earliest sunset). timeanddate.com refused automated access, so the March clock change is tested on the clock jump and the sun's continuity rather than against a published table.
+- Limits: the ground is flat and the horizon is open, so the sun rises and sets at the astronomical times even where a real building would hide it. Distant buildings outside the shadow box do not cast shadows. The moon disc is drawn about 10% larger than life so it reads on screen.
 
 ## Landmark detail (Phase 2 detail pass)
 

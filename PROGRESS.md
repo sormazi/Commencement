@@ -3,7 +3,7 @@
 Read this file and `RESEARCH/campus-inventory.md` first when picking the work back up.
 
 ## Current phase
-Atmosphere slice (Phases 3 to 6, first version) for Washington Square Park and the buildings facing it, built before the second-tier building pass so Avi can feel the mood early. Billboards are held back for their own researched pass.
+Avi's plan of 7 Oct 2026, steps 1 to 8 with three stop points. Step 0 (README rewrite, atmosphere slice) is done. Step 1 (real New York time of day) is done and committed. Next: Step 2, second-tier NYU buildings, one commit per building; then Step 3 and Stop point 1 (noon and midnight street screenshots, numbers at the Arch).
 
 ## Finished
 - Phase 0: free-roam campus world (projection, street graph, collision, curbs/surfaces, streamed tiles, minimap, spawn/reset). Default location is Washington Square · NYU. Corridor locations unchanged. Tests pass. See CAMPUS.md.
@@ -13,6 +13,7 @@ Atmosphere slice (Phases 3 to 6, first version) for Washington Square Park and t
 - Phase 2 massing pass: 4,110 buildings from 3D-model roof pieces, 138 extrusions, Paulson estimated. Screenshots in RESEARCH/screenshots/phase2-massing/.
 
 ## In progress
+- **Real New York time of day** (7 Oct 2026, Avi's request). Washington Square's light follows the real time in New York: NOAA sun position for the park, moon at its real phase, lamps on at dusk and off at dawn, Dead of night after dark, hazy washed-out daylight. "Real NYC time" is the default atmosphere; the old presets are manual overrides. Preview with `?time=19:30`, `?date=2026-12-21`, `?speed=600`. Tests in `tests/sky.test.js` (sunrise and sunset against published New York tables, both sides of the November clock change; the March change checked on the clock jump). Measured: start position 608 calls / 772k triangles in daylight (same as the old daylight preset), 513 / 571k at night; fountain view 414 / 642k by day, 317 / 438k at night. Shadow cost at the Arch: about 95 draw calls and 200k triangles while the sun is up (the shadow pass), nothing at night. Before this change the default (Dead of night) was 513 / 571k, so nights are unchanged and days cost what the old daylight preset did. Avi checked the game on his laptop at the Arch (7 Oct): runs and looks good. Fixed on the way: the realtime path had left the road reflector on, which doubled the draw calls. Screenshots in RESEARCH/screenshots/time-of-day/.
 - **Stopped for Avi's review after the atmosphere slice** (7 Oct 2026). Five commits: decay round the park, the "Dead of night" preset (now the default), no traffic on campus, the loiterers, and the first draft of the soundtrack. Screenshots in RESEARCH/screenshots/atmosphere/.
 - Performance, measured in the cloud software renderer with the FPS counter (real WebGL draw calls and triangles per frame, shadow pass included):
 
@@ -32,6 +33,7 @@ Atmosphere slice (Phases 3 to 6, first version) for Washington Square Park and t
 - When Avi's photos land in RESEARCH/my-photos/: update fountain plaza, chess tables, lamp posts, banners.
 
 ## Decisions from Avi
+- Lighting on Washington Square follows the real time in New York by default (7 Oct 2026). Other locations stay on Dead of night under that setting.
 - 2026-10-07 First detail batch approved; keep the same level of detail. Resolve the open questions myself from Street View and photos (record observations and capture dates; label estimates). Weinstein: street-visible only. Commit after each landmark; stop once after Brown for review.
 - 2026-10-07 Massing pass approved. Detail pass order: Arch, Bobst, Silver Center, Kimmel, Judson, the Row, Weinstein, Brown + memorial, Silver Towers + Sylvette, Vanderbilt, Tisch + KMC, Paulson. Stop after the first three for review.
 - 2026-10-07 Detail rules: real geometry for anything that projects or casts shadows; textures only for fine surface detail; reusable kits; proportions from counts and measurements; side-by-side comparisons in RESEARCH/screenshots/detail/; clean and intact until Phase 3.

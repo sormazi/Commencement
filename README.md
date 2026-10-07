@@ -28,9 +28,11 @@ It is a work in progress. Some of what is described above is built, some of it i
   - Tisch Hall and the Kaufman Management Center
   - the John A. Paulson Center
 - **Sidewalk sheds** where Street View showed long-standing ones in 2026.
+- **First drafts of the atmosphere around the park:** decay on the park and the buildings facing it, the surviving street lamps and fog, no traffic, about two hundred loiterers, and the soundtrack.
+- **Real New York time of day.** The light on Washington Square follows the real time in New York: the sun stands where it really is over the park right now, shadows fall off the Arch the way they really do at that hour, and the lamps come on at dusk. See below.
 - **An on-screen FPS counter** for checking performance.
 
-Still to come, or only in a first draft: the other NYU buildings (they currently show as plain massing), colour and material for the non-NYU blocks, the decay, the night atmosphere, the crowds, the billboards and the soundtrack. See the roadmap.
+Still to come: the other NYU buildings (they currently show as plain massing), colour and material for the non-NYU blocks, the billboards, and the atmosphere beyond the park. The decay, night, crowds and soundtrack are first drafts limited to the park and the buildings facing it. See the roadmap.
 
 ## Roadmap
 
@@ -90,6 +92,27 @@ Touch buttons appear on small screens. Vehicle, location, transmission, atmosphe
 ### FPS counter
 
 Open **http://localhost:4173/?fps=1**, or turn it on in **Options → Driving → FPS counter**; the browser remembers the setting. The counter sits under the NightView logo. It shows frames per second averaged over half a second, the slowest frame in that half second in milliseconds, and the draw calls and triangles of the last frame. It turns orange below 55 fps. For a fair reading, keep a laptop plugged in and close other heavy tabs.
+
+## Real New York time of day
+
+On Washington Square the lighting matches the real time in New York, wherever you are playing from. **Real NYC time** is the default under **Options → Driving → Atmosphere**, and the note under it shows the New York time and where the sun is. The other atmosphere presets (Dead of night, Overgrown daylight, Ash storm, Dusty dawn) are still there as manual overrides.
+
+- **Clock.** The browser's own time-zone data gives the time in America/New_York, so daylight saving time is handled automatically. Nothing is fetched from the internet; it works offline.
+- **Sun and moon.** The sun's elevation and compass direction over the park (40.7308 N, 73.9973 W) come from NOAA's solar position equations. The moon is placed with a standard low-precision formula (good to about a degree) and drawn at its real phase.
+- **Light.** The main light comes from the real sun, so shadows point the right way and grow long in the evening. Sky colour, ambient light, fog and colour grading blend continuously with the sun's height: hazy, washed-out daylight with thin fog, an amber haze when the sun is low, blue dusk, then the full Dead of night look with fog and flickering lamps. The surviving street lamps fade on as the sun drops from 2° above to 4° below the horizon, and off again at dawn. Daytime stays quiet: no birds, no city hum.
+- **Smoothness.** The sky is recalculated every five seconds and every value glides to the new target over a few seconds, so there are no visible jumps.
+
+To preview another time, add it to the address:
+
+- `http://localhost:4173/?time=19:30` shows today at 7:30 pm New York time.
+- `http://localhost:4173/?date=2026-12-21&time=16:15` shows a particular day.
+- Add `&speed=600` for a time-lapse (600 times real speed). Without `speed`, a previewed time holds still.
+
+The other three locations do not follow the clock; with Real NYC time selected they use Dead of night.
+
+**Performance.** Sun shadows are on whenever the sun is up, the same shadow pass the old daylight preset used: about 600 draw calls and 770k triangles at the start position in daylight, against about 510 calls and 570k triangles at night, when the shadow pass is off (cloud software renderer, so treat the numbers as relative). The moon adds one draw call. Switching shadows and lamp lights on or off at dusk and dawn makes the browser rebuild its shaders once, which can cause one short stutter.
+
+Sunrise and sunset times from the model are tested against published New York tables (within three minutes), on dates either side of the November clock change; see `tests/sky.test.js`.
 
 ## The original locations
 

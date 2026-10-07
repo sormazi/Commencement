@@ -1,10 +1,10 @@
-import {AdvertisingSystem} from './advertising.js?v=20';
-import {EnvironmentTransformation} from './environment.js?v=20';
-import {FacadeDestruction} from './destruction.js?v=20';
-import {Aftermath} from './aftermath.js?v=20';
+import {AdvertisingSystem} from './advertising.js?v=21';
+import {EnvironmentTransformation} from './environment.js?v=21';
+import {FacadeDestruction} from './destruction.js?v=21';
+import {Aftermath} from './aftermath.js?v=21';
 import * as T from './vendor/three.module.js';
-import {campusLocation} from './campus/campus.js?v=20';
-import {CampusWorld} from './campus/campus-world.js?v=20';
+import {campusLocation} from './campus/campus.js?v=21';
+import {CampusWorld} from './campus/campus-world.js?v=21';
 export const locations=[
 campusLocation,
 {id:'times-square',name:'Times Square',city:'New York',street:'Seventh Avenue',halfWidth:11,length:900,spawn:0},

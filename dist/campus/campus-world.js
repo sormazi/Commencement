@@ -1,16 +1,16 @@
 import * as T from '../vendor/three.module.js';
-import {campus} from './campus.js?v=20';
-import model3d from './data/campus-3d.js?v=20';
-import {archPiers,CURB_HEIGHT} from './collision.js?v=20';
-import {ringArea,centroid,rectFrame,rectRing,pointInRing} from './geometry.js?v=20';
-import {buildArch} from './landmarks/arch.js?v=20';
-import {LANDMARK_BUILDINGS} from './landmarks/index.js?v=20';
-import {buildSheds} from './landmarks/sheds.js?v=20';
-import {ROW_BINS} from './landmarks/row.js?v=20';
-import {buildDecay,treeBoost,volunteerTrees,dryFountain,inSlice} from './atmosphere/decay.js?v=20';
-import {buildNight} from './atmosphere/night.js?v=20';
-import {buildCrowd} from './atmosphere/crowd.js?v=20';
-import {buildSpeaker} from './atmosphere/speaker.js?v=20';
+import {campus} from './campus.js?v=21';
+import model3d from './data/campus-3d.js?v=21';
+import {archPiers,CURB_HEIGHT} from './collision.js?v=21';
+import {ringArea,centroid,rectFrame,rectRing,pointInRing} from './geometry.js?v=21';
+import {buildArch} from './landmarks/arch.js?v=21';
+import {LANDMARK_BUILDINGS} from './landmarks/index.js?v=21';
+import {buildSheds} from './landmarks/sheds.js?v=21';
+import {ROW_BINS} from './landmarks/row.js?v=21';
+import {buildDecay,treeBoost,volunteerTrees,dryFountain,inSlice} from './atmosphere/decay.js?v=21';
+import {buildNight} from './atmosphere/night.js?v=21';
+import {buildCrowd} from './atmosphere/crowd.js?v=21';
+import {buildSpeaker} from './atmosphere/speaker.js?v=21';
 // Free-roam world for Washington Square · NYU. Phase 0: real street/curb/sidewalk/park layout and
 // footprint massing at surveyed roof heights, streamed in 120 m tiles. Facade detail comes in Phase 2.
 const TILE=120,VIEW=560,PROP_VIEW=330;
@@ -56,7 +56,9 @@ export function paulsonMassing(ring){const c=centroid(ring);let sxx=0,sxy=0,syy=
 export class CampusWorld{
  constructor(config){this.config=config;this.freeRoam=true;const c=campus();this.campus=c;this.data=c.data;this.collision=c.collision;this.streets=c.streets;this.spawn=c.spawn;
   this.stats={model:0,extruded:0,estimated:0};this.group=new T.Group();this.group.name='washington-square';this.tiles=new Map();this.disposables=new Set();this.rowBin=ROW_BINS[0];this.rowBins=ROW_BINS;this.build();this.decay=buildDecay(this);this.group.add(this.decay);this.night=buildNight(this);this.group.add(this.night.group);this.night.setNight(false);this.crowd=buildCrowd(this);this.group.add(this.crowd.group);this.group.add(buildSpeaker(this));}
- setPreset(p){this.night?.setNight(p==='night');}
+ // Manual atmosphere presets fix the lamps and ground fog; Real NYC time sets them continuously through setSky.
+ setPreset(p){if(p!=='realtime')this.night?.setNight(p==='night');}
+ setSky(lamps,cards,fog){this.night?.setLevels(lamps,cards,fog);}
  tile(x,n){const i=Math.floor(x/TILE),j=Math.floor(n/TILE),k=i+','+j;let t=this.tiles.get(k);if(!t){t={i,j,center:[(i+.5)*TILE,(j+.5)*TILE],group:new T.Group(),b:{},inst:{}};t.group.name='tile '+k;this.group.add(t.group);this.tiles.set(k,t);}return t;}
  builder(t,name){return t.b[name]||(t.b[name]=new Builder());}
  inst(t,name,p,s=[1,1,1],r=0,color=null){(t.inst[name]||(t.inst[name]=[])).push({p,s,r,color});}

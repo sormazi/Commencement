@@ -1,7 +1,7 @@
 import * as T from '../../vendor/three.module.js';
-import {pointInRing,centroid,ringArea} from '../geometry.js?v=20';
-import {CURB_HEIGHT} from '../collision.js?v=20';
-import {hash,gu,gv,mp,inSlice,DECAY_BINS} from './decay.js?v=20';
+import {pointInRing,centroid,ringArea} from '../geometry.js?v=21';
+import {CURB_HEIGHT} from '../collision.js?v=21';
+import {hash,gu,gv,mp,inSlice,DECAY_BINS} from './decay.js?v=21';
 // Phase 4 first slice: the loiterers. People stand about the park and on the Bobst and Kimmel fronts
 // doing nobody knows what: facing walls, queueing at locked doors, holding lanyards up to dead card
 // readers, sitting in lecture formations on the grass, some in faded graduation gowns. Most slowly

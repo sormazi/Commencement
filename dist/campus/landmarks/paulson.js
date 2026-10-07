@@ -1,6 +1,6 @@
 import * as T from '../../vendor/three.module.js';
-import {Parts,Face} from './kit.js?v=20';
-import {v3,signPanel} from './facade.js?v=20';
+import {Parts,Face} from './kit.js?v=21';
+import {v3,signPanel} from './facade.js?v=21';
 // John A. Paulson Center, 181 Mercer St (BIN 1090263; completed 2022). Not in the 2014 NYC 3D model:
 // the plan is the NYC footprint (a 65.7 x 115.6 m rectangle between Mercer St, Bleecker St and W
 // Houston St). Heights from CTBUH (skyscrapercenter.com complex 5988): the student residence tower at the

@@ -1,7 +1,7 @@
 import * as T from '../../vendor/three.module.js';
-import {Parts,Face,brickTextures,stoneTextures,reveal} from './kit.js?v=20';
-import {pieces,walls,roofs,v3,signPanel,archHole,sashWindows,sashTexture,modillionCornice,pediment} from './facade.js?v=20';
-import model3d from '../data/campus-3d.js?v=20';
+import {Parts,Face,brickTextures,stoneTextures,reveal} from './kit.js?v=21';
+import {pieces,walls,roofs,v3,signPanel,archHole,sashWindows,sashTexture,modillionCornice,pediment} from './facade.js?v=21';
+import model3d from '../data/campus-3d.js?v=21';
 // Arthur T. Vanderbilt Hall, NYU School of Law, 40 Washington Square South (Eggers & Higgins,
 // 1948-51). Neo-Georgian red brick with limestone trim round a garden court: two five-storey wings run
 // up to Washington Sq S, each ending in a pedimented gable, and a one-storey arcade of round arches

@@ -1,6 +1,6 @@
 import * as T from '../../vendor/three.module.js';
-import {CURB_HEIGHT} from '../collision.js?v=20';
-import {hash,inSlice} from './decay.js?v=20';
+import {CURB_HEIGHT} from '../collision.js?v=21';
+import {hash,inSlice} from './decay.js?v=21';
 // "Dead of night" for Washington Square: almost every lamp is dead; a few still burn, some of them
 // flickering; fog drifts in low between the trees. Cost: two instanced meshes for the live lanterns
 // and their halos, one for the fog cards, and a pool of three point lights that follow the nearest
@@ -40,12 +40,15 @@ vec4 mvPosition=modelViewMatrix*instanceMatrix*vec4(0.,0.,0.,1.);mvPosition.xy+=
  const N=26,fg=keep(new T.PlaneGeometry(1,1)),fm=new T.MeshBasicMaterial({map:keep(fogTexture()),transparent:true,depthWrite:false,color:0x56606e,opacity:.32,fog:true});keep(fm);
  fm.onBeforeCompile=sh=>{sh.vertexShader=sh.vertexShader.replace('#include <project_vertex>','vec4 mvPosition=modelViewMatrix*instanceMatrix*vec4(0.,0.,0.,1.);mvPosition.xy+=position.xy*vec2(instanceMatrix[0].x,instanceMatrix[1].y);gl_Position=projectionMatrix*mvPosition;');};fm.customProgramCacheKey=()=>'nv-fogcard';
  const fog=new T.InstancedMesh(fg,fm,N);fog.frustumCulled=false;fog.renderOrder=4;group.add(fog);const cards=Array.from({length:N},(_,i)=>({x:0,z:0,y:0,w:0,h:0,init:false,i}));
- let night=false;
- return {group,live,setNight(v){night=v;uniforms.uNight.value=v?1:0;lantern.visible=halo.visible=fog.visible=v;for(const L of pool)L.visible=v;},
-  update(time,camera){uniforms.uTime.value=time;if(!night)return;const cx=camera.position.x,cz=camera.position.z;
+ // Levels: lamps 0..1 (how lit the surviving lamps are), cards 0..1 (ground fog), fog colour tint for daytime haze.
+ let lamps=0,cardLv=0;const nightCard=new T.Color(0x56606e),tint=new T.Color();
+ const setLevels=(l,c,fogRGB)=>{lamps=l;cardLv=c;uniforms.uNight.value=l;lantern.visible=halo.visible=l>.01;for(const L of pool)L.visible=l>.01;fog.visible=c>.01;fm.opacity=.32*Math.min(1,c*1.15);
+  if(fogRGB){tint.setRGB(fogRGB[0]*1.08,fogRGB[1]*1.08,fogRGB[2]*1.08);fm.color.copy(tint).lerp(nightCard,Math.min(1,c));}else fm.color.copy(nightCard);};
+ return {group,live,setLevels,setNight(v){setLevels(v?1:0,v?1:0);},
+  update(time,camera){uniforms.uTime.value=time;if(lamps<=.01&&cardLv<=.01)return;const cx=camera.position.x,cz=camera.position.z;
    // Nearest live lamps get the real lights.
    const near=live.map(l=>({l,d:(l.p[0]-cx)**2+(-l.p[1]-cz)**2})).sort((a,b)=>a.d-b.d).slice(0,pool.length);
-   pool.forEach((L,i)=>{const e=near[i];if(!e||e.d>90*90){L.intensity=0;return;}L.position.set(e.l.p[0],CURB_HEIGHT+4.2,-e.l.p[1]);L.intensity=38*flicker(time,e.l.seed);});
+   pool.forEach((L,i)=>{const e=near[i];if(!e||e.d>90*90||lamps<=.01){L.intensity=0;return;}L.position.set(e.l.p[0],CURB_HEIGHT+4.2,-e.l.p[1]);L.intensity=38*lamps*flicker(time,e.l.seed);});
    // Fog cards wrap round the camera and drift slowly east.
    cards.forEach(c=>{let dx=c.x-cx,dz=c.z-cz;if(!c.init||Math.hypot(dx,dz)>75){const a=hash(c.i*7.1+Math.floor(time))*6.28,r=18+hash(c.i*3.3+time)*55;c.x=cx+Math.cos(a)*r;c.z=cz+Math.sin(a)*r;c.y=.8+hash(c.i)*2.5;c.w=14+hash(c.i*2)*18;c.h=3+hash(c.i*5)*3;c.init=true;}
     c.x+=.012;c.z+=.004;o3.position.set(c.x,c.y,c.z);o3.rotation.set(0,0,0);o3.scale.set(c.w,c.h,1);o3.updateMatrix();fog.setMatrixAt(c.i,o3.matrix);});fog.instanceMatrix.needsUpdate=true;}};}
