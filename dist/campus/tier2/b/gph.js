@@ -1,0 +1,2 @@
+// School of Global Public Health, 708 Broadway. 1896, 10 storeys. Not checked on Street View; Broadway loft (estimate).
+export default {slug:"gph",name:"School of Global Public Health, 708 Broadway",bin:1080089,also:[1080090],source:"1896, 10 storeys. Not checked on Street View; Broadway loft (estimate).",wall:'brickBuff',trim:'limestone',ground:{h:4.8,style:'storefront',mat:'castIron',pitch:4.4},floor:3.7,pitch:4.4,win:[1.2,2.3],pair:1,sash:1,cornice:'modillion',doors:[{rank:0,at:.5,w:2.4,h:3.2}],flags:{rank:0,n:1,y:5.6}};
