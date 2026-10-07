@@ -1,0 +1,3 @@
+// Department of Public Safety and Card Center, 7 Washington Pl. 1900, 4 storeys. Not checked on Street View (estimate).
+// The card readers here matter for the crowds.
+export default {slug:"cardcenter",name:"Department of Public Safety and Card Center, 7 Washington Pl",bin:1008827,also:[],source:"1900, 4 storeys. Not checked on Street View (estimate). The card readers here matter for the crowds.",wall:'brickRed',trim:'limestone',ground:{h:4.4,style:'glass',pitch:2.4},floor:3.6,pitch:3.4,win:[1.1,2.1],sash:1,cornice:'modillion',doors:[{rank:0,at:.5,w:2.4,h:3,canopy:1.2,label:'Card Center'}],flags:{rank:0,n:1,y:5}};
