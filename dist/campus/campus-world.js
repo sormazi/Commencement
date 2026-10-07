@@ -11,9 +11,11 @@ import {buildDecay,treeBoost,volunteerTrees,dryFountain,inSlice} from './atmosph
 import {buildNight} from './atmosphere/night.js?v=21';
 import {buildCrowd} from './atmosphere/crowd.js?v=21';
 import {buildSpeaker} from './atmosphere/speaker.js?v=21';
+import {buildTier2,TIER2_BINS} from './tier2/world.js?v=21';
 // Free-roam world for Washington Square · NYU. Phase 0: real street/curb/sidewalk/park layout and
 // footprint massing at surveyed roof heights, streamed in 120 m tiles. Facade detail comes in Phase 2.
-const TILE=120,VIEW=560,PROP_VIEW=330;
+// Second-tier buildings show their kit facades within DETAIL metres and fall back to plain massing beyond.
+const TILE=120,VIEW=560,PROP_VIEW=330,DETAIL=260;
 const toV=(p,y=0)=>new T.Vector3(p[0],y,-p[1]);
 function canvasTexture(w,h,draw){const c=document.createElement('canvas');c.width=w;c.height=h;draw(c.getContext('2d'),w,h);const t=new T.CanvasTexture(c);t.colorSpace=T.SRGBColorSpace;t.wrapS=t.wrapT=T.RepeatWrapping;return t;}
 const hash=n=>{const v=Math.sin(n*127.1+31.7)*43758.5453;return v-Math.floor(v);};
@@ -80,9 +82,10 @@ export class CampusWorld{
   // Buildings: NYC footprints extruded to their surveyed roof height (Phase 0 massing, no setbacks yet).
   // Detailed landmarks (Phase 2 detail pass) replace the massing of their footprint.
   this.landmarks=[];const covered=new Set(Object.values(LANDMARK_BUILDINGS).flatMap(L=>L.also||[]));for(const b of d.buildings){const L=LANDMARK_BUILDINGS[b.bin];if(!L)continue;const g=L.build(b,{campus:this.campus});this.landmarks.push({bin:b.bin,name:L.name,group:g});this.tile(...centroid(b.rings[0])).group.add(g);this.trackDisposables(g);}
+  this.tier2=buildTier2(this);
   for(const b of d.buildings){if(LANDMARK_BUILDINGS[b.bin]||covered.has(b.bin))continue;const h=Math.max(3,b.h||0),t=this.tile(...centroid(b.rings[0])),floors=b.floors&&b.floors>=1?b.floors:Math.max(1,Math.round(h/3.6)),floor=Math.min(5.5,Math.max(2.8,h/floors)),seed=b.bin||h;
    const base=b.nyu?new T.Color().setHSL(.74,.12,.6+hash(seed)*.06):new T.Color().setHSL(.08+hash(seed)*.05,.1+hash(seed+2)*.08,.55+hash(seed+4)*.12);
-   const wallB=this.builder(t,'wall'),roofB=this.builder(t,'roof'),roofC=base.clone().multiplyScalar(.62),m=model3d[b.bin];
+   const lod=TIER2_BINS.has(b.bin),wallB=this.builder(t,lod?'wallLod':'wall'),roofB=this.builder(t,lod?'roofLod':'roof'),roofC=base.clone().multiplyScalar(.62),m=model3d[b.bin];
    if(m){this.stats.model++;
     // NYC 3D Building Model (LoD2): every roof piece becomes a prism down to the ground, so setbacks,
     // bulkheads and sloped roofs keep their surveyed shape. Hidden interior faces are acceptable overdraw.
@@ -116,12 +119,12 @@ export class CampusWorld{
   const instMat={trunk:'bark',crown:'leaves',pole:'iron',lantern:'lamp',bench:'iron',fence:'iron',wallseg:'marble',stripe:'stripe',flagpole:'iron',pedestal:'marble'};for(const g of Object.values(geo))this.disposables.add(g);
   const o3=new T.Object3D(),mats=this.materials;
   for(const t of this.tiles.values()){
-   for(const [name,b] of Object.entries(t.b)){if(!b.idx.length)continue;const m=new T.Mesh(b.geometry(),name==='wall'?mats.wall:name==='roof'?mats.roof:name==='grass'?mats.grass:name==='parkFloor'?mats.parkFloor:name==='arch'?mats.marble:mats.paving);m.castShadow=name==='wall'||name==='arch';m.receiveShadow=true;m.userData.kind=name;this.disposables.add(m.geometry);t.group.add(m);}
+   for(const [name,b] of Object.entries(t.b)){if(!b.idx.length)continue;const m=new T.Mesh(b.geometry(),name.startsWith('wall')?mats.wall:name.startsWith('roof')?mats.roof:name==='grass'?mats.grass:name==='parkFloor'?mats.parkFloor:name==='arch'?mats.marble:mats.paving);m.castShadow=name.startsWith('wall')||name==='arch';m.receiveShadow=true;m.userData.kind=name;if(name.endsWith('Lod'))(t.lod||(t.lod=[])).push(m);this.disposables.add(m.geometry);t.group.add(m);}
    t.props=new T.Group();t.group.add(t.props);
    for(const [name,list] of Object.entries(t.inst)){const im=new T.InstancedMesh(geo[name],mats[instMat[name]],list.length);list.forEach((it,k)=>{o3.position.copy(it.p);o3.rotation.set(0,it.r,0);o3.scale.set(...it.s);o3.updateMatrix();im.setMatrixAt(k,o3.matrix);if(it.color)im.setColorAt(k,it.color);});im.castShadow=name==='trunk'||name==='crown'||name==='pole';im.receiveShadow=name!=='stripe';im.computeBoundingSphere();(name==='stripe'?t.group:t.props).add(im);}
    delete t.b;delete t.inst;}
  }
- update(state,time,camera){if(this.decayUniforms)this.decayUniforms.uTime.value=time;if(camera)this.night?.update(time,camera);this.crowd?.update(state,time);const x=camera?camera.position.x:state?.position?.x||0,n=camera?-camera.position.z:state?.position?.z||0;this.visibleTiles=0;for(const t of this.tiles.values()){const dx=Math.max(Math.abs(t.center[0]-x)-TILE/2,0),dn=Math.max(Math.abs(t.center[1]-n)-TILE/2,0),d=Math.hypot(dx,dn);t.group.visible=d<(this.viewDistance||VIEW);if(t.props)t.props.visible=d<PROP_VIEW;if(t.group.visible)this.visibleTiles++;}}
+ update(state,time,camera){if(this.decayUniforms)this.decayUniforms.uTime.value=time;if(camera)this.night?.update(time,camera);this.crowd?.update(state,time);const x=camera?camera.position.x:state?.position?.x||0,n=camera?-camera.position.z:state?.position?.z||0;this.visibleTiles=0;for(const t of this.tiles.values()){const dx=Math.max(Math.abs(t.center[0]-x)-TILE/2,0),dn=Math.max(Math.abs(t.center[1]-n)-TILE/2,0),d=Math.hypot(dx,dn);t.group.visible=d<(this.viewDistance||VIEW);if(t.tier2Group){const near=d<DETAIL;t.tier2Group.visible=near;if(t.lod)for(const m of t.lod)m.visible=!near;}if(t.props)t.props.visible=d<PROP_VIEW;if(t.group.visible)this.visibleTiles++;}}
  trackDisposables(g){g.traverse(o=>{if(o.geometry)this.disposables.add(o.geometry);});for(const m of g.userData.materials||[]){this.disposables.add(m);for(const k of ['map','normalMap'])if(m[k])this.disposables.add(m[k]);}}
  dispose(){for(const d of this.disposables)d.dispose?.();this.disposables.clear();}
 }
