@@ -14,3 +14,11 @@ Study box used for every query: south 40.7225, west -74.0035, north 40.7395, eas
 Not yet fetched: NYC 3D Building Model (`tnru-abg2`, CityGML at `https://s-media.nyc.gov/agencies/oti/DA_WISE_GML.zip`), LPC designation reports, Mapillary imagery, Wikimedia Commons photos.
 
 Google Maps / Street View are used only as look-only references; nothing from them is saved.
+
+## Added 2026-10-07
+
+| File | Source | Notes | Licence |
+|---|---|---|---|
+| `nyc3d-da12-study.json` | NYC 3D Building Model (OTI), `https://s-media.nyc.gov/agencies/oti/DA_WISE_GML.zip` → `DA_WISE_GMLs/DA12_3D_Buildings_Merged.gml` | Extracted with `tools/extract-3d-model.py` (state-plane box x 983,300–988,300, y 202,500–208,700 ft). Converted with `tools/build-campus-3d.mjs`. | NYC Open Data Terms of Use |
+| `nightview-lpc.json` | LPC Individual Landmark Sites `buis-pvji`, LPC Building Database `gpmc-yuvp`, Historic Districts `skyk-mpzq` | Building Database rows within the study box; landmark rows by lat/long | NYC Open Data Terms of Use |
+| `lpc/lpc-*.pdf` | LPC designation reports, `https://s-media.nyc.gov/agencies/lpc/lp/<number>.pdf` | 0196 Judson Memorial Church, 0202 Cooper Union, 0489 Greenwich Village HD, 1226 Puck Building, 2039 NoHo HD, 2128 Brown Building, 2149–2151 MacDougal St houses, 2287 NoHo HD Extension, 2300 University Village, 2546 South Village HD. (0230 Judson Hall not retrieved.) | Public records of the City of New York |

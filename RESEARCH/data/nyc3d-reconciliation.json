@@ -1,0 +1,962 @@
+{
+ "used": 4110,
+ "replaced": [
+  {
+   "bin": 1014564,
+   "addr": "126 WEST 16 STREET",
+   "modelMain": 12.8,
+   "modelTop": 12.8,
+   "footprint": 12.5,
+   "yr": 2016
+  },
+  {
+   "bin": 1014526,
+   "addr": "101 WEST 14 STREET",
+   "modelMain": 9.7,
+   "modelTop": 9.7,
+   "footprint": 44.2,
+   "yr": 1953
+  },
+  {
+   "bin": 1014556,
+   "addr": "123 WEST 15 STREET",
+   "modelMain": 18.6,
+   "modelTop": 22.8,
+   "footprint": 13.17,
+   "yr": 1910
+  },
+  {
+   "bin": 1014525,
+   "addr": "103 WEST 14 STREET",
+   "modelMain": 20.8,
+   "modelTop": 25.1,
+   "footprint": 17.47,
+   "yr": 1950
+  },
+  {
+   "bin": 1077858,
+   "addr": "141 EAST 13 STREET",
+   "modelMain": 18.9,
+   "modelTop": 18.9,
+   "footprint": 14.78,
+   "yr": 1900
+  },
+  {
+   "bin": 1087670,
+   "addr": "137 EAST 37 STREET",
+   "modelMain": 6.6,
+   "modelTop": 37.5,
+   "footprint": 28.35,
+   "yr": 1899
+  },
+  {
+   "bin": 1084306,
+   "addr": "124 EAST 14 STREET",
+   "modelMain": 9.7,
+   "modelTop": 12.4,
+   "footprint": 87.17,
+   "yr": 2021
+  },
+  {
+   "bin": 1017867,
+   "addr": "123 EAST 18 STREET",
+   "modelMain": 17.8,
+   "modelTop": 20.8,
+   "footprint": 13.73,
+   "yr": 1960
+  },
+  {
+   "bin": 1017939,
+   "addr": "15 EAST 20 STREET",
+   "modelMain": 45,
+   "modelTop": 48.4,
+   "footprint": 43.59,
+   "yr": 2016
+  },
+  {
+   "bin": 1015414,
+   "addr": "21 WEST 17 STREET",
+   "modelMain": 13.8,
+   "modelTop": 13.8,
+   "footprint": 41.76,
+   "yr": 2023
+  },
+  {
+   "bin": 1088513,
+   "addr": "14 WEST 14 STREET",
+   "modelMain": 38.1,
+   "modelTop": 42.6,
+   "footprint": 5.25,
+   "yr": 2008
+  },
+  {
+   "bin": 1080154,
+   "addr": "48 WEST 14 STREET",
+   "modelMain": 7.4,
+   "modelTop": 41.3,
+   "footprint": 26.1,
+   "yr": 1910
+  },
+  {
+   "bin": 1077911,
+   "addr": "141 EAST 13 STREET",
+   "modelMain": 18.6,
+   "modelTop": 18.5,
+   "footprint": 14.5,
+   "yr": 1900
+  },
+  {
+   "bin": 1084262,
+   "addr": "105 3 AVENUE",
+   "modelMain": 3.1,
+   "modelTop": 3.1,
+   "footprint": 48.16,
+   "yr": 1964
+  },
+  {
+   "bin": 1084261,
+   "addr": "105 3 AVENUE",
+   "modelMain": 17.7,
+   "modelTop": 20.8,
+   "footprint": 14.33,
+   "yr": 1964
+  },
+  {
+   "bin": 1017820,
+   "addr": "105 EAST 16 STREET",
+   "modelMain": 39.2,
+   "modelTop": 46.5,
+   "footprint": 37.6,
+   "yr": 2016
+  },
+  {
+   "bin": 1017841,
+   "addr": "119 EAST 17 STREET",
+   "modelMain": 22.2,
+   "modelTop": 22.2,
+   "footprint": 17.34,
+   "yr": 1900
+  },
+  {
+   "bin": 1087262,
+   "addr": "31 WEST 17 STREET",
+   "modelMain": 38.4,
+   "modelTop": 47,
+   "footprint": 29.87,
+   "yr": 2005
+  },
+  {
+   "bin": 1009711,
+   "addr": "46 WEST 14 STREET",
+   "modelMain": 7.4,
+   "modelTop": 33.8,
+   "footprint": 23.26,
+   "yr": 1920
+  },
+  {
+   "bin": 1087261,
+   "addr": "30 WEST 18 STREET",
+   "modelMain": 7.7,
+   "modelTop": 65.1,
+   "footprint": 36.06,
+   "yr": 2005
+  },
+  {
+   "bin": 1080796,
+   "addr": "32 UNION SQUARE",
+   "modelMain": 40.1,
+   "modelTop": 44.3,
+   "footprint": 27.43,
+   "yr": 1903
+  },
+  {
+   "bin": 1079727,
+   "addr": "101 EAST 2ND STREET",
+   "modelMain": 8.7,
+   "modelTop": 8.6,
+   "footprint": 22.86,
+   "yr": 2021
+  },
+  {
+   "bin": 1011078,
+   "addr": "9 1/2 JANE STREET",
+   "modelMain": 13.3,
+   "modelTop": 13.3,
+   "footprint": 8.99,
+   "yr": 1854
+  },
+  {
+   "bin": 1010188,
+   "addr": "194 WEST 4 STREET",
+   "modelMain": 5.3,
+   "modelTop": 59.6,
+   "footprint": 46.71,
+   "yr": 1958
+  },
+  {
+   "bin": 1009903,
+   "addr": "12 LEROY STREET",
+   "modelMain": 14.8,
+   "modelTop": 14.7,
+   "footprint": 9.6,
+   "yr": 1835
+  },
+  {
+   "bin": 1078132,
+   "addr": "237 WEST 4 STREET",
+   "modelMain": 13,
+   "modelTop": 13,
+   "footprint": 20.62,
+   "yr": 1920
+  },
+  {
+   "bin": 1006579,
+   "addr": "3 EAST 3RD STREET",
+   "modelMain": 13,
+   "modelTop": 13,
+   "footprint": 19.81,
+   "yr": 2019
+  },
+  {
+   "bin": 1008182,
+   "addr": "36 BLEECKER STREET",
+   "modelMain": 21.4,
+   "modelTop": 21.4,
+   "footprint": 24.58,
+   "yr": 2016
+  },
+  {
+   "bin": 1008482,
+   "addr": "45 GREAT JONES STREET",
+   "modelMain": 5.3,
+   "modelTop": 5.2,
+   "footprint": 12.35,
+   "yr": 1915
+  },
+  {
+   "bin": 1088698,
+   "addr": "11 2 AVENUE",
+   "modelMain": 37,
+   "modelTop": 39.6,
+   "footprint": 10.67,
+   "yr": 2012
+  },
+  {
+   "bin": 1006628,
+   "addr": "91 2 AVENUE",
+   "modelMain": 23.3,
+   "modelTop": 25.8,
+   "footprint": 18.11,
+   "yr": 1845
+  },
+  {
+   "bin": 1088893,
+   "addr": "25 COOPER SQUARE",
+   "modelMain": 14.5,
+   "modelTop": 14.5,
+   "footprint": 73.46,
+   "yr": 2006
+  },
+  {
+   "bin": 1077824,
+   "addr": "77 BLEECKER STREET",
+   "modelMain": 40.4,
+   "modelTop": 45.6,
+   "footprint": 33.84,
+   "yr": 1930
+  },
+  {
+   "bin": 1009518,
+   "addr": "52 WEST 11 STREET",
+   "modelMain": 16.4,
+   "modelTop": 16.4,
+   "footprint": 11.92,
+   "yr": 1841
+  },
+  {
+   "bin": 1084761,
+   "addr": "77 BLEECKER STREET",
+   "modelMain": 10.1,
+   "modelTop": 10.1,
+   "footprint": 5.17,
+   "yr": 1930
+  },
+  {
+   "bin": 1008214,
+   "addr": "640 BROADWAY",
+   "modelMain": 38.1,
+   "modelTop": 38.1,
+   "footprint": 37.17,
+   "yr": 2016
+  },
+  {
+   "bin": 1006139,
+   "addr": "80 EAST 2 STREET",
+   "modelMain": 15.5,
+   "modelTop": 15.5,
+   "footprint": 11.21,
+   "yr": 1837
+  },
+  {
+   "bin": 1008181,
+   "addr": "40 BLEECKER STREET",
+   "modelMain": 23.7,
+   "modelTop": 23.7,
+   "footprint": 45.72,
+   "yr": 2020
+  },
+  {
+   "bin": 1087921,
+   "addr": "25 COOPER SQUARE",
+   "modelMain": 69.4,
+   "modelTop": 76,
+   "footprint": 14.33,
+   "yr": 2006
+  },
+  {
+   "bin": 1008814,
+   "addr": "21 WEST 4 STREET",
+   "modelMain": 29.1,
+   "modelTop": 33.6,
+   "footprint": 24.52,
+   "yr": 1920
+  },
+  {
+   "bin": 1008813,
+   "addr": "10 WASHINGTON PLACE",
+   "modelMain": 29.6,
+   "modelTop": 39.5,
+   "footprint": 24.82,
+   "yr": 1900
+  },
+  {
+   "bin": 1079843,
+   "addr": "137 2 AVENUE",
+   "modelMain": 18.4,
+   "modelTop": 20.6,
+   "footprint": 15.26,
+   "yr": 1900
+  },
+  {
+   "bin": 1008964,
+   "addr": "105 EAST 9 STREET",
+   "modelMain": 18.2,
+   "modelTop": 18.2,
+   "footprint": 13.93,
+   "yr": 1900
+  },
+  {
+   "bin": 1006807,
+   "addr": "55 3 AVENUE",
+   "modelMain": 5.8,
+   "modelTop": 44.4,
+   "footprint": 33.83,
+   "yr": 2015
+  },
+  {
+   "bin": 1009463,
+   "addr": "50 WEST 10 STREET",
+   "modelMain": 15.9,
+   "modelTop": 15.9,
+   "footprint": 10.49,
+   "yr": 1879
+  },
+  {
+   "bin": 1009386,
+   "addr": "21 EAST 12 STREET",
+   "modelMain": 29.2,
+   "modelTop": 29.2,
+   "footprint": 30.2,
+   "yr": 2016
+  },
+  {
+   "bin": 1009613,
+   "addr": "42 WEST 13 STREET",
+   "modelMain": 24,
+   "modelTop": 27.7,
+   "footprint": 19.92,
+   "yr": 1960
+  },
+  {
+   "bin": 1008433,
+   "addr": "45 BOND STREET",
+   "modelMain": 27.6,
+   "modelTop": 30.9,
+   "footprint": 17.68,
+   "yr": 1913
+  },
+  {
+   "bin": 1006403,
+   "addr": "152 2 AVENUE",
+   "modelMain": 19.6,
+   "modelTop": 22.8,
+   "footprint": 11.25,
+   "yr": 1920
+  },
+  {
+   "bin": 1009211,
+   "addr": "132 4 AVENUE",
+   "modelMain": 43.4,
+   "modelTop": 52.3,
+   "footprint": 10.63,
+   "yr": 1910
+  },
+  {
+   "bin": 1009582,
+   "addr": "12 WEST 12 STREET",
+   "modelMain": 21.9,
+   "modelTop": 42.3,
+   "footprint": 18.31,
+   "yr": 1846
+  },
+  {
+   "bin": 1077902,
+   "addr": "16 EAST 8 STREET",
+   "modelMain": 21.9,
+   "modelTop": 22,
+   "footprint": 17.07,
+   "yr": 1930
+  },
+  {
+   "bin": 1009286,
+   "addr": "82 UNIVERSITY PLACE",
+   "modelMain": 30,
+   "modelTop": 33.7,
+   "footprint": 8.99,
+   "yr": 1910
+  },
+  {
+   "bin": 1009108,
+   "addr": "797 BROADWAY",
+   "modelMain": 24.7,
+   "modelTop": 28,
+   "footprint": 59.13,
+   "yr": 2019
+  },
+  {
+   "bin": 1007734,
+   "addr": "414 WEST BROADWAY",
+   "modelMain": 16.6,
+   "modelTop": 19.2,
+   "footprint": 14.83,
+   "yr": 2016
+  },
+  {
+   "bin": 1007912,
+   "addr": "25 PRINCE STREET",
+   "modelMain": 20.9,
+   "modelTop": 20.8,
+   "footprint": 20.12,
+   "yr": 2016
+  },
+  {
+   "bin": 1007259,
+   "addr": "70 GREENE STREET",
+   "modelMain": 20.7,
+   "modelTop": 20.7,
+   "footprint": 15.43,
+   "yr": 1860
+  },
+  {
+   "bin": 1008053,
+   "addr": "171 PRINCE STREET",
+   "modelMain": 7.2,
+   "modelTop": 16.4,
+   "footprint": 12.29,
+   "yr": 1996
+  },
+  {
+   "bin": 1007563,
+   "addr": "542 BROADWAY",
+   "modelMain": 26.8,
+   "modelTop": 26.8,
+   "footprint": 27.51,
+   "yr": 2015
+  },
+  {
+   "bin": 1082676,
+   "addr": "41 EAST HOUSTON STREET",
+   "modelMain": 4.4,
+   "modelTop": 4.4,
+   "footprint": 41.76,
+   "yr": 2007
+  }
+ ],
+ "missing": [
+  {
+   "bin": 1080207,
+   "addr": "61 GREENWICH AVENUE",
+   "yr": null,
+   "h": 12.8
+  },
+  {
+   "bin": 1010557,
+   "addr": "109 WEST 10 STREET",
+   "yr": null,
+   "h": 8.86
+  },
+  {
+   "bin": 1090923,
+   "addr": "EAST 17 STREET",
+   "yr": null,
+   "h": 3.05
+  },
+  {
+   "bin": 1084649,
+   "addr": "122 5TH AVENUE",
+   "yr": 2026,
+   "h": 45.61
+  },
+  {
+   "bin": 1091051,
+   "addr": "14 EAST 16 STREET",
+   "yr": 2024,
+   "h": 31.39
+  },
+  {
+   "bin": 1091927,
+   "addr": "16 WEST 18 STREET",
+   "yr": 2023,
+   "h": 45.11
+  },
+  {
+   "bin": 1090072,
+   "addr": "69 5 AVENUE",
+   "yr": 1961,
+   "h": 9.14
+  },
+  {
+   "bin": 1089902,
+   "addr": "10 EAST 15 STREET",
+   "yr": 2013,
+   "h": 10.36
+  },
+  {
+   "bin": 1090822,
+   "addr": "34 EAST 13TH STREET",
+   "yr": 2018,
+   "h": 29.87
+  },
+  {
+   "bin": 1090084,
+   "addr": "69 EAST 17 STREET",
+   "yr": 1800,
+   "h": 3.05
+  },
+  {
+   "bin": 1087083,
+   "addr": "842 BROADWAY",
+   "yr": 2000,
+   "h": 79.25
+  },
+  {
+   "bin": 1091775,
+   "addr": "64 UNIVERSITY PLACE",
+   "yr": 2024,
+   "h": 50.29
+  },
+  {
+   "bin": 1091940,
+   "addr": null,
+   "yr": 2026,
+   "h": 38.1
+  },
+  {
+   "bin": 1090746,
+   "addr": "410 LAFAYETTE STREET",
+   "yr": 2010,
+   "h": 2.74
+  },
+  {
+   "bin": 1089865,
+   "addr": "209 SULLIVAN STREET",
+   "yr": 1910,
+   "h": 15.85
+  },
+  {
+   "bin": 1089989,
+   "addr": "178 BLEECKER STREET",
+   "yr": 2016,
+   "h": 22.86
+  },
+  {
+   "bin": 1089990,
+   "addr": "103 GREENE STREET",
+   "yr": 1879,
+   "h": 30.29
+  },
+  {
+   "bin": 1089337,
+   "addr": "111 MERCER STREET",
+   "yr": 1879,
+   "h": 30.18
+  },
+  {
+   "bin": 1090251,
+   "addr": "52 WOOSTER STREET",
+   "yr": 2018,
+   "h": 25.91
+  },
+  {
+   "bin": 1077279,
+   "addr": "52 WEST 9 STREET",
+   "yr": 1980,
+   "h": 18.68
+  },
+  {
+   "bin": 1091047,
+   "addr": "421 AVENUE OF THE AMERICAS",
+   "yr": 2023,
+   "h": 3.35
+  },
+  {
+   "bin": 1084952,
+   "addr": "141 WAVERLY PLACE",
+   "yr": 1900,
+   "h": 12.83
+  },
+  {
+   "bin": 1010837,
+   "addr": "167 WEST 10 STREET",
+   "yr": 1929,
+   "h": 7.16
+  },
+  {
+   "bin": 1090144,
+   "addr": "130 7 AVENUE",
+   "yr": 2017,
+   "h": 23.16
+  },
+  {
+   "bin": 1080148,
+   "addr": "54 WEST 13 STREET",
+   "yr": 2011,
+   "h": 52.44
+  },
+  {
+   "bin": 1091642,
+   "addr": "540 6TH AVENUE",
+   "yr": 2022,
+   "h": 0
+  },
+  {
+   "bin": 1091089,
+   "addr": "525 AVENUE OF THE AMERICAS",
+   "yr": 2025,
+   "h": 41.15
+  },
+  {
+   "bin": 1090776,
+   "addr": "45 EAST 7TH STREET",
+   "yr": 2022,
+   "h": 28.65
+  },
+  {
+   "bin": 1006303,
+   "addr": "311 EAST 6 STREET",
+   "yr": 1920,
+   "h": 16.9
+  },
+  {
+   "bin": 1089795,
+   "addr": "236 EAST 9 STREET",
+   "yr": null,
+   "h": 0
+  },
+  {
+   "bin": 1090175,
+   "addr": "331 EAST 6 STREET",
+   "yr": 2012,
+   "h": 15.24
+  },
+  {
+   "bin": 1090229,
+   "addr": "80 EAST 10TH STREET",
+   "yr": 2018,
+   "h": 36.58
+  },
+  {
+   "bin": 1089867,
+   "addr": "32 COOPER SQUARE",
+   "yr": 1904,
+   "h": 23.47
+  },
+  {
+   "bin": 1091057,
+   "addr": "358 BOWERY",
+   "yr": 2024,
+   "h": 97.54
+  },
+  {
+   "bin": 1090311,
+   "addr": "35 COOPER SQUARE",
+   "yr": 2017,
+   "h": 40.54
+  },
+  {
+   "bin": 1088693,
+   "addr": "75 FIRST AVENUE",
+   "yr": 2021,
+   "h": 24.38
+  },
+  {
+   "bin": 1090232,
+   "addr": "347 BOWERY",
+   "yr": 2018,
+   "h": 50.6
+  },
+  {
+   "bin": 1090700,
+   "addr": "24 2 AVENUE",
+   "yr": 2018,
+   "h": 36.58
+  },
+  {
+   "bin": 1090382,
+   "addr": "200 ALLEN STREET",
+   "yr": 1900,
+   "h": 3.96
+  },
+  {
+   "bin": 1090397,
+   "addr": "215 CHRYSTIE STREET",
+   "yr": null,
+   "h": 97.84
+  },
+  {
+   "bin": 1089206,
+   "addr": "31 2 AVENUE",
+   "yr": 1900,
+   "h": 13.11
+  },
+  {
+   "bin": 1090468,
+   "addr": "204 FORSYTH STREET",
+   "yr": 2017,
+   "h": 24.38
+  },
+  {
+   "bin": 1088840,
+   "addr": "14 SECOND AVENUE",
+   "yr": 2023,
+   "h": 36.58
+  },
+  {
+   "bin": 1014563,
+   "addr": "126 WEST 16 STREET",
+   "yr": 2018,
+   "h": 36.58
+  },
+  {
+   "bin": 1015411,
+   "addr": "41 WEST 17 STREET",
+   "yr": null,
+   "h": 2.44
+  },
+  {
+   "bin": 1090241,
+   "addr": "112 EAST 11 STREET",
+   "yr": 2019,
+   "h": 36.58
+  },
+  {
+   "bin": 1006763,
+   "addr": "238A EAST 9 STREET",
+   "yr": 1900,
+   "h": 5.18
+  },
+  {
+   "bin": 1088696,
+   "addr": "327 EAST 9 STREET",
+   "yr": 2017,
+   "h": 18.29
+  },
+  {
+   "bin": 1091823,
+   "addr": "3 SAINT MARKS PLACE",
+   "yr": 2024,
+   "h": 43.66
+  },
+  {
+   "bin": 1090586,
+   "addr": "688 BROADWAY",
+   "yr": 2019,
+   "h": 39.62
+  },
+  {
+   "bin": 1080098,
+   "addr": "19 WEST 4TH STREET",
+   "yr": 1900,
+   "h": 42.06
+  },
+  {
+   "bin": 1008476,
+   "addr": "366 LAFAYETTE STREET",
+   "yr": 1964,
+   "h": 5.08
+  },
+  {
+   "bin": 1091755,
+   "addr": "83 THOMPSON ST",
+   "yr": 2025,
+   "h": 22.86
+  },
+  {
+   "bin": 1089806,
+   "addr": "133 WEST 11 STREET",
+   "yr": 2018,
+   "h": 62.48
+  },
+  {
+   "bin": 1090436,
+   "addr": "209 WEST 14 STREET",
+   "yr": 2018,
+   "h": 36.27
+  },
+  {
+   "bin": 1076830,
+   "addr": "157 WEST 12 STREET",
+   "yr": 1899,
+   "h": 6.4
+  },
+  {
+   "bin": 1090263,
+   "addr": "100 BLEECKER STREET",
+   "yr": 2022,
+   "h": 60.35
+  },
+  {
+   "bin": 1090569,
+   "addr": "146 WOOSTER STREET",
+   "yr": 2018,
+   "h": 29.87
+  },
+  {
+   "bin": 1080063,
+   "addr": "363 LAFAYETTE STREET",
+   "yr": 2019,
+   "h": 28.96
+  },
+  {
+   "bin": 1090488,
+   "addr": "358 LAFAYETTE STREET",
+   "yr": 2016,
+   "h": 29.26
+  },
+  {
+   "bin": 1088881,
+   "addr": "41 BOND STREET",
+   "yr": 2015,
+   "h": 35.97
+  },
+  {
+   "bin": 1091588,
+   "addr": "25 GREAT JONES",
+   "yr": 2023,
+   "h": 42.06
+  },
+  {
+   "bin": 1090745,
+   "addr": "GREAT JONES STREET",
+   "yr": 2007,
+   "h": 3.35
+  },
+  {
+   "bin": 1010544,
+   "addr": "461 AVENUE OF THE AMERICAS",
+   "yr": 1910,
+   "h": 9.71
+  },
+  {
+   "bin": 1090829,
+   "addr": "11 JANE STREET",
+   "yr": 2022,
+   "h": 28.96
+  },
+  {
+   "bin": 1084663,
+   "addr": "EAST 21 STREET",
+   "yr": null,
+   "h": 0
+  },
+  {
+   "bin": 1090418,
+   "addr": "15 EAST 20 STREET",
+   "yr": 1883,
+   "h": 19.51
+  },
+  {
+   "bin": 1090906,
+   "addr": "589 BROADWAY",
+   "yr": 1900,
+   "h": 22.25
+  },
+  {
+   "bin": 1090442,
+   "addr": "277 MOTT STREET",
+   "yr": 2018,
+   "h": 22.86
+  },
+  {
+   "bin": 1088773,
+   "addr": "250 BOWERY",
+   "yr": 2010,
+   "h": 27.74
+  },
+  {
+   "bin": 1090340,
+   "addr": "298 LAFAYETTE STREET",
+   "yr": 2019,
+   "h": 37.49
+  },
+  {
+   "bin": 1090504,
+   "addr": "76 EAST HOUSTON STREET",
+   "yr": 2017,
+   "h": 8.84
+  },
+  {
+   "bin": 1007548,
+   "addr": "254 LAFAYETTE STREET",
+   "yr": 2000,
+   "h": 0
+  },
+  {
+   "bin": 1089419,
+   "addr": "140 CROSBY STREET",
+   "yr": 2019,
+   "h": 29.87
+  },
+  {
+   "bin": 1090835,
+   "addr": "118 EAST 1ST STREET",
+   "yr": 2021,
+   "h": 30.48
+  },
+  {
+   "bin": 1090640,
+   "addr": "54 MAC DOUGAL STREET",
+   "yr": 2017,
+   "h": 21.34
+  },
+  {
+   "bin": 1089988,
+   "addr": "180 BLEECKER STREET",
+   "yr": null,
+   "h": 3.66
+  },
+  {
+   "bin": 1076786,
+   "addr": "329 AVENUE OF THE AMERICAS",
+   "yr": 1900,
+   "h": 17.56
+  },
+  {
+   "bin": 1091857,
+   "addr": "181 MACDOUGAL STREET",
+   "yr": 2024,
+   "h": 22.56
+  }
+ ],
+ "notInFootprints": 388
+}

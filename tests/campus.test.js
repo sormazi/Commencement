@@ -43,3 +43,8 @@ assert(s.damage>0,'Impact registers damage');assert(wall,'Bobst fronts a street'
 const snap=snapToStreet(c,bc[0],bc[1],0);assert(streets.streetAt(snap.x,snap.z));
 assert(data.meta.sources.some(s=>/OpenStreetMap/.test(s.name)&&/ODbL/.test(s.licence)));
 console.log(`PASS: campus projection, ${streets.names.length} named streets / ${streets.nodes.length} graph nodes, Arch/fountain/Elm/building collision, curb surfaces, spawn and reset`);
+// ---- NYC 3D Building Model (2014 LoD2) roofs: coverage and agreement with footprint heights.
+const {default:model}=await import('../dist/campus/data/campus-3d.js');
+const covered=data.buildings.filter(b=>model[b.bin]).length;assert(covered/data.buildings.length>.9,'Most buildings use 3D-model roofs');
+for(const [name,bin] of [['Bobst',1008626],['Kimmel',1008662],['Silver Center',1008820],['Weinstein',1080105],['Brown',1008823],['Silver Tower I',1087825]]){const m=model[bin],fp=data.buildings.find(b=>b.bin===bin);assert(m,'3D roofs for '+name);assert(Math.abs(m.top-fp.h)<Math.max(6,.2*fp.h),name+' 3D height agrees with footprint');for(const r of m.roofs)for(let i=2;i<r.length;i+=3)assert(r[i]>=-1&&r[i]<120);}
+console.log(`PASS: 3D model roofs cover ${covered} of ${data.buildings.length} footprints; landmark heights agree`);

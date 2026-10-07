@@ -1,6 +1,6 @@
 # Washington Square · NYU: campus inventory (Phase 1 draft for review)
 
-Status: **draft 1, 2026-10-06.** Nothing in Phase 2 gets built from this until you have corrected it.
+Status: **draft 2, 2026-10-07.** Draft 1 was reviewed by Avi; "Research update 2" below supersedes older facts where they differ.
 
 This file is the reference for building the Washington Square location. It lists every NYU building and public space I could identify inside the study area (14th Street to Houston Street, Sixth Avenue to Third Avenue / Lafayette Street), with what the open data says about each one and what I still don't know.
 
@@ -21,6 +21,145 @@ Every fact carries a tag saying where it came from, so you can tell at a glance 
 - **NYC 3D Building Model not ingested yet.** The download is city-wide (`DA_WISE_GML.zip`, OTI, 2014 aerial survey). I've located it but not pulled it; it will be the starting geometry for roof forms and setbacks in Phase 2. It predates the Paulson Center (2022), so Paulson must come from footprints plus your photos.
 - **LPC designation reports not read yet.** They are the best source for the Row, Judson, the Brown Building, Silver Towers and the Puck Building, and I'll pull the PDFs before the facade pass.
 - **Washington Square News research** belongs to Phase 5 and has not started.
+
+## Research update 2 (2026-10-07): what changed since draft 1
+
+This section supersedes the matching facts further down. Two new tags:
+
+| Tag | Meaning |
+|---|---|
+| **[O date]** | Observed by me in Google Street View or Google Maps aerial imagery on 2026-10-07; the date is the imagery capture date. Look-only, nothing saved. |
+| **[LPC n, p.x]** | Landmarks Preservation Commission designation report LP-n, PDF page x (printed page in brackets when it differs). Reports are on disk in `RESEARCH/data/raw/` (not committed); building-level materials also come from the LPC Building Database (NYC Open Data `gpmc-yuvp`, also on disk as `nightview-lpc.json`). |
+
+### Decisions from Avi
+- **Q1**: Washington Sq E and University Pl are a straight continuation, as the city data shows.
+- **Q3–Q6** (fountain plaza level, chess tables, lamp posts, banners): placeholders, not modelled in detail, until photos arrive in `RESEARCH/my-photos/`; the photos then become the authoritative source. My one park-lamp observation below is recorded but not acted on.
+- **Brown Building and the Triangle Fire memorial**: intact and dignified while everything around them decays; excluded from every joke, billboard and banner.
+
+### NYC 3D Building Model ingested
+- Source: OTI `DA_WISE_GML.zip`, delivery area **DA12** (CityGML LoD2, EPSG:2263, 2014 aerial survey). The study area lies wholly inside DA12. Extract: `tools/extract-3d-model.py`, conversion `tools/build-campus-3d.mjs`, output `dist/campus/data/campus-3d.js` (roof polygons per BIN in map metres).
+- **4,110 of 4,249 footprints** now use the model's roof pieces (setbacks, bulkheads, sloped roofs). Walls are rebuilt by dropping each roof edge to the ground.
+- **138 fall back to plain extrusion**: 79 are not in the 2014 model (built later or new BINs) and 60 disagree with the current footprint height by more than 25 % at the top and 18 % at the main roof, or were built from 2014 on. The list with heights is in `RESEARCH/data/nyc3d-reconciliation.json`.
+- Main roof vs top, for landmarks [D]: Bobst roofs at 45, 47, 48 and 51 m; Kimmel steps 6, 18, 32, 37, 46, 50 m (the stepped park side); Silver Center 47–57 m; Weinstein 30–35 m with a 9 m low wing; Brown 43 m plus 46 m penthouse; Silver Towers 83 m roofs with 89 m bulkheads; Vanderbilt 7–26 m around its courtyard; Tisch Hall 37/45 m; KMC 18–52 m stepped.
+- **Paulson Center** (BIN 1090263) is not in the model. Its massing is now an **estimate**: a 26 m podium over the whole site with two 84 m towers at the Bleecker Street and Houston Street ends. Basis: 23-storey twin towers on a 5-storey podium [S Wikipedia: University Village]; tower positions from Google Maps aerial imagery [O 2026]; in Street View from Mercer and Bleecker the glass towers top out a little below the 89 m Silver Towers [O Apr 2026]. Still to confirm (see the questions).
+- **Judson campanile**: both the footprint and the 3D model put lot 541/18 at 21 m maximum. I'm using that.
+
+### Resolved from LPC reports and the LPC Building Database
+
+**Washington Square Arch** [LPC 489, p.107]: a modified Roman triumphal arch in the Eclectic manner; bas-relief above the spring line; the arch is **coffered** with **console-bracket keystones supporting eagles**; the frieze alternates wreaths with stars and garlanded "W" initials; statues of Washington "In War" (MacNeil, 1916) and "In Peace" (Calder, 1918) on either side facing north up Fifth Avenue. Building Database: Stanford White, sculptors MacNeil and Calder, stone, "Roman Triumphal / Eclectic", lot 549/1.
+
+**The Row, 1–13 Washington Square North** [LPC 489, pp.54–57 (printed 52–55)]:
+- "Prototype, in this country, of the monumental Greek Revival row house". Built 1832–33 under Sailors' Snug Harbor leases; brick in **Flemish bond**; houses set back behind a 12-foot front yard (unusually deep grassy front plots).
+- A **continuous Greek Revival iron railing** runs the whole block along the sidewalk, with double entrance gates; lyre-motif panels flank the gates at Nos. 7–13.
+- Walks up to **white marble front steps**, originally laid in black-and-white marble diamonds.
+- **Nos. 1–6** (1833, narrower): low attic windows set wholly within the frieze of the roof entablature; guttae on the taenia; porticoes with two fluted **Doric** outer columns (inner **Ionic** columns at Nos. 4 and 5); rusticated basement window frames with keystones; broad stone balustrades flanking the stoops. No. 1 has its main entrance as a Doric side porch on University Place, enclosed in Queen Anne windows (1880). **No. 3** was rebuilt in 1884 in Queen Anne brick, stone and terra cotta, breaking the cornice line, with a fire escape.
+- **Nos. 7–13**: porticoes of fluted **Ionic** columns carrying a full entablature; stoops with stone balusters and panelled newels (No. 12 has stepped wing walls); rusticated basements; rectangular lintels with small stone cornices; a uniform cornice several feet higher than Nos. 1–6, with a smooth stucco fascia holding enlarged attic windows. Since 1939 the row has been a facade for an apartment house entered from Fifth Avenue (Scott & Prescott).
+- [O May 2026, No. 8]: red brick, white stone lintels and sills, six-over-six windows with air conditioners in many of them, a white columned portico over a marble stoop, black iron fence and areaway.
+
+**Washington Mews** [LPC 489, p.54; Building Database]: the former stables were stuccoed and remodelled as residences, many in 1916 by Maynicke & Franke (58, 60, 62 are "Mediterranean", brick and stucco); Nos. 1–10 on the south side are a 1939 Scott & Prescott stucco range, with dark brick and a copper cornice at Nos. 1–2; at University Place a brick triple gateway with stone-ball piers and round-arched pedestrian gates. No. 42 (1916) has a round-arched carriage door.
+
+**Brown Building** [LPC 2128, pp.9–10]:
+- Lot 101 ft on Washington Place by 100 ft on Greene Street. Ten storeys plus penthouse; steel frame; tripartite: a two-storey base, a seven-storey mid-section and a one-storey top.
+- Granite and limestone base; tan brick above with terra-cotta detail.
+- Washington Place front: 12 bays grouped **3-1-2-2-1-3** between heavy piers. Greene Street: **3-1-1-1-1-3**.
+- The base has five massive piers treated as banded pilasters: polished granite plinths, painted limestone shafts with recessed granite bands, terra-cotta capitals with fleurs-de-lis and egg-and-dart.
+- Entrance with bead-and-reel and egg-and-dart frame, swagged frieze and bracketed terra-cotta cornice. Raised letters read "NEW YORK UNIVERSITY", and the transom panel reads "BROWN BUILDING, BIOLOGY, CHEMISTRY, 29".
+- Third storey treated as a transition, with banded rustication and cartouches at the corner pavilions; fluted Corinthian cast-iron columns between the centre windows.
+- Floors 4–9: tan brick with stone sill and lintel courses.
+- Projecting bracketed galvanized-iron crowning cornice.
+- Penthouse with buttresses, many metal flues and braced chimneys visible from Greene Street.
+- National Park Service and ILGWU plaques on the easternmost pier.
+
+**Judson Memorial Church** [LPC 196, p.1]:
+- Italian Renaissance Eclectic, with a sharply defined low-pitched gable and tile roof.
+- Two-storey entrance between the tower and the church: five half-round steps up to a pair of dark panelled wood doors in a terra-cotta frame; a shallow arched porch on two columns with rosette coffers in its vault.
+- Terra-cotta bands alternate with two courses of recessed **yellow Roman brick** around the ground floor.
+- North front: three round-headed stained-glass windows between brick pilasters, with marble panels under the sills and a pediment over an ornate cornice.
+- East side: seven round-headed windows between slender pilasters.
+- Building Database: McKim, Mead & White [Stanford White], 1888–93, yellow brick and terra cotta. Judson Hall at 52–54 WSS: 1895–96, yellow brick and terra cotta. No. 51 WSS (1877, John G. Prague): brick and brownstone.
+- [O May 2026]: tawny banded brick with white trim; an arched entrance with an oculus of blue glass in the tympanum; marble steps; black iron fence.
+
+**University Village / Silver Towers** [LPC 2300, pp.7–9, 14–16]:
+- Three identical 30-storey towers of cast-in-place reinforced concrete (fiberglass forms) in a **warm buff colour** "comparable to sandstone or limestone". Not board-formed: the surface is smooth, so the inventory's earlier "board-formed" was wrong.
+- Pinwheel plan around a 100 × 100 ft lawn with rounded corners. The south half of the site is raised almost 10 ft on a platform over two garages, with ramps from Houston Street.
+- Each facade: four or eight deeply recessed window bays per floor and a 22-ft-wide windowless shear wall divided into vertical panels, separated by a slot of narrow windows. Each bay: a pair of sliding aluminium windows over a ventilation grille.
+- Ground floor: T-shaped columns more than twice the floor height forming a deep arcade, with tan-brick walls flanking glazed lobbies. Raised "100" and "110" numerals and a 1970s "SILVER TOWERS, NEW YORK UNIVERSITY" plaque.
+- Site details: purplish-pink granite-block drive along former Wooster Street; concrete bollards; a long low cantilevered concrete bench on the north sidewalk; two bronze-coloured flagpoles with a plaque between; a broken spiral of concrete benches by Houston Street; a playground with a circular sandbox; three original light poles with five glass globes each near 505 LaGuardia; elsewhere 1980s U-shaped pole lights.
+- **Bust of Sylvette** stands at the southeast corner of the central lawn, opposite the entrance to 110 Bleecker, with a brass plaque on a low pedestal. Betograve technique: black basalt pebbles from Norway plus Hudson Valley traprock, sandblasted to show the dark stone.
+
+**Other buildings resolved through the Building Database** [LPC DB]:
+
+| Building | Date / architect | Style / materials |
+|---|---|---|
+| Lipton Hall, 33 WSW (lot 552/24) | 1929, C. F. Winkelman, as the Holley Chambers hotel; altered by Eggers & Higgins 1950 | neo-Federal, brick |
+| 35 WSW, same lot | 1955 addition, C. F. Winkelman | brick, rusticated brick, stone |
+| 37–39 WSW | Gronenberg & Leuchtag | Italian Gothic, brick, terra cotta, stone |
+| 29 WSW | 1926–27, Gronenberg & Leuchtag | neo-Gothic, brick and stone |
+| Rubin Hall, 35 Fifth Av | 1925, Schwartz & Gross, as the Hotel Grosvenor | neo-Federal, Flemish-bond brick, ashlar stone |
+| Hayden Hall, 234–246 Mercer | 1979–81, Benjamin Thompson & Associates | Modern, steel and brick |
+| Vanderbilt Hall, 40 WSS | 1948–51, Eggers & Higgins | neo-Georgian, brick and limestone |
+| Kevorkian Center, 50 WSS | 1969–72, Philip Johnson & Richard Foster | Modern, granite |
+| 130 MacDougal | 1852 | Greek Revival red brick (the historic "Alcott" house) |
+| 132 MacDougal | Benjamin Thompson Architects | post-modern red brick and concrete (D'Agostino Hall) |
+| Wilf Hall, 133–139 MacDougal | 2010–11, Morris Adjmi | post-modern, brick |
+| Tisch School / Gallatin, 715–727 Broadway | 1894–96, Robert Maynicke | Renaissance Revival, steel, cast iron, limestone |
+| Center for Neural Science, 4–6 Washington Pl | 1903–04, Henri Fouchaux | Beaux-Arts, granite and limestone |
+| 3–5 Washington Pl (Philosophy) | 1890–91, Alfred Zucker | Northern Renaissance Revival, cast iron, brownstone, brick |
+| 708 Broadway (Global Public Health) | 1896, Cleverdon & Putzel | Northern Renaissance Revival, brick, limestone, terra cotta |
+| 726 Broadway (Health Center) | 1917–18 | Neoclassical, concrete, brick, terra cotta |
+| 383–389 Lafayette | 1913, Gronenberg & Leuchtag | simplified Neoclassical, iron and brick |
+| 11–19 E 4th / 390–400 Lafayette | 1887–88, Cleverdon & Putzel | neo-Grec, brick and cast iron |
+| Puck Building | 1885–86 and 1892–93, Albert Wagner | Romanesque Revival / Rundbogenstil, red brick, brownstone, grey granite [LPC 1226] |
+| Casa Italiana, 24 W 12th | 1851–52 | Anglo-Italianate, brownstone with rusticated brownstone base |
+| Lillian Vernon House, 58 W 10th | c. 1836 | Greek Revival; later altered by Stanford White |
+| 27–28 WSN | 1898, Thom & Wilson | Neoclassical, rusticated stone, buff Roman brick, terra cotta |
+| 19, 21, 22 WSN | 1835–36 | Greek Revival, Flemish-bond brick; 19 altered by McKim, Mead & White 1886; 22 altered by James Renwick Jr. 1880s |
+| 20 WSN | 1828–29 | Federal, Flemish-bond brick and stone; altered by Henry J. Hardenbergh 1880 |
+
+### Street View observations (look-only)
+
+| Building | View | What I saw |
+|---|---|---|
+| **Bobst** | LaGuardia Pl side [O Apr 2026]; from inside the park [O Jun 2021] | Salmon-red sandstone panels. Tall, narrow, deeply recessed vertical window slots between thin stone fins. A horizontal stone band above the deeply recessed glazed ground floor, set back behind square piers. Small trees in planters at the base. From the park, the red mass shows through dense trees over a black iron fence. |
+| **Kimmel + Global Center**, 58–60 WSS | [O May 2026] | The Washington Square South face is buff stone with a full-height glass corner bay and a purple "NYU Kimmel Center for University Life" sign over the entrance; construction barriers in front. Immediately to the right, the Global Center has a **bronze-coloured laser-cut geometric (Islamic-pattern) metal screen** facade. Red-brick building at far left. |
+| **Silver Center**, WSE | [O May 2026] | Light grey stone and brick. Heavy rusticated piers at the base; dentilled cornices between storey groups; big ground-floor display windows filled with purple "#NYU CAS 2026" graduation graphics (students in violet gowns); dark iron grilles below. |
+| **Weinstein**, 11 University Pl | [O Apr 2026] | Orange-red brick in running bond. Punched windows with grey frames and louvred AC sleeves under them. At street level, **three segmental concrete canopies** (barrel-vault shells): the middle one over the glass entrance doors, the outer ones over gated bays. A purple NYU flag on a pole above the entrance. A Citi Bike dock along the curb in front, a low iron fence, and a street tree. |
+| **13 University Pl** (north of Weinstein) | [O Apr 2026] | Beige brick and limestone; "NEW YORK UNIVERSITY / LANGUAGES AND LITERATURE BUILDING" over the entrance. |
+| **Paulson Center** | Mercer and Bleecker [O Apr 2026]; aerial [O 2026] | Faceted blue-glass curtain walls in stacked angular volumes, with copper/orange accents at the podium. Green roofs on the podium; tower clusters at the Bleecker and Houston ends. A big Citi Bike dock on Mercer. |
+| **Brown Building** | Washington Pl and Greene [O Sep 2015, user photo] | Pale stone and tan brick, banded rusticated corner piers, heavy cornice. This predates the 2023 memorial; it confirms the LPC description, but the memorial itself is not yet observed. |
+| **Judson** | WSS [O May 2026] | See the LPC entry above. |
+| **Vanderbilt Hall**, WSS | [O May 2026] | Red brick. A ground-floor **arcade of round arches** with limestone imposts and keystones along Washington Square South, black iron fences in the arches, the courtyard garden visible through them. |
+| **Shimkin Hall / KMC**, W 4th St | [O Apr 2026] | **Leon Shimkin Hall is 50 W 4th St** (sign "LEON SHIMKIN HALL / NEW YORK UNIVERSITY"): buff stone neoclassical. To its east, the **Kaufman Management Center**: buff panels with **red-painted window frames** in large gridded openings. |
+| **Tisch Hall** (Greene St side) | [O Apr 2026] | Red sandstone with a regular window grid and a dark recessed top floor. **Sidewalk shed and scaffolding** along Greene Street. |
+| **Silver Towers** | Bleecker St [O Apr 2026] | Buff concrete towers with gridded recessed windows rising above bare trees. Paulson's glass is visible to the left. |
+| Park lamp (Q4, not acted on) | inside the park [O Jun 2021] | Black cast-iron post with a lantern-style head. Recorded only; your photos decide. |
+
+### Status of the 24 questions
+
+| # | Status | How |
+|---|---|---|
+| Q1 | **Resolved** | Avi: straight continuation |
+| Q2 / Q11 Weinstein | **Partly resolved** | Exterior and entrance observed (above). Still needed: security desk and card-reader positions, where the dining-hall entrance is, how the East and West towers read |
+| Q3–Q6 | **Waiting for Avi's photos** | Placeholders, not modelled |
+| Q7 Mercer–Houston dog run | Open | Not found in the Dog Runs dataset or the aerial |
+| Q8 Bobst | **Partly resolved** | Exterior observed. Open: which door is the main entrance; what the atrium screens are now |
+| Q9 Silver Center | **Resolved** | Observed |
+| Q10 Paulson | **Partly resolved** | Plan and cladding observed; tower heights are an estimate |
+| Q12 | **Resolved** | Avi approved |
+| Q13 D'Agostino / Alcott | **Resolved** | Lot 540/14 holds the 1852 Greek Revival house at 130 MacDougal ("Alcott") and the Benjamin Thompson red-brick D'Agostino Hall on the W 3rd corner |
+| Q14 Judson campanile | **Resolved** | 21 m in both the footprint and the 3D model |
+| Q15 Shimkin / Gould | **Resolved** | Shimkin Hall at 50 W 4th, KMC to its east (observed). The Gould Welcome Center is still unplaced; low priority |
+| Q16 Grey Art Museum | Open, low priority | |
+| Q17 Row stoops | **Resolved** | LPC: stoops with porticoes at Nos. 2, 4–13; No. 1 entered by a side porch on University Pl; No. 3 rebuilt in Queen Anne style |
+| Q18 Mews | **Partly resolved** | Stucco, gates and the Maynicke & Franke remodels are sourced. Open: the road surface (cobbles?) and which house is Glucksman Ireland House |
+| Q19 Brittany Hall | **Resolved** | It is NYU's lot **562/30, 787 Broadway** at E 10th St: 16 floors in PLUTO, built 1929, roof 50.6 m |
+| Q20 29 and 37 WSW | **Partly resolved** | Architects, styles and dates known; current NYU use unknown (low priority) |
+| Q21 Carlyle Court | Open | Your call: model or signage |
+| Q22 Senior House 13th St | **Resolved** | Not on NYU's current hall list and not NYU-owned; treated as former |
+| Q23 Public Safety booths | Open | |
+| Q24 Sidewalk sheds | **Partly resolved** | Observed: Kimmel's Washington Square South frontage under barriers (May 2026); Tisch Hall's Greene St side under a shed (Apr 2026) |
+
+---
 
 ## Sources on disk
 
@@ -258,7 +397,7 @@ Measured data for every building below is in `RESEARCH/data/nyu-buildings-table.
 ### 3.11 Silver Towers and Washington Square Village
 
 - **Silver Towers** [D]: lot 524/66 at 100 Bleecker; Tower I BIN 1087825, 88.7 m; Tower II BIN 1083218, 89.6 m; 30 floors; built 1964–67 [S]; the third tower, 505 LaGuardia Place, is a co-op (524/1, 89.9 m), not NYU. Individual landmark (2008) [S].
-- [S]: I.M. Pei & Associates with James Ingo Freed as primary architect; Brutalist board-formed concrete facades with recessed windows; pinwheel arrangement around a courtyard; foundation pads 80 × 113 ft.
+- [S]: I.M. Pei & Associates with James Ingo Freed as primary architect; Brutalist cast-in-place concrete facades (smooth, buff; NOT board-formed, see LPC 2300) with recessed windows; pinwheel arrangement around a courtyard; foundation pads 80 × 113 ft.
 - **Bust of Sylvette** [S]: at (-143, -596) [D]; Carl Nesjar after Picasso, 1968; 36 ft high, 20 ft wide, 12.5 in thick; Betograve concrete (sandblasted, basalt aggregate showing through buff cement).
 - **Signature details**: 1) the deep concrete window reveals forming a waffle grid [S]; 2) the three-tower pinwheel [S]; 3) Sylvette on the lawn [S]; 4) the low concrete plaza walls and lawn [S "pathways and lawns"]; 5) the windows' asymmetric mullion pattern [K].
 - **Washington Square Village** [D]: block 533 lot 1, two long slabs each split into two buildings (BINs 1077833–1077836), 47.7 to 48.6 m, 17 floors, built 1959–60. A 5,347 m² 2.7 m-high podium between them (the garden deck over the garage). Architects S. J. Kessler & Sons with Paul Lester Wiener; garden by Hideo Sasaki [S]. Vertical panels of bold primary-colour glazed brick [S]. "BOB HOVELL STOOD HERE" plaque in the asphalt by Building 2 [S].
@@ -352,7 +491,7 @@ Every footprint in the study area (4,250 after removing the Arch) is already ext
 
 ---
 
-## 8. Questions for you
+## 8. Questions for you (draft 1 list; see "Status of the 24 questions" in Research update 2 for what is resolved)
 
 These are ordered by how much they change the build.
 

@@ -1,5 +1,6 @@
 import * as T from '../vendor/three.module.js';
 import {campus} from './campus.js?v=17';
+import model3d from './data/campus-3d.js?v=17';
 import {archPiers,CURB_HEIGHT} from './collision.js?v=17';
 import {ringArea,centroid,rectFrame,rectRing,pointInRing} from './geometry.js?v=17';
 // Free-roam world for Washington Square · NYU. Phase 0: real street/curb/sidewalk/park layout and
@@ -17,6 +18,14 @@ class Builder{
  wall(a,b,y0,y1,c,u0=0,bay=3.2,floor=3.5){const dx=b[0]-a[0],dn=b[1]-a[1],L=Math.hypot(dx,dn);if(L<.01)return u0;const nx=dn/L,nz=dx/L;
   const i=this.vertex(a[0],y0,-a[1],nx,0,nz,u0/bay,y0/floor,c),j=this.vertex(b[0],y0,-b[1],nx,0,nz,(u0+L)/bay,y0/floor,c),k=this.vertex(b[0],y1,-b[1],nx,0,nz,(u0+L)/bay,y1/floor,c),l=this.vertex(a[0],y1,-a[1],nx,0,nz,u0/bay,y1/floor,c);
   this.idx.push(i,j,k,i,k,l);return u0+L;}
+ // Wall with a sloping top (roof edge heights za, zb), from y0 up.
+ wallZ(a,b,y0,za,zb,c,u0=0,bay=3.2,floor=3.5){const dx=b[0]-a[0],dn=b[1]-a[1],L=Math.hypot(dx,dn);if(L<.01||Math.max(za,zb)<=y0+.01)return u0;const nx=dn/L,nz=dx/L;
+  const i=this.vertex(a[0],y0,-a[1],nx,0,nz,u0/bay,y0/floor,c),j=this.vertex(b[0],y0,-b[1],nx,0,nz,(u0+L)/bay,y0/floor,c),k=this.vertex(b[0],zb,-b[1],nx,0,nz,(u0+L)/bay,zb/floor,c),l=this.vertex(a[0],za,-a[1],nx,0,nz,u0/bay,za/floor,c);
+  this.idx.push(i,j,k,i,k,l);return u0+L;}
+ // Cap over a 3D roof polygon (flat [x,n,z,...]); triangulated in plan, facing up.
+ capZ(flat,c,uvScale=.2){const pts=[];for(let i=0;i<flat.length;i+=3)pts.push(new T.Vector2(flat[i],flat[i+1]));let faces;try{faces=T.ShapeUtils.triangulateShape(pts,[]);}catch{return;}const base=this.count;
+  for(let i=0;i<pts.length;i++)this.vertex(pts[i].x,flat[3*i+2],-pts[i].y,0,1,0,pts[i].x*uvScale,pts[i].y*uvScale,c);
+  for(const [a,b,d] of faces){const A=pts[a],B=pts[b],D=pts[d];const cross=(B.x-A.x)*(D.y-A.y)-(B.y-A.y)*(D.x-A.x);if(cross>0)this.idx.push(base+a,base+b,base+d);else this.idx.push(base+a,base+d,base+b);}}
  // Horizontal cap over a polygon with holes, facing up.
  cap(rings,y,c,uvScale=.25){const contour=rings[0].map(p=>new T.Vector2(p[0],p[1])),holes=rings.slice(1).filter(h=>h.length>2).map(h=>h.map(p=>new T.Vector2(p[0],p[1])));let faces;try{faces=T.ShapeUtils.triangulateShape(contour,holes);}catch{return;}const all=[...contour,...holes.flat()],base=this.count;
   for(const p of all)this.vertex(p.x,y,-p.y,0,1,0,p.x*uvScale,p.y*uvScale,c);
@@ -27,9 +36,17 @@ class Builder{
  prism(rings,y0,y1,c,bay,floor){rings.forEach((r,ri)=>{const ccw=ringArea(r)>0,ring=(ri===0)===ccw?r:[...r].reverse();let u=0;for(let i=0;i<ring.length;i++)u=this.wall(ring[i],ring[(i+1)%ring.length],y0,y1,c,u,bay,floor);});this.cap(rings,y1,c);}
  geometry(){const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(this.pos,3));g.setAttribute('normal',new T.Float32BufferAttribute(this.nor,3));g.setAttribute('uv',new T.Float32BufferAttribute(this.uv,2));g.setAttribute('color',new T.Float32BufferAttribute(this.col,3));g.setIndex(this.idx);g.computeBoundingSphere();return g;}
 }
+// Paulson Center (BIN 1090263, opened 2023) postdates the 2014 3D model and its footprint has a single
+// height. Massing below is an ESTIMATE pending confirmation: a five-storey podium over the whole site
+// with two 23-storey glass towers at the Bleecker and Houston ends (plan from aerial imagery, 2026).
+const PAULSON={bin:1090263,podium:26,tower:84,northShare:.30,southShare:.25};
+function clipHalf(r,ax,an,k,keepAbove){const out=[],f=p=>(p[0]*ax+p[1]*an-k)*(keepAbove?1:-1);for(let i=0;i<r.length;i++){const a=r[i],b=r[(i+1)%r.length],fa=f(a),fb=f(b);if(fa>=0)out.push(a);if((fa>=0)!==(fb>=0)){const t=fa/(fa-fb);out.push([a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t]);}}return out;}
+export function paulsonMassing(ring){const c=centroid(ring);let sxx=0,sxy=0,syy=0;for(const p of ring){const x=p[0]-c[0],y=p[1]-c[1];sxx+=x*x;sxy+=x*y;syy+=y*y;}const th=.5*Math.atan2(2*sxy,sxx-syy);let ax=Math.cos(th),an=Math.sin(th);if(an<0){ax=-ax;an=-an;}
+ const s=ring.map(p=>p[0]*ax+p[1]*an),lo=Math.min(...s),hi=Math.max(...s),L=hi-lo;
+ return [{ring,h:PAULSON.podium},{ring:clipHalf(ring,ax,an,hi-L*PAULSON.northShare,true),h:PAULSON.tower},{ring:clipHalf(ring,ax,an,lo+L*PAULSON.southShare,false),h:PAULSON.tower}].filter(m=>m.ring.length>=3);}
 export class CampusWorld{
  constructor(config){this.config=config;this.freeRoam=true;const c=campus();this.campus=c;this.data=c.data;this.collision=c.collision;this.streets=c.streets;this.spawn=c.spawn;
-  this.group=new T.Group();this.group.name='washington-square';this.tiles=new Map();this.disposables=new Set();this.build();}
+  this.stats={model:0,extruded:0,estimated:0};this.group=new T.Group();this.group.name='washington-square';this.tiles=new Map();this.disposables=new Set();this.build();}
  tile(x,n){const i=Math.floor(x/TILE),j=Math.floor(n/TILE),k=i+','+j;let t=this.tiles.get(k);if(!t){t={i,j,center:[(i+.5)*TILE,(j+.5)*TILE],group:new T.Group(),b:{},inst:{}};t.group.name='tile '+k;this.group.add(t.group);this.tiles.set(k,t);}return t;}
  builder(t,name){return t.b[name]||(t.b[name]=new Builder());}
  inst(t,name,p,s=[1,1,1],r=0,color=null){(t.inst[name]||(t.inst[name]=[])).push({p,s,r,color});}
@@ -51,8 +68,16 @@ export class CampusWorld{
   // Buildings: NYC footprints extruded to their surveyed roof height (Phase 0 massing, no setbacks yet).
   for(const b of d.buildings){const h=Math.max(3,b.h||0),t=this.tile(...centroid(b.rings[0])),floors=b.floors&&b.floors>=1?b.floors:Math.max(1,Math.round(h/3.6)),floor=Math.min(5.5,Math.max(2.8,h/floors)),seed=b.bin||h;
    const base=b.nyu?new T.Color().setHSL(.74,.12,.6+hash(seed)*.06):new T.Color().setHSL(.08+hash(seed)*.05,.1+hash(seed+2)*.08,.55+hash(seed+4)*.12);
-   const wallB=this.builder(t,'wall');b.rings.forEach((r,ri)=>{const ccw=ringArea(r)>0,ring=(ri===0)===ccw?r:[...r].reverse();let u=0;for(let i=0;i<ring.length;i++)u=wallB.wall(ring[i],ring[(i+1)%ring.length],0,h,base,u,3.1,floor);});
-   this.builder(t,'roof').cap(b.rings,h,base.clone().multiplyScalar(.62),.2);}
+   const wallB=this.builder(t,'wall'),roofB=this.builder(t,'roof'),roofC=base.clone().multiplyScalar(.62),m=model3d[b.bin];
+   if(m){this.stats.model++;
+    // NYC 3D Building Model (LoD2): every roof piece becomes a prism down to the ground, so setbacks,
+    // bulkheads and sloped roofs keep their surveyed shape. Hidden interior faces are acceptable overdraw.
+    for(const r of m.roofs){const k=r.length/3;let A=0;for(let i=0;i<k;i++){const j=(i+1)%k;A+=r[3*i]*r[3*j+1]-r[3*j]*r[3*i+1];}if(Math.abs(A)<.4)continue;const ccw=A>0;let u=0;
+     for(let s=0;s<k;s++){const i=ccw?s:k-1-s,j=ccw?(s+1)%k:(k-2-s+k)%k;u=wallB.wallZ([r[3*i],r[3*i+1]],[r[3*j],r[3*j+1]],0,r[3*i+2],r[3*j+2],base,u,3.1,floor);}
+     roofB.capZ(r,roofC);}}
+   else if(b.bin===PAULSON.bin){this.stats.estimated++;for(const part of paulsonMassing(b.rings[0])){const r=ringArea(part.ring)>0?part.ring:[...part.ring].reverse();let u=0;for(let i=0;i<r.length;i++)u=wallB.wall(r[i],r[(i+1)%r.length],0,part.h,base,u,3.1,floor);roofB.cap([part.ring],part.h,roofC,.2);}}
+   else{this.stats.extruded++;b.rings.forEach((r,ri)=>{const ccw=ringArea(r)>0,ring=(ri===0)===ccw?r:[...r].reverse();let u=0;for(let i=0;i<ring.length;i++)u=wallB.wall(ring[i],ring[(i+1)%ring.length],0,h,base,u,3.1,floor);});
+   roofB.cap(b.rings,h,roofC,.2);}}
   // Washington Square Arch: two piers and the attic over the 30 ft opening (Phase 0 massing).
   const archT=this.tile(0,0),archB=this.builder(archT,'arch'),white=col(0xffffff),f=rectFrame(d.arch.ring),o=d.arch.openingWidth/2;
   for(const p of archPiers(d.arch))archB.prism([p],0,d.arch.height,white,2,2);archB.prism([rectRing(f,-o,o,-f.halfShort,f.halfShort)],14.33,d.arch.height,white,2,2);
@@ -62,7 +87,9 @@ export class CampusWorld{
    const top=new T.Mesh(new T.RingGeometry(r-.45,r,72),this.materials.marble);top.rotation.x=-Math.PI/2;top.position.y=.55;const basin=new T.Mesh(new T.CircleGeometry(r-.45,72),this.materials.water);basin.rotation.x=-Math.PI/2;basin.position.y=.08;const jet=new T.Mesh(new T.CylinderGeometry(.6,.9,.9,24),this.materials.marble);jet.position.y=.45;
    g.add(rim,inner,top,basin,jet);for(const m of g.children)this.disposables.add(m.geometry);this.tile(...c).group.add(g);}
   // Trees (NYC Parks Forestry + OSM), lamps, benches, fences and crosswalk bars, instanced per tile.
-  for(const tr of d.trees){const dbh=tr.dbh||8,height=tr.landmark?24:Math.min(24,5+dbh*.42),crown=tr.landmark?9:Math.min(7.5,1.6+dbh*.16),t=this.tile(...tr.p),y=CURB_HEIGHT;this.inst(t,'trunk',toV(tr.p,y+height*.3),[Math.max(.18,dbh*.0254/2),height*.6,Math.max(.18,dbh*.0254/2)]);const tint=new T.Color().setHSL(.22+hash(tr.p[0])*.08,.32,.24+hash(tr.p[1])*.1);this.inst(t,'crown',toV(tr.p,y+height*.68),[crown,crown*.85,crown],hash(tr.p[0]+tr.p[1])*6,tint);}
+  for(const tr of d.trees){const dbh=tr.dbh||8,height=tr.landmark?24:Math.min(24,5+dbh*.42),crown=tr.landmark?9:Math.min(5.5,1.4+dbh*.12),cy=Math.max(height-crown*.75,3.2+crown*.7),t=this.tile(...tr.p),y=CURB_HEIGHT,r=Math.max(.14,dbh*.0254/2);
+   // Street trees are limbed up for clearance: crown sits on a clear trunk of at least ~3 m.
+   this.inst(t,'trunk',toV(tr.p,y+cy/2),[r,cy,r]);const tint=new T.Color().setHSL(.22+hash(tr.p[0])*.08,.32,.24+hash(tr.p[1])*.1);this.inst(t,'crown',toV(tr.p,y+cy),[crown,crown*.7,crown],hash(tr.p[0]+tr.p[1])*6,tint);}
   for(const l of d.lamps){const t=this.tile(...l.p);this.inst(t,'pole',toV(l.p,CURB_HEIGHT+2.2),[1,1,1]);this.inst(t,'lantern',toV(l.p,CURB_HEIGHT+4.45),[1,1,1]);}
   for(const b of d.benches){const t=this.tile(...b.p);this.inst(t,'bench',toV(b.p,CURB_HEIGHT+.45),[1,1,1],hash(b.p[0]*3.1)*0);}
   for(const br of d.barriers){if(br.kind==='retaining_wall')continue;const ht=br.height||(br.kind==='wall'?1.2:1.0);for(let i=1;i<br.pts.length;i++){const a=br.pts[i-1],b=br.pts[i],L=Math.hypot(b[0]-a[0],b[1]-a[1]);if(L<.05)continue;const m=[(a[0]+b[0])/2,(a[1]+b[1])/2];this.inst(this.tile(...m),br.kind==='wall'?'wallseg':'fence',toV(m,CURB_HEIGHT+ht/2),[L,ht,br.kind==='wall'?.3:.05],Math.atan2(b[1]-a[1],b[0]-a[0]));}}

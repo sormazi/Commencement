@@ -2,7 +2,7 @@
 
 A free-roam reconstruction of NYU's Washington Square campus a hundred years from now. It is the default location. Times Square, SoHo and Shibuya are unchanged repeating corridors.
 
-**Status: Phase 0 (world model) done; Phase 1 inventory awaiting review.** Buildings are clay massing at their surveyed roof heights. No facades, decay, crowds, billboards or soundtrack yet.
+**Status: Phase 2 massing pass done (awaiting review).** Buildings use the NYC 3D Building Model's roof forms and setbacks; no facades, decay, crowds, billboards or soundtrack yet.
 
 ## World model
 
@@ -16,6 +16,14 @@ A free-roam reconstruction of NYU's Washington Square campus a hundred years fro
 
 The car can drive on every road, on sidewalks and through the park's paved paths. Buildings, fences, the Arch piers, the fountain rim, trees and monuments are solid. There is no traffic in this location.
 
+## Massing (Phase 2, first pass)
+
+- `tools/extract-3d-model.py` streams the NYC 3D Building Model (DA12 CityGML, 2014 survey) and keeps the study area; `tools/build-campus-3d.mjs` converts roof polygons to map metres per BIN (`dist/campus/data/campus-3d.js`).
+- 4,110 buildings are built from their surveyed roof pieces (each piece becomes a prism to the ground, so setbacks, bulkheads and sloped roofs appear). 138 buildings that are newer than the model or disagree with the current footprint height are plain extrusions (list in `RESEARCH/data/nyc3d-reconciliation.json`).
+- Paulson Center (2022) is an estimated podium-and-twin-tower massing (26 m podium, 84 m towers at the Bleecker and Houston ends) pending confirmation.
+- The Arch keeps its sourced dimensions (77 ft high, 30 ft opening, 47 ft to the crown).
+- Trees are limbed up so crowns start at about 3 m.
+
 ## What is accurate
 
 - Street layout, carriageway outlines, curbs, sidewalks and medians come straight from NYC planimetric data (accurate to well under a metre).
@@ -25,7 +33,7 @@ The car can drive on every road, on sidewalks and through the park's paved paths
 ## What is approximate or missing
 
 - The world is flat. Real ground elevation varies by a few metres across the area; it is ignored.
-- Every building is a vertical extrusion with a generic window texture. Setbacks, roof forms, materials and details arrive in Phase 2 (NYC 3D Building Model, then facades).
+- Walls use a generic window texture until the facade pass. Roof forms come from 2014, so buildings altered since then may differ.
 - The Arch is massing only (piers and attic). The fountain is a plain ring.
 - Benches have no orientation yet; lamp posts and fences use one generic style.
 - Crosswalks come from OSM and are incomplete; there are no lane markings yet.
