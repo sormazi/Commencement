@@ -1,5 +1,6 @@
 import {Grid,closestOnSegment,pointInRing,bboxOf,rectFrame,rectRing,centroid} from './geometry.js';
 import {SHEDS} from './landmarks/sheds.js?v=19';
+import {SYLVETTE} from './landmarks/silver-towers.js?v=19';
 // Static collision and surface queries for the free-roam campus, in physics/map space
 // (x = east, z = north). Contacts are returned in the format physics.resolveContact expects.
 export const CAR_CIRCLES=[1.32,0,-1.32],CAR_RADIUS=.98;
@@ -15,10 +16,12 @@ export class CampusCollision{
   this.piers=archPiers(data.arch);for(const p of this.piers)addRing(p,'arch');this.pedestals=archPedestals(data.arch);for(const p of this.pedestals)addRing(p,'arch');
   // Sidewalk sheds: the curb-side line of posts is solid.
   for(const sh of SHEDS){const dx=sh.b[0]-sh.a[0],dn=sh.b[1]-sh.a[1],L=Math.hypot(dx,dn),nx=dn/L,nn=-dx/L,d=.3+sh.depth-.1;this.addSegment([sh.a[0]+nx*d,sh.a[1]+nn*d],[sh.b[0]+nx*d,sh.b[1]+nn*d],'shed',.08);}
+  // Bust of Sylvette placeholder plinth, placed from LPC 2300 (the OSM node is misplaced; see silver-towers.js).
+  {const S=SYLVETTE,t=[S.facing[1],-S.facing[0]],hw=S.plinth[0]/2,hd=S.plinth[1]/2,q=(a,b)=>[S.p[0]+t[0]*a+S.facing[0]*b,S.p[1]+t[1]*a+S.facing[1]*b];addRing([q(-hw,-hd),q(hw,-hd),q(hw,hd),q(-hw,hd)],'monument');}
   for(const a of data.areas)if(a.kind==='fountain')addRing(a.ring,'fountain');
   for(const b of data.barriers)if(b.kind!=='retaining_wall')for(let i=1;i<b.pts.length;i++)this.addSegment(b.pts[i-1],b.pts[i],b.kind,.06);
   for(const t of data.trees)this.addCircle(t.p,t.landmark?1.1:treeRadius(t.dbh),'tree');
-  for(const m of data.monuments){if(/plaque/.test(m.kind)||m.kind==='memorial'&&!m.name)continue;const r=m.kind==='flagpole'?.3:/Garibaldi/.test(m.name||'')?2.1:/Holley/.test(m.name||'')?1.4:.9;this.addCircle(m.p,r,m.kind);}
+  for(const m of data.monuments){if(/plaque/.test(m.kind)||m.kind==='memorial'&&!m.name||m.name==='Bust of Sylvette')continue;const r=m.kind==='flagpole'?.3:/Garibaldi/.test(m.name||'')?2.1:/Holley/.test(m.name||'')?1.4:.9;this.addCircle(m.p,r,m.kind);}
   const B=data.meta.bounds,c=[[B.minX,B.minN],[B.maxX,B.minN],[B.maxX,B.maxN],[B.minX,B.maxN]];for(let i=0;i<4;i++)this.addSegment(c[i],c[(i+1)%4],'boundary',0);
   for(const r of data.roadbed)this.roadGrid.insert({rings:r},bboxOf(r[0]));
   for(const a of data.areas)if(a.kind==='grass'||a.kind==='dogrun')this.grassGrid.insert({ring:a.ring,kind:a.kind},bboxOf(a.ring));

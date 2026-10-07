@@ -12,6 +12,7 @@ import {weinsteinParts,WEINSTEIN} from '../dist/campus/landmarks/weinstein.js';
 import {brownParts,BROWN} from '../dist/campus/landmarks/brown.js';
 import {LANDMARK_BUILDINGS} from '../dist/campus/landmarks/index.js';
 import {SHEDS,shedParts} from '../dist/campus/landmarks/sheds.js';
+import {silverTowersParts,SILVER_TOWERS,SYLVETTE} from '../dist/campus/landmarks/silver-towers.js';
 import {CampusCollision} from '../dist/campus/collision.js';
 import {rectFrame} from '../dist/campus/geometry.js';
 let passed=0;const test=(name,fn)=>{fn();passed++;console.log('ok -',name);};
@@ -66,4 +67,9 @@ test('sidewalk sheds: each has a Street View date, stands on the sidewalk side, 
   const dx=s.b[0]-s.a[0],dn=s.b[1]-s.a[1],L=Math.hypot(dx,dn),m=[(s.a[0]+s.b[0])/2+dn/L*(s.depth+.2),(s.a[1]+s.b[1])/2-dx/L*(s.depth+.2)];assert.ok(c.contacts||true);
   const near=c.segGrid.query(m[0]-1,m[1]-1,m[0]+1,m[1]+1).some(sg=>sg.kind==='shed');assert.ok(near,s.id);}
  assert.ok(shedParts().tris<5000);});
+test('silver towers: three towers to the 82.5 m roof, 8- and 4-bay grids on every face, an arcade front each; Sylvette is a neutral placeholder',()=>{const {P,infos}=silverTowersParts();
+ for(const bin of SILVER_TOWERS.bins){const i=infos[bin];assert.ok(i&&i.front,'front '+bin);assert.equal(i.grids.length,4,'grid faces '+bin);assert.deepEqual(i.grids.map(g=>Math.round((g.g1-g.g0)/SILVER_TOWERS.pitch)).sort(),[4,4,8,8]);assert.equal(i.grids.filter(g=>g.isFront).length,1);}
+ const b=bbox(verts(P));assert.ok(b[1][1]>88&&b[1][1]<92.5,'bulkheads '+b[1][1]);
+ const sy=P.m.betograve.pos;assert.equal(sy.length/3,36,'one plain slab, no figurative geometry');
+ const c=new CampusCollision(data);assert.equal(c.solidAt(SYLVETTE.p[0],SYLVETTE.p[1]),'monument');});
 console.log(`landmarks: ${passed} passed`);
