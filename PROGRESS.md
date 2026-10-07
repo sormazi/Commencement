@@ -111,3 +111,4 @@ Target is 60 fps at the Arch. My own checks run in a software renderer in the cl
 | 2026-10-07 | 7031b08 | Paulson Center |
 | 2026-10-07 | ae1c4ea | PROGRESS review stop |
 | 2026-10-07 | e923d99 | README + credits for the nyu-campus branch |
+| 2026-10-07 | 416d350 | CONTRIBUTING Node version |
