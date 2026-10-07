@@ -1,0 +1,10 @@
+// Washington Square Village. 1-4 Washington Square Village, 1959-60, two 17-storey slabs (S. J. Kessler & Sons with Paul
+// Lester Wiener) over a raised garden deck (Hideo Sasaki). Google Street View (looked at, not saved), Apr 2024: long
+// pale slabs with continuous window bands and a grid of concrete balcony fronts; the garden deck behind a concrete
+// retaining wall with a pergola; vertical panels of glazed coloured brick on the end walls.
+export default {slug:"wsv",name:"Washington Square Village",bin:1077833,also:[1077834, 1077835, 1077836, 1085656],source:"1-4 Washington Square Village, 1959-60, two 17-storey slabs (S. J. Kessler & Sons with Paul Lester Wiener) over a raised garden deck (Hideo Sasaki). Google Street View (looked at, not saved), Apr 2024: long pale slabs with continuous window bands and a grid of concrete balcony fronts; the garden deck behind a concrete retaining wall with a pergola; vertical panels of glazed coloured brick on the end walls.",wall:'concrete',trim:'concrete',ground:{h:4.0,style:'glass',pitch:3},floor:2.8,pitch:3.0,win:[2.55,1.45],reveal:.35,sill:0,cornice:'none',doors:[{rank:0,at:.5,w:2.6,h:2.8,canopy:1.8},{rank:1,at:.5,w:2.6,h:2.8,canopy:1.8}],
+ extra:K=>{/* Glazed brick panels: vertical bands in primary colours on the slab end walls. */const cols=['glazedRed','glazedBlue','glazedYellow'];let i=0;
+  const ux=.837,un=-.547;// grid axis along W 3rd St: the slabs' long direction
+  for(const w of K.W){if(w.party||w.len<8||w.y0>5||w.piece.z<30||Math.abs(w.n[0]*ux+w.n[1]*un)<.9)continue;const f=w.face;for(let k=0;k<3;k++){const u0=w.len*(.18+.24*k),u1=u0+w.len*.16;K.P.block(cols[(i+k)%3],f,u0,u1,4.2,w.piece.z-1.2,0,.05);}i++;}
+  /* Long fronts: a horizontal concrete balcony band at each floor. */
+  for(const w of K.W){if(w.party||w.len<8||w.y0>5||w.piece.z<30||Math.abs(w.n[0]*.547+w.n[1]*.837)<.9)continue;for(let y=4.0+2.8;y<w.piece.z-.5;y+=2.8)K.P.block('concrete',w.face,.3,w.len-.3,y-.15,y+.85,0,.22,{skip:['left','right']});}}};
