@@ -1,0 +1,4 @@
+// Rubin Hall. 35 Fifth Avenue at E 10th St, 1925. Google Street View (looked at, not saved), Sep 2024: red-brown brick,
+// a light limestone base to the second floor, round-headed third-floor windows in stone surrounds, white sash windows, a
+// stone cornice at the top storey, the entrance mid-block on Fifth with two violet flags.
+export default {slug:"rubin",name:"Rubin Hall",bin:1009250,also:[],source:"35 Fifth Avenue at E 10th St, 1925. Google Street View (looked at, not saved), Sep 2024: red-brown brick, a light limestone base to the second floor, round-headed third-floor windows in stone surrounds, white sash windows, a stone cornice at the top storey, the entrance mid-block on Fifth with two violet flags.",wall:'brickRed',trim:'limestone',ground:{h:4.4,style:'base',mat:'limestone'},base:{to:8.2,mat:'limestone'},floor:3.0,pitch:2.9,win:[1.05,1.65],sash:1,cornice:'modillion',doors:[{rank:1,at:.5,w:2.4,h:3.2,canopy:1.4}],flags:{rank:1,n:2,y:5.2}};
