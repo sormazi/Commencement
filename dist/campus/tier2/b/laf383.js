@@ -1,0 +1,2 @@
+// 383 Lafayette St (Admissions Office). 1913, 4 storeys. Not checked on Street View (estimate).
+export default {slug:"laf383",name:"383 Lafayette St (Admissions Office)",bin:1008512,also:[],source:"1913, 4 storeys. Not checked on Street View (estimate).",wall:'brickRed',trim:'limestone',ground:{h:4.6,style:'storefront',mat:'limestone',pitch:4.2},floor:3.8,pitch:4.0,win:[1.1,2.2],pair:1,sash:1,cornice:'modillion',doors:[{rank:0,at:.5,w:2,h:3.2}]};
