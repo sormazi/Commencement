@@ -1,0 +1,6 @@
+// Washington Mews, south side. Former stables behind the Row (lot 550/13, 1½ Fifth Ave), NYU houses (La Maison
+// Française, Deutsches Haus and others are on this block). Not checked on Street View this pass; painted stucco and
+// brick (estimate).
+export default {slug:"mewssouth",name:"Washington Mews, south side",bin:1078075,also:[1078076, 1078077, 1078078, 1078079, 1078080, 1078081, 1078083, 1078084],source:"Former stables behind the Row (lot 550/13, 1\u00bd Fifth Ave), NYU houses (La Maison Fran\u00e7aise, Deutsches Haus and others are on this block). Not checked on Street View this pass; painted stucco and brick (estimate).",wall:'stucco',trim:'stucco',ground:{h:3.0,style:'base',mat:'stucco',first:.9},floor:3.0,pitch:2.4,win:[1.0,1.6],sash:1,cornice:'coping',doors:[{rank:0,at:.15,w:1.2,h:2.4},{rank:0,at:.45,w:1.2,h:2.4},{rank:0,at:.75,w:1.2,h:2.4}],
+ extra:K=>{/* Alternate the pale colours house by house along the Mews front. */const w=K.ranked[0];if(!w)return;const cols=['stuccoYellow','stuccoBlue','stuccoPink','stucco'];const n=Math.max(1,Math.round(w.len/7.5)),p=w.len/n;
+  for(let i=0;i<n;i++)K.P.rect(cols[i%4],w.face,i*p+.05,(i+1)*p-.05,.02,Math.min(w.piece.z-.4,6.2),.03);}};
