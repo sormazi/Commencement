@@ -38,4 +38,5 @@ import s35 from './b/langlit.js?v=21';
 import s36 from './b/cantor.js?v=21';
 import s37 from './b/tisch721.js?v=21';
 import s38 from './b/gallatin.js?v=21';
-export const TIER2=[s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38];
+import s39 from './b/health.js?v=21';
+export const TIER2=[s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39];

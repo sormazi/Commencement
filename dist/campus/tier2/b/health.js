@@ -1,0 +1,3 @@
+// NYU Health Center, 726 Broadway. 1919, 10 storeys. Google Street View (looked at, not saved), Apr 2024 (Lafayette St
+// rear): brown brick with paired windows over a limestone base. Broadway front not checked (estimate).
+export default {slug:"health",name:"NYU Health Center, 726 Broadway",bin:1008796,also:[],source:"1919, 10 storeys. Google Street View (looked at, not saved), Apr 2024 (Lafayette St rear): brown brick with paired windows over a limestone base. Broadway front not checked (estimate).",wall:'brickBrown',trim:'limestone',ground:{h:4.8,style:'storefront',mat:'limestone',pitch:4.4},floor:3.7,pitch:4.2,win:[1.1,2.1],pair:1,sash:1,cornice:'modillion',doors:[{rank:0,at:.5,w:2.4,h:3.2}],flags:{rank:0,n:1,y:5.6}};
