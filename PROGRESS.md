@@ -87,3 +87,4 @@ Next (after review)
 | 2026-10-07 | fd969d5 | The Row (Nos. 1-13 and 19-26 Washington Sq N) |
 | 2026-10-07 | e9658eb | Weinstein Hall (street-visible); inventory update 4 |
 | 2026-10-07 | c557397 | Brown Building and Triangle Fire Memorial (preserved) |
+| 2026-10-07 | 8c58c76 | Open questions resolved (inventory update 4); sidewalk sheds |
