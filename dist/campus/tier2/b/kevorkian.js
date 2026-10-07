@@ -1,0 +1,4 @@
+// Kevorkian Center. 50 Washington Square South / 249 Sullivan St, 1972, Philip Johnson and Richard Foster. Google Street
+// View (looked at, not saved), Apr 2024 (Sullivan St): smooth pinkish-grey stone, an almost blank wall with a tall deep
+// recessed entrance slot and narrow deep windows.
+export default {slug:"kevorkian",name:"Kevorkian Center",bin:1066875,also:[],source:"50 Washington Square South / 249 Sullivan St, 1972, Philip Johnson and Richard Foster. Google Street View (looked at, not saved), Apr 2024 (Sullivan St): smooth pinkish-grey stone, an almost blank wall with a tall deep recessed entrance slot and narrow deep windows.",wall:'sandstone',trim:'sandstone',ground:{h:4.5,style:'plain',mat:'sandstone',belt:0},floor:4.2,pitch:6.5,win:[.9,2.6],reveal:.5,sill:0,cornice:'none',doors:[{rank:0,at:.45,w:2.2,h:4.2,frame:'sandstone'}]};
