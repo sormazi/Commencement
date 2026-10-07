@@ -12,6 +12,7 @@ import {buildNight} from './atmosphere/night.js?v=21';
 import {buildCrowd} from './atmosphere/crowd.js?v=21';
 import {buildSpeaker} from './atmosphere/speaker.js?v=21';
 import {buildTier2,TIER2_BINS} from './tier2/world.js?v=21';
+import {classify,facadeCode,GENERIC_CODE,tier3Enabled,facadeAtlas,patchFacadeMaterial} from './tier3/facades.js?v=21';
 // Free-roam world for Washington Square · NYU. Phase 0: real street/curb/sidewalk/park layout and
 // footprint massing at surveyed roof heights, streamed in 120 m tiles. Facade detail comes in Phase 2.
 // Second-tier buildings show their kit facades within DETAIL metres and fall back to plain massing beyond.
@@ -21,9 +22,9 @@ function canvasTexture(w,h,draw){const c=document.createElement('canvas');c.widt
 const hash=n=>{const v=Math.sin(n*127.1+31.7)*43758.5453;return v-Math.floor(v);};
 // Accumulates triangles for one merged mesh (per tile and material).
 class Builder{
- constructor(){this.pos=[];this.nor=[];this.uv=[];this.col=[];this.idx=[];}
+ constructor(){this.pos=[];this.nor=[];this.uv=[];this.col=[];this.idx=[];this.fac=[];this.facade=GENERIC_CODE;}
  get count(){return this.pos.length/3;}
- vertex(x,y,z,nx,ny,nz,u,v,c){this.pos.push(x,y,z);this.nor.push(nx,ny,nz);this.uv.push(u,v);this.col.push(c.r,c.g,c.b);return this.count-1;}
+ vertex(x,y,z,nx,ny,nz,u,v,c){this.pos.push(x,y,z);this.nor.push(nx,ny,nz);this.uv.push(u,v);this.col.push(c.r,c.g,c.b);this.fac.push(this.facade);return this.count-1;}
  // Vertical wall between map points a and b, outward normal on the right of a->b for CCW rings.
  wall(a,b,y0,y1,c,u0=0,bay=3.2,floor=3.5){const dx=b[0]-a[0],dn=b[1]-a[1],L=Math.hypot(dx,dn);if(L<.01)return u0;const nx=dn/L,nz=dx/L;
   const i=this.vertex(a[0],y0,-a[1],nx,0,nz,u0/bay,y0/floor,c),j=this.vertex(b[0],y0,-b[1],nx,0,nz,(u0+L)/bay,y0/floor,c),k=this.vertex(b[0],y1,-b[1],nx,0,nz,(u0+L)/bay,y1/floor,c),l=this.vertex(a[0],y1,-a[1],nx,0,nz,u0/bay,y1/floor,c);
@@ -44,7 +45,7 @@ class Builder{
    if(cross>0)this.idx.push(base+a,base+b,base+d);else this.idx.push(base+a,base+d,base+b);}}
  // Closed prism: walls on every ring plus a top cap.
  prism(rings,y0,y1,c,bay,floor){rings.forEach((r,ri)=>{const ccw=ringArea(r)>0,ring=(ri===0)===ccw?r:[...r].reverse();let u=0;for(let i=0;i<ring.length;i++)u=this.wall(ring[i],ring[(i+1)%ring.length],y0,y1,c,u,bay,floor);});this.cap(rings,y1,c);}
- geometry(){const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(this.pos,3));g.setAttribute('normal',new T.Float32BufferAttribute(this.nor,3));g.setAttribute('uv',new T.Float32BufferAttribute(this.uv,2));g.setAttribute('color',new T.Float32BufferAttribute(this.col,3));g.setIndex(this.idx);g.computeBoundingSphere();return g;}
+ geometry(){const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(this.pos,3));g.setAttribute('normal',new T.Float32BufferAttribute(this.nor,3));g.setAttribute('uv',new T.Float32BufferAttribute(this.uv,2));g.setAttribute('color',new T.Float32BufferAttribute(this.col,3));g.setAttribute('aFacade',new T.Float32BufferAttribute(this.fac,1));g.setIndex(this.idx);g.computeBoundingSphere();return g;}
 }
 // Paulson Center (BIN 1090263, completed 2022) postdates the 2014 3D model and its footprint has a single
 // height. Heights from CTBUH (skyscrapercenter.com, complex 5988): student tower at the Bleecker St
@@ -69,7 +70,7 @@ export class CampusWorld{
   const pavingTex=canvasTexture(128,128,(g,w,h)=>{g.fillStyle='#d8d6d0';g.fillRect(0,0,w,h);g.strokeStyle='rgba(60,60,60,.18)';for(let i=0;i<=w;i+=32){g.beginPath();g.moveTo(i,0);g.lineTo(i,h);g.stroke();g.beginPath();g.moveTo(0,i);g.lineTo(w,i);g.stroke();}});
   const asphaltTex=canvasTexture(256,256,(g,w,h)=>{g.fillStyle='#55585a';g.fillRect(0,0,w,h);for(let i=0;i<5000;i++){const v=60+hash(i)*60;g.fillStyle=`rgba(${v},${v},${v},.45)`;g.fillRect(hash(i+1)*w,hash(i+2)*h,1.5,1.5);}});
   const grassTex=canvasTexture(128,128,(g,w,h)=>{g.fillStyle='#7f8e5e';g.fillRect(0,0,w,h);for(let i=0;i<1600;i++){g.fillStyle=`hsl(${70+hash(i)*30},${25+hash(i+3)*20}%,${30+hash(i+5)*20}%)`;g.fillRect(hash(i+7)*w,hash(i+9)*h,1,2+hash(i)*3);}});
-  this.materials={wall:new T.MeshStandardMaterial({map:wallTex,vertexColors:true,roughness:.86}),roof:new T.MeshStandardMaterial({vertexColors:true,roughness:.95}),paving:new T.MeshStandardMaterial({map:pavingTex,vertexColors:true,roughness:.9}),grass:new T.MeshStandardMaterial({map:grassTex,vertexColors:true,roughness:1,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2}),parkFloor:new T.MeshStandardMaterial({map:pavingTex,vertexColors:true,roughness:.92,polygonOffset:true,polygonOffsetFactor:-1,polygonOffsetUnits:-1}),marble:new T.MeshStandardMaterial({color:0xe8e4da,roughness:.6}),iron:new T.MeshStandardMaterial({color:0x1d2124,metalness:.6,roughness:.5}),bark:new T.MeshStandardMaterial({color:0x4d4436,roughness:1}),leaves:new T.MeshStandardMaterial({color:0xffffff,roughness:.9,flatShading:true}),stripe:new T.MeshStandardMaterial({color:0xe9e7df,roughness:.7,polygonOffset:true,polygonOffsetFactor:-4,polygonOffsetUnits:-4}),water:new T.MeshStandardMaterial({color:0x2c3a3c,roughness:.25,metalness:.2}),lamp:new T.MeshStandardMaterial({color:0xfff1cf,emissive:0xffd59a,emissiveIntensity:1.2})};
+  this.materials={wall:patchFacadeMaterial(new T.MeshStandardMaterial({map:facadeAtlas(T),vertexColors:true,roughness:.86})),roof:new T.MeshStandardMaterial({vertexColors:true,roughness:.95}),paving:new T.MeshStandardMaterial({map:pavingTex,vertexColors:true,roughness:.9}),grass:new T.MeshStandardMaterial({map:grassTex,vertexColors:true,roughness:1,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2}),parkFloor:new T.MeshStandardMaterial({map:pavingTex,vertexColors:true,roughness:.92,polygonOffset:true,polygonOffsetFactor:-1,polygonOffsetUnits:-1}),marble:new T.MeshStandardMaterial({color:0xe8e4da,roughness:.6}),iron:new T.MeshStandardMaterial({color:0x1d2124,metalness:.6,roughness:.5}),bark:new T.MeshStandardMaterial({color:0x4d4436,roughness:1}),leaves:new T.MeshStandardMaterial({color:0xffffff,roughness:.9,flatShading:true}),stripe:new T.MeshStandardMaterial({color:0xe9e7df,roughness:.7,polygonOffset:true,polygonOffsetFactor:-4,polygonOffsetUnits:-4}),water:new T.MeshStandardMaterial({color:0x2c3a3c,roughness:.25,metalness:.2}),lamp:new T.MeshStandardMaterial({color:0xfff1cf,emissive:0xffd59a,emissiveIntensity:1.2})};
   for(const m of Object.values(this.materials)){this.disposables.add(m);if(m.map)this.disposables.add(m.map);}
   // Asphalt everywhere at y=0; blocks and sidewalks are raised by the curb height.
   const B=d.meta.bounds,w=B.maxX-B.minX+600,h=B.maxN-B.minN+600;asphaltTex.repeat.set(w/9,h/9);const ground=new T.Mesh(new T.PlaneGeometry(w,h),new T.MeshStandardMaterial({map:asphaltTex,color:0x8c8f92,roughness:.88}));ground.rotation.x=-Math.PI/2;ground.position.set((B.minX+B.maxX)/2,0,-(B.minN+B.maxN)/2);ground.receiveShadow=true;ground.userData.noShadow=true;this.group.add(ground);this.disposables.add(ground.geometry);this.disposables.add(ground.material);
@@ -84,16 +85,18 @@ export class CampusWorld{
   this.landmarks=[];const covered=new Set(Object.values(LANDMARK_BUILDINGS).flatMap(L=>L.also||[]));for(const b of d.buildings){const L=LANDMARK_BUILDINGS[b.bin];if(!L)continue;const g=L.build(b,{campus:this.campus});this.landmarks.push({bin:b.bin,name:L.name,group:g});this.tile(...centroid(b.rings[0])).group.add(g);this.trackDisposables(g);}
   this.tier2=buildTier2(this);
   for(const b of d.buildings){if(LANDMARK_BUILDINGS[b.bin]||covered.has(b.bin))continue;const h=Math.max(3,b.h||0),t=this.tile(...centroid(b.rings[0])),floors=b.floors&&b.floors>=1?b.floors:Math.max(1,Math.round(h/3.6)),floor=Math.min(5.5,Math.max(2.8,h/floors)),seed=b.bin||h;
-   const base=b.nyu?new T.Color().setHSL(.74,.12,.6+hash(seed)*.06):new T.Color().setHSL(.08+hash(seed)*.05,.1+hash(seed+2)*.08,.55+hash(seed+4)*.12);
+   let base=b.nyu?new T.Color().setHSL(.74,.12,.6+hash(seed)*.06):new T.Color().setHSL(.08+hash(seed)*.05,.1+hash(seed+2)*.08,.55+hash(seed+4)*.12),bay=3.1,code=GENERIC_CODE;
+   // Third tier (Step 3): material colour and window rhythm from the building's class, age and height.
+   if(!b.nyu&&tier3Enabled(b)){const f=classify(b);base=new T.Color(f.color).multiplyScalar(1.22+(hash(seed+9)-.5)*.12);bay=f.bay;code=facadeCode(f);}
    const lod=TIER2_BINS.has(b.bin),wallB=this.builder(t,lod?'wallLod':'wall'),roofB=this.builder(t,lod?'roofLod':'roof'),roofC=base.clone().multiplyScalar(.62),m=model3d[b.bin];
-   if(m){this.stats.model++;
+   wallB.facade=code;if(m){this.stats.model++;
     // NYC 3D Building Model (LoD2): every roof piece becomes a prism down to the ground, so setbacks,
     // bulkheads and sloped roofs keep their surveyed shape. Hidden interior faces are acceptable overdraw.
     for(const r of m.roofs){const k=r.length/3;let A=0;for(let i=0;i<k;i++){const j=(i+1)%k;A+=r[3*i]*r[3*j+1]-r[3*j]*r[3*i+1];}if(Math.abs(A)<.4)continue;const ccw=A>0;let u=0;
-     for(let s=0;s<k;s++){const i=ccw?s:k-1-s,j=ccw?(s+1)%k:(k-2-s+k)%k;u=wallB.wallZ([r[3*i],r[3*i+1]],[r[3*j],r[3*j+1]],0,r[3*i+2],r[3*j+2],base,u,3.1,floor);}
+     for(let s=0;s<k;s++){const i=ccw?s:k-1-s,j=ccw?(s+1)%k:(k-2-s+k)%k;u=wallB.wallZ([r[3*i],r[3*i+1]],[r[3*j],r[3*j+1]],0,r[3*i+2],r[3*j+2],base,u,bay,floor);}
      roofB.capZ(r,roofC);}}
    else if(b.bin===PAULSON.bin){this.stats.estimated++;for(const part of paulsonMassing(b.rings[0])){const r=ringArea(part.ring)>0?part.ring:[...part.ring].reverse();let u=0;for(let i=0;i<r.length;i++)u=wallB.wall(r[i],r[(i+1)%r.length],0,part.h,base,u,3.1,floor);roofB.cap([part.ring],part.h,roofC,.2);}}
-   else{this.stats.extruded++;b.rings.forEach((r,ri)=>{const ccw=ringArea(r)>0,ring=(ri===0)===ccw?r:[...r].reverse();let u=0;for(let i=0;i<ring.length;i++)u=wallB.wall(ring[i],ring[(i+1)%ring.length],0,h,base,u,3.1,floor);});
+   else{this.stats.extruded++;b.rings.forEach((r,ri)=>{const ccw=ringArea(r)>0,ring=(ri===0)===ccw?r:[...r].reverse();let u=0;for(let i=0;i<ring.length;i++)u=wallB.wall(ring[i],ring[(i+1)%ring.length],0,h,base,u,bay,floor);});
    roofB.cap(b.rings,h,roofC,.2);}}
   // Washington Square Arch: full detail model in its own frame (see landmarks/arch.js), on the plaza.
   {const f=rectFrame(d.arch.ring),g=buildArch();g.position.set(f.c[0],CURB_HEIGHT,-f.c[1]);g.rotation.y=Math.atan2(-f.u[1],-f.u[0]);this.archGroup=g;this.tile(...f.c).group.add(g);this.trackDisposables(g);}
