@@ -52,6 +52,14 @@ In the browser console: `NightView.teleport(x, z, yaw)` moves the car to map met
 - Sources checked for the tests: the sunrise-sunset.org New York table for October 2026, solarwatch.app (5 Nov 2026 after the clocks go back, June and December extremes) and sunrisesunset.io (31 Oct 2026, earliest sunset). timeanddate.com refused automated access, so the March clock change is tested on the clock jump and the sun's continuity rather than against a published table.
 - Limits: the ground is flat and the horizon is open, so the sun rises and sets at the astronomical times even where a real building would hide it. Distant buildings outside the shadow box do not cast shadows. The moon disc is drawn about 10% larger than life so it reads on screen.
 
+## Second-tier buildings (Phase 2, Step 2)
+
+- `dist/campus/tier2/b/*.js`: one spec per NYU building (73), each with its sources in `source`. A spec gives wall and trim material, floor height, window pitch, size and pairing, the ground storey (storefront, stone base, glass or plain), an optional stone base up to a height, the cornice, entrances and banners, plus an optional `extra` for a signature feature.
+- `dist/campus/tier2/kit.js`: builds a spec on the building's NYC 3D Building Model volume (or the footprint extruded to the surveyed height when the model lacks it). Walls that face a neighbouring footprint are party walls and stay blank up to the neighbour's height; coplanar walls from stacked roof pieces are deduplicated. Entrances go on walls that face open ground.
+- `dist/campus/tier2/world.js`: merges all kit geometry per 120 m tile and per material with one shared material set, so the cost is a handful of draw calls per tile. Doors are one instanced mesh; `world.doors` lists each with building, position, facing and size for the future walking character.
+- Level of detail: kit facades within 260 m of the camera, plain massing beyond.
+- Limits: about a third of the specs were checked on Street View; the others are estimates from the inventory, the period and the neighbours. Window counts follow a regular pitch, not each building's real bay count. Signs are plain text panels. The Puck figures are plain gilt placeholders. Interiors do not exist yet behind the doors.
+
 ## Landmark detail (Phase 2 detail pass)
 
 Detailed landmarks live in `dist/campus/landmarks/` and replace the footprint massing of their BIN (registry in `index.js`). The Arch replaces the old pier-and-attic massing directly.

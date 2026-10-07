@@ -3,7 +3,7 @@
 Read this file and `RESEARCH/campus-inventory.md` first when picking the work back up.
 
 ## Current phase
-Avi's plan of 7 Oct 2026, steps 1 to 8 with three stop points. Step 0 (README rewrite, atmosphere slice) is done. Step 1 (real New York time of day) is done and committed. Next: Step 2, second-tier NYU buildings, one commit per building; then Step 3 and Stop point 1 (noon and midnight street screenshots, numbers at the Arch).
+Avi's plan of 7 Oct 2026, steps 1 to 8 with three stop points. Step 0 (README rewrite, atmosphere slice) is done. Step 1 (real New York time of day) and Step 2 (73 second-tier NYU buildings) are done and committed. Next: Step 3, third-tier non-NYU buildings in batches by block; then Stop point 1 (noon and midnight street screenshots, numbers at the Arch).
 
 ## Finished
 - Phase 0: free-roam campus world (projection, street graph, collision, curbs/surfaces, streamed tiles, minimap, spawn/reset). Default location is Washington Square · NYU. Corridor locations unchanged. Tests pass. See CAMPUS.md.
@@ -13,6 +13,8 @@ Avi's plan of 7 Oct 2026, steps 1 to 8 with three stop points. Step 0 (README re
 - Phase 2 massing pass: 4,110 buildings from 3D-model roof pieces, 138 extrusions, Paulson estimated. Screenshots in RESEARCH/screenshots/phase2-massing/.
 
 ## In progress
+- **Step 2 done: second-tier NYU buildings** (8 Oct 2026). 73 buildings built from short specs (dist/campus/tier2/b/*.js) by the kit in dist/campus/tier2/kit.js: wall material, window rhythm, ground storey, stone base, cornice, entrances, banners, and a signature feature where one exists (Provincetown Playhouse front, St. Ann's facade and fence at Founders, the Puck Building's arched windows and name, Washington Square Village's glazed brick panels and balcony bands, Pless's arched top storey, the Waverly Building's name panel). One commit per building. About 25 were checked on Street View or Google Maps user panoramas (looked at, not saved); the rest are labelled estimates in each spec's `source`. Entrance doors are separate instances listed in world.doors (80 doors). Kit facades show within 260 m and fall back to plain massing beyond. 37 Washington Sq W has no Street View imagery on the park side. Brittany Hall is matched to PLUTO's 787 Broadway lot by position, height and date (Q19, estimate).
+- Measured at 13:00 (daylight, shadows on): start position facing the Arch 670 calls / 930k triangles (was 608 / 772k), fountain view 458 / 749k (was 414 / 642k), Bobst steps 382 / 611k. The kit adds about 60 calls and 160k triangles at the Arch.
 - **Real New York time of day** (7 Oct 2026, Avi's request). Washington Square's light follows the real time in New York: NOAA sun position for the park, moon at its real phase, lamps on at dusk and off at dawn, Dead of night after dark, hazy washed-out daylight. "Real NYC time" is the default atmosphere; the old presets are manual overrides. Preview with `?time=19:30`, `?date=2026-12-21`, `?speed=600`. Tests in `tests/sky.test.js` (sunrise and sunset against published New York tables, both sides of the November clock change; the March change checked on the clock jump). Measured: start position 608 calls / 772k triangles in daylight (same as the old daylight preset), 513 / 571k at night; fountain view 414 / 642k by day, 317 / 438k at night. Shadow cost at the Arch: about 95 draw calls and 200k triangles while the sun is up (the shadow pass), nothing at night. Before this change the default (Dead of night) was 513 / 571k, so nights are unchanged and days cost what the old daylight preset did. Avi checked the game on his laptop at the Arch (7 Oct): runs and looks good. Fixed on the way: the realtime path had left the road reflector on, which doubled the draw calls. Screenshots in RESEARCH/screenshots/time-of-day/.
 - **Stopped for Avi's review after the atmosphere slice** (7 Oct 2026). Five commits: decay round the park, the "Dead of night" preset (now the default), no traffic on campus, the loiterers, and the first draft of the soundtrack. Screenshots in RESEARCH/screenshots/atmosphere/.
 - Performance, measured in the cloud software renderer with the FPS counter (real WebGL draw calls and triangles per frame, shadow pass included):
@@ -138,3 +140,77 @@ Target is 60 fps at the Arch. My own checks run in a software renderer in the cl
 | 2026-10-07 | 70d6885 | PROGRESS atmosphere review stop |
 | 2026-10-07 | f1bf788 | README/credits point at main |
 | 2026-10-07 | 09b609c | Real NYC time of day: NOAA sun, moon phase, continuous lamps and fog, ?time/?date preview, sky tests |
+| 2026-10-08 | 09266ef | Second-tier kit: spec-driven facades for NYU buildings |
+| 2026-10-08 | 7bc36a9 | Second tier: Rubin Hall |
+| 2026-10-08 | 1e4bb75 | Second tier: Lipton Hall |
+| 2026-10-08 | bfb01bf | Second tier: 37 Washington Square West |
+| 2026-10-08 | 51b9b09 | Second tier: 29 Washington Square West |
+| 2026-10-08 | 64a579d | Second tier: Hayden Hall, 240 Mercer St |
+| 2026-10-08 | 34e6123 | Second tier: Filomen D'Agostino Hall |
+| 2026-10-08 | 4b2ba26 | Second tier: Furman Hall |
+| 2026-10-08 | cbd061e | Second tier: Wilf Hall and the Provincetown Playhouse |
+| 2026-10-08 | 3122fbc | Second tier: Kevorkian Center |
+| 2026-10-08 | 94cfe9d | Second tier: Heyman Hall, 51 Washington Square South |
+| 2026-10-08 | 5d4f02b | Second tier: Global Center for Academic and Spiritual Life |
+| 2026-10-08 | d137287 | Second tier: Warren Weaver Hall |
+| 2026-10-08 | 31013c7 | Second tier: Meyer Hall |
+| 2026-10-08 | f80441a | Second tier: Department of Psychology, 707 Broadway |
+| 2026-10-08 | 82ea80b | Second tier: Center for Neural Science, 4 Washington Pl |
+| 2026-10-08 | d758221 | Second tier: Waverly Building |
+| 2026-10-08 | 9f34dfe | Second tier: Goddard Hall |
+| 2026-10-08 | 6a704a9 | Second tier: Pless Building |
+| 2026-10-08 | 7a69436 | Second tier: Pless Annex |
+| 2026-10-08 | 57db0bf | Second tier: Academic Resource Center |
+| 2026-10-08 | 1333f4a | Second tier: 35 West 4th Street (Frederick Loewe Theatre) |
+| 2026-10-08 | 543754f | Second tier: Leslie eLab, 14 Washington Pl |
+| 2026-10-08 | 87dc8e3 | Second tier: Arthur L. Carter Hall, 10 Washington Pl |
+| 2026-10-08 | 3ebd88e | Second tier: 19 West 4th Street (Politics) |
+| 2026-10-08 | bf9e248 | Second tier: Bonomi Family Admissions Center |
+| 2026-10-08 | 1d0c053 | Second tier: 31 West 4th Street |
+| 2026-10-08 | 7379914 | Second tier: Hebrew Union College, 1 W 4th St |
+| 2026-10-08 | dac9b6e | Second tier: Kimball Hall |
+| 2026-10-08 | e9cf427 | Second tier: Center for Genomics and Systems Biology, 12 Waverly Pl |
+| 2026-10-08 | 5abb54b | Second tier: 285 Mercer St / 10 Waverly Pl |
+| 2026-10-08 | a263b1d | Second tier: Department of Public Safety and Card Center, 7 Washington Pl |
+| 2026-10-08 | cbf4106 | Second tier: 15 Washington Place |
+| 2026-10-08 | 694c1f2 | Second tier: Department of English, 244 Greene St |
+| 2026-10-08 | 2eae3a3 | Second tier: Department of Philosophy, 3 Washington Pl |
+| 2026-10-08 | 689093f | Second tier: Rufus D. Smith Hall, 25 Waverly Pl |
+| 2026-10-08 | 91933b0 | Second tier: Languages and Literature, 13 University Pl |
+| 2026-10-08 | 7ad4c1f | Second tier: Cantor Film Center, 36 E 8th St |
+| 2026-10-08 | ec6a822 | Second tier: Tisch School of the Arts, 721 Broadway |
+| 2026-10-08 | 92bd011 | Second tier: Gallatin School, 1 Washington Pl (715 Broadway) |
+| 2026-10-08 | a9e5421 | Second tier: NYU Health Center, 726 Broadway |
+| 2026-10-08 | 9ca0a26 | Second tier: School of Global Public Health, 708 Broadway |
+| 2026-10-08 | b89415c | Second tier: 400 Lafayette St |
+| 2026-10-08 | fa87604 | Second tier: 383 Lafayette St (Admissions Office) |
+| 2026-10-08 | 0909000 | Second tier: 14 E 4th St (NYU Shanghai office) |
+| 2026-10-08 | 2189f23 | Second tier: 16 Cooper Square |
+| 2026-10-08 | 0867533 | Second tier: 60 Fifth Avenue |
+| 2026-10-08 | dbc0ad2 | Second tier: 7 East 12th Street |
+| 2026-10-08 | d6f1251 | Second tier: Brittany Hall, 55 E 10th St |
+| 2026-10-08 | 59a8a69 | Second tier: Bronfman Center, 7 E 10th St |
+| 2026-10-08 | 457b3fc | Second tier: Barney Building, 28 Stuyvesant St |
+| 2026-10-08 | 8aa222c | Second tier: 107 Second Avenue |
+| 2026-10-08 | 2b95669 | Second tier: 509 and 543 LaGuardia Place |
+| 2026-10-08 | 71fce20 | Second tier: 21 Washington Square North, rear parts |
+| 2026-10-08 | bf67483 | Second tier: 22 Washington Square North, rear part |
+| 2026-10-08 | aa9437d | Second tier: 27 Washington Square North |
+| 2026-10-08 | 329ae5e | Second tier: Washington Mews, north side (58, 60, 62) |
+| 2026-10-08 | 82a7b81 | Second tier: Washington Mews, south side |
+| 2026-10-08 | c874f5e | Second tier: East 8th Street houses (6-22 E 8th St) |
+| 2026-10-08 | fdc4139 | Second tier: Casa Italiana Zerilli-Marimò, 24 W 12th St |
+| 2026-10-08 | 9627a5b | Second tier: Lillian Vernon Creative Writers House, 58 W 10th St |
+| 2026-10-08 | 9897525 | Second tier: Senior House at 13th Street |
+| 2026-10-08 | 2d49503 | Second tier: University Hall |
+| 2026-10-08 | b09d1a8 | Second tier: Palladium Hall |
+| 2026-10-08 | 5594a00 | Second tier: Third North |
+| 2026-10-08 | 89b44e5 | Second tier: Alumni Hall |
+| 2026-10-08 | cc6195c | Second tier: Founders Hall and the St. Ann's facade |
+| 2026-10-08 | e14e7ff | Second tier: Seventh Street Residence |
+| 2026-10-08 | f006757 | Second tier: Sixth Street Residence |
+| 2026-10-08 | 767988b | Second tier: Second Street Residence |
+| 2026-10-08 | f1a702c | Second tier: Coral Tower |
+| 2026-10-08 | 0dc9179 | Second tier: Carlyle Court |
+| 2026-10-08 | abeed23 | Second tier: Washington Square Village |
+| 2026-10-08 | f8a1459 | Second tier: Puck Building |
