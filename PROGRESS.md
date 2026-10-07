@@ -86,3 +86,4 @@ Next (after review)
 | 2026-10-07 | 8d48dcd | Kimmel Center detail; shared facade kit |
 | 2026-10-07 | 6ddb53a | Judson Memorial Church and campanile |
 | 2026-10-07 | fd969d5 | The Row (Nos. 1-13 and 19-26 Washington Sq N) |
+| 2026-10-07 | e9658eb | Weinstein Hall (street-visible); inventory update 4 |
