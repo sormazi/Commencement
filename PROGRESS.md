@@ -106,3 +106,4 @@ Target is 60 fps at the Arch. My own checks run in a software renderer in the cl
 | 2026-10-07 | 8e83ef6 | Silver Towers + Sylvette placeholder |
 | 2026-10-07 | f81d904 | Vanderbilt Hall + masonry kit |
 | 2026-10-07 | 84950cb | Tisch Hall + KMC (Stern) |
+| 2026-10-07 | 7031b08 | Paulson Center |
