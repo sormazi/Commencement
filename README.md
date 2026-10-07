@@ -39,8 +39,6 @@ Still to come, or only in a first draft: the other NYU buildings (they currently
 6. **The soundtrack.** Original music: a slow, detuned, haunted take on the feeling of a big brassy New York standard, without copying any copyrighted song.
 7. **Later:** a walking character who can leave the car and go inside a few buildings.
 
-The plan in detail, with every decision so far, is in [PROGRESS.md](PROGRESS.md). The research behind the campus is in [RESEARCH/campus-inventory.md](RESEARCH/campus-inventory.md).
-
 ## Running it locally
 
 ### System requirements
