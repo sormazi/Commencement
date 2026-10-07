@@ -1,0 +1,4 @@
+// 35 West 4th Street (Frederick Loewe Theatre). 1930, 13 storeys, faces Gould Plaza. A 2017 user panorama on Google Maps
+// shows a pale grey stone-faced tower with tall round arches at the ground storey, violet banners and an NYU canopy
+// (attribution to this lot is an estimate).
+export default {slug:"loewe",name:"35 West 4th Street (Frederick Loewe Theatre)",bin:1008811,also:[],source:"1930, 13 storeys, faces Gould Plaza. A 2017 user panorama on Google Maps shows a pale grey stone-faced tower with tall round arches at the ground storey, violet banners and an NYU canopy (attribution to this lot is an estimate).",wall:'limestone',trim:'limestone',ground:{h:6.0,style:'base',mat:'limestone',win:[2.6,4.4],pitch:4.2,first:.4},arch:0,floor:3.6,pitch:3.0,win:[1.1,2.0],sash:1,cornice:'band',doors:[{rank:0,at:.5,w:2.6,h:3.4,canopy:1.8}],flags:{rank:0,n:3,y:7}};
