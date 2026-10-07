@@ -1,0 +1,2 @@
+// 16 Cooper Square. 1901, 7 storeys. Not checked on Street View (estimate).
+export default {slug:"cooper16",name:"16 Cooper Square",bin:1008780,also:[],source:"1901, 7 storeys. Not checked on Street View (estimate).",wall:'brickRed',trim:'limestone',ground:{h:4.6,style:'storefront',mat:'limestone',pitch:4.2},floor:3.7,pitch:3.8,win:[1.1,2.2],pair:1,sash:1,cornice:'modillion',doors:[{rank:0,at:.5,w:2,h:3.2}]};
