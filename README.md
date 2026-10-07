@@ -4,7 +4,7 @@
 
 # NightView
 
-NightView is a browser driving game set on NYU's Washington Square campus a hundred years from now. The campus has been abandoned for a long time. Trees have pushed through the paving, the lawns have gone to meadow and ivy has climbed the libraries. You drive through it alone: yours is the only vehicle. The place is not empty, though. People loiter everywhere, standing in the park, waiting on the library steps, facing walls, doing nobody knows what, and some of them turn to watch you go by. The billboards around the square make fun of the university, and the soundtrack is slow, brassy and out of tune.
+NightView is a browser driving game set on NYU's Washington Square campus a hundred years from now. The campus has been abandoned for a long time. Trees have pushed through the paving, the lawns have gone to meadow and ivy has climbed the libraries. You drive through it alone: yours is the only vehicle. The place is not empty, though. People loiter everywhere, standing in the park, waiting on the library steps, facing walls, doing nobody knows what, and some of them turn to watch you go by. The billboards around the square make fun of the university.
 
 The campus is built from real data. The streets, curbs and park paths are where they are today, and every building stands on its real footprint at its real height. The landmarks are being rebuilt one by one from photographs, city records and Landmarks Preservation Commission reports.
 
@@ -48,7 +48,7 @@ The plan in detail, with every decision so far, is in [PROGRESS.md](PROGRESS.md)
 
 ### System requirements
 
-- A computer with a reasonably recent GPU and a browser that supports WebGL 2: current Chrome, Edge, Firefox or Safari. The target is 60 fps in front of the Arch, the heaviest view.
+- A computer with a reasonably recent GPU and a browser that supports WebGL 2. The target is 60 fps in front of the Arch, the heaviest view.
 - Python 3, to serve the files. macOS and most Linux systems already have it; check with `python3 --version`.
 - Git, to get the code.
 - Node.js 22 or newer, only if you want to run the tests. The game itself has no build step, no `npm install` and no API keys.
@@ -91,10 +91,6 @@ Touch buttons appear on small screens. Vehicle, location, transmission, atmosphe
 
 Open **http://localhost:4173/?fps=1**, or turn it on in **Options → Driving → FPS counter**; the browser remembers the setting. The counter sits under the NightView logo. It shows frames per second averaged over half a second, the slowest frame in that half second in milliseconds, and the draw calls and triangles of the last frame. It turns orange below 55 fps. For a fair reading, keep a laptop plugged in and close other heavy tabs.
 
-## The original locations
-
-NightView started as an arcade driver with three corridor locations, and they are still in the game under **Options → Location**: **Times Square**, **SoHo** and **Shibuya**. Each is a repeating driving corridor with overgrowth, wrecks, traffic, police patrols, pedestrians, falling facades and archival advertising. They are loose arcade interpretations built from licensed reference photos, not maps. The vehicle physics they share with the campus are documented in [PHYSICS.md](PHYSICS.md), the reclamation effects in [ENVIRONMENT.md](ENVIRONMENT.md) and the advertising in [ADVERTISING.md](ADVERTISING.md).
-
 ## How the project handles accuracy
 
 The campus is meant to be faithful, so every fact behind it is tagged by how it is known:
@@ -107,7 +103,7 @@ Each detailed landmark has a checklist in [RESEARCH/checklists/](RESEARCH/checkl
 
 ### The Brown Building and the Triangle Fire memorial
 
-On 25 March 1911, 146 garment workers, most of them young immigrant women, died in the Triangle Shirtwaist Factory fire on the top floors of what is now NYU's Brown Building. The memorial on its walls names them. In NightView the building and the memorial stay intact and clean while everything around them decays, and they are left out of every joke, billboard and banner. A game about a ruined, satirised campus should not turn a real workplace disaster into scenery. The same care applies elsewhere: the satire aims at the institution, never at individuals, student deaths, mental-health tragedies or assault cases. The Bobst atrium screens are modelled as architecture only, and the Picasso sculpture at Silver Towers is shown only as a plain placeholder because the artwork itself is protected.
+On 25 March 1911, 146 garment workers, most of them young immigrant women, died in the Triangle Shirtwaist Factory fire on the top floors of what is now NYU's Brown Building. The memorial on its walls names them. In NightView the building and the memorial stay intact and clean while everything around them decays. The Bobst atrium screens are modelled as architecture only, and the Picasso sculpture at Silver Towers is shown only as a plain placeholder because the artwork itself is protected.
 
 ## Credits and data licences
 
