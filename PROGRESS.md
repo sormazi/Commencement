@@ -104,3 +104,4 @@ Target is 60 fps at the Arch. My own checks run in a software renderer in the cl
 | 2026-10-07 | 496e8fc | FPS counter + how to test locally |
 | 2026-10-07 | 190f7b1 | W 4th shed realigned (review fix) + refs |
 | 2026-10-07 | 8e83ef6 | Silver Towers + Sylvette placeholder |
+| 2026-10-07 | f81d904 | Vanderbilt Hall + masonry kit |
