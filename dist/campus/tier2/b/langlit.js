@@ -1,0 +1,2 @@
+// Languages and Literature, 13 University Pl. 1930, 6 storeys. Not checked on Street View (estimate).
+export default {slug:"langlit",name:"Languages and Literature, 13 University Pl",bin:1008833,also:[],source:"1930, 6 storeys. Not checked on Street View (estimate).",wall:'brickRed',trim:'limestone',ground:{h:4.2,style:'base',mat:'limestone'},floor:3.4,pitch:3.2,win:[1.1,1.9],sash:1,cornice:'coping',doors:[{rank:0,at:.5,w:2,h:3}]};
