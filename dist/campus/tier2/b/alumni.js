@@ -1,0 +1,2 @@
+// Alumni Hall. 33 Third Avenue, 1986, 16 storeys. Not checked on Street View; late-modern brick (estimate).
+export default {slug:"alumni",name:"Alumni Hall",bin:1006764,also:[],source:"33 Third Avenue, 1986, 16 storeys. Not checked on Street View; late-modern brick (estimate).",wall:'brickBrown',trim:'concrete',ground:{h:4.2,style:'storefront',mat:'concrete',pitch:4.2},floor:2.8,pitch:3.2,win:[1.0,1.4],pair:1,cornice:'none',doors:[{rank:0,at:.5,w:2.4,h:2.9,canopy:1.4}],flags:{rank:0,n:1,y:5}};
