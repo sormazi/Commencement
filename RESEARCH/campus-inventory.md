@@ -144,7 +144,7 @@ This section supersedes the matching facts further down. Two new tags:
 | Q7 Mercer–Houston dog run | Open | Not found in the Dog Runs dataset or the aerial |
 | Q8 Bobst | **Partly resolved** | Exterior observed. Open: which door is the main entrance; what the atrium screens are now |
 | Q9 Silver Center | **Resolved** | Observed |
-| Q10 Paulson | **Partly resolved** | Plan and cladding observed; tower heights are an estimate |
+| Q10 Paulson | **Resolved (estimates labelled)** | Tower heights from CTBUH; podium height and tower plans estimated; detailed model in `landmarks/paulson.js` (7 Oct 2026) |
 | Q12 | **Resolved** | Avi approved |
 | Q13 D'Agostino / Alcott | **Resolved** | Lot 540/14 holds the 1852 Greek Revival house at 130 MacDougal ("Alcott") and the Benjamin Thompson red-brick D'Agostino Hall on the W 3rd corner |
 | Q14 Judson campanile | **Resolved** | 21 m in both the footprint and the 3D model |

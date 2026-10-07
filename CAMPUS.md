@@ -20,7 +20,7 @@ The car can drive on every road, on sidewalks and through the park's paved paths
 
 - `tools/extract-3d-model.py` streams the NYC 3D Building Model (DA12 CityGML, 2014 survey) and keeps the study area; `tools/build-campus-3d.mjs` converts roof polygons to map metres per BIN (`dist/campus/data/campus-3d.js`).
 - 4,110 buildings are built from their surveyed roof pieces (each piece becomes a prism to the ground, so setbacks, bulkheads and sloped roofs appear). 138 buildings that are newer than the model or disagree with the current footprint height are plain extrusions (list in `RESEARCH/data/nyc3d-reconciliation.json`).
-- Paulson Center (2022) is an estimated podium-and-twin-tower massing (26 m podium, 84 m towers at the Bleecker and Houston ends) pending confirmation.
+- Paulson Center (2022) is not in the 2014 3D model. It is modelled from the footprint, the CTBUH heights (68.6 m student tower at Bleecker St, 91 m faculty tower at Houston St) and photos; the podium height (27 m) and the tower plans are estimates. The student tower's pixelated boxes are generated in the style of the real ones, not copied box by box.
 - The Arch keeps its sourced dimensions (77 ft high, 30 ft opening, 47 ft to the crown).
 - Trees are limbed up so crowns start at about 3 m.
 
