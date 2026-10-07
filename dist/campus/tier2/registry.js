@@ -9,4 +9,5 @@ import s6 from './b/furman.js?v=21';
 import s7 from './b/wilf.js?v=21';
 import s8 from './b/kevorkian.js?v=21';
 import s9 from './b/heyman.js?v=21';
-export const TIER2=[s0,s1,s2,s3,s4,s5,s6,s7,s8,s9];
+import s10 from './b/global.js?v=21';
+export const TIER2=[s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10];

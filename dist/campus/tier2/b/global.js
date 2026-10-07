@@ -1,0 +1,4 @@
+// Global Center for Academic and Spiritual Life. 58 Washington Square South at Thompson St, 2012. Google Street View
+// (looked at, not saved), May 2026: a beige patterned screen of perforated panels over the upper floors with a few
+// square windows, a glazed ground storey and the entrance at the corner.
+export default {slug:"global",name:"Global Center for Academic and Spiritual Life",bin:1088844,also:[],source:"58 Washington Square South at Thompson St, 2012. Google Street View (looked at, not saved), May 2026: a beige patterned screen of perforated panels over the upper floors with a few square windows, a glazed ground storey and the entrance at the corner.",wall:'terracotta',trim:'terracotta',ground:{h:4.6,style:'glass',pitch:2.2},floor:3.6,pitch:4.6,win:[1.4,1.4],reveal:.12,sill:0,cornice:'none',doors:[{rank:0,at:.92,w:2.4,h:3.2}]};
