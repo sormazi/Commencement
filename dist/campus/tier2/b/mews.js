@@ -1,0 +1,3 @@
+// Washington Mews, north side (58, 60, 62). Two-storey 1833 stable houses, NYU-owned. Not checked on Street View this
+// pass; the Mews houses are known for painted stucco fronts in pale colours (estimate for colours).
+export default {slug:"mews",name:"Washington Mews, north side (58, 60, 62)",bin:1008844,also:[1008845, 1008846],source:"Two-storey 1833 stable houses, NYU-owned. Not checked on Street View this pass; the Mews houses are known for painted stucco fronts in pale colours (estimate for colours).",wall:'stuccoYellow',trim:'stucco',ground:{h:3.0,style:'base',mat:'stuccoYellow',first:.9},floor:3.0,pitch:2.4,win:[1.0,1.6],sash:1,cornice:'coping',corniceMat:'stucco',doors:[{rank:0,at:.5,w:1.2,h:2.4}]};
