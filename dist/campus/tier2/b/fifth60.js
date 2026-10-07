@@ -1,0 +1,3 @@
+// 60 Fifth Avenue. Former Forbes Building, 1924, 8 storeys, now Courant computer science and the Center for Data
+// Science. Not checked on Street View; a limestone-faced neo-classical block (estimate).
+export default {slug:"fifth60",name:"60 Fifth Avenue",bin:1009620,also:[],source:"Former Forbes Building, 1924, 8 storeys, now Courant computer science and the Center for Data Science. Not checked on Street View; a limestone-faced neo-classical block (estimate).",wall:'limestone',trim:'limestone',ground:{h:5.0,style:'base',mat:'limestone',win:[1.8,3.2],pitch:3.6},floor:3.8,pitch:3.6,win:[1.2,2.2],sash:1,cornice:'modillion',doors:[{rank:0,at:.5,w:2.6,h:3.6}],flags:{rank:0,n:2,y:6}};
