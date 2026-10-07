@@ -1,11 +1,12 @@
-import {installAdInspector} from './ad-inspector.js?v=17';
-import {DriveAudio} from './audio.js?v=17';
-import {trafficPose,trafficCount} from './traffic.js?v=17';
-import {CityRenderer} from './renderer3d.js?v=17';
-import {cars,FixedVehicleLoop,inputFromKeys,resolveContact} from './physics.js?v=17';
-import {locations} from './locations.js?v=17';
-import {campus,snapToStreet} from './campus/campus.js?v=17';
-import {CampusMinimap} from './campus/minimap.js?v=17';
+import {installAdInspector} from './ad-inspector.js?v=18';
+import {DriveAudio} from './audio.js?v=18';
+import {trafficPose,trafficCount} from './traffic.js?v=18';
+import {CityRenderer} from './renderer3d.js?v=18';
+import * as THREE from './vendor/three.module.js';
+import {cars,FixedVehicleLoop,inputFromKeys,resolveContact} from './physics.js?v=18';
+import {locations} from './locations.js?v=18';
+import {campus,snapToStreet} from './campus/campus.js?v=18';
+import {CampusMinimap} from './campus/minimap.js?v=18';
 const $=id=>document.getElementById(id),canvas=$('world'),city=new CityRenderer(canvas),mini=$('mini').getContext('2d');
 const audio=new DriveAudio();
 installAdInspector(()=>city.world?.advertising);
@@ -57,6 +58,8 @@ window.NightView={start,pause,reset,openOptions,closeOptions,
 // Developer helpers for review screenshots in free-roam locations (map metres: x east, z north; yaw 0 = north).
 teleport:(x,z,yaw=0)=>{if(!currentLocation().freeRoam)return false;simulation=new FixedVehicleLoop(cars[car]);state=simulation.state;placeVehicle({x,z,yaw});return true;},
 viewFrom:o=>{city.cameraOverride=o||null;if(!o)city.preset='';},
+renderInfo:()=>{let meshes=0,tris=0;const cam=city.camera,fr=new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse));
+ city.scene.traverseVisible(o=>{if(!o.isMesh||!o.geometry)return;if(o.geometry.boundingSphere==null)o.geometry.computeBoundingSphere();const s=o.geometry.boundingSphere.clone().applyMatrix4(o.matrixWorld);if(!fr.intersectsSphere(s))return;meshes++;const g=o.geometry,n=(g.index?g.index.count:g.attributes.position.count)/3;tris+=n*(o.isInstancedMesh?o.count:1);});return {drawCalls:meshes,triangles:Math.round(tris)};},
 getState:()=>({...state,playing,paused,optionsOpen,mode,location:locationId,car,intro:introActive})};
 if(document.modelContext?.registerTool){try{document.modelContext.registerTool({name:'read_driving_session',description:'Read current vehicle, mode and arcade session statistics.',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true},execute:()=>window.NightView.getState()});document.modelContext.registerTool({name:'start_arcade_drive',description:'Start a fresh free-drive session at the selected modeled location with a chosen vehicle.',inputSchema:{type:'object',properties:{car:{type:'integer',minimum:0,maximum:2}},required:['car'],additionalProperties:false},execute:input=>{if(!Number.isInteger(input.car)||input.car<0||input.car>2)throw Error('Car must be 0, 1 or 2.');document.querySelector(`[data-car="${input.car}"]`).click();chooseMode('demo');car=input.car;mode='demo';start();return window.NightView.getState();}});}catch(e){console.warn('WebMCP unavailable',e);}}
 

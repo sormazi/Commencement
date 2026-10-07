@@ -523,3 +523,22 @@ These are ordered by how much they change the build.
 ## 9. Per-landmark checklists
 
 `RESEARCH/checklists/` will hold one file per landmark (Arch, Fountain, Bobst, Kimmel, Silver Center, Paulson, Weinstein, Brown, Judson, Silver Towers, the Row) with the signature details above as unchecked boxes. I'll create them once your corrections are in, so they start from the corrected list.
+
+## Research update 3 (detail pass, 7 Oct 2026)
+
+Resolved from sources this round. Tags as above; W = web source, cited inline.
+
+| Item | Finding | Source |
+|---|---|---|
+| Paulson Center heights | Student tower at the Bleecker St (north) end 68.6 m, 16 floors; faculty tower at the Houston St (south) end 91 m, 23 floors; podium of six storeys over two below grade; floor-to-ceiling glass with fritted gradients, angled "wedges" on the student tower. Massing updated (podium 27 m estimated from six storeys). | [W] CTBUH skyscrapercenter.com complex 5988 and buildings 28054, 47486; world-architects.com "John A. Paulson Center at NYU" |
+| Mercer–Houston Dog Run | NW corner of Mercer and Houston Sts; opened with Coles in the 1980s, reopened 15 Jul 2009 after NYU-funded repairs; asphalt surface, replaced fence, new benches. | [W] amNY, "No bones about it, Mercer run is looking magnificent" (2009) |
+| Grey Art Museum | No longer on Washington Square. The Grey Art Gallery was at 100 Washington Sq E (Silver Center) for nearly fifty years; it reopened as the Grey Art Museum at 18 Cooper Square on 2 Mar 2024. Treat the Silver Center ground-floor space as former gallery. | [W] greyartmuseum.nyu.edu press releases (17 Oct 2022, 15 Sep 2023) |
+| Gould Welcome Center | Jeffrey S. Gould Welcome Center is at 50 West 4th Street, in Shimkin Hall. | [W] NYC CB2 venue listing; campus-maps.com SHIMK |
+| Washington Mews | Gates at both ends since 1881; Fifth Avenue gate replaced 1988 (Abraham Bloch). NYU has leased and converted the buildings since about 1950. Paving material not stated in the sources found: still [K] granite setts, to check on SV. | [W] Wikipedia "Washington Mews" |
+| Glucksman Ireland House | 1 Washington Mews [K]; address not confirmed by a fetched source this round. | — |
+| 29 and 37 Washington Sq W | Both listed as NYU buildings on campus-maps.com (29WSW, 37 WSW); use not stated. Keep as NYU, use unknown. | [W] campus-maps.com |
+| Bobst atrium screens | Floor-to-ceiling perforated metal screen by Joel Sanders Architect around the atrium, completed by Labor Day 2012; lace-like pattern that picks up the building's gold accents. Modelled as architecture only; never satire. | [W] Architect magazine, 27 Aug 2012; [C] bobst_atrium_2014 |
+
+Still open: Weinstein security desk, card readers, dining entrance and the East/West towers; Bobst main entrance bays; Public Safety booths; long-standing sidewalk sheds (your answers arrived as unfilled templates); which end of the Silver Center's Washington Sq E front has the loggia.
+
+Detail-pass checklists now live in `RESEARCH/checklists/` (arch.md, bobst.md, silver-center.md).

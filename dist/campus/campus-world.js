@@ -1,8 +1,10 @@
 import * as T from '../vendor/three.module.js';
-import {campus} from './campus.js?v=17';
-import model3d from './data/campus-3d.js?v=17';
-import {archPiers,CURB_HEIGHT} from './collision.js?v=17';
-import {ringArea,centroid,rectFrame,rectRing,pointInRing} from './geometry.js?v=17';
+import {campus} from './campus.js?v=18';
+import model3d from './data/campus-3d.js?v=18';
+import {archPiers,CURB_HEIGHT} from './collision.js?v=18';
+import {ringArea,centroid,rectFrame,rectRing,pointInRing} from './geometry.js?v=18';
+import {buildArch} from './landmarks/arch.js?v=18';
+import {LANDMARK_BUILDINGS} from './landmarks/index.js?v=18';
 // Free-roam world for Washington Square · NYU. Phase 0: real street/curb/sidewalk/park layout and
 // footprint massing at surveyed roof heights, streamed in 120 m tiles. Facade detail comes in Phase 2.
 const TILE=120,VIEW=560,PROP_VIEW=330;
@@ -36,14 +38,15 @@ class Builder{
  prism(rings,y0,y1,c,bay,floor){rings.forEach((r,ri)=>{const ccw=ringArea(r)>0,ring=(ri===0)===ccw?r:[...r].reverse();let u=0;for(let i=0;i<ring.length;i++)u=this.wall(ring[i],ring[(i+1)%ring.length],y0,y1,c,u,bay,floor);});this.cap(rings,y1,c);}
  geometry(){const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(this.pos,3));g.setAttribute('normal',new T.Float32BufferAttribute(this.nor,3));g.setAttribute('uv',new T.Float32BufferAttribute(this.uv,2));g.setAttribute('color',new T.Float32BufferAttribute(this.col,3));g.setIndex(this.idx);g.computeBoundingSphere();return g;}
 }
-// Paulson Center (BIN 1090263, opened 2023) postdates the 2014 3D model and its footprint has a single
-// height. Massing below is an ESTIMATE pending confirmation: a five-storey podium over the whole site
-// with two 23-storey glass towers at the Bleecker and Houston ends (plan from aerial imagery, 2026).
-const PAULSON={bin:1090263,podium:26,tower:84,northShare:.30,southShare:.25};
+// Paulson Center (BIN 1090263, completed 2022) postdates the 2014 3D model and its footprint has a single
+// height. Heights from CTBUH (skyscrapercenter.com, complex 5988): student tower at the Bleecker St
+// (north) end 68.6 m / 16 floors, faculty tower at the Houston St (south) end 91 m / 23 floors; podium of
+// six storeys (world-architects.com review). Tower plan shares are estimated from aerial imagery.
+const PAULSON={bin:1090263,podium:27,towerN:68.6,towerS:91,northShare:.30,southShare:.25};
 function clipHalf(r,ax,an,k,keepAbove){const out=[],f=p=>(p[0]*ax+p[1]*an-k)*(keepAbove?1:-1);for(let i=0;i<r.length;i++){const a=r[i],b=r[(i+1)%r.length],fa=f(a),fb=f(b);if(fa>=0)out.push(a);if((fa>=0)!==(fb>=0)){const t=fa/(fa-fb);out.push([a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t]);}}return out;}
 export function paulsonMassing(ring){const c=centroid(ring);let sxx=0,sxy=0,syy=0;for(const p of ring){const x=p[0]-c[0],y=p[1]-c[1];sxx+=x*x;sxy+=x*y;syy+=y*y;}const th=.5*Math.atan2(2*sxy,sxx-syy);let ax=Math.cos(th),an=Math.sin(th);if(an<0){ax=-ax;an=-an;}
  const s=ring.map(p=>p[0]*ax+p[1]*an),lo=Math.min(...s),hi=Math.max(...s),L=hi-lo;
- return [{ring,h:PAULSON.podium},{ring:clipHalf(ring,ax,an,hi-L*PAULSON.northShare,true),h:PAULSON.tower},{ring:clipHalf(ring,ax,an,lo+L*PAULSON.southShare,false),h:PAULSON.tower}].filter(m=>m.ring.length>=3);}
+ return [{ring,h:PAULSON.podium},{ring:clipHalf(ring,ax,an,hi-L*PAULSON.northShare,true),h:PAULSON.towerN},{ring:clipHalf(ring,ax,an,lo+L*PAULSON.southShare,false),h:PAULSON.towerS}].filter(m=>m.ring.length>=3);}
 export class CampusWorld{
  constructor(config){this.config=config;this.freeRoam=true;const c=campus();this.campus=c;this.data=c.data;this.collision=c.collision;this.streets=c.streets;this.spawn=c.spawn;
   this.stats={model:0,extruded:0,estimated:0};this.group=new T.Group();this.group.name='washington-square';this.tiles=new Map();this.disposables=new Set();this.build();}
@@ -66,7 +69,9 @@ export class CampusWorld{
   const tint={park:0xc9c3b6,grass:0xa8b48c,dogrun:0x9b8a6c,playground:0x8c6f62,pitch:0x8b9a7a,plaza:0xcfc9bd,courtyard:0xb7a596};
   for(const a of d.areas){if(a.kind==='fountain')continue;const y=CURB_HEIGHT+(a.kind==='park'?.004:.01),t=this.tile(...centroid(a.ring)),mat=a.kind==='grass'||a.kind==='pitch'?'grass':'parkFloor';this.builder(t,mat).cap([a.ring],y,col(tint[a.kind]||0xc9c3b6),.18);}
   // Buildings: NYC footprints extruded to their surveyed roof height (Phase 0 massing, no setbacks yet).
-  for(const b of d.buildings){const h=Math.max(3,b.h||0),t=this.tile(...centroid(b.rings[0])),floors=b.floors&&b.floors>=1?b.floors:Math.max(1,Math.round(h/3.6)),floor=Math.min(5.5,Math.max(2.8,h/floors)),seed=b.bin||h;
+  // Detailed landmarks (Phase 2 detail pass) replace the massing of their footprint.
+  this.landmarks=[];for(const b of d.buildings){const L=LANDMARK_BUILDINGS[b.bin];if(!L)continue;const g=L.build(b,{campus:this.campus});this.landmarks.push({bin:b.bin,name:L.name,group:g});this.tile(...centroid(b.rings[0])).group.add(g);this.trackDisposables(g);}
+  for(const b of d.buildings){if(LANDMARK_BUILDINGS[b.bin])continue;const h=Math.max(3,b.h||0),t=this.tile(...centroid(b.rings[0])),floors=b.floors&&b.floors>=1?b.floors:Math.max(1,Math.round(h/3.6)),floor=Math.min(5.5,Math.max(2.8,h/floors)),seed=b.bin||h;
    const base=b.nyu?new T.Color().setHSL(.74,.12,.6+hash(seed)*.06):new T.Color().setHSL(.08+hash(seed)*.05,.1+hash(seed+2)*.08,.55+hash(seed+4)*.12);
    const wallB=this.builder(t,'wall'),roofB=this.builder(t,'roof'),roofC=base.clone().multiplyScalar(.62),m=model3d[b.bin];
    if(m){this.stats.model++;
@@ -78,9 +83,8 @@ export class CampusWorld{
    else if(b.bin===PAULSON.bin){this.stats.estimated++;for(const part of paulsonMassing(b.rings[0])){const r=ringArea(part.ring)>0?part.ring:[...part.ring].reverse();let u=0;for(let i=0;i<r.length;i++)u=wallB.wall(r[i],r[(i+1)%r.length],0,part.h,base,u,3.1,floor);roofB.cap([part.ring],part.h,roofC,.2);}}
    else{this.stats.extruded++;b.rings.forEach((r,ri)=>{const ccw=ringArea(r)>0,ring=(ri===0)===ccw?r:[...r].reverse();let u=0;for(let i=0;i<ring.length;i++)u=wallB.wall(ring[i],ring[(i+1)%ring.length],0,h,base,u,3.1,floor);});
    roofB.cap(b.rings,h,roofC,.2);}}
-  // Washington Square Arch: two piers and the attic over the 30 ft opening (Phase 0 massing).
-  const archT=this.tile(0,0),archB=this.builder(archT,'arch'),white=col(0xffffff),f=rectFrame(d.arch.ring),o=d.arch.openingWidth/2;
-  for(const p of archPiers(d.arch))archB.prism([p],0,d.arch.height,white,2,2);archB.prism([rectRing(f,-o,o,-f.halfShort,f.halfShort)],14.33,d.arch.height,white,2,2);
+  // Washington Square Arch: full detail model in its own frame (see landmarks/arch.js), on the plaza.
+  {const f=rectFrame(d.arch.ring),g=buildArch();g.position.set(f.c[0],CURB_HEIGHT,-f.c[1]);g.rotation.y=Math.atan2(-f.u[1],-f.u[0]);this.archGroup=g;this.tile(...f.c).group.add(g);this.trackDisposables(g);}
   // Fountain: rim, basin and centre jet. Radius from the OSM outline.
   for(const a of d.areas.filter(a=>a.kind==='fountain')){const c=centroid(a.ring),r=a.ring.reduce((s,p)=>s+Math.hypot(p[0]-c[0],p[1]-c[1]),0)/a.ring.length;if(r<2)continue;const g=new T.Group();g.position.copy(toV(c,CURB_HEIGHT));
    const rim=new T.Mesh(new T.CylinderGeometry(r,r,.55,72,1,true),this.materials.marble);rim.position.y=.27;const inner=new T.Mesh(new T.CylinderGeometry(r-.45,r-.45,.55,72,1,true),this.materials.marble);inner.position.y=.27;inner.material=this.materials.marble.clone();inner.material.side=T.BackSide;this.disposables.add(inner.material);
@@ -105,5 +109,6 @@ export class CampusWorld{
    delete t.b;delete t.inst;}
  }
  update(state,time,camera){const x=camera?camera.position.x:state?.position?.x||0,n=camera?-camera.position.z:state?.position?.z||0;this.visibleTiles=0;for(const t of this.tiles.values()){const dx=Math.max(Math.abs(t.center[0]-x)-TILE/2,0),dn=Math.max(Math.abs(t.center[1]-n)-TILE/2,0),d=Math.hypot(dx,dn);t.group.visible=d<(this.viewDistance||VIEW);if(t.props)t.props.visible=d<PROP_VIEW;if(t.group.visible)this.visibleTiles++;}}
+ trackDisposables(g){g.traverse(o=>{if(o.geometry)this.disposables.add(o.geometry);});for(const m of g.userData.materials||[]){this.disposables.add(m);for(const k of ['map','normalMap'])if(m[k])this.disposables.add(m[k]);}}
  dispose(){for(const d of this.disposables)d.dispose?.();this.disposables.clear();}
 }

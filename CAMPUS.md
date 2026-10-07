@@ -42,7 +42,21 @@ The car can drive on every road, on sidewalks and through the park's paved paths
 
 ## Developer helpers
 
-In the browser console: `NightView.teleport(x, z, yaw)` moves the car to map metres (x east, z north, yaw 0 = north). `NightView.viewFrom({x, y, n, lx, ly, ln, fov, fog, view})` fixes the camera for review screenshots; `NightView.viewFrom(null)` returns to the chase camera.
+In the browser console: `NightView.teleport(x, z, yaw)` moves the car to map metres (x east, z north, yaw 0 = north). `NightView.viewFrom({x, y, n, lx, ly, ln, fov, fog, view})` fixes the camera for review screenshots; `NightView.viewFrom(null)` returns to the chase camera. `NightView.renderInfo()` reports draw calls and triangles inside the current view.
+
+## Landmark detail (Phase 2 detail pass)
+
+Detailed landmarks live in `dist/campus/landmarks/` and replace the footprint massing of their BIN (registry in `index.js`). The Arch replaces the old pier-and-attic massing directly.
+
+| Landmark | Module | Built from | Honest limits |
+|---|---|---|---|
+| Washington Square Arch | `arch.js` | LPC 489 dimensions, Commons photographs for zone heights and ornament | Zone heights ±0.3 m; statues, Victories and trophies are massed carvings without faces or fine drapery; west-pier door not placed |
+| Bobst Library | `bobst.js` | NYC footprint and roof height, Commons photographs | Bay counts and solid-bay layout estimated from photographs; atrium size estimated |
+| Silver Center | `silver-center.js` | NYC 3D model volume, Commons photographs | Loggia end unconfirmed; storey count of the brick shaft estimated; upper-floor engaged columns not modelled |
+
+How they are built: real geometry for everything that projects or casts a shadow (mouldings are swept profiles, carving is extruded relief, columns and figures are lathed), textures and normal maps only for stone joints, brick, the Greek key and the inscriptions. Per-landmark checklists with sources are in `RESEARCH/checklists/`. Comparison renders are in `RESEARCH/screenshots/detail/`.
+
+The NYU torch emblem is not drawn on banners (it is a logo). The Bobst atrium screen is modelled as architecture only.
 
 ## Data credits
 

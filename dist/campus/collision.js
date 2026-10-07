@@ -5,11 +5,13 @@ export const CAR_CIRCLES=[1.32,0,-1.32],CAR_RADIUS=.98;
 export const CURB_HEIGHT=.15;
 const treeRadius=dbh=>Math.max(.22,Math.min(1.1,dbh*.0254/2+.06));
 export function archPiers(arch){const f=rectFrame(arch.ring),o=arch.openingWidth/2;return [rectRing(f,-f.halfLong,-o,-f.halfShort,f.halfShort),rectRing(f,o,f.halfLong,-f.halfShort,f.halfShort)];}
+// Statue pedestals project 1.05 m from the north face of each pier (landmarks/arch.js ARCH.pedestal).
+export function archPedestals(arch){const f=rectFrame(arch.ring);return [rectRing(f,-8.92,-4.95,-4.25,-3.2),rectRing(f,4.95,8.92,-4.25,-3.2)];}
 export class CampusCollision{
  constructor(data){this.data=data;this.segGrid=new Grid(8);this.ringGrid=new Grid(16);this.circleGrid=new Grid(8);this.roadGrid=new Grid(20);this.grassGrid=new Grid(20);this.counts={segments:0,rings:0,circles:0};
   const addRing=(ring,kind,thick=0)=>{const rec={ring,kind};this.ringGrid.insert(rec,bboxOf(ring));this.counts.rings++;for(let i=0;i<ring.length;i++)this.addSegment(ring[i],ring[(i+1)%ring.length],kind,thick);};
   for(const b of data.buildings){addRing(b.rings[0],'building');for(let h=1;h<b.rings.length;h++){const r=b.rings[h];for(let i=0;i<r.length;i++)this.addSegment(r[i],r[(i+1)%r.length],'building',0);}}
-  this.piers=archPiers(data.arch);for(const p of this.piers)addRing(p,'arch');
+  this.piers=archPiers(data.arch);for(const p of this.piers)addRing(p,'arch');this.pedestals=archPedestals(data.arch);for(const p of this.pedestals)addRing(p,'arch');
   for(const a of data.areas)if(a.kind==='fountain')addRing(a.ring,'fountain');
   for(const b of data.barriers)if(b.kind!=='retaining_wall')for(let i=1;i<b.pts.length;i++)this.addSegment(b.pts[i-1],b.pts[i],b.kind,.06);
   for(const t of data.trees)this.addCircle(t.p,t.landmark?1.1:treeRadius(t.dbh),'tree');

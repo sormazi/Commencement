@@ -22,3 +22,18 @@ Google Maps / Street View are used only as look-only references; nothing from th
 | `nyc3d-da12-study.json` | NYC 3D Building Model (OTI), `https://s-media.nyc.gov/agencies/oti/DA_WISE_GML.zip` → `DA_WISE_GMLs/DA12_3D_Buildings_Merged.gml` | Extracted with `tools/extract-3d-model.py` (state-plane box x 983,300–988,300, y 202,500–208,700 ft). Converted with `tools/build-campus-3d.mjs`. | NYC Open Data Terms of Use |
 | `nightview-lpc.json` | LPC Individual Landmark Sites `buis-pvji`, LPC Building Database `gpmc-yuvp`, Historic Districts `skyk-mpzq` | Building Database rows within the study box; landmark rows by lat/long | NYC Open Data Terms of Use |
 | `lpc/lpc-*.pdf` | LPC designation reports, `https://s-media.nyc.gov/agencies/lpc/lp/<number>.pdf` | 0196 Judson Memorial Church, 0202 Cooper Union, 0489 Greenwich Village HD, 1226 Puck Building, 2039 NoHo HD, 2128 Brown Building, 2149–2151 MacDougal St houses, 2287 NoHo HD Extension, 2300 University Village, 2546 South Village HD. (0230 Judson Hall not retrieved.) | Public records of the City of New York |
+
+## Detail pass sources (7 Oct 2026)
+
+Reference photographs (saved in `RESEARCH/reference/commons/`, licence and author per file in `ref-commons-meta.json`): Wikimedia Commons photos by Flyfishbowl, lurkingherern, Kidfly182, Beyond My Ken, TainoWaba, BruceSchaff, Geographer (en.wikipedia), Eden, Janine and Jim, ajay_suresh, Highlight Gal, Pdl272, Elisa.rolle and others; CC BY, CC BY-SA 3.0/4.0 and CC BY 2.0.
+
+Web sources consulted (not saved):
+- CTBUH Skyscraper Center, John A. Paulson Center complex 5988 and towers 28054, 47486: https://www.skyscrapercenter.com/complex/5988
+- world-architects.com, "John A. Paulson Center at NYU": https://world-architects.com/de/architecture-news/reviews/john-a-paulson-center-at-nyu
+- amNY, "No bones about it, Mercer run is looking magnificent": https://www.amny.com/news/no-bones-about-it-mercer-run-is-looking-magnificent
+- Grey Art Museum press releases: https://greyartmuseum.nyu.edu/news/press-release-nyus-grey-art-gallery-to-move-into-new-home-on-march-2-2024-and-be-renamed-grey-art-museum-september-15-2023
+- NYC CB2 venue listing, Gould Welcome Center, 50 West 4th Street: https://cbmanhattan.cityofnewyork.us/cb2/venue/gould-welcome-center-50-west-4th-street-new-york-ny-10012/
+- Wikipedia, "Washington Mews": https://en.wikipedia.org/wiki/Washington_Mews
+- Wikipedia, "Silver Center": https://en.wikipedia.org/wiki/Silver_Center
+- campus-maps.com NYU building pages (29WSW, 37 WSW, SHIMK): https://www.campus-maps.com/nyu/
+- Architect magazine, "Student Safety: First Priority in NYU Library Renovation" (27 Aug 2012): https://www.architectmagazine.com/design/student-safety-first-priority-in-nyu-library-renovation_o/
