@@ -32,12 +32,11 @@ You need:
 - A browser with **WebGL 2** (current Chrome, Edge, Firefox or Safari).
 - **Node.js 22 or newer**, only for the tests (`node --version`; tested on 22.22 and 22.23). The game itself has no build step, no `npm install` and no API keys.
 
-From a fresh clone:
+From a fresh clone of the `nyu-campus` branch (the Washington Square work; `main` does not have it yet):
 
 ```bash
-git clone https://github.com/sormazi/NightView.git
+git clone -b nyu-campus https://github.com/sormazi/NightView.git
 cd NightView
-git checkout nyu-campus   # the Washington Square branch; skip this once it is merged
 npm start                 # same as: python3 -m http.server 4173 --directory dist
 ```
 
