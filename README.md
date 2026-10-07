@@ -1,108 +1,77 @@
 <p align="center">
-  <img src="docs/media/nightview.svg" alt="NightView — arcade driving through overgrown cities" width="100%">
+  <img src="docs/media/nightview.svg" alt="NightView" width="100%">
 </p>
 
-<p align="center">
-  <a href="#quick-start">Quick start</a> ·
-  <a href="#washington-square--nyu-work-in-progress">Washington Square · NYU</a> ·
-  <a href="#the-world">Locations</a> ·
-  <a href="#controls">Controls</a> ·
-  <a href="PHYSICS.md">Vehicle dynamics</a> ·
-  <a href="#roadmap">Roadmap</a>
-</p>
+# NightView
 
-<p align="center">
-  <img alt="Status: playable prototype" src="https://img.shields.io/badge/status-playable_prototype-9aaf89?style=flat-square&labelColor=1a2627">
-  <img alt="Renderer: Three.js" src="https://img.shields.io/badge/renderer-Three.js-9cb8bf?style=flat-square&labelColor=1a2627">
-  <img alt="Physics: 120 Hz" src="https://img.shields.io/badge/physics-120_Hz-bbb898?style=flat-square&labelColor=1a2627">
-  <img alt="No API keys required" src="https://img.shields.io/badge/API_keys-none-a1b89b?style=flat-square&labelColor=1a2627">
-</p>
+NightView is a browser driving game set on NYU's Washington Square campus a hundred years from now. The campus has been abandoned for a long time. Trees have pushed through the paving, the lawns have gone to meadow and ivy has climbed the libraries. You drive through it alone: yours is the only vehicle. The place is not empty, though. People loiter everywhere, standing in the park, waiting on the library steps, facing walls, doing nobody knows what, and some of them turn to watch you go by. The billboards around the square make fun of the university, and the soundtrack is slow, brassy and out of tune.
 
-NightView is a browser arcade driving game set in cities overtaken by foliage, fog and decay. The default location is a free-roam reconstruction of NYU's Washington Square campus a hundred years from now (work in progress, see below); three corridor districts (Times Square, SoHo and Shibuya) have traffic, police patrols, pedestrians and collapsing facades. A brief **GitHub / sormazi** introduction fades directly into driving; vehicle and location selection live in **Options**.
+The campus is built from real data. The streets, curbs and park paths are where they are today, and every building stands on its real footprint at its real height. The landmarks are being rebuilt one by one from photographs, city records and Landmarks Preservation Commission reports.
 
-Built with original procedural scenes, a vendored Three.js renderer and a standalone force-based vehicle simulation. The project is actively being developed.
+It is a work in progress. Some of what is described above is built, some of it is a first draft and some of it is still to come; the sections below say which. NightView is not affiliated with or endorsed by New York University.
 
-<p align="center"><img src="docs/media/gameplay.jpg" alt="Current NightView gameplay: weathered facades, ivy and fog in Times Square" width="760"></p>
+## What is built so far
 
-## Quick start
+- **The real street network.** Streets, curbs, sidewalks, medians, plazas and the paths of Washington Square Park come from OpenStreetMap and NYC Open Data, at their real widths and positions. You can drive anywhere the streets go, and onto the sidewalks and the park if you want to. Curbs, buildings, trees, the Arch and the fountain are solid.
+- **Every building's real massing.** About 4,100 buildings in the area are built from the NYC 3D Building Model, with their real footprints, roof heights, setbacks and light courts. The Paulson Center, finished after the model was made, is built from its footprint, published heights and photos.
+- **Detailed landmarks.** These have been rebuilt with real geometry for anything that projects (cornices, columns, arches, canopies, sculpture) and textures only for fine detail:
+  - the Washington Square Arch, with both Washington statues and the eagle
+  - Bobst Library
+  - the Silver Center
+  - the Kimmel Center, with its curved glass canopy
+  - Judson Memorial Church and its campanile
+  - the Row on Washington Square North
+  - Weinstein Hall
+  - the Brown Building and the Triangle Shirtwaist Factory Fire memorial
+  - Silver Towers and 505 LaGuardia Place
+  - Vanderbilt Hall
+  - Tisch Hall and the Kaufman Management Center
+  - the John A. Paulson Center
+- **Sidewalk sheds** where Street View showed long-standing ones in 2026.
+- **An on-screen FPS counter** for checking performance.
 
-You need:
+Still to come, or only in a first draft: the other NYU buildings (they currently show as plain massing), colour and material for the non-NYU blocks, the decay, the night atmosphere, the crowds, the billboards and the soundtrack. See the roadmap.
 
-- **Python 3** (any recent version) to serve the game. On macOS it is already installed; check with `python3 --version`.
-- A browser with **WebGL 2** (current Chrome, Edge, Firefox or Safari).
-- **Node.js 22 or newer**, only for the tests (`node --version`; tested on 22.22 and 22.23). The game itself has no build step, no `npm install` and no API keys.
+## Roadmap
 
-From a fresh clone of the `nyu-campus` branch (the Washington Square work; `main` does not have it yet):
+1. **Second-tier buildings.** The rest of NYU: the residence halls (Rubin, Brittany, Third North, University Hall, Palladium, Founders with the St. Ann's facade, Lipton, Hayden and others), the academic buildings (Meyer, Warren Weaver, Waverly, Goddard, Shimkin and others), the Global Center, the Card Center, the Health Center, the Washington Mews houses, Washington Square Village, the Puck Building and the Provincetown Playhouse. Each gets its real material, window rhythm, entrance and signature feature.
+2. **Third-tier buildings.** The non-NYU blocks get the right material, colour and window rhythm, so the streets stop reading as grey boxes.
+3. **Decay and reclamation.** A hundred years of neglect: meadows, huge trees, a dry green fountain, rust, stains, cracked glass, shredded banners, ivy. A "Dead of night" preset with dead and flickering lamps and drifting fog.
+4. **The crowds.** No traffic at all, just a great many people loitering: queueing at locked doors, holding lanyards up to dead card readers, sitting in lecture formations on the grass, some in faded graduation gowns. They step aside or the car passes through them. Nobody gets hurt.
+5. **Satirical billboards** grounded in Washington Square News reporting. They aim at the institution, never at individuals or at tragedies.
+6. **The soundtrack.** Original music: a slow, detuned, haunted take on the feeling of a big brassy New York standard, without copying any copyrighted song.
+7. **Later:** a walking character who can leave the car and go inside a few buildings.
+
+The plan in detail, with every decision so far, is in [PROGRESS.md](PROGRESS.md). The research behind the campus is in [RESEARCH/campus-inventory.md](RESEARCH/campus-inventory.md).
+
+## Running it locally
+
+### System requirements
+
+- A computer with a reasonably recent GPU and a browser that supports WebGL 2: current Chrome, Edge, Firefox or Safari. The target is 60 fps in front of the Arch, the heaviest view.
+- Python 3, to serve the files. macOS and most Linux systems already have it; check with `python3 --version`.
+- Git, to get the code.
+- Node.js 22 or newer, only if you want to run the tests. The game itself has no build step, no `npm install` and no API keys.
+
+### From a fresh clone
 
 ```bash
 git clone -b nyu-campus https://github.com/sormazi/NightView.git
 cd NightView
-npm start                 # same as: python3 -m http.server 4173 --directory dist
+python3 -m http.server 4173 --directory dist
 ```
 
-Leave that Terminal window open, then open **http://localhost:4173** in your browser. The game starts in **Washington Square · NYU**. Click the game or press a driving key to enable sound. Press **Ctrl+C** in the Terminal to stop the server. After pulling new commits, hard-reload the page (**Cmd+Shift+R** on a Mac, **Ctrl+Shift+R** elsewhere) so the browser does not keep old files.
+The `-b nyu-campus` gets the branch with the Washington Square work; `main` does not have it yet. If you have Node.js installed, `npm start` runs the same server command.
 
-To run the tests, from the repository root:
+Leave that Terminal window open and go to **http://localhost:4173**. The game starts on Fifth Avenue facing the Arch. Click the page or press a driving key to turn on sound. Press **Ctrl+C** in the Terminal to stop the server. After pulling new commits, hard-reload the page (**Cmd+Shift+R** on a Mac, **Ctrl+Shift+R** elsewhere) so the browser does not keep old files.
+
+To run the tests (needs Node.js):
 
 ```bash
 npm test
 ```
 
-The app is static: everything it needs is in `dist/`. GitHub Pages deployment is not configured.
-
-### Frame-rate counter
-
-Open **http://localhost:4173/?fps=1**, or turn it on in **Options → Driving → FPS counter** (the setting is remembered in that browser). The counter sits under the NightView logo and shows frames per second averaged over half a second, the slowest frame in that window in milliseconds, and the last frame's draw calls and triangles as WebGL reports them. It turns orange below 55 fps. The heaviest view is in front of the Washington Square Arch, facing south; the target there is 60 fps. Step-by-step test instructions are in [PROGRESS.md](PROGRESS.md#how-to-run-the-game-locally-and-check-the-frame-rate).
-
-## Washington Square · NYU (work in progress)
-
-The default location is a free-roam reconstruction of NYU's campus around Washington Square, imagined a century from now and in ruin. The street grid, curbs, sidewalks, park paths and trees come from OpenStreetMap and NYC Open Data, and every building stands on its real footprint at its surveyed height. You can drive anywhere the streets go. It is not affiliated with or endorsed by New York University.
-
-Where it stands (details in [CAMPUS.md](CAMPUS.md) and [PROGRESS.md](PROGRESS.md)):
-
-| Phase | Status |
-| :--- | :--- |
-| 0. Free roam over the real street grid, curbs, collision, minimap | Done |
-| 1. Research inventory of the campus ([RESEARCH/campus-inventory.md](RESEARCH/campus-inventory.md)) | Done |
-| 2. Build the campus | In progress. Massing of about 4,100 buildings from the NYC 3D Building Model is done. Detailed landmarks so far: the Arch, Bobst Library, Silver Center, Kimmel Center, Judson Memorial Church, the Row on Washington Square North, Weinstein Hall, the Brown Building and Triangle Fire memorial, Silver Towers, Vanderbilt Hall, Tisch Hall and the Kaufman Management Center, and the Paulson Center. Still to come: a pass on the other NYU buildings, then material, colour and window rhythm for the non-NYU blocks, which still read as plain massing. |
-| 3. Decay and a "Dead of night" preset | Not started |
-| 4. No traffic; many pedestrians who are never hit | Not started |
-| 5. Satirical billboards grounded in student-newspaper reporting | Not started |
-| 6. Original haunted soundtrack | Not started |
-
-Known limits: the 3D model dates from 2014, so newer buildings rely on footprints and photos; some details are labelled estimates in the per-landmark checklists in [RESEARCH/checklists/](RESEARCH/checklists/); comparison renders are in [RESEARCH/screenshots/detail/](RESEARCH/screenshots/detail/). The Brown Building and the Triangle Shirtwaist Fire memorial are kept intact and dignified, and are never part of any joke or billboard.
-
-## The world
-
-| Location | District features |
-| :--- | :--- |
-| **Washington Square · NYU** (default) | Free roam over the real street grid, curbs and park of NYU's Washington Square campus, built from OpenStreetMap and NYC Open Data. Work in progress, see [CAMPUS.md](CAMPUS.md) |
-| **Times Square · New York** | Illuminated tower, damaged displays, plaza steps and avenue crossings |
-| **SoHo · New York** | Cast-iron facades, storefronts, fire escapes and a narrower cobbled corridor |
-| **Shibuya · Tokyo** | Scramble crossing, glass towers, rounded commercial corner and dense signage |
-
-| Times Square | SoHo | Shibuya |
-| :---: | :---: | :---: |
-| ![Times Square gameplay](docs/media/gameplay.jpg) | ![SoHo gameplay](docs/media/soho.jpg) | ![Shibuya gameplay](docs/media/shibuya.jpg) |
-
-Screenshots captured from the current playable build.
-
-The three corridor districts feature overgrowth, masonry debris, wrecks, animated pedestrians, cycling signals and moving traffic. Police vehicles patrol with flashing roof lights. Choose **Overgrown daylight**, **Ash storm** or **Dusty dawn** in Options.
-
-The three corridor districts are original arcade interpretations based on licensed reference photos, **not one-to-one geographic replicas**. Billboard artwork, dimensions and routes are approximate or invented. Each is a repeating driving corridor; side streets are scenic. No Google Maps or Street View integration is used. [Reference credits →](dist/credits.html)
-
-## Driving and presentation
-
-- **Three vehicles** with distinct mass, torque, grip and drivetrain configurations.
-- **120 Hz physics** with independent interpolated rendering and bounded frame-stall catch-up.
-- **Force-based handling:** wheel inertia, tire slip, combined traction limits, load transfer, spring-damper suspension, engine/clutch/gears and impulse contacts.
-- **Arcade tuning:** speed-sensitive steering, capped stability assistance, boost, handbrake drifts and rolling burnouts.
-- **Persistent damage**, impact sparks, skid marks and synthesized engine/tire audio.
-- **Atmosphere:** dense fog, facade sections that fall as you approach, foliage and speed-driven motion blur.
-
-The custom solver is documented in [PHYSICS.md](PHYSICS.md). It is **not Unreal Engine or Chaos**. Suspension and collision geometry are simplified; production handling still needs playtesting and tuning. Falling facade debris is currently cosmetic. Police patrols do not implement pursuit AI.
-
-## Controls
+### Controls
 
 | Action | Keyboard |
 | :--- | :--- |
@@ -116,54 +85,39 @@ The custom solver is documented in [PHYSICS.md](PHYSICS.md). It is **not Unreal 
 | Reset and repair | **R** |
 | Pause | **Esc** |
 
-Touch driving buttons are provided on smaller screens. Transmission, atmosphere, traffic density and sound settings are available in **Options → Driving**.
+Touch buttons appear on small screens. Vehicle, location, transmission, atmosphere, sound and the FPS counter are in **Options** (top right).
 
-## Roadmap
+### FPS counter
 
-- [x] Playable browser build and three procedural districts
-- [x] Standalone fixed-step vehicle dynamics
-- [x] Fog, foliage, facade destruction and motion effects
-- [x] Free-roam Washington Square · NYU location on real map data
-- [ ] More detailed location geometry and recognizable landmarks (Washington Square detail pass in progress)
-- [ ] Better crowd navigation, traffic rules and police pursuit
-- [ ] Handling playtests, wider device coverage and performance profiling
-- [ ] Richer vehicle damage, suspension and collision geometry
-- [ ] Additional districts and race modes
-- [ ] Evaluate native Unreal or Pixel Streaming delivery
+Open **http://localhost:4173/?fps=1**, or turn it on in **Options → Driving → FPS counter**; the browser remembers the setting. The counter sits under the NightView logo. It shows frames per second averaged over half a second, the slowest frame in that half second in milliseconds, and the draw calls and triangles of the last frame. It turns orange below 55 fps. For a fair reading, keep a laptop plugged in and close other heavy tabs.
 
-## Development
+## The original locations
 
-| Path | Purpose |
-| :--- | :--- |
-| `dist/physics.js` | Standalone vehicle solver and fixed-step loop |
-| `dist/game.js` | Inputs, session state, contacts and UI |
-| `dist/renderer3d.js` | Three.js vehicles, camera, lighting and postprocessing |
-| `dist/locations.js` | Location metadata and streetscape builders |
-| `dist/campus/` | Free-roam Washington Square campus: projection, street graph, collision, streamed world, minimap |
-| `dist/campus/landmarks/` | Detailed landmark buildings and the reusable facade kits |
-| `RESEARCH/` | Campus inventory, per-landmark checklists, reference photos with licences, comparison renders |
-| `tools/build-campus-data.mjs` | Rebuilds the campus dataset from open-data extracts |
-| `dist/aftermath.js` / `destruction.js` | World population, overgrowth and collapse effects |
-| `dist/traffic.js` | Shared traffic poses for physics and rendering |
-| `tests/` | Dynamics, timing, traffic and world regression checks |
+NightView started as an arcade driver with three corridor locations, and they are still in the game under **Options → Location**: **Times Square**, **SoHo** and **Shibuya**. Each is a repeating driving corridor with overgrowth, wrecks, traffic, police patrols, pedestrians, falling facades and archival advertising. They are loose arcade interpretations built from licensed reference photos, not maps. The vehicle physics they share with the campus are documented in [PHYSICS.md](PHYSICS.md), the reclamation effects in [ENVIRONMENT.md](ENVIRONMENT.md) and the advertising in [ADVERTISING.md](ADVERTISING.md).
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md) to keep working on the project. Test coverage includes deterministic replay, 30/60/144 Hz equivalence, tire force bounds, braking, load transfer, collision energy and a 200-second stability replay. [Validation notes →](VALIDATION.md)
+## How the project handles accuracy
 
-## Reclamation pipeline
+The campus is meant to be faithful, so every fact behind it is tagged by how it is known:
 
-The development build now includes reusable surface weathering, facade ivy, seam grasses with wind, moss decals, puddles, shop shutters, physical billboard supports and location-specific story profiles. See [ENVIRONMENT.md](ENVIRONMENT.md) for implementation and remaining visual-quality limits.
+- **Measured**: taken from data, such as footprints and heights from the NYC 3D Building Model and NYC Open Data, or street geometry from OpenStreetMap.
+- **Cited**: taken from a named source, such as a Landmarks Preservation Commission designation report, a Wikimedia Commons photo, or a Google Street View panorama with its capture date. Street View and Google Maps are looked at as references only; nothing from them is saved or bundled.
+- **Estimated**: a judgment made where no source settles the question, labelled as an estimate so it can be corrected later.
 
-## Environmental advertising
+Each detailed landmark has a checklist in [RESEARCH/checklists/](RESEARCH/checklists/) that marks every feature as modelled, approximated or open, with its source. Side-by-side comparisons of photos and renders from matching positions are in [RESEARCH/screenshots/detail/](RESEARCH/screenshots/detail/). Known limits are written down in [CAMPUS.md](CAMPUS.md).
 
-World-space advertisements now use documented archival Coca-Cola, Kodak and Mitsukoshi artwork, with location-aware placement, surface weathering and mostly failed digital displays. Inspect assets or disable real brands in **Options → Driving → Advertising inspector**. No companies sponsor or endorse NightView. These are fictional archival placements, not surveyed campaigns. [System and asset policy →](ADVERTISING.md) · [Asset manifest →](dist/assets/ads/manifest.json)
+### The Brown Building and the Triangle Fire memorial
 
-## Data sources and credits
+On 25 March 1911, 146 garment workers, most of them young immigrant women, died in the Triangle Shirtwaist Factory fire on the top floors of what is now NYU's Brown Building. The memorial on its walls names them. In NightView the building and the memorial stay intact and clean while everything around them decays, and they are left out of every joke, billboard and banner. A game about a ruined, satirised campus should not turn a real workplace disaster into scenery. The same care applies elsewhere: the satire aims at the institution, never at individuals, student deaths, mental-health tragedies or assault cases. The Bobst atrium screens are modelled as architecture only, and the Picasso sculpture at Silver Towers is shown only as a plain placeholder because the artwork itself is protected.
 
-The Washington Square · NYU location is built from open data. Full credits are in [dist/credits.html](dist/credits.html) (also linked in the game under Options → Location credits), and every source with its query and licence is listed in [RESEARCH/data/SOURCES.md](RESEARCH/data/SOURCES.md).
+## Credits and data licences
+
+Full credits are in [dist/credits.html](dist/credits.html), which is also linked in the game under **Options → Location credits**. Every data source, with the exact query used and its licence, is listed in [RESEARCH/data/SOURCES.md](RESEARCH/data/SOURCES.md).
 
 - **OpenStreetMap**: map data © OpenStreetMap contributors, under the [Open Database License (ODbL 1.0)](https://opendatacommons.org/licenses/odbl/). The derived dataset `dist/campus/data/campus-data.js` is a Produced Work and, as far as it contains OSM data, is offered under the ODbL.
 - **NYC Open Data**: building footprints, PLUTO, planimetric layers, street centerlines, street trees and more, under the NYC Open Data Terms of Use.
-- **NYC 3D Building Model** (Office of Technology and Innovation, 2014): building volumes, NYC Open Data Terms of Use. The roughly 900 MB download is not in the repository; `RESEARCH/data/SOURCES.md` explains how to fetch it again.
-- **Landmarks Preservation Commission** designation reports and Building Database: public records of the City of New York, used for history and architectural detail. The PDFs are not in the repository.
-- **Wikimedia Commons**: 87 reference photographs under CC0, CC BY and CC BY-SA licences, each credited with author, licence and source in `dist/credits.html` and `RESEARCH/reference/commons/ref-commons-meta.json`.
-- Google Maps and Street View were only looked at as visual references; nothing from them is saved or bundled.
+- **NYC 3D Building Model** (NYC Office of Technology and Innovation, 2014): building volumes, under the NYC Open Data Terms of Use. The roughly 900 MB download is not in the repository; SOURCES.md explains how to fetch it again.
+- **Landmarks Preservation Commission** designation reports and Building Database: public records of the City of New York.
+- **Wikimedia Commons**: 87 reference photographs under CC0, CC BY and CC BY-SA, each credited with author, licence and source page.
+- **Three.js** is vendored under its MIT licence.
+
+Licensing of the code and artwork is described in [LICENSE.md](LICENSE.md). To work on the project, start with [CONTRIBUTING.md](CONTRIBUTING.md) and [PROGRESS.md](PROGRESS.md).
