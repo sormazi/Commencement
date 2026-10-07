@@ -3,7 +3,7 @@
 Read this file and `RESEARCH/campus-inventory.md` first when picking the work back up.
 
 ## Current phase
-Phase 2 detail pass, third batch (approved 2026-10-07): two review fixes (Kimmel canopy, W 4th St shed), then the four priority landmarks Silver Towers + Picasso, Vanderbilt, Tisch + Kaufman, Paulson; an FPS counter. Then a second-tier pass on the other NYU buildings, then a third-tier pass on non-NYU buildings. Review stops after the priority landmarks and after the second tier.
+Atmosphere slice (Phases 3 to 6, first version) for Washington Square Park and the buildings facing it, built before the second-tier building pass so Avi can feel the mood early. Billboards are held back for their own researched pass.
 
 ## Finished
 - Phase 0: free-roam campus world (projection, street graph, collision, curbs/surfaces, streamed tiles, minimap, spawn/reset). Default location is Washington Square · NYU. Corridor locations unchanged. Tests pass. See CAMPUS.md.
@@ -13,12 +13,22 @@ Phase 2 detail pass, third batch (approved 2026-10-07): two review fixes (Kimmel
 - Phase 2 massing pass: 4,110 buildings from 3D-model roof pieces, 138 extrusions, Paulson estimated. Screenshots in RESEARCH/screenshots/phase2-massing/.
 
 ## In progress
-- **Stopped for Avi's review after the four priority landmarks** (7 Oct 2026). Done since the last review: Kimmel's canopy is now a curved glass vault; the W 4th St shed was re-checked on three Street View panoramas and realigned (it runs along the Gould Plaza front east of the KMC, and the invented Greene St return is gone); FPS counter in Options > Driving (and `?fps=1`); Silver Towers with a neutral placeholder for the Bust of Sylvette; Vanderbilt Hall (new masonry kit); Tisch Hall + KMC; Paulson Center. Comparisons in RESEARCH/screenshots/detail/.
-- Performance note: at the spawn facing the Arch the cloud renderer now counts about 550 draw calls and 545k triangles (was about 446 and 357k before this batch). Avi's frame-rate check at the Arch decides whether the next step is merging landmark materials or a distance cut-off for landmark detail.
+- **Stopped for Avi's review after the atmosphere slice** (7 Oct 2026). Five commits: decay round the park, the "Dead of night" preset (now the default), no traffic on campus, the loiterers, and the first draft of the soundtrack. Screenshots in RESEARCH/screenshots/atmosphere/.
+- Performance, measured in the cloud software renderer with the FPS counter (real WebGL draw calls and triangles per frame, shadow pass included):
+
+| View | Before (daylight, the old default) | After, Dead of night (new default) | After, daylight |
+|---|---|---|---|
+| Start position facing the Arch | 538 calls, 675k triangles | 513 calls, 571k | 609 calls, 773k |
+| Fountain from the Arch | 395 calls, 448k | 317 calls, 438k | 406 calls, 553k |
+| Bobst steps from Washington Sq S | 326 calls, 291k | 250 calls, 291k | 337 calls, 402k |
+
+  The new content costs roughly 10 to 70 draw calls and 100k triangles in daylight (mostly meadow grass, the crowd and ivy, each one instanced mesh). At night the moon casts no shadows, which removes the shadow pass, so the default is lighter than before. The night does add three point lights that follow the nearest working lamps; their cost is per pixel and does not show in these counts, so it needs Avi's frame-rate check on real hardware.
 
 ## Next (after Avi's review)
-- Second-tier pass on the other NYU buildings with the kits (residence halls, academic buildings, Global Center, Card Center, Health Center, Washington Mews, Washington Square Village, Puck Building, Provincetown Playhouse), one commit per building, then a review stop.
-- Third-tier pass on non-NYU buildings: material, colour and window rhythm from the kits.
+- Second-tier pass on the other NYU buildings with the kits, one commit per building, then a review stop.
+- Third-tier pass on non-NYU buildings.
+- Spread the atmosphere beyond the park slice once the buildings are in.
+- Satirical billboards from Washington Square News reporting: their own researched pass.
 - When Avi's photos land in RESEARCH/my-photos/: update fountain plaza, chess tables, lamp posts, banners.
 
 ## Decisions from Avi
@@ -77,6 +87,10 @@ Open questions for Avi (batch)
 
 Next (after review)
 - Kimmel, Judson, the Row, Weinstein, Brown + memorial, Silver Towers + Picasso, Vanderbilt, Tisch + Kaufman, Paulson.
+
+## How to hear the soundtrack
+
+Play Washington Square with Options > Driving > Sound and Music both On, and press any driving key or click once (browsers only start audio after a gesture). The music is muffled and echoing everywhere on the campus. Drive to the Arch: the broken loudspeaker on a pole just south of it plays it clearer and tinnier, panned to its side, and it cuts out now and then.
 
 ## How to run the game locally and check the frame rate
 
