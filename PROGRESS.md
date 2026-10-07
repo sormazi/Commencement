@@ -83,3 +83,4 @@ Next (after review)
 | 2026-10-07 | efa26be | Phase 0: Washington Square free-roam location, campus data pipeline, tests, Phase 1 inventory draft |
 | 2026-10-07 | 18718a2 | Phase 2 massing from NYC 3D model, Paulson estimate, inventory draft 2 (LPC + Street View), skyline screenshots |
 | 2026-10-07 | 13e9200 | Phase 2 detail pass: Arch, Bobst, Silver Center in full geometry; kits, checklists, Commons references, comparisons, landmark tests |
+| 2026-10-07 | 8d48dcd | Kimmel Center detail; shared facade kit |
