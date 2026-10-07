@@ -33,7 +33,7 @@ cd NightView
 python3 -m http.server 4173 --directory dist
 ```
 
-Open **http://localhost:4173**. Click the game or use a driving key to enable sound. You can also run `npm start` from the repository root.
+Open **http://localhost:4173**. Click the game or use a driving key to enable sound. You can also run `npm start` from the repository root. For an on-screen frame rate counter, open **http://localhost:4173/?fps=1** or turn on Options > Driving > FPS counter.
 
 ```bash
 npm test
