@@ -1,7 +1,7 @@
 import * as T from '../../vendor/three.module.js';
-import {Parts,Face,brickTextures,grainTextures,canvas} from './kit.js?v=18';
-import {pieces,walls,roofs,v3} from './facade.js?v=18';
-import model3d from '../data/campus-3d.js?v=18';
+import {Parts,Face,brickTextures,grainTextures,canvas} from './kit.js?v=19';
+import {pieces,walls,roofs,v3} from './facade.js?v=19';
+import model3d from '../data/campus-3d.js?v=19';
 // Brown Building (former Asch Building, site of the Triangle Shirtwaist Factory fire of 1911),
 // 23–29 Washington Place at Greene Street (John Woolley, 1900–01; LPC LP-2128, quoted in the
 // checklist). Kept intact and dignified in every phase: never decayed, never used in a joke,

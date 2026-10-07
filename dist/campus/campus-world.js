@@ -1,11 +1,11 @@
 import * as T from '../vendor/three.module.js';
-import {campus} from './campus.js?v=18';
-import model3d from './data/campus-3d.js?v=18';
-import {archPiers,CURB_HEIGHT} from './collision.js?v=18';
-import {ringArea,centroid,rectFrame,rectRing,pointInRing} from './geometry.js?v=18';
-import {buildArch} from './landmarks/arch.js?v=18';
-import {LANDMARK_BUILDINGS} from './landmarks/index.js?v=18';
-import {buildSheds} from './landmarks/sheds.js?v=18';
+import {campus} from './campus.js?v=19';
+import model3d from './data/campus-3d.js?v=19';
+import {archPiers,CURB_HEIGHT} from './collision.js?v=19';
+import {ringArea,centroid,rectFrame,rectRing,pointInRing} from './geometry.js?v=19';
+import {buildArch} from './landmarks/arch.js?v=19';
+import {LANDMARK_BUILDINGS} from './landmarks/index.js?v=19';
+import {buildSheds} from './landmarks/sheds.js?v=19';
 // Free-roam world for Washington Square · NYU. Phase 0: real street/curb/sidewalk/park layout and
 // footprint massing at surveyed roof heights, streamed in 120 m tiles. Facade detail comes in Phase 2.
 const TILE=120,VIEW=560,PROP_VIEW=330;

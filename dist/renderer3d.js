@@ -1,7 +1,7 @@
-import {cars as vehicleConfigs} from './physics.js?v=18';
+import {cars as vehicleConfigs} from './physics.js?v=19';
 import * as T from './vendor/three.module.js';
-import {createWorld,locations} from './locations.js?v=18';
-import {trafficPose,trafficCount} from './traffic.js?v=18';
+import {createWorld,locations} from './locations.js?v=19';
+import {trafficPose,trafficCount} from './traffic.js?v=19';
 import {Reflector} from './vendor/Reflector.js';
 const center=s=>0;
 const tangent=s=>0;

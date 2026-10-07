@@ -17,7 +17,7 @@ Status: **[x] modelled** · **[~] approximation** · **[ ] open**. Sources: C = 
 - [x] Glass curtain wall on the recessed top storey with spandrel bands (C kimmel_bobst).
 - [x] Stone coping at every roof line.
 - [x] Dark-framed storefront glazing along the park front at street level.
-- [~] Sloping glass canopy over the park-front podium, from about 7.6 m at the stone wall down to 4.4 m at the street edge. In C kimmel_2008 it is a curved vault; modelled as a flat slope.
+- [x] Curved glass vault over the podium (C kimmel_2008): quarter-ellipse section springing from the stone block at 8.6 m and curving down to 4.8 m over the street edge, nearly vertical there; it follows the podium round the LaGuardia Pl side and turns the corner as a rounded quarter-cone. Dark steel ribs every 1.6 m, purlins at five heights, a fascia beam where the vault meets the storefront. Heights estimated from the photo against the 3.75 m floor pitch. Added the driver's-eye view `kimmel_driver_eye_canopy` from the middle of Washington Sq S.
 - [~] Curved glass balcony projecting from the park front at about the third floor, with a stone slab and glass rail (C kimmel_2008). Position along the facade estimated.
 - [x] Building sign: HELEN AND MARTIN KIMMEL CENTER FOR UNIVERSITY LIFE / NEW YORK UNIVERSITY, light panel by the entrance. The NYU torch on the sign is not drawn (logo).
 

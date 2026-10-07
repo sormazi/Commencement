@@ -1,6 +1,6 @@
 import * as T from '../../vendor/three.module.js';
-import {Parts,Face} from './kit.js?v=18';
-import {v3} from './facade.js?v=18';
+import {Parts,Face} from './kit.js?v=19';
+import {v3} from './facade.js?v=19';
 // Sidewalk sheds (and construction fences) where Google Street View showed them, with the capture
 // date of each observation, since sheds come and go. Each shed runs along a building line given in
 // map metres from a to b with the street on the right-hand side. Building lines for the W 4th St

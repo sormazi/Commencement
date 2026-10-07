@@ -46,6 +46,10 @@ const kim=data.buildings.find(b=>b.bin===KIMMEL.bin),{P:kp,park}=kimmelParts(kim
 test('kimmel: stepped volume to 49.9 m, glazed top storey, canopy, balcony, stays on its block',()=>{const b=bbox(kv);assert.ok(Math.abs(b[1][1]-49.9)<.3,'top '+b[1][1]);assert.ok(near(kv,kim,5));
  assert.ok(kp.m.glassRoof&&kp.m.glassRail&&kp.m.glass);assert.ok(park&&park.len>15,'park wall found');assert.ok(kp.tris<60000);});
 const jp=judsonParts(),jv=verts(jp);
+test('kimmel: the canopy is a curved vault (quarter-ellipse), not a flat slope, and wraps the LaGuardia side',()=>{const {canopyH,springs}=kimmelParts(kim);
+ assert.ok(springs.length>=2,'springing walls '+springs.length);
+ for(const w of springs){const m=[(w.a[0]+w.b[0])/2,(w.a[1]+w.b[1])/2],at=f=>canopyH([m[0]+w.n[0]*w.D*f,m[1]+w.n[1]*w.D*f]);
+  const h0=at(.02),h5=at(.5),h1=at(.99);assert.ok(h0>8.3&&h1<6.0,'ends '+h0+' '+h1);assert.ok(h5>(h0+h1)/2+.8,'convex at mid-depth '+h5);}});
 test('judson: 19.7 × 30.8 m church with pediment and cross, campanile west of it to ~40 m',()=>{const b=bbox(jv);assert.ok(Math.abs(b[1][1]-JUDSON.tower.h)<.5,'top '+b[1][1]);
  const ped=jv.filter(([x,y,z])=>y>JUDSON.eave+1&&y<JUDSON.apex&&x>0&&x<JUDSON.W);assert.ok(ped.length>100);const tower=jv.filter(([x,y])=>y>25);assert.ok(tower.every(([x])=>x>JUDSON.tower.x0-1),'tower on the west side');assert.ok(jp.m.stained&&jp.m.copper&&jp.tris<40000);});
 const rp=rowParts(data),rv=verts(rp);
