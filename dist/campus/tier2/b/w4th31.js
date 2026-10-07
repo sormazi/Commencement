@@ -1,0 +1,2 @@
+// 31 West 4th Street. 1900, 4 storeys. Not checked on Street View (estimate).
+export default {slug:"w4th31",name:"31 West 4th Street",bin:1008815,also:[],source:"1900, 4 storeys. Not checked on Street View (estimate).",wall:'brickRed',trim:'limestone',ground:{h:4.0,style:'base',mat:'limestone'},floor:3.4,pitch:3.0,win:[1.05,2.0],sash:1,lintel:.22,cornice:'modillion',doors:[{rank:0,at:.5,w:1.8,h:2.9}]};
