@@ -1,6 +1,6 @@
 import * as T from '../../vendor/three.module.js';
-import {Parts,Face,stack,out,up,ovolo,cymaRecta,planRun,stoneTextures,brickTextures} from './kit.js?v=19';
-import model3d from '../data/campus-3d.js?v=19';
+import {Parts,Face,stack,out,up,ovolo,cymaRecta,planRun,stoneTextures,brickTextures} from './kit.js?v=20';
+import model3d from '../data/campus-3d.js?v=20';
 // Silver Center for Arts and Science (NYU Main Building), 100 Washington Square East
 // (Alfred Zucker, 1892–95). A limestone base of three storeys (rusticated ground storey, two
 // smooth storeys with framed windows, dentilled cornice) under a buff-grey brick shaft with stone

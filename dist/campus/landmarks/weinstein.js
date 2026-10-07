@@ -1,7 +1,7 @@
 import * as T from '../../vendor/three.module.js';
-import {Parts,Face,brickTextures} from './kit.js?v=19';
-import {pieces,walls,roofs,punched,facing,v3} from './facade.js?v=19';
-import model3d from '../data/campus-3d.js?v=19';
+import {Parts,Face,brickTextures} from './kit.js?v=20';
+import {pieces,walls,roofs,punched,facing,v3} from './facade.js?v=20';
+import model3d from '../data/campus-3d.js?v=20';
 // Weinstein Hall, 5–11 University Place (NYU residence hall, 1962). Street-visible parts only, as
 // observed on Google Street View (Apr 2026 captures on University Pl at Waverly Pl, mid-block and
 // at E 8th St; looked at, not saved): a nine-storey slab of orange-red brick with a regular grid

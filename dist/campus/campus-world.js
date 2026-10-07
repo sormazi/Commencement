@@ -1,11 +1,13 @@
 import * as T from '../vendor/three.module.js';
-import {campus} from './campus.js?v=19';
-import model3d from './data/campus-3d.js?v=19';
-import {archPiers,CURB_HEIGHT} from './collision.js?v=19';
-import {ringArea,centroid,rectFrame,rectRing,pointInRing} from './geometry.js?v=19';
-import {buildArch} from './landmarks/arch.js?v=19';
-import {LANDMARK_BUILDINGS} from './landmarks/index.js?v=19';
-import {buildSheds} from './landmarks/sheds.js?v=19';
+import {campus} from './campus.js?v=20';
+import model3d from './data/campus-3d.js?v=20';
+import {archPiers,CURB_HEIGHT} from './collision.js?v=20';
+import {ringArea,centroid,rectFrame,rectRing,pointInRing} from './geometry.js?v=20';
+import {buildArch} from './landmarks/arch.js?v=20';
+import {LANDMARK_BUILDINGS} from './landmarks/index.js?v=20';
+import {buildSheds} from './landmarks/sheds.js?v=20';
+import {ROW_BINS} from './landmarks/row.js?v=20';
+import {buildDecay,treeBoost,volunteerTrees,dryFountain,inSlice} from './atmosphere/decay.js?v=20';
 // Free-roam world for Washington Square · NYU. Phase 0: real street/curb/sidewalk/park layout and
 // footprint massing at surveyed roof heights, streamed in 120 m tiles. Facade detail comes in Phase 2.
 const TILE=120,VIEW=560,PROP_VIEW=330;
@@ -50,7 +52,7 @@ export function paulsonMassing(ring){const c=centroid(ring);let sxx=0,sxy=0,syy=
  return [{ring,h:PAULSON.podium},{ring:clipHalf(ring,ax,an,hi-L*PAULSON.northShare,true),h:PAULSON.towerN},{ring:clipHalf(ring,ax,an,lo+L*PAULSON.southShare,false),h:PAULSON.towerS}].filter(m=>m.ring.length>=3);}
 export class CampusWorld{
  constructor(config){this.config=config;this.freeRoam=true;const c=campus();this.campus=c;this.data=c.data;this.collision=c.collision;this.streets=c.streets;this.spawn=c.spawn;
-  this.stats={model:0,extruded:0,estimated:0};this.group=new T.Group();this.group.name='washington-square';this.tiles=new Map();this.disposables=new Set();this.build();}
+  this.stats={model:0,extruded:0,estimated:0};this.group=new T.Group();this.group.name='washington-square';this.tiles=new Map();this.disposables=new Set();this.rowBin=ROW_BINS[0];this.rowBins=ROW_BINS;this.build();this.decay=buildDecay(this);this.group.add(this.decay);}
  tile(x,n){const i=Math.floor(x/TILE),j=Math.floor(n/TILE),k=i+','+j;let t=this.tiles.get(k);if(!t){t={i,j,center:[(i+.5)*TILE,(j+.5)*TILE],group:new T.Group(),b:{},inst:{}};t.group.name='tile '+k;this.group.add(t.group);this.tiles.set(k,t);}return t;}
  builder(t,name){return t.b[name]||(t.b[name]=new Builder());}
  inst(t,name,p,s=[1,1,1],r=0,color=null){(t.inst[name]||(t.inst[name]=[])).push({p,s,r,color});}
@@ -92,9 +94,11 @@ export class CampusWorld{
   for(const a of d.areas.filter(a=>a.kind==='fountain')){const c=centroid(a.ring),r=a.ring.reduce((s,p)=>s+Math.hypot(p[0]-c[0],p[1]-c[1]),0)/a.ring.length;if(r<2)continue;const g=new T.Group();g.position.copy(toV(c,CURB_HEIGHT));
    const rim=new T.Mesh(new T.CylinderGeometry(r,r,.55,72,1,true),this.materials.marble);rim.position.y=.27;const inner=new T.Mesh(new T.CylinderGeometry(r-.45,r-.45,.55,72,1,true),this.materials.marble);inner.position.y=.27;inner.material=this.materials.marble.clone();inner.material.side=T.BackSide;this.disposables.add(inner.material);
    const top=new T.Mesh(new T.RingGeometry(r-.45,r,72),this.materials.marble);top.rotation.x=-Math.PI/2;top.position.y=.55;const basin=new T.Mesh(new T.CircleGeometry(r-.45,72),this.materials.water);basin.rotation.x=-Math.PI/2;basin.position.y=.08;const jet=new T.Mesh(new T.CylinderGeometry(.6,.9,.9,24),this.materials.marble);jet.position.y=.45;
-   g.add(rim,inner,top,basin,jet);for(const m of g.children)this.disposables.add(m.geometry);this.tile(...c).group.add(g);}
+   g.add(rim,inner,top,basin,jet);if(inSlice(c))dryFountain(g,r,x=>{this.disposables.add(x);return x;});for(const m of g.children)this.disposables.add(m.geometry);this.tile(...c).group.add(g);}
   // Trees (NYC Parks Forestry + OSM), lamps, benches, fences and crosswalk bars, instanced per tile.
-  for(const tr of d.trees){const dbh=tr.dbh||8,height=tr.landmark?24:Math.min(24,5+dbh*.42),crown=tr.landmark?9:Math.min(5.5,1.4+dbh*.12),cy=Math.max(height-crown*.75,3.2+crown*.7),t=this.tile(...tr.p),y=CURB_HEIGHT,r=Math.max(.14,dbh*.0254/2);
+  // Phase 3 slice: park trees have had a century to grow, and volunteers have seeded in the lawns.
+    const parkRing=(d.areas.find(a=>a.kind==='park'&&pointInRing([-30,-46],a.ring))||{}).ring,vol=volunteerTrees(d,parkRing);if(!this.collision._volunteers){for(const v of vol)this.collision.addCircle(v.p,.55,'tree');this.collision._volunteers=true;}this.volunteers=vol;
+    for(const tr of [...d.trees,...vol]){const bo=treeBoost(tr.p,parkRing)||(tr.volunteer?{height:1.8,crown:2.1,trunk:1.6}:null),dbh=tr.dbh||8,height=(tr.landmark?24:Math.min(24,5+dbh*.42))*(bo?bo.height:1),crown=(tr.landmark?9:Math.min(5.5,1.4+dbh*.12))*(bo?bo.crown:1),cy=Math.max(height-crown*.75,3.2+crown*.7),t=this.tile(...tr.p),y=CURB_HEIGHT,r=Math.max(.14,dbh*.0254/2)*(bo?bo.trunk:1);
    // Street trees are limbed up for clearance: crown sits on a clear trunk of at least ~3 m.
    this.inst(t,'trunk',toV(tr.p,y+cy/2),[r,cy,r]);const tint=new T.Color().setHSL(.22+hash(tr.p[0])*.08,.32,.24+hash(tr.p[1])*.1);this.inst(t,'crown',toV(tr.p,y+cy),[crown,crown*.7,crown],hash(tr.p[0]+tr.p[1])*6,tint);}
   for(const l of d.lamps){const t=this.tile(...l.p);this.inst(t,'pole',toV(l.p,CURB_HEIGHT+2.2),[1,1,1]);this.inst(t,'lantern',toV(l.p,CURB_HEIGHT+4.45),[1,1,1]);}
@@ -111,7 +115,7 @@ export class CampusWorld{
    for(const [name,list] of Object.entries(t.inst)){const im=new T.InstancedMesh(geo[name],mats[instMat[name]],list.length);list.forEach((it,k)=>{o3.position.copy(it.p);o3.rotation.set(0,it.r,0);o3.scale.set(...it.s);o3.updateMatrix();im.setMatrixAt(k,o3.matrix);if(it.color)im.setColorAt(k,it.color);});im.castShadow=name==='trunk'||name==='crown'||name==='pole';im.receiveShadow=name!=='stripe';im.computeBoundingSphere();(name==='stripe'?t.group:t.props).add(im);}
    delete t.b;delete t.inst;}
  }
- update(state,time,camera){const x=camera?camera.position.x:state?.position?.x||0,n=camera?-camera.position.z:state?.position?.z||0;this.visibleTiles=0;for(const t of this.tiles.values()){const dx=Math.max(Math.abs(t.center[0]-x)-TILE/2,0),dn=Math.max(Math.abs(t.center[1]-n)-TILE/2,0),d=Math.hypot(dx,dn);t.group.visible=d<(this.viewDistance||VIEW);if(t.props)t.props.visible=d<PROP_VIEW;if(t.group.visible)this.visibleTiles++;}}
+ update(state,time,camera){if(this.decayUniforms)this.decayUniforms.uTime.value=time;const x=camera?camera.position.x:state?.position?.x||0,n=camera?-camera.position.z:state?.position?.z||0;this.visibleTiles=0;for(const t of this.tiles.values()){const dx=Math.max(Math.abs(t.center[0]-x)-TILE/2,0),dn=Math.max(Math.abs(t.center[1]-n)-TILE/2,0),d=Math.hypot(dx,dn);t.group.visible=d<(this.viewDistance||VIEW);if(t.props)t.props.visible=d<PROP_VIEW;if(t.group.visible)this.visibleTiles++;}}
  trackDisposables(g){g.traverse(o=>{if(o.geometry)this.disposables.add(o.geometry);});for(const m of g.userData.materials||[]){this.disposables.add(m);for(const k of ['map','normalMap'])if(m[k])this.disposables.add(m[k]);}}
  dispose(){for(const d of this.disposables)d.dispose?.();this.disposables.clear();}
 }
