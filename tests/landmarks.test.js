@@ -7,6 +7,7 @@ import {silverParts,SILVER} from '../dist/campus/landmarks/silver-center.js';
 import {footprintFrame} from '../dist/campus/landmarks/kit.js';
 import {kimmelParts,KIMMEL} from '../dist/campus/landmarks/kimmel.js';
 import {judsonParts,JUDSON} from '../dist/campus/landmarks/judson.js';
+import {rowParts,ROW_BINS,ROW} from '../dist/campus/landmarks/row.js';
 import {CampusCollision} from '../dist/campus/collision.js';
 import {rectFrame} from '../dist/campus/geometry.js';
 let passed=0;const test=(name,fn)=>{fn();passed++;console.log('ok -',name);};
@@ -43,4 +44,8 @@ test('kimmel: stepped volume to 49.9 m, glazed top storey, canopy, balcony, stay
 const jp=judsonParts(),jv=verts(jp);
 test('judson: 19.7 × 30.8 m church with pediment and cross, campanile west of it to ~40 m',()=>{const b=bbox(jv);assert.ok(Math.abs(b[1][1]-JUDSON.tower.h)<.5,'top '+b[1][1]);
  const ped=jv.filter(([x,y,z])=>y>JUDSON.eave+1&&y<JUDSON.apex&&x>0&&x<JUDSON.W);assert.ok(ped.length>100);const tower=jv.filter(([x,y])=>y>25);assert.ok(tower.every(([x])=>x>JUDSON.tower.x0-1),'tower on the west side');assert.ok(jp.m.stained&&jp.m.copper&&jp.tris<40000);});
+const rp=rowParts(data),rv=verts(rp);
+test('the row: fronts for Nos. 1-13 and 19-26 with porticoes, attic frieze, railing; within its blocks',()=>{assert.equal(ROW_BINS.length,ROW.east.length+ROW.west.length);
+ const fence=verts(rp,['iron']);assert.ok(fence.length>10000);const cols=verts(rp,['marble']).filter(([x,y])=>y>2&&y<5.5);assert.ok(cols.length>1000,'porticoes');
+ assert.ok(rv.every(([x,y,z])=>(x>25&&x<160&&-z>-50&&-z<45)||(x>-130&&x<-15&&-z>60&&-z<140)),'stays on the two blocks');assert.ok(rp.tris<90000);});
 console.log(`landmarks: ${passed} passed`);
