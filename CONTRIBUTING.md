@@ -1,6 +1,6 @@
 # Working on NightView
 
-Serve `dist` using Python 3, and use Node.js 24+ to run `npm test`. No npm install is needed.
+Serve `dist` using Python 3, and use Node.js 22 or newer to run `npm test`. No npm install is needed.
 
 Keep vehicle simulation independent of rendering. Physics uses SI units and fixed 1/120-second steps; add tests for meaningful dynamics changes and preserve deterministic tick-input replay. New location artwork must have documented sources and licensing. Keep promotional text out of the driving interface; place selectors in Options.
 
