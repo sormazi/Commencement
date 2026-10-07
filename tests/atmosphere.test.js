@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {inSlice,DECAY_BINS,treeBoost,decayKind,gu,gv} from '../dist/campus/atmosphere/decay.js';
 import {flicker} from '../dist/campus/atmosphere/night.js';
+import {crowdPlan} from '../dist/campus/atmosphere/crowd.js';
 import data from '../dist/campus/data/campus-data.js';
 import {pointInRing,centroid} from '../dist/campus/geometry.js';
 let passed=0;const test=(name,fn)=>{fn();passed++;console.log('ok - '+name);};
@@ -14,4 +15,9 @@ test('only park trees get the century of growth',()=>{const park=data.areas.find
  assert.ok(treeBoost(inside.p,park).height>1.5);assert.equal(treeBoost(outside.p,park),null);});
 test('weathering kinds by material name',()=>{assert.equal(decayKind('glassClear'),'glass');assert.equal(decayKind('iron'),'metal');assert.equal(decayKind('sign'),'light');assert.equal(decayKind('brick'),'masonry');});
 test('lamp flicker stays between 0 and 1 and some lamps go dark',()=>{let dark=0;for(let i=0;i<400;i++){const v=flicker(i*.13,.9);assert.ok(v>=0&&v<=1);if(v===0)dark++;}assert.ok(dark>0);for(let i=0;i<50;i++)assert.ok(flicker(i,.2)>.6);});
+test('loiterers: queues, card readers, wall-facers, lecture rows and gowns, all inside the slice and none near the Brown Building',()=>{const {people,doors}=crowdPlan(data,{});
+ assert.ok(people.length>150&&people.length<400,'count '+people.length);assert.equal(doors.length,2);const roles=new Set(people.map(p=>p.role));
+ for(const r of ['queue','reader','wall','lecture','lecturer','class','loiter','tree','steps'])assert.ok(roles.has(r),'role '+r);
+ assert.ok(people.some(p=>p.pose==='gown'));for(const p of people)assert.ok(inSlice(p.home),'in slice');
+ const brown=centroid(B(1008823).rings[0]);for(const p of people)assert.ok(Math.hypot(p.home[0]-brown[0],p.home[1]-brown[1])>40);});
 console.log('atmosphere: '+passed+' passed');

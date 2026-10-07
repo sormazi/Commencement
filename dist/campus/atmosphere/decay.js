@@ -37,7 +37,7 @@ diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.12,.17,.07),moss*.75);`,
 float web=1.-smoothstep(.006,.03,abs(dkNoise(dp*3.1)-.5));float web2=1.-smoothstep(.006,.025,abs(dkNoise(dp*7.3+5.)-.5));
 float grime=smoothstep(.3,.9,broad);
 diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.16,.17,.15),grime*.55);
-diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.78,.8,.78),max(web,web2*.7)*step(.45,pane)*.8);
+diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.42,.44,.42),max(web,web2*.7)*step(.45,pane)*.7);
 diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.01),step(.82,pane));`,
  metal:`float broad=dkNoise(dp*.8),fine=dkNoise(dp*21.);float rust=smoothstep(.25,.75,broad+fine*.25);
 diffuseColor.rgb=mix(diffuseColor.rgb,mix(vec3(.33,.15,.06),vec3(.48,.25,.1),fine),rust*.85);`,
