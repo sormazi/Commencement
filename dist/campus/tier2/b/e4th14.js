@@ -1,0 +1,2 @@
+// 14 E 4th St (NYU Shanghai office). 1909, 12 storeys, NYU by OSM name only. Not checked on Street View (estimate).
+export default {slug:"e4th14",name:"14 E 4th St (NYU Shanghai office)",bin:1008529,also:[],source:"1909, 12 storeys, NYU by OSM name only. Not checked on Street View (estimate).",wall:'brickBuff',trim:'limestone',ground:{h:4.8,style:'storefront',mat:'limestone',pitch:4.4},floor:3.6,pitch:4.2,win:[1.1,2.2],pair:1,sash:1,cornice:'modillion',doors:[{rank:0,at:.5,w:2.2,h:3.2}]};
