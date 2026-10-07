@@ -43,3 +43,42 @@ export function facing(w){const [x,n]=w.n;return Math.abs(n)>=Math.abs(x)?(n>0?'
 export function coping(P,w,y,{name='stone',proj=.25,h=.35}={}){P.block(name,w.face,-.0,w.len,y-h,y,0,proj,{skip:[]});}
 export function signPanel(lines,{w=512,h=128,bg='#2a2522',ink='#d9c79a',font='"Helvetica Neue", Arial, sans-serif',weight=600}={}){const c=document.createElement('canvas');c.width=w;c.height=h;const g=c.getContext('2d');if(bg){g.fillStyle=bg;g.fillRect(0,0,w,h);}else g.clearRect(0,0,w,h);g.fillStyle=ink;g.textAlign='center';
  const lh=h/(lines.length+.4);lines.forEach((l,i)=>{let s=lh*.7;g.font=`${weight} ${s}px ${font}`;while(g.measureText(l).width>w*.92&&s>6){s*=.95;g.font=`${weight} ${s}px ${font}`;}g.fillText(l,w/2,lh*(i+.85));});const t=new T.CanvasTexture(c);t.colorSpace=T.SRGBColorSpace;return t;}
+// ---- Masonry kit (brick and limestone buildings) ----
+// Round-arched opening outline in face coordinates: sill v0, springing line `spring`, width w.
+export const archHole=(cu,w,v0,spring,seg=10)=>{const r=w/2,p=[[cu-r,v0],[cu+r,v0]];for(let k=0;k<=seg;k++){const t=Math.PI*k/seg;p.push([cu+r*Math.cos(t),spring+r*Math.sin(t)]);}return p;};
+// Sash windows punched in a wall: returns the window rectangles. Each window gets a reveal, a sash
+// panel (texture with 0..1 UVs, e.g. six-over-six), a stone sill and optionally a stone lintel.
+// rows: list of window-bottom heights; bays: list of bay centres (u) or {pitch, margin} to space them;
+// skip(i,r) leaves a bay solid (blind) and may return 'panel' for a recessed blind panel.
+export function sashWindows(P,w,y0,y1,{wall='brick',trim='stone',sash='sash',rows,bays,win=[1.25,2.3],reveal=.18,sill=.1,lintel=0,skip=null,panelInset=.1}={}){
+ const L=w.len,f=w.face;let cs=Array.isArray(bays)?bays:null;if(!cs){const {pitch=3.2,margin=.6}=bays||{};const nb=Math.max(0,Math.floor((L-2*margin)/pitch));const p0=(L-nb*pitch)/2;cs=[];for(let i=0;i<nb;i++)cs.push(p0+(i+.5)*pitch);}
+ const holes=[],wins=[],panels=[];rows.forEach((ys,r)=>{const wh=Array.isArray(win[0])?win[r]:win;cs.forEach((c,i)=>{if(ys<y0-.01||ys+wh[1]>y1)return;const k=skip?skip(i,r):false;const q=[c-wh[0]/2,ys,c+wh[0]/2,ys+wh[1]];if(k==='panel'){panels.push(q);holes.push([[q[0],q[1]],[q[2],q[1]],[q[2],q[3]],[q[0],q[3]]]);}else if(!k){wins.push(q);holes.push([[q[0],q[1]],[q[2],q[1]],[q[2],q[3]],[q[0],q[3]]]);}});});
+ P.poly(wall,f,[[0,y0],[L,y0],[L,y1],[0,y1]],holes,0);
+ for(const [u0,v0,u1,v1] of wins){P.recess(wall,f,u0,u1,v0,v1,reveal,'_none');P.panel(sash,f,u0,u1,v0,v1,-reveal);if(sill)P.block(trim,f,u0-.1,u1+.1,v0-sill,v0,0,.12);if(lintel)P.block(trim,f,u0-.12,u1+.12,v1,v1+lintel,0,.04);}
+ for(const [u0,v0,u1,v1] of panels){P.recess(wall,f,u0,u1,v0,v1,panelInset,wall);}
+ return wins;}
+// Six-over-six (or n-over-n) sash texture: white frames and muntins over dark glass with a little sky.
+export function sashTexture({cols=3,rows=2,frame='#ecebe6',glass='#26313a',px=128}={}){const c=document.createElement('canvas');c.width=px;c.height=px*2;const g=c.getContext('2d');
+ g.fillStyle=frame;g.fillRect(0,0,c.width,c.height);const W=c.width,H=c.height,b=W*.08;
+ for(const [y0,y1] of [[b,H/2-b*.4],[H/2+b*.4,H-b]]){const gr=g.createLinearGradient(0,y0,W,y1);gr.addColorStop(0,'#53636e');gr.addColorStop(.5,glass);gr.addColorStop(1,'#1b2329');g.fillStyle=gr;g.fillRect(b,y0,W-2*b,y1-y0);
+  g.fillStyle=frame;for(let i=1;i<cols;i++)g.fillRect(b+(W-2*b)*i/cols-2,y0,4,y1-y0);for(let j=1;j<rows;j++)g.fillRect(b,y0+(y1-y0)*j/rows-2,W-2*b,4);}
+ const t=new T.CanvasTexture(c);t.colorSpace=T.SRGBColorSpace;return t;}
+// Modillion cornice along a wall top: crown, corona, bed moulding and modillion blocks.
+export function modillionCornice(P,w,y,{name='stone',proj=.75,h=.75,spacing=.6,mod=[.14,.2,.55]}={}){const f=w.face,L=w.len;
+ P.block(name,f,-proj*.0,L,y-h*.35,y,0,proj,{skip:[]});P.block(name,f,0,L,y-h*.55,y-h*.35,0,proj*.75);P.block(name,f,0,L,y-h,y-h*.55,0,.18);
+ for(let u=spacing/2;u<L;u+=spacing)P.block(name,f,u-mod[0]/2,u+mod[0]/2,y-h*.55-mod[1],y-h*.55,0,mod[2],{skip:['top']});}
+// Triangular pediment on top of a wall from u0 to u1 at height y with rise `rise`: brick tympanum
+// (with an optional oculus), horizontal and raking cornices.
+export function pediment(P,w,u0,u1,y,rise,{wall='brick',name='stone',glass='glass',oculus=0,proj=.6,t=.35}={}){const f=w.face,c=(u0+u1)/2;
+ const tri=[[u0,y],[u1,y],[c,y+rise]];const holes=oculus?[Array.from({length:16},(_,i)=>{const a=-i/16*Math.PI*2;return [c+Math.cos(a)*oculus,y+rise*.5+Math.sin(a)*oculus];})]:[];
+ P.poly(wall,f,tri,holes,0);if(oculus){reveal2(P,name,f,holes[0],.25,glass);}
+ // Back of the tympanum (seen from above/behind) and the two roof slopes.
+ const back=new Face(f.at(u1,0,-.3),f.u.map(x=>-x),f.v);P.poly(wall,back,[[0,y],[u1-u0,y],[(u1-u0)/2,y+rise]],[],0);
+ for(const [a,b] of [[[u0,y],[c,y+rise]],[[c,y+rise],[u1,y]]]){const p=(u,v,d)=>f.at(u,v,d),du=b[0]-a[0],dv=b[1]-a[1],l=Math.hypot(du,dv),nu=-dv/l*t*(du>0?1:-1),nv=Math.abs(du)/l*t;
+  const A0=p(a[0],a[1],-.3),B0=p(b[0],b[1],-.3),A1=p(a[0],a[1],proj),B1=p(b[0],b[1],proj),A2=p(a[0]+nu,a[1]+nv,proj),B2=p(b[0]+nu,b[1]+nv,proj),A3=p(a[0]+nu,a[1]+nv,-.3),B3=p(b[0]+nu,b[1]+nv,-.3);
+  P.quad(name,A1,B1,B2,A2,f.n);P.quad(name,A3,B3,B2,A2,[0,1,0]);P.quad(name,A0,B0,B1,A1,[0,-1,0]);}
+ P.block(name,f,u0-proj*.3,u1+proj*.3,y-.35,y,0,proj);}
+function reveal2(P,name,f,hole,depth,back){let cu=0,cv=0;for(const p of hole){cu+=p[0];cv+=p[1];}cu/=hole.length;cv/=hole.length;
+ for(let k=0;k<hole.length;k++){const p=hole[k],q=hole[(k+1)%hole.length],mu=(p[0]+q[0])/2-cu,mv=(p[1]+q[1])/2-cv,h=[-(f.u[0]*mu+f.v[0]*mv),-(f.u[1]*mu+f.v[1]*mv),-(f.u[2]*mu+f.v[2]*mv)];
+  P.quad(name,f.at(p[0],p[1],0),f.at(q[0],q[1],0),f.at(q[0],q[1],-depth),f.at(p[0],p[1],-depth),h);}
+ if(back)P.poly(back,new Face(f.at(0,0,-depth),f.u,f.v),hole);}

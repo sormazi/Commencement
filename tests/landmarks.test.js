@@ -13,6 +13,7 @@ import {brownParts,BROWN} from '../dist/campus/landmarks/brown.js';
 import {LANDMARK_BUILDINGS} from '../dist/campus/landmarks/index.js';
 import {SHEDS,shedParts} from '../dist/campus/landmarks/sheds.js';
 import {silverTowersParts,SILVER_TOWERS,SYLVETTE} from '../dist/campus/landmarks/silver-towers.js';
+import {vanderbiltParts,VANDERBILT} from '../dist/campus/landmarks/vanderbilt.js';
 import {CampusCollision} from '../dist/campus/collision.js';
 import {rectFrame} from '../dist/campus/geometry.js';
 let passed=0;const test=(name,fn)=>{fn();passed++;console.log('ok -',name);};
@@ -72,4 +73,7 @@ test('silver towers: three towers to the 82.5 m roof, 8- and 4-bay grids on ever
  const b=bbox(verts(P));assert.ok(b[1][1]>88&&b[1][1]<92.5,'bulkheads '+b[1][1]);
  const sy=P.m.betograve.pos;assert.equal(sy.length/3,36,'one plain slab, no figurative geometry');
  const c=new CampusCollision(data);assert.equal(c.solidAt(SYLVETTE.p[0],SYLVETTE.p[1]),'monument');});
+test('vanderbilt: pedimented wing ends on the square, five-arch arcade with the entrance in the middle, court doorcase, pediments on MacDougal and Sullivan',()=>{const {P,info}=vanderbiltParts();
+ assert.equal(info.wingEnds.length,2);assert.ok(info.arcade&&Math.abs(info.arcade.L-23.3)<1,'arcade');assert.ok(info.doorcase,'doorcase');assert.deepEqual(info.sides.map(s=>s.dir).sort(),['e','w']);assert.ok(info.windows>250,'windows '+info.windows);
+ const b=bbox(verts(P));assert.ok(b[1][1]>26&&b[1][1]<29,'top '+b[1][1]);const vb=data.buildings.find(x=>x.bin===VANDERBILT.bin);assert.ok(near(verts(P),vb,3));});
 console.log(`landmarks: ${passed} passed`);
