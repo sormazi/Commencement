@@ -198,3 +198,13 @@ export function brickTextures({base='#c8c1b3',mortar='#d9d4ca',brick=[.2,.067],t
  return {map:tex(c,true,1/tileW,1/tileH),normalMap:tex(normalMap(ht,2),false,1/tileW,1/tileH)};}
 // Flag cloth with an emblem drawn by the caller.
 export function clothTexture(draw,w=256,h=384){const c=canvas(w,h);draw(c.getContext('2d'),w,h);const t=new T.CanvasTexture(c);t.colorSpace=T.SRGBColorSpace;return t;}
+// Arc frames on any face: centre (cu,cv) in face coordinates, radius r, from angle a0 to a1
+// (0 = face right, π = face left); profiles extrude out of the face (o = n) and radially (u).
+export function arcOnFace(f,cu,cv,r,steps=16,a0=0,a1=Math.PI){const out=[];for(let i=0;i<=steps;i++){const t=a1-(a1-a0)*i/steps,c=Math.cos(t),s=Math.sin(t);
+ out.push({p:f.at(cu+r*c,cv+r*s,0),o:f.n,u:[f.u[0]*c+f.v[0]*s,f.u[1]*c+f.v[1]*s,f.u[2]*c+f.v[2]*s]});}return out;}
+// Reveal (jamb) walls around a hole outline in a face, `depth` deep, facing into the opening;
+// with back !== null also fills the back of the opening with that material.
+export function reveal(P,name,f,hole,depth,back=null){let cu=0,cv=0;for(const p of hole){cu+=p[0];cv+=p[1];}cu/=hole.length;cv/=hole.length;
+ for(let k=0;k<hole.length;k++){const p=hole[k],q=hole[(k+1)%hole.length],mu=(p[0]+q[0])/2-cu,mv=(p[1]+q[1])/2-cv,h=[-(f.u[0]*mu+f.v[0]*mv),-(f.u[1]*mu+f.v[1]*mv),-(f.u[2]*mu+f.v[2]*mv)];
+  P.quad(name,f.at(p[0],p[1],0),f.at(q[0],q[1],0),f.at(q[0],q[1],-depth),f.at(p[0],p[1],-depth),h);}
+ if(back)P.poly(back,new Face(f.at(0,0,-depth),f.u,f.v),hole);}

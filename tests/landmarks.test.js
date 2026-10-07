@@ -6,6 +6,7 @@ import {bobstParts,BOBST} from '../dist/campus/landmarks/bobst.js';
 import {silverParts,SILVER} from '../dist/campus/landmarks/silver-center.js';
 import {footprintFrame} from '../dist/campus/landmarks/kit.js';
 import {kimmelParts,KIMMEL} from '../dist/campus/landmarks/kimmel.js';
+import {judsonParts,JUDSON} from '../dist/campus/landmarks/judson.js';
 import {CampusCollision} from '../dist/campus/collision.js';
 import {rectFrame} from '../dist/campus/geometry.js';
 let passed=0;const test=(name,fn)=>{fn();passed++;console.log('ok -',name);};
@@ -39,4 +40,7 @@ const near=(v,b,pad)=>{const xs=b.rings[0].map(p=>p[0]),ns=b.rings[0].map(p=>p[1
 const kim=data.buildings.find(b=>b.bin===KIMMEL.bin),{P:kp,park}=kimmelParts(kim),kv=verts(kp);
 test('kimmel: stepped volume to 49.9 m, glazed top storey, canopy, balcony, stays on its block',()=>{const b=bbox(kv);assert.ok(Math.abs(b[1][1]-49.9)<.3,'top '+b[1][1]);assert.ok(near(kv,kim,5));
  assert.ok(kp.m.glassRoof&&kp.m.glassRail&&kp.m.glass);assert.ok(park&&park.len>15,'park wall found');assert.ok(kp.tris<60000);});
+const jp=judsonParts(),jv=verts(jp);
+test('judson: 19.7 × 30.8 m church with pediment and cross, campanile west of it to ~40 m',()=>{const b=bbox(jv);assert.ok(Math.abs(b[1][1]-JUDSON.tower.h)<.5,'top '+b[1][1]);
+ const ped=jv.filter(([x,y,z])=>y>JUDSON.eave+1&&y<JUDSON.apex&&x>0&&x<JUDSON.W);assert.ok(ped.length>100);const tower=jv.filter(([x,y])=>y>25);assert.ok(tower.every(([x])=>x>JUDSON.tower.x0-1),'tower on the west side');assert.ok(jp.m.stained&&jp.m.copper&&jp.tris<40000);});
 console.log(`landmarks: ${passed} passed`);
