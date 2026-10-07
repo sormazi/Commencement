@@ -1,0 +1,2 @@
+// Barney Building, 28 Stuyvesant St. 1920, 6 storeys (Steinhardt art). Not checked on Street View (estimate).
+export default {slug:"barney",name:"Barney Building, 28 Stuyvesant St",bin:1088854,also:[],source:"1920, 6 storeys (Steinhardt art). Not checked on Street View (estimate).",wall:'brickRed',trim:'limestone',ground:{h:4.4,style:'storefront',mat:'limestone',pitch:4.2},floor:3.8,pitch:3.8,win:[1.1,2.2],pair:1,sash:1,cornice:'coping',doors:[{rank:0,at:.5,w:2.2,h:3}]};
