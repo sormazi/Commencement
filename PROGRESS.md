@@ -85,3 +85,4 @@ Next (after review)
 | 2026-10-07 | 13e9200 | Phase 2 detail pass: Arch, Bobst, Silver Center in full geometry; kits, checklists, Commons references, comparisons, landmark tests |
 | 2026-10-07 | 8d48dcd | Kimmel Center detail; shared facade kit |
 | 2026-10-07 | 6ddb53a | Judson Memorial Church and campanile |
+| 2026-10-07 | fd969d5 | The Row (Nos. 1-13 and 19-26 Washington Sq N) |
