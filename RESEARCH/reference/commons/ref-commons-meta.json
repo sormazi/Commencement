@@ -97,7 +97,7 @@
   "author": "BruceSchaff",
   "license": "CC BY-SA 4.0",
   "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "date": "Taken on 26 November 2024, 16:25:50",
+  "date": "Taken on\u00a026 November 2024, 16:25:50",
   "gps": [
    "40.731273",
    "-73.997053"
@@ -257,6 +257,380 @@
   "gps": [
    null,
    null
+  ]
+ },
+ "kimmel_2008": {
+  "file": "File:Kimmel Center for University Life NYU.JPG",
+  "page": "https://commons.wikimedia.org/wiki/File:Kimmel_Center_for_University_Life_NYU.JPG",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/Kimmel_Center_for_University_Life_NYU.JPG/1280px-Kimmel_Center_for_University_Life_NYU.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "author": "PointsofNoReturn",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "date": "2014-05-31 12:32:40",
+  "gps": [
+   "40.730244",
+   "-73.997903"
+  ],
+  "size": [
+   2448,
+   3264
+  ]
+ },
+ "kimmel_bobst": {
+  "file": "File:Bobst, Kimmel.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Bobst,_Kimmel.jpg",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Bobst%2C_Kimmel.jpg/1280px-Bobst%2C_Kimmel.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "author": "EgyetemInf\u00f3 at Hungarian Wikipedia",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "date": "2015",
+  "gps": [
+   null,
+   null
+  ],
+  "size": [
+   1573,
+   884
+  ]
+ },
+ "kimmel_esb": {
+  "file": "File:Kimmel towards Empire State.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Kimmel_towards_Empire_State.jpg",
+  "thumb": "https://upload.wikimedia.org/wikipedia/commons/7/75/Kimmel_towards_Empire_State.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+  "author": "Markus Poessel (Mapos)",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "date": "2008-04-02",
+  "gps": [
+   null,
+   null
+  ],
+  "size": [
+   1024,
+   768
+  ]
+ },
+ "gv_2025_203": {
+  "file": "File:Greenwich Village April 2025 203.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Greenwich_Village_April_2025_203.jpg",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ee/Greenwich_Village_April_2025_203.jpg/1280px-Greenwich_Village_April_2025_203.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "author": "Kidfly182",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "date": "2025-04-25 13:52:16",
+  "gps": [
+   null,
+   null
+  ],
+  "size": [
+   4608,
+   2072
+  ]
+ },
+ "gv_2025_205": {
+  "file": "File:Greenwich Village April 2025 205.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Greenwich_Village_April_2025_205.jpg",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8c/Greenwich_Village_April_2025_205.jpg/1280px-Greenwich_Village_April_2025_205.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "author": "Kidfly182",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "date": "2025-04-25 13:52:16",
+  "gps": [
+   null,
+   null
+  ],
+  "size": [
+   4608,
+   2072
+  ]
+ },
+ "judson_square": {
+  "file": "File:Judson Memorial Church\u2014view from Washington Square.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Judson_Memorial_Church%E2%80%94view_from_Washington_Square.jpg",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/Judson_Memorial_Church%E2%80%94view_from_Washington_Square.jpg/1280px-Judson_Memorial_Church%E2%80%94view_from_Washington_Square.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "author": "Coelacanth2014",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "date": "2016-10-16 14:00:32",
+  "gps": [
+   "40.730644",
+   "-73.997406"
+  ],
+  "size": [
+   2448,
+   3264
+  ]
+ },
+ "judson_west": {
+  "file": "File:Judson Church from west.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Judson_Church_from_west.jpg",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/Judson_Church_from_west.jpg/1280px-Judson_Church_from_west.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "author": "Beyond My Ken",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "date": "2011-03-15",
+  "gps": [
+   "40.730629",
+   "-73.998687"
+  ],
+  "size": [
+   1301,
+   2239
+  ]
+ },
+ "judson_east": {
+  "file": "File:Judson Church from east.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Judson_Church_from_east.jpg",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/Judson_Church_from_east.jpg/1280px-Judson_Church_from_east.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "author": "Beyond My Ken",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "date": "2011-03-15",
+  "gps": [
+   "40.730264",
+   "-73.997840"
+  ],
+  "size": [
+   1661,
+   1977
+  ]
+ },
+ "judson_campanile": {
+  "file": "File:Judson Church campanile.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Judson_Church_campanile.jpg",
+  "thumb": "https://upload.wikimedia.org/wikipedia/commons/f/f4/Judson_Church_campanile.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+  "author": "Beyond My Ken",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "date": "2011-03-15",
+  "gps": [
+   "40.730410",
+   "-73.998462"
+  ],
+  "size": [
+   1230,
+   2304
+  ]
+ },
+ "judson_1": {
+  "file": "File:Judson Memorial Church (1).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Judson_Memorial_Church_(1).jpg",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/Judson_Memorial_Church_%281%29.jpg/1280px-Judson_Memorial_Church_%281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "author": "Chris06",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "date": "2013-07-21",
+  "gps": [
+   null,
+   null
+  ],
+  "size": [
+   1973,
+   1478
+  ]
+ },
+ "judson_mmda": {
+  "file": "File:MMDA-Photos - 2017-10-21 - Judson Memorial.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:MMDA-Photos_-_2017-10-21_-_Judson_Memorial.jpg",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/32/MMDA-Photos_-_2017-10-21_-_Judson_Memorial.jpg/1280px-MMDA-Photos_-_2017-10-21_-_Judson_Memorial.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "author": "M.M.Dwyer-Architect",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "date": "2017-10-21",
+  "gps": [
+   null,
+   null
+  ],
+  "size": [
+   2768,
+   2968
+  ]
+ },
+ "row": {
+  "file": "File:The Row on Washington Square North.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:The_Row_on_Washington_Square_North.jpg",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/28/The_Row_on_Washington_Square_North.jpg/1280px-The_Row_on_Washington_Square_North.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "author": "Beyond My Ken",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "date": "2011-03-15",
+  "gps": [
+   "40.731304",
+   "-73.996815"
+  ],
+  "size": [
+   2232,
+   1568
+  ]
+ },
+ "row_19_26": {
+  "file": "File:19-26 Washington Square North.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:19-26_Washington_Square_North.jpg",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2f/19-26_Washington_Square_North.jpg/1280px-19-26_Washington_Square_North.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "author": "Beyond My Ken",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "date": "2011-03-25",
+  "gps": [
+   "40.732107",
+   "-73.998475"
+  ],
+  "size": [
+   2165,
+   1664
+  ]
+ },
+ "row_19_26_east": {
+  "file": "File:19-26 Washington Square North from east.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:19-26_Washington_Square_North_from_east.jpg",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/69/19-26_Washington_Square_North_from_east.jpg/1280px-19-26_Washington_Square_North_from_east.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "author": "Beyond My Ken",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "date": "2011-03-29",
+  "gps": [
+   "40.731709",
+   "-73.997641"
+  ],
+  "size": [
+   2138,
+   1728
+  ]
+ },
+ "brown_west": {
+  "file": "File:Brown Building from west.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Brown_Building_from_west.jpg",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/36/Brown_Building_from_west.jpg/1280px-Brown_Building_from_west.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "author": "Beyond My Ken",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "date": "2011-03-15",
+  "gps": [
+   "40.729984",
+   "-73.995835"
+  ],
+  "size": [
+   1665,
+   2304
+  ]
+ },
+ "brown_entrance": {
+  "file": "File:Brown Building entrance.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Brown_Building_entrance.jpg",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/Brown_Building_entrance.jpg/1280px-Brown_Building_entrance.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "author": "Beyond My Ken",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "date": "2011-03-29",
+  "gps": [
+   "40.729957",
+   "-73.995608"
+  ],
+  "size": [
+   1691,
+   2269
+  ]
+ },
+ "brown_triangle": {
+  "file": "File:Triangle Building.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Triangle_Building.jpg",
+  "thumb": "https://upload.wikimedia.org/wikipedia/commons/2/21/Triangle_Building.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+  "author": "Mico Fil\u00f3s",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "date": "2009-11-18",
+  "gps": [
+   null,
+   null
+  ],
+  "size": [
+   496,
+   716
+  ]
+ },
+ "brown_plaque": {
+  "file": "File:The Brown Building Plaque.JPG",
+  "page": "https://commons.wikimedia.org/wiki/File:The_Brown_Building_Plaque.JPG",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/The_Brown_Building_Plaque.JPG/1280px-The_Brown_Building_Plaque.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "author": "Muncharelli",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "date": "Taken on\u00a013 April 2012, 16:27:05",
+  "gps": [
+   "40.730000",
+   "-73.995833"
+  ],
+  "size": [
+   3648,
+   2736
+  ]
+ },
+ "brown_memorial": {
+  "file": "File:Triangle Shirtwaist Fire Centennial Memorial.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Triangle_Shirtwaist_Fire_Centennial_Memorial.jpg",
+  "thumb": "https://upload.wikimedia.org/wikipedia/commons/f/f4/Triangle_Shirtwaist_Fire_Centennial_Memorial.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+  "author": "Image_language (Jeffrey Riman)",
+  "license": "CC BY-SA 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "date": "2011-03-25",
+  "gps": [
+   "40.729839",
+   "-73.995428"
+  ],
+  "size": [
+   799,
+   531
+  ]
+ },
+ "brown_memorial_2024": {
+  "file": "File:Brown Building Looking Up from Triangle Shirtwaist Factory Fire Memorial 9.30.2024.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Brown_Building_Looking_Up_from_Triangle_Shirtwaist_Factory_Fire_Memorial_9.30.2024.jpg",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Brown_Building_Looking_Up_from_Triangle_Shirtwaist_Factory_Fire_Memorial_9.30.2024.jpg/1280px-Brown_Building_Looking_Up_from_Triangle_Shirtwaist_Factory_Fire_Memorial_9.30.2024.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "author": "Eejjmm8888",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "date": "2024-09-30 10:03:20",
+  "gps": [
+   null,
+   null
+  ],
+  "size": [
+   4032,
+   3024
+  ]
+ },
+ "brown_asch": {
+  "file": "File:Asch-brown-triangle-shirtwaist-fire-building.JPG",
+  "page": "https://commons.wikimedia.org/wiki/File:Asch-brown-triangle-shirtwaist-fire-building.JPG",
+  "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f4/Asch-brown-triangle-shirtwaist-fire-building.JPG/1280px-Asch-brown-triangle-shirtwaist-fire-building.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "author": "Dmadeo",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "date": "2007-11-21",
+  "gps": [
+   "40.730000",
+   "-73.995833"
+  ],
+  "size": [
+   3648,
+   2736
+  ]
+ },
+ "waverly_12": {
+  "file": "File:12 Waverly Place.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:12_Waverly_Place.jpg",
+  "thumb": "https://upload.wikimedia.org/wikipedia/commons/1/1e/12_Waverly_Place.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+  "author": "Beyond My Ken",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "date": "2011-03-15",
+  "gps": [
+   "40.730158",
+   "-73.994310"
+  ],
+  "size": [
+   1055,
+   2264
   ]
  }
 }

@@ -3,7 +3,7 @@
 Read this file and `RESEARCH/campus-inventory.md` first when picking the work back up.
 
 ## Current phase
-Phase 2 detail pass: Arch, Bobst and Silver Center built and committed; stopped for Avi's review before Kimmel. Massing approved by Avi 2026-10-07.
+Phase 2 detail pass, second batch (approved 2026-10-07 to continue): Kimmel, Judson, the Row, Weinstein, Brown + memorial, then a review stop; then Silver Towers + Picasso, Vanderbilt, Tisch + Kaufman, Paulson. One commit per landmark.
 
 ## Finished
 - Phase 0: free-roam campus world (projection, street graph, collision, curbs/surfaces, streamed tiles, minimap, spawn/reset). Default location is Washington Square · NYU. Corridor locations unchanged. Tests pass. See CAMPUS.md.
@@ -13,13 +13,15 @@ Phase 2 detail pass: Arch, Bobst and Silver Center built and committed; stopped 
 - Phase 2 massing pass: 4,110 buildings from 3D-model roof pieces, 138 extrusions, Paulson estimated. Screenshots in RESEARCH/screenshots/phase2-massing/.
 
 ## In progress
-- Nothing; waiting for review of the detail pass (comparisons in RESEARCH/screenshots/detail/).
+- Resolving the remaining open questions from Street View (Silver porch, Bobst entrance bays, Weinstein street frontage, Public Safety booths, sidewalk sheds); browser pane needed for Street View.
+- Detail pass: Kimmel done; Judson next.
 
 ## Next (after Avi's review)
 - Phase 2 detail pass continues with Kimmel, Judson, the Row, Weinstein, Brown + memorial, Silver Towers + Sylvette, Vanderbilt, Tisch + KMC, Paulson (checklists in RESEARCH/checklists/).
 - When Avi's photos land in RESEARCH/my-photos/: update fountain plaza, chess tables, lamp posts, banners.
 
 ## Decisions from Avi
+- 2026-10-07 First detail batch approved; keep the same level of detail. Resolve the open questions myself from Street View and photos (record observations and capture dates; label estimates). Weinstein: street-visible only. Commit after each landmark; stop once after Brown for review.
 - 2026-10-07 Massing pass approved. Detail pass order: Arch, Bobst, Silver Center, Kimmel, Judson, the Row, Weinstein, Brown + memorial, Silver Towers + Sylvette, Vanderbilt, Tisch + KMC, Paulson. Stop after the first three for review.
 - 2026-10-07 Detail rules: real geometry for anything that projects or casts shadows; textures only for fine surface detail; reusable kits; proportions from counts and measurements; side-by-side comparisons in RESEARCH/screenshots/detail/; clean and intact until Phase 3.
 - 2026-10-07 Carlyle Court: signage only (outside study area).

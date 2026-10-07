@@ -5,6 +5,7 @@ import {archParts,ARCH,INSCRIPTION} from '../dist/campus/landmarks/arch.js';
 import {bobstParts,BOBST} from '../dist/campus/landmarks/bobst.js';
 import {silverParts,SILVER} from '../dist/campus/landmarks/silver-center.js';
 import {footprintFrame} from '../dist/campus/landmarks/kit.js';
+import {kimmelParts,KIMMEL} from '../dist/campus/landmarks/kimmel.js';
 import {CampusCollision} from '../dist/campus/collision.js';
 import {rectFrame} from '../dist/campus/geometry.js';
 let passed=0;const test=(name,fn)=>{fn();passed++;console.log('ok -',name);};
@@ -32,4 +33,10 @@ const sil=data.buildings.find(b=>b.bin===SILVER.bin),sp=silverParts(sil),sv=vert
 test('silver center: three street fronts carry facade geometry; loggia columns on Washington Sq E',()=>{for(const F of SILVER.fronts){const dx=F.b[0]-F.a[0],dn=F.b[1]-F.a[1],L=Math.hypot(dx,dn);
   const near=sv.filter(([x,y,z])=>{const n=-z,t=((x-F.a[0])*dx+(n-F.a[1])*dn)/(L*L);if(t<0||t>1)return false;return Math.abs(((x-F.a[0])*dn-(n-F.a[1])*dx)/L)<1.5&&y>6&&y<15;});assert.ok(near.length>500,F.street+' '+near.length);}
  assert.ok(sp.m.lime.pos.length>10000);assert.ok(sp.tris<80000);});
+// Shared check for landmarks built on the 3D model: height matches the model, geometry stays near
+// the footprint, triangle budget.
+const near=(v,b,pad)=>{const xs=b.rings[0].map(p=>p[0]),ns=b.rings[0].map(p=>p[1]);return v.every(([x,y,z])=>x>Math.min(...xs)-pad&&x<Math.max(...xs)+pad&&-z>Math.min(...ns)-pad&&-z<Math.max(...ns)+pad);};
+const kim=data.buildings.find(b=>b.bin===KIMMEL.bin),{P:kp,park}=kimmelParts(kim),kv=verts(kp);
+test('kimmel: stepped volume to 49.9 m, glazed top storey, canopy, balcony, stays on its block',()=>{const b=bbox(kv);assert.ok(Math.abs(b[1][1]-49.9)<.3,'top '+b[1][1]);assert.ok(near(kv,kim,5));
+ assert.ok(kp.m.glassRoof&&kp.m.glassRail&&kp.m.glass);assert.ok(park&&park.len>15,'park wall found');assert.ok(kp.tris<60000);});
 console.log(`landmarks: ${passed} passed`);
