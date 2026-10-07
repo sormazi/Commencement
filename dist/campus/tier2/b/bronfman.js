@@ -1,0 +1,2 @@
+// Bronfman Center, 7 E 10th St. 1887 town house, 5 storeys. Not checked on Street View (estimate).
+export default {slug:"bronfman",name:"Bronfman Center, 7 E 10th St",bin:1009269,also:[],source:"1887 town house, 5 storeys. Not checked on Street View (estimate).",wall:'brownstone',trim:'brownstone',ground:{h:3.6,style:'base',mat:'brownstone',first:1.4},floor:3.4,pitch:2.6,win:[1.0,2.1],sash:1,lintel:.3,cornice:'modillion',doors:[{rank:0,at:.3,w:1.5,h:2.8,steps:4,y:1.2}]};
