@@ -101,3 +101,4 @@ Target is 60 fps at the Arch. My own checks run in a software renderer in the cl
 | 2026-10-07 | c557397 | Brown Building and Triangle Fire Memorial (preserved) |
 | 2026-10-07 | 8c58c76 | Open questions resolved (inventory update 4); sidewalk sheds |
 | 2026-10-07 | a873e18 | Kimmel canopy: curved vault (review fix) |
+| 2026-10-07 | 496e8fc | FPS counter + how to test locally |
