@@ -13,3 +13,4 @@
 #adInspector{max-width:820px}.ad-toggle input{width:auto}#adInspector input[type=range]{display:block}
 
 #fps{position:fixed;z-index:7;left:30px;top:58px;font:500 11px ui-monospace,Menlo,monospace;color:#cfe8d2;background:#020608b0;border:1px solid #ffffff14;border-radius:3px;padding:4px 7px;pointer-events:none;letter-spacing:.2px}#fps.slow{color:#ffb38a}@media(max-width:650px){#fps{left:18px;top:50px}}
+.option-note{grid-column:1/-1;margin:-6px 0 0;color:#84929c;font-size:11px}select:disabled{opacity:.45}
