@@ -117,3 +117,4 @@ Target is 60 fps at the Arch. My own checks run in a software renderer in the cl
 | 2026-10-07 | cf46a10 | Atmosphere: decay (park slice) |
 | 2026-10-07 | 1a21caa | Atmosphere: Dead of night preset |
 | 2026-10-07 | a080a2f | Atmosphere: no traffic on campus |
+| 2026-10-07 | ecea1cf | Atmosphere: loiterers |
