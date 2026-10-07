@@ -13,8 +13,7 @@ Phase 2 detail pass, second batch (approved 2026-10-07 to continue): Kimmel, Jud
 - Phase 2 massing pass: 4,110 buildings from 3D-model roof pieces, 138 extrusions, Paulson estimated. Screenshots in RESEARCH/screenshots/phase2-massing/.
 
 ## In progress
-- Resolving the remaining open questions from Street View (Silver porch, Bobst entrance bays, Weinstein street frontage, Public Safety booths, sidewalk sheds); browser pane needed for Street View.
-- Detail pass: Kimmel, Judson, the Row, Weinstein, Brown + memorial done; resolving the remaining open questions, then the review stop.
+- Stopped for Avi's review after Kimmel, Judson, the Row, Weinstein and Brown + memorial (comparisons in RESEARCH/screenshots/detail/). Open questions resolved in inventory update 4. Next after review: Silver Towers + Picasso, Vanderbilt, Tisch + Kaufman, Paulson.
 
 ## Next (after Avi's review)
 - Phase 2 detail pass continues with Kimmel, Judson, the Row, Weinstein, Brown + memorial, Silver Towers + Sylvette, Vanderbilt, Tisch + KMC, Paulson (checklists in RESEARCH/checklists/).

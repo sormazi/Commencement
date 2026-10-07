@@ -1,4 +1,5 @@
 import {Grid,closestOnSegment,pointInRing,bboxOf,rectFrame,rectRing,centroid} from './geometry.js';
+import {SHEDS} from './landmarks/sheds.js?v=18';
 // Static collision and surface queries for the free-roam campus, in physics/map space
 // (x = east, z = north). Contacts are returned in the format physics.resolveContact expects.
 export const CAR_CIRCLES=[1.32,0,-1.32],CAR_RADIUS=.98;
@@ -12,6 +13,8 @@ export class CampusCollision{
   const addRing=(ring,kind,thick=0)=>{const rec={ring,kind};this.ringGrid.insert(rec,bboxOf(ring));this.counts.rings++;for(let i=0;i<ring.length;i++)this.addSegment(ring[i],ring[(i+1)%ring.length],kind,thick);};
   for(const b of data.buildings){addRing(b.rings[0],'building');for(let h=1;h<b.rings.length;h++){const r=b.rings[h];for(let i=0;i<r.length;i++)this.addSegment(r[i],r[(i+1)%r.length],'building',0);}}
   this.piers=archPiers(data.arch);for(const p of this.piers)addRing(p,'arch');this.pedestals=archPedestals(data.arch);for(const p of this.pedestals)addRing(p,'arch');
+  // Sidewalk sheds: the curb-side line of posts is solid.
+  for(const sh of SHEDS){const dx=sh.b[0]-sh.a[0],dn=sh.b[1]-sh.a[1],L=Math.hypot(dx,dn),nx=dn/L,nn=-dx/L,d=.3+sh.depth-.1;this.addSegment([sh.a[0]+nx*d,sh.a[1]+nn*d],[sh.b[0]+nx*d,sh.b[1]+nn*d],'shed',.08);}
   for(const a of data.areas)if(a.kind==='fountain')addRing(a.ring,'fountain');
   for(const b of data.barriers)if(b.kind!=='retaining_wall')for(let i=1;i<b.pts.length;i++)this.addSegment(b.pts[i-1],b.pts[i],b.kind,.06);
   for(const t of data.trees)this.addCircle(t.p,t.landmark?1.1:treeRadius(t.dbh),'tree');

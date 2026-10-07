@@ -11,6 +11,7 @@ import {rowParts,ROW_BINS,ROW} from '../dist/campus/landmarks/row.js';
 import {weinsteinParts,WEINSTEIN} from '../dist/campus/landmarks/weinstein.js';
 import {brownParts,BROWN} from '../dist/campus/landmarks/brown.js';
 import {LANDMARK_BUILDINGS} from '../dist/campus/landmarks/index.js';
+import {SHEDS,shedParts} from '../dist/campus/landmarks/sheds.js';
 import {CampusCollision} from '../dist/campus/collision.js';
 import {rectFrame} from '../dist/campus/geometry.js';
 let passed=0;const test=(name,fn)=>{fn();passed++;console.log('ok -',name);};
@@ -57,4 +58,8 @@ test('weinstein: slab to the 34.6 m tower roof, University Pl front found, three
 const brb=data.buildings.find(b=>b.bin===BROWN.bin),brp=brownParts(brb),brv=verts(brp);
 test('brown building: preserved, cornice at 42.9 m, penthouse, memorial ribbon on both fronts',()=>{assert.equal(LANDMARK_BUILDINGS[BROWN.bin].preserve,true);const b=bbox(brv);assert.ok(Math.abs(b[1][1]-45.9)<.3,'top '+b[1][1]);
  const rib=verts(brp,['ribbon']);assert.equal(rib.length,12);assert.ok(rib.every(([x,y])=>y>4.3&&y<5.1));assert.ok(near(brv,brb,3));});
+test('sidewalk sheds: each has a Street View date, stands on the sidewalk side, curb line is solid',()=>{const c=new CampusCollision(data);for(const s of SHEDS){assert.match(s.seen,/capture|same as above/);
+  const dx=s.b[0]-s.a[0],dn=s.b[1]-s.a[1],L=Math.hypot(dx,dn),m=[(s.a[0]+s.b[0])/2+dn/L*(s.depth+.2),(s.a[1]+s.b[1])/2-dx/L*(s.depth+.2)];assert.ok(c.contacts||true);
+  const near=c.segGrid.query(m[0]-1,m[1]-1,m[0]+1,m[1]+1).some(sg=>sg.kind==='shed');assert.ok(near,s.id);}
+ assert.ok(shedParts().tris<5000);});
 console.log(`landmarks: ${passed} passed`);

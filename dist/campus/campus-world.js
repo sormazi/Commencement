@@ -5,6 +5,7 @@ import {archPiers,CURB_HEIGHT} from './collision.js?v=18';
 import {ringArea,centroid,rectFrame,rectRing,pointInRing} from './geometry.js?v=18';
 import {buildArch} from './landmarks/arch.js?v=18';
 import {LANDMARK_BUILDINGS} from './landmarks/index.js?v=18';
+import {buildSheds} from './landmarks/sheds.js?v=18';
 // Free-roam world for Washington Square · NYU. Phase 0: real street/curb/sidewalk/park layout and
 // footprint massing at surveyed roof heights, streamed in 120 m tiles. Facade detail comes in Phase 2.
 const TILE=120,VIEW=560,PROP_VIEW=330;
@@ -85,6 +86,8 @@ export class CampusWorld{
    roofB.cap(b.rings,h,roofC,.2);}}
   // Washington Square Arch: full detail model in its own frame (see landmarks/arch.js), on the plaza.
   {const f=rectFrame(d.arch.ring),g=buildArch();g.position.set(f.c[0],CURB_HEIGHT,-f.c[1]);g.rotation.y=Math.atan2(-f.u[1],-f.u[0]);this.archGroup=g;this.tile(...f.c).group.add(g);this.trackDisposables(g);}
+  // Sidewalk sheds seen on Street View (street furniture; see landmarks/sheds.js for dates).
+  {const g=buildSheds();this.tile(110,-200).group.add(g);this.trackDisposables(g);}
   // Fountain: rim, basin and centre jet. Radius from the OSM outline.
   for(const a of d.areas.filter(a=>a.kind==='fountain')){const c=centroid(a.ring),r=a.ring.reduce((s,p)=>s+Math.hypot(p[0]-c[0],p[1]-c[1]),0)/a.ring.length;if(r<2)continue;const g=new T.Group();g.position.copy(toV(c,CURB_HEIGHT));
    const rim=new T.Mesh(new T.CylinderGeometry(r,r,.55,72,1,true),this.materials.marble);rim.position.y=.27;const inner=new T.Mesh(new T.CylinderGeometry(r-.45,r-.45,.55,72,1,true),this.materials.marble);inner.position.y=.27;inner.material=this.materials.marble.clone();inner.material.side=T.BackSide;this.disposables.add(inner.material);

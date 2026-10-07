@@ -9,7 +9,7 @@ import {Parts,Face,footprintFrame,placeOnFrame,canvas,stoneTextures,normalMap} f
 // Local frame: x along the north face (west → east), z into the building (north → south), y up.
 export const BOBST={bin:1008626,H:47.36,ground:6.3,band:8.0,attic:44.5,cornerPier:2.3,pier:2.0,finProj:.24,bayDepth:.9,
  groundSet:2.4,bays:{north:11,south:11,east:12,west:12},glazed:{north:true,west:true,south:false,east:false},
- entrance:{face:'north',bays:[5,6]},atrium:{x0:14,x1:43.2,z0:17,z1:46.2}};
+ entrance:{face:'north',bays:[4,5]},atrium:{x0:14,x1:43.2,z0:17,z1:46.2}};
 export function bobstParts(lx,lz){const B=BOBST,P=new Parts(),floors=10,fh=(B.attic-B.band)/floors;
  const faces={north:new Face([lx,0,0],[-1,0,0],[0,1,0]),south:new Face([0,0,lz],[1,0,0],[0,1,0]),east:new Face([lx,0,lz],[0,0,-1],[0,1,0]),west:new Face([0,0,0],[0,0,1],[0,1,0])};
  const lens={north:lx,south:lx,east:lz,west:lz};
@@ -53,7 +53,7 @@ export function bobstParts(lx,lz){const B=BOBST,P=new Parts(),floors=10,fh=(B.at
    const m=new T.Matrix4().makeBasis(new T.Vector3(...f.u),new T.Vector3(...f.n),new T.Vector3(...f.v).negate());m.setPosition(...f.at((u0+u1)/2,top,0));P.geo('stone',g,m);
    // The pier's rounded foot: a quarter-dome springing from the spandrel band.
    const dome=new T.SphereGeometry(1,14,6,0,Math.PI,Math.PI/2,Math.PI/2);P.geo('stoneLight',dome,f.matrix((u0+u1)/2,bot,0,0,[w/2,.6,B.finProj]));}
-  if(k==='north')for(let pi=3;pi<=8;pi++){const [u0,u1]=piers[pi],cu=(u0+u1)/2;P.block('planter',f,cu-.5,cu+.5,0,.75,.4,1.25);P.cyl('plant',.12,.12,.5,f.matrix(cu,.95,.82),6);P.cyl('plant',.58,.05,1.9,f.matrix(cu,2.05,.82),9);}}
+  if(k==='north')for(let pi=1;pi<piers.length-1;pi++){const [u0,u1]=piers[pi],cu=(u0+u1)/2;P.block('planter',f,cu-.5,cu+.5,0,.75,.4,1.25);P.cyl('plant',.12,.12,.5,f.matrix(cu,.95,.82),6);P.cyl('plant',.58,.05,1.9,f.matrix(cu,2.05,.82),9);}}
  // Roof and coping.
  P.rect('roof',new Face([0,BOBST.H,lz],[1,0,0],[0,0,-1]),0,lx,0,lz);
  // ---- interior seen through the lobby glass: op-art marble floor, ceiling, atrium screens ----

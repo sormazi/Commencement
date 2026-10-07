@@ -24,10 +24,9 @@ Status: **[x] modelled** · **[~] approximation** · **[ ] open**. Sources: C = 
 
 ## Street level
 
-- [x] Main entrance on the park side (north face) with two revolving doors.
+- [x] Main entrance on the park side (north face): the 6th and 7th of the 11 bays counted from LaGuardia Pl (west), with revolving doors, topiary planters at every pier. Resolved on a Google Maps user photo sphere on Washington Sq S at about 40.72977 −73.99687 (undated; looked at, not saved): revolving door in the 6th bay, glass doors in the 7th.
 - [x] Pink stone planters with conical topiary in front of the north piers (C bobst_entrance_2011).
-- [ ] Street number "70" on the entrance glass and the library name lettering: not drawn yet.
-- [ ] Entrance location is from C photos only; your answer on the main entrance came back as an unfilled template. Please confirm which bays.
+- [x] Street number "70" on the entrance glass (C bobst_entrance_2011). Library name lettering not drawn.
 
 ## Interior visible through the lobby glass (architecture only)
 

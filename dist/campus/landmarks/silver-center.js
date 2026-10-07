@@ -4,15 +4,16 @@ import model3d from '../data/campus-3d.js?v=18';
 // Silver Center for Arts and Science (NYU Main Building), 100 Washington Square East
 // (Alfred Zucker, 1892–95). A limestone base of three storeys (rusticated ground storey, two
 // smooth storeys with framed windows, dentilled cornice) under a buff-grey brick shaft with stone
-// sills and quoins and a crowning cornice. A loggia of four Tuscan columns opens at the Waverly Place
-// (north) end of the Washington Square East front (former Grey Art Gallery entrance); NYU banners hang from
+// sills and quoins and a crowning cornice. A loggia of four Tuscan columns opens at the Washington Place
+// (south) end of the Washington Square East front, beside the corner pier (Street View, May 2026;
+// former Grey Art Gallery entrance); NYU banners hang from
 // angled poles. Overall volume comes from the NYC 3D Building Model (setbacks, light courts);
 // the three street fronts get full facade geometry. Built directly in world coordinates.
 export const SILVER={bin:1008820,ground:5.4,entab:6.6,base:14.0,cornice:15.0,top:46.9,pitch:4.15,colonnade:{bays:3,columns:4,depth:3.0},
  // Street fronts as [from, to] footprint vertices (map metres), listed with the street they face.
- fronts:[{street:'Washington Sq E',a:[129.29,-65.18],b:[97.74,-114.21],colonnade:'start',entrance:.58,flags:[.3,.62]},
-  {street:'Washington Pl',a:[97.74,-114.21],b:[124.8,-131.62],flags:[.25]},
-  {street:'Waverly Pl',a:[157.39,-83.26],b:[129.29,-65.18],entrance:.4,flags:[]}]};
+ fronts:[{street:'Washington Sq E',a:[129.29,-65.18],b:[97.74,-114.21],colonnade:'end',entrance:.42,flags:[.3,.62]},
+  {street:'Washington Pl',a:[97.74,-114.21],b:[124.8,-131.62],entrance:.2,flags:[.5]},
+  {street:'Waverly Pl',a:[157.39,-83.26],b:[129.29,-65.18],flags:[]}]};
 const v3=(p,y=0)=>[p[0],y,-p[1]];
 export function silverParts(b){FOOT=b.rings[0];const S=SILVER,P=new Parts(),m=model3d[b.bin];
  // ---- massing from the 3D model, in brick ----

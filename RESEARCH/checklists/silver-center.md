@@ -19,13 +19,12 @@ Status: **[x] modelled** · **[~] approximation** · **[ ] open**. Sources: C = 
 - [x] Dentilled cornice over the stone base (C silver_2021).
 - [x] Buff-grey brick shaft, eight rows of windows with stone sills and lintels, stone quoins at the corners.
 - [x] Crowning cornice with modillions and a parapet.
-- [~] Loggia of four Tuscan columns at the Waverly Pl (north) end of the Washington Sq E front, beside the corner pier, storefront glass behind (C silver_2021: the corner street sign reads Waverly Pl and the photo's GPS is north of the building). Former Grey Art Gallery entrance; the Grey moved to 18 Cooper Square in March 2024.
-- [x] Entrances with flanking pilasters, projecting entablature, lanterns and a SILVER CENTER sign on Washington Sq E and on Waverly Pl (C silver_2021 shows a College of Arts and Science entrance on Waverly).
+- [x] Loggia of four Tuscan columns at the **Washington Pl (south) end** of the Washington Sq E front, right beside the corner pier, storefront glass behind. Resolved on Google Street View (Washington Sq E at Washington Pl, 40.73020 −73.99604, heading 70, capture May 2026; looked at, not saved), which agrees with C silver_2015. My earlier reading of C silver_2021 (Waverly end) was wrong. Former Grey Art Gallery entrance; the Grey moved to 18 Cooper Square in March 2024.
+- [x] Entrances with flanking pilasters, projecting entablature, lanterns and a SILVER CENTER sign: mid-block on Washington Sq E (C silver_2015) and on Washington Pl just past the corner pier (Street View, May 2026).
 - [x] NYU banners on angled poles: plain violet. The university's torch emblem is deliberately not drawn (logo).
 
 ## Open items (please check, these are the weakest parts)
 
-- [ ] **Confirm the loggia end.** Now placed at the Waverly end on the evidence of C silver_2021 (street sign and GPS). C silver_2015 seems to show it at the other end, so one of my readings is wrong; please confirm or I will check Street View.
 - [ ] Storey count: the model uses 3 stone storeys plus 8 brick rows; W mentions engaged Ionic columns and pediments on the upper academic floors, which are not modelled yet.
 - [ ] Window grouping in the shaft (single vs paired per bay).
 - [ ] Bronze plaques on the corner piers.
