@@ -1,0 +1,5 @@
+// Brittany Hall, 55 E 10th St. Former Hotel Brittany, 1929-30, 17 storeys at Broadway and E 10th. PLUTO lists the lot as
+// 787 Broadway; matched to Brittany Hall by position, height and date (resolves Q19, estimate). Google Street View
+// (looked at, not saved), Apr 2024: red-brown brick with white terracotta Gothic trim at the window heads, a two-storey
+// limestone base and an arched entrance.
+export default {slug:"brittany",name:"Brittany Hall, 55 E 10th St",bin:1009112,also:[],source:"Former Hotel Brittany, 1929-30, 17 storeys at Broadway and E 10th. PLUTO lists the lot as 787 Broadway; matched to Brittany Hall by position, height and date (resolves Q19, estimate). Google Street View (looked at, not saved), Apr 2024: red-brown brick with white terracotta Gothic trim at the window heads, a two-storey limestone base and an arched entrance.",wall:'brickRed',trim:'terracotta',ground:{h:4.4,style:'base',mat:'limestone'},base:{to:8.2,mat:'limestone'},floor:3.0,pitch:3.0,win:[1.0,1.6],sash:1,lintel:.3,cornice:'band',corniceMat:'terracotta',doors:[{rank:0,at:.5,w:2.4,h:3.4}],flags:{rank:0,n:2,y:5.4}};
