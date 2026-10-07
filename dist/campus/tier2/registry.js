@@ -12,4 +12,5 @@ import s9 from './b/heyman.js?v=21';
 import s10 from './b/global.js?v=21';
 import s11 from './b/weaver.js?v=21';
 import s12 from './b/meyer.js?v=21';
-export const TIER2=[s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12];
+import s13 from './b/psych.js?v=21';
+export const TIER2=[s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13];

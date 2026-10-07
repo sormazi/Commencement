@@ -1,0 +1,4 @@
+// Department of Psychology, 707 Broadway. Listed 1971 by PLUTO. Google Street View (looked at, not saved), Apr 2024
+// (Mercer St rear): buff brick loft with paired segmental windows over a dark steel and granite ground storey. The
+// Broadway front was not checked (estimate: same loft treatment).
+export default {slug:"psych",name:"Department of Psychology, 707 Broadway",bin:1008818,also:[],source:"Listed 1971 by PLUTO. Google Street View (looked at, not saved), Apr 2024 (Mercer St rear): buff brick loft with paired segmental windows over a dark steel and granite ground storey. The Broadway front was not checked (estimate: same loft treatment).",wall:'brickBuff',trim:'granite',ground:{h:4.6,style:'storefront',mat:'granite',pitch:4.4},floor:3.8,pitch:4.2,win:[1.1,2.3],pair:1,sash:1,cornice:'modillion',doors:[{rank:0,at:.5,w:2.2,h:3.2}]};
