@@ -1,6 +1,6 @@
 # Campus data sources and how to re-fetch them
 
-Fetched 2026-10-07 (UTC). The raw files are large (about 35 MB) and are not committed; `dist/campus/data/campus-data.js` is the committed, derived dataset. To rebuild it, re-fetch into `RESEARCH/data/raw/` and run `node tools/build-campus-data.mjs`.
+Fetched 2026-10-07 (UTC). The raw files are large (about 370 MB with the LPC PDFs; the 3D model download alone is about 900 MB and is kept outside the repository) and are not committed; `dist/campus/data/campus-data.js` is the committed, derived dataset. To rebuild it, re-fetch into `RESEARCH/data/raw/` and run `node tools/build-campus-data.mjs`.
 
 Study box used for every query: south 40.7225, west -74.0035, north 40.7395, east -73.9855.
 
@@ -11,7 +11,7 @@ Study box used for every query: south 40.7225, west -74.0035, north 40.7395, eas
 | `nightview-nyc-pluto.json` | NYC Open Data PLUTO `64uk-42ks` | `latitude between 40.7225 and 40.7395 and longitude between -74.0035 and -73.9855` | NYC Open Data Terms of Use |
 | `nightview-nyc-planimetrics.json` | Roadbed `i36f-5ih7`, Sidewalk `52n9-sdep`, Median `ees7-4ufv`, Curbs `5xvt-8cbk`, Pavement Edge `vs44-rznx`, Open Space Parks `y6ja-fw4f`, Open Space Other `b7j8-z8a7`, Public Plazas `ue2e-9jm2`, Elevation Points `9uxf-ng6q`, Misc Structures `92m5-3pwp`, Centerline `inkn-q76z`, Hydrants `5bgh-vtsn`, Bus Stop Shelters `t4f2-8md7`, Parks Properties `enfh-gkve`, Forestry Tree Points `hn5i-inap`, Dog Runs `hxx3-bwgv` | `within_box(<geometry column>, 40.7395,-74.0035,40.7225,-73.9855)`; exact URLs are stored in the file's `_meta.datasets` | NYC Open Data Terms of Use |
 
-Not yet fetched: NYC 3D Building Model (`tnru-abg2`, CityGML at `https://s-media.nyc.gov/agencies/oti/DA_WISE_GML.zip`), LPC designation reports, Mapillary imagery, Wikimedia Commons photos.
+The NYC 3D Building Model and the LPC reports were fetched later the same day (see below). Mapillary was not used.
 
 Google Maps / Street View are used only as look-only references; nothing from them is saved.
 
@@ -25,7 +25,7 @@ Google Maps / Street View are used only as look-only references; nothing from th
 
 ## Detail pass sources (7 Oct 2026)
 
-Reference photographs (saved in `RESEARCH/reference/commons/`, licence and author per file in `ref-commons-meta.json`): Wikimedia Commons photos by Flyfishbowl, lurkingherern, Kidfly182, Beyond My Ken, TainoWaba, BruceSchaff, Geographer (en.wikipedia), Eden, Janine and Jim, ajay_suresh, Highlight Gal, Pdl272, Elisa.rolle and others; CC BY, CC BY-SA 3.0/4.0 and CC BY 2.0.
+Reference photographs: 87 Wikimedia Commons photos saved in `RESEARCH/reference/commons/`, with author, licence (CC0, CC BY 2.0/4.0, CC BY-SA 2.0/3.0/4.0), date and source page per file in `ref-commons-meta.json`; every one is also credited in `dist/credits.html`. Fetched with the Commons API at 1200 px width.
 
 Web sources consulted (not saved):
 - CTBUH Skyscraper Center, John A. Paulson Center complex 5988 and towers 28054, 47486: https://www.skyscrapercenter.com/complex/5988
