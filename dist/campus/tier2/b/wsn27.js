@@ -1,0 +1,3 @@
+// 27 Washington Square North. 1898, 7 storeys, NYU-owned, at MacDougal St. Commons photo ref-row_19_26_east shows a
+// taller brick apartment house with a stone base at the west end of the row (estimate for details).
+export default {slug:"wsn27",name:"27 Washington Square North",bin:1008855,also:[],source:"1898, 7 storeys, NYU-owned, at MacDougal St. Commons photo ref-row_19_26_east shows a taller brick apartment house with a stone base at the west end of the row (estimate for details).",wall:'brickBuff',trim:'limestone',ground:{h:4.2,style:'base',mat:'limestone'},floor:3.4,pitch:3.0,win:[1.1,2.0],sash:1,lintel:.25,cornice:'modillion',doors:[{rank:0,at:.5,w:1.8,h:3,steps:2,y:.4}]};
