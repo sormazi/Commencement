@@ -1,0 +1,4 @@
+// 29 Washington Square West. NYU-owned apartment building, 1927, 15 storeys. Google Street View (looked at, not saved),
+// Jul 2022 (MacDougal St): buff-brown brick over a two-storey Tudor-Gothic limestone base, a pointed-arch stone entrance
+// under a projecting metal marquee, paired casements.
+export default {slug:"wsw29",name:"29 Washington Square West",bin:1008892,also:[],source:"NYU-owned apartment building, 1927, 15 storeys. Google Street View (looked at, not saved), Jul 2022 (MacDougal St): buff-brown brick over a two-storey Tudor-Gothic limestone base, a pointed-arch stone entrance under a projecting metal marquee, paired casements.",wall:'brickBuff',trim:'limestone',ground:{h:4.4,style:'base',mat:'limestone'},base:{to:8.0,mat:'limestone'},floor:3.0,pitch:3.4,win:[.85,1.6],pair:1,sash:1,cornice:'band',doors:[{rank:1,at:.5,w:2.4,h:3.3,canopy:2.2}]};
