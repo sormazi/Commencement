@@ -1,0 +1,4 @@
+// Palladium Hall. 140 E 14th St, 1999-2001, 16 storeys (site of the Academy of Music and the Palladium club). Google
+// Street View (looked at, not saved), Apr 2024: orange-red brick, punched windows, a two-storey pale stone-coloured base
+// with storefronts, violet flags over the entrance.
+export default {slug:"palladium",name:"Palladium Hall",bin:1085790,also:[],source:"140 E 14th St, 1999-2001, 16 storeys (site of the Academy of Music and the Palladium club). Google Street View (looked at, not saved), Apr 2024: orange-red brick, punched windows, a two-storey pale stone-coloured base with storefronts, violet flags over the entrance.",wall:'brickOrange',trim:'precast',ground:{h:4.8,style:'storefront',mat:'precast',pitch:4.4},base:{to:9.0,mat:'precast'},floor:2.9,pitch:3.0,win:[1.2,1.5],cornice:'band',doors:[{rank:0,at:.5,w:2.6,h:3.2,canopy:1.8}],flags:{rank:0,n:2,y:5.6}};
