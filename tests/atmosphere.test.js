@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {inSlice,DECAY_BINS,treeBoost,decayKind,gu,gv} from '../dist/campus/atmosphere/decay.js';
+import {flicker} from '../dist/campus/atmosphere/night.js';
 import data from '../dist/campus/data/campus-data.js';
 import {pointInRing,centroid} from '../dist/campus/geometry.js';
 let passed=0;const test=(name,fn)=>{fn();passed++;console.log('ok - '+name);};
@@ -12,4 +13,5 @@ test('only park trees get the century of growth',()=>{const park=data.areas.find
  const inside=data.trees.find(t=>pointInRing(t.p,park)),outside=data.trees.find(t=>!pointInRing(t.p,park)&&!inSlice(t.p));
  assert.ok(treeBoost(inside.p,park).height>1.5);assert.equal(treeBoost(outside.p,park),null);});
 test('weathering kinds by material name',()=>{assert.equal(decayKind('glassClear'),'glass');assert.equal(decayKind('iron'),'metal');assert.equal(decayKind('sign'),'light');assert.equal(decayKind('brick'),'masonry');});
+test('lamp flicker stays between 0 and 1 and some lamps go dark',()=>{let dark=0;for(let i=0;i<400;i++){const v=flicker(i*.13,.9);assert.ok(v>=0&&v<=1);if(v===0)dark++;}assert.ok(dark>0);for(let i=0;i<50;i++)assert.ok(flicker(i,.2)>.6);});
 console.log('atmosphere: '+passed+' passed');
