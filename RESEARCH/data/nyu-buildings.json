@@ -1,0 +1,1927 @@
+[
+ {
+  "label": "Bobst Library",
+  "note": "NO PLUTO MATCH for ^70 WASHINGTON SQ"
+ },
+ {
+  "label": "Kimmel Center / Skirball (60 WSS)",
+  "address": "566 LA GUARDIA PLACE",
+  "block": "538",
+  "lot": "40",
+  "bbl": "1005380040",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 11,
+  "yearBuilt": 2000,
+  "yearAlter": null,
+  "bldgClass": "W6",
+  "landmark": null,
+  "histDist": null,
+  "bins": [
+   1008662
+  ],
+  "roofHeightM": 50,
+  "roofHeightFt": 164,
+  "footprintM2": 2102,
+  "centroid": [
+   -66,
+   -151
+  ],
+  "osmNames": [
+   "Helen and Martin Kimmel Center for University Life"
+  ]
+ },
+ {
+  "label": "Silver Center (Main Bldg) 100 WSE",
+  "note": "NO PLUTO MATCH for ^(100|31|33) WASHINGTON SQ.* E|^(100 WASHINGTON SQUARE E)"
+ },
+ {
+  "label": "Silver Center / Washington Sq E block",
+  "address": "82 WASHINGTON SQUARE E",
+  "block": "546",
+  "lot": "5",
+  "bbl": "1005460005",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 7,
+  "yearBuilt": 1900,
+  "yearAlter": null,
+  "bldgClass": "W6",
+  "landmark": null,
+  "histDist": null,
+  "bins": [
+   1008808
+  ],
+  "roofHeightM": 25.9,
+  "roofHeightFt": 85,
+  "footprintM2": 559,
+  "centroid": [
+   91,
+   -149
+  ],
+  "osmNames": [
+   "Joseph and Violet Pless Building"
+  ]
+ },
+ {
+  "label": "Silver Center / Washington Sq E block",
+  "address": "79 WASHINGTON SQUARE E",
+  "block": "546",
+  "lot": "1",
+  "bbl": "1005460001",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 7,
+  "yearBuilt": 1900,
+  "yearAlter": null,
+  "bldgClass": "H8",
+  "landmark": null,
+  "histDist": null,
+  "bins": [
+   1076069
+  ],
+  "roofHeightM": 25.5,
+  "roofHeightFt": 84,
+  "footprintM2": 845,
+  "centroid": [
+   79,
+   -176
+  ],
+  "osmNames": [
+   "Paulette Goddard Hall"
+  ]
+ },
+ {
+  "label": "Paulson Center 181 Mercer",
+  "address": "251 MERCER STREET",
+  "block": "535",
+  "lot": "20",
+  "bbl": "1005350020",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": null,
+  "yearBuilt": null,
+  "yearAlter": null,
+  "bldgClass": "V1",
+  "landmark": null,
+  "histDist": null,
+  "bins": [],
+  "roofHeightM": null,
+  "roofHeightFt": null,
+  "footprintM2": 0,
+  "centroid": null,
+  "osmNames": []
+ },
+ {
+  "label": "Weinstein Hall 5-11 University Pl",
+  "address": "5 UNIVERSITY PLACE",
+  "block": "548",
+  "lot": "4",
+  "bbl": "1005480004",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 9,
+  "yearBuilt": 1962,
+  "yearAlter": null,
+  "bldgClass": "H8",
+  "landmark": null,
+  "histDist": null,
+  "bins": [
+   1080105
+  ],
+  "roofHeightM": 31.4,
+  "roofHeightFt": 103,
+  "footprintM2": 1787,
+  "centroid": [
+   196,
+   -31
+  ],
+  "osmNames": [
+   "Weinstein Dining facilities and Sidestein Market",
+   "Weinstein Hall"
+  ]
+ },
+ {
+  "label": "Brown Building 29 Washington Pl",
+  "address": "23 WASHINGTON PLACE",
+  "block": "547",
+  "lot": "8",
+  "bbl": "1005470008",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 10,
+  "yearBuilt": 1901,
+  "yearAlter": null,
+  "bldgClass": "W6",
+  "landmark": "INDIVIDUAL LANDMARK",
+  "histDist": null,
+  "bins": [
+   1008823
+  ],
+  "roofHeightM": 43.7,
+  "roofHeightFt": 143,
+  "footprintM2": 956,
+  "centroid": [
+   142,
+   -121
+  ],
+  "osmNames": [
+   "Brown Building"
+  ]
+ },
+ {
+  "label": "Washington Place (block 546/547)",
+  "address": "3 WASHINGTON PLACE",
+  "block": "547",
+  "lot": "26",
+  "bbl": "1005470026",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 6,
+  "yearBuilt": 1891,
+  "yearAlter": null,
+  "bldgClass": "W6",
+  "landmark": null,
+  "histDist": "NoHo Historic District",
+  "bins": [
+   1008830
+  ],
+  "roofHeightM": 24.1,
+  "roofHeightFt": 79,
+  "footprintM2": 428,
+  "centroid": [
+   245,
+   -189
+  ],
+  "osmNames": [
+   "NYU Department of Philosophy"
+  ]
+ },
+ {
+  "label": "Washington Place (block 546/547)",
+  "address": "15 WASHINGTON PLACE",
+  "block": "547",
+  "lot": "20",
+  "bbl": "1005470020",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 6,
+  "yearBuilt": 1941,
+  "yearAlter": null,
+  "bldgClass": "W6",
+  "landmark": null,
+  "histDist": null,
+  "bins": [
+   1008828
+  ],
+  "roofHeightM": 19.2,
+  "roofHeightFt": 63,
+  "footprintM2": 934,
+  "centroid": [
+   194,
+   -162
+  ],
+  "osmNames": []
+ },
+ {
+  "label": "Washington Place (block 546/547)",
+  "address": "23 WASHINGTON PLACE",
+  "block": "547",
+  "lot": "8",
+  "bbl": "1005470008",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 10,
+  "yearBuilt": 1901,
+  "yearAlter": null,
+  "bldgClass": "W6",
+  "landmark": "INDIVIDUAL LANDMARK",
+  "histDist": null,
+  "bins": [
+   1008823
+  ],
+  "roofHeightM": 43.7,
+  "roofHeightFt": 143,
+  "footprintM2": 956,
+  "centroid": [
+   142,
+   -121
+  ],
+  "osmNames": [
+   "Brown Building"
+  ]
+ },
+ {
+  "label": "Washington Place (block 546/547)",
+  "address": "7 WASHINGTON PLACE",
+  "block": "547",
+  "lot": "19",
+  "bbl": "1005470019",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 4,
+  "yearBuilt": 1900,
+  "yearAlter": null,
+  "bldgClass": "O2",
+  "landmark": null,
+  "histDist": null,
+  "bins": [
+   1008827
+  ],
+  "roofHeightM": 17.1,
+  "roofHeightFt": 56,
+  "footprintM2": 252,
+  "centroid": [
+   220,
+   -174
+  ],
+  "osmNames": [
+   "NYU Department of Public Safety and Card Center"
+  ]
+ },
+ {
+  "label": "Washington Place (block 546/547)",
+  "address": "21 WASHINGTON PLACE",
+  "block": "547",
+  "lot": "25",
+  "bbl": "1005470025",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 8,
+  "yearBuilt": 1900,
+  "yearAlter": null,
+  "bldgClass": "W6",
+  "landmark": null,
+  "histDist": null,
+  "bins": [
+   1008829
+  ],
+  "roofHeightM": 32.2,
+  "roofHeightFt": 106,
+  "footprintM2": 258,
+  "centroid": [
+   177,
+   -143
+  ],
+  "osmNames": [
+   "244 Greene Street-Department of English"
+  ]
+ },
+ {
+  "label": "Vanderbilt Hall 40 WSS",
+  "address": "40 WASHINGTON SQUARE S",
+  "block": "541",
+  "lot": "1",
+  "bbl": "1005410001",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 5,
+  "yearBuilt": 1951,
+  "yearAlter": null,
+  "bldgClass": "W6",
+  "landmark": null,
+  "histDist": "South Village Historic District",
+  "bins": [
+   1008716
+  ],
+  "roofHeightM": 24.1,
+  "roofHeightFt": 79,
+  "footprintM2": 3654,
+  "centroid": [
+   -193,
+   -63
+  ],
+  "osmNames": []
+ },
+ {
+  "label": "Furman Hall 245 Sullivan",
+  "address": "249 SULLIVAN STREET",
+  "block": "541",
+  "lot": "33",
+  "bbl": "1005410033",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 4,
+  "yearBuilt": 1972,
+  "yearAlter": null,
+  "bldgClass": "W6",
+  "landmark": null,
+  "histDist": "South Village Historic District",
+  "bins": [
+   1066875
+  ],
+  "roofHeightM": 20.4,
+  "roofHeightFt": 67,
+  "footprintM2": 205,
+  "centroid": [
+   -150,
+   -89
+  ],
+  "osmNames": [
+   "Hagop Kevorkian Center for Near Eastern Studies"
+  ]
+ },
+ {
+  "label": "D'Agostino Hall 110 W 3rd",
+  "note": "NO PLUTO MATCH for ^(108|110) WEST 3"
+ },
+ {
+  "label": "Judson / KJC Center 51-55 WSS",
+  "address": "55 WASHINGTON SQUARE S",
+  "block": "541",
+  "lot": "23",
+  "bbl": "1005410023",
+  "owner": "JUDSON MEMORIAL CHURCH",
+  "floors": 5,
+  "yearBuilt": 1893,
+  "yearAlter": null,
+  "bldgClass": "M1",
+  "landmark": "INDIVIDUAL LANDMARK",
+  "histDist": null,
+  "bins": [
+   1008717
+  ],
+  "roofHeightM": 20.5,
+  "roofHeightFt": 67,
+  "footprintM2": 900,
+  "centroid": [
+   -117,
+   -111
+  ],
+  "osmNames": [
+   "King Juan Carlos I of Spain Center",
+   "Judson Memorial Church"
+  ]
+ },
+ {
+  "label": "Judson / KJC Center 51-55 WSS",
+  "address": "51 WASHINGTON SQUARE S",
+  "block": "541",
+  "lot": "18",
+  "bbl": "1005410018",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 10,
+  "yearBuilt": 1900,
+  "yearAlter": "1995",
+  "bldgClass": "W6",
+  "landmark": "INDIVIDUAL LANDMARK",
+  "histDist": null,
+  "bins": [
+   1082207,
+   1082205
+  ],
+  "roofHeightM": 21.1,
+  "roofHeightFt": 69,
+  "partHeightsM": [
+   17.3,
+   21.1
+  ],
+  "footprintM2": 483,
+  "centroid": [
+   -146,
+   -95
+  ],
+  "osmNames": [
+   "Heyman Hall"
+  ]
+ },
+ {
+  "label": "Stern: Tisch Hall / KMC / Shimkin (W 4th)",
+  "address": "44 WEST 4 STREET",
+  "block": "535",
+  "lot": "1",
+  "bbl": "1005350001",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 11,
+  "yearBuilt": 1990,
+  "yearAlter": null,
+  "bldgClass": "W6",
+  "landmark": null,
+  "histDist": null,
+  "bins": [
+   1078952,
+   1077346
+  ],
+  "roofHeightM": 50.5,
+  "roofHeightFt": 166,
+  "partHeightsM": [
+   50.5,
+   45
+  ],
+  "footprintM2": 3558,
+  "centroid": [
+   63,
+   -237
+  ],
+  "osmNames": [
+   "Henry Kaufman Management Center",
+   "Tisch Hall"
+  ]
+ },
+ {
+  "label": "Warren Weaver Hall 251 Mercer",
+  "address": "251 MERCER STREET",
+  "block": "535",
+  "lot": "20",
+  "bbl": "1005350020",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": null,
+  "yearBuilt": null,
+  "yearAlter": null,
+  "bldgClass": "V1",
+  "landmark": null,
+  "histDist": null,
+  "bins": [],
+  "roofHeightM": null,
+  "roofHeightFt": null,
+  "footprintM2": 0,
+  "centroid": null,
+  "osmNames": []
+ },
+ {
+  "label": "Meyer Hall 4 Washington Pl",
+  "address": "4 WASHINGTON PLACE",
+  "block": "546",
+  "lot": "31",
+  "bbl": "1005460031",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 11,
+  "yearBuilt": 1904,
+  "yearAlter": null,
+  "bldgClass": "W6",
+  "landmark": null,
+  "histDist": "NoHo Historic District",
+  "bins": [
+   1008816
+  ],
+  "roofHeightM": 44,
+  "roofHeightFt": 145,
+  "footprintM2": 534,
+  "centroid": [
+   228,
+   -230
+  ],
+  "osmNames": [
+   "Center for Neural Science"
+  ]
+ },
+ {
+  "label": "Waverly Building 24 Waverly Pl",
+  "address": "28 WAVERLY PLACE",
+  "block": "547",
+  "lot": "4",
+  "bbl": "1005470004",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 10,
+  "yearBuilt": 1900,
+  "yearAlter": "1985",
+  "bldgClass": "W6",
+  "landmark": null,
+  "histDist": null,
+  "bins": [],
+  "roofHeightM": null,
+  "roofHeightFt": null,
+  "footprintM2": 0,
+  "centroid": null,
+  "osmNames": []
+ },
+ {
+  "label": "Waverly Building 24 Waverly Pl",
+  "address": "24 WAVERLY PLACE",
+  "block": "547",
+  "lot": "5",
+  "bbl": "1005470005",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 11,
+  "yearBuilt": 1906,
+  "yearAlter": "1989",
+  "bldgClass": "W6",
+  "landmark": null,
+  "histDist": null,
+  "bins": [
+   1008822
+  ],
+  "roofHeightM": 49.7,
+  "roofHeightFt": 163,
+  "footprintM2": 713,
+  "centroid": [
+   155,
+   -105
+  ],
+  "osmNames": [
+   "Waverly Building"
+  ]
+ },
+ {
+  "label": "Waverly Building 24 Waverly Pl",
+  "address": "32 WAVERLY PLACE",
+  "block": "547",
+  "lot": "1",
+  "bbl": "1005470001",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 10,
+  "yearBuilt": 1900,
+  "yearAlter": "1922",
+  "bldgClass": "W6",
+  "landmark": null,
+  "histDist": null,
+  "bins": [
+   1008820
+  ],
+  "roofHeightM": 49.4,
+  "roofHeightFt": 162,
+  "footprintM2": 1817,
+  "centroid": [
+   134,
+   -109
+  ],
+  "osmNames": [
+   "Silver Center for Arts and Science"
+  ]
+ },
+ {
+  "label": "Goddard Hall 79 WSE",
+  "address": "82 WASHINGTON SQUARE E",
+  "block": "546",
+  "lot": "5",
+  "bbl": "1005460005",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 7,
+  "yearBuilt": 1900,
+  "yearAlter": null,
+  "bldgClass": "W6",
+  "landmark": null,
+  "histDist": null,
+  "bins": [
+   1008808
+  ],
+  "roofHeightM": 25.9,
+  "roofHeightFt": 85,
+  "footprintM2": 559,
+  "centroid": [
+   91,
+   -149
+  ],
+  "osmNames": [
+   "Joseph and Violet Pless Building"
+  ]
+ },
+ {
+  "label": "Goddard Hall 79 WSE",
+  "address": "79 WASHINGTON SQUARE E",
+  "block": "546",
+  "lot": "1",
+  "bbl": "1005460001",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 7,
+  "yearBuilt": 1900,
+  "yearAlter": null,
+  "bldgClass": "H8",
+  "landmark": null,
+  "histDist": null,
+  "bins": [
+   1076069
+  ],
+  "roofHeightM": 25.5,
+  "roofHeightFt": 84,
+  "footprintM2": 845,
+  "centroid": [
+   79,
+   -176
+  ],
+  "osmNames": [
+   "Paulette Goddard Hall"
+  ]
+ },
+ {
+  "label": "Silver Towers 100/110 Bleecker",
+  "address": "100 BLEECKER STREET",
+  "block": "524",
+  "lot": "66",
+  "bbl": "1005240066",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 30,
+  "yearBuilt": 1967,
+  "yearAlter": "2016/2017",
+  "bldgClass": "W6",
+  "landmark": "INDIVIDUAL LANDMARK",
+  "histDist": null,
+  "bins": [
+   1087825,
+   1083218,
+   1090263
+  ],
+  "roofHeightM": 89.6,
+  "roofHeightFt": 294,
+  "partHeightsM": [
+   88.7,
+   89.6,
+   60.4
+  ],
+  "footprintM2": 8784,
+  "centroid": [
+   -72,
+   -476
+  ],
+  "osmNames": [
+   "University Towers Apartments I",
+   "University Towers Apartments II",
+   "NYU Paulson Center"
+  ]
+ },
+ {
+  "label": "505 LaGuardia Pl (co-op tower)",
+  "address": "505 LA GUARDIA PLACE",
+  "block": "524",
+  "lot": "1",
+  "bbl": "1005240001",
+  "owner": "WASHINGTON SQ. APARTMENTS INC",
+  "floors": 30,
+  "yearBuilt": 1967,
+  "yearAlter": "1983/2004",
+  "bldgClass": "D4",
+  "landmark": "INDIVIDUAL LANDMARK",
+  "histDist": null,
+  "bins": [
+   1008241
+  ],
+  "roofHeightM": 89.9,
+  "roofHeightFt": 295,
+  "footprintM2": 631,
+  "centroid": [
+   -159,
+   -450
+  ],
+  "osmNames": [
+   "University Towers Apartments III"
+  ]
+ },
+ {
+  "label": "Washington Square Village",
+  "address": "1 WASHINGTON SQ VLLGE",
+  "block": "533",
+  "lot": "30",
+  "bbl": "1005330030",
+  "owner": "NYC DEPARTMENT OF PARKS AND RECREATION",
+  "floors": null,
+  "yearBuilt": null,
+  "yearAlter": null,
+  "bldgClass": "Q0",
+  "landmark": null,
+  "histDist": null,
+  "bins": [],
+  "roofHeightM": null,
+  "roofHeightFt": null,
+  "footprintM2": 0,
+  "centroid": null,
+  "osmNames": []
+ },
+ {
+  "label": "Washington Square Village",
+  "address": "1 WASHINGTON SQ VLLGE",
+  "block": "533",
+  "lot": "1",
+  "bbl": "1005330001",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 17,
+  "yearBuilt": 1959,
+  "yearAlter": "1985",
+  "bldgClass": "H8",
+  "landmark": null,
+  "histDist": null,
+  "bins": [
+   1077835,
+   1077833,
+   1077834,
+   1085656,
+   1077836
+  ],
+  "roofHeightM": 48.6,
+  "roofHeightFt": 159,
+  "partHeightsM": [
+   48.3,
+   48.6,
+   47.7,
+   2.7,
+   48.2
+  ],
+  "footprintM2": 12482,
+  "centroid": [
+   -89,
+   -366
+  ],
+  "osmNames": []
+ },
+ {
+  "label": "Tisch School of the Arts 721 Broadway",
+  "address": "715 BROADWAY",
+  "block": "547",
+  "lot": "30",
+  "bbl": "1005470030",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 12,
+  "yearBuilt": 1896,
+  "yearAlter": "1988/2001",
+  "bldgClass": "W6",
+  "landmark": null,
+  "histDist": "NoHo Historic District",
+  "bins": [
+   1008831,
+   1088447
+  ],
+  "roofHeightM": 58.5,
+  "roofHeightFt": 192,
+  "partHeightsM": [
+   56.7,
+   58.5
+  ],
+  "footprintM2": 2744,
+  "centroid": [
+   263,
+   -196
+  ],
+  "osmNames": [
+   "Gallatin School of Individualized Study",
+   "Tisch School of the Arts"
+  ]
+ },
+ {
+  "label": "Gallatin 1 Washington Pl / 715 Broadway",
+  "address": "3 WASHINGTON PLACE",
+  "block": "547",
+  "lot": "26",
+  "bbl": "1005470026",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 6,
+  "yearBuilt": 1891,
+  "yearAlter": null,
+  "bldgClass": "W6",
+  "landmark": null,
+  "histDist": "NoHo Historic District",
+  "bins": [
+   1008830
+  ],
+  "roofHeightM": 24.1,
+  "roofHeightFt": 79,
+  "footprintM2": 428,
+  "centroid": [
+   245,
+   -189
+  ],
+  "osmNames": [
+   "NYU Department of Philosophy"
+  ]
+ },
+ {
+  "label": "Cantor Film Center 36 E 8th",
+  "address": "36 EAST 8 STREET",
+  "block": "548",
+  "lot": "12",
+  "bbl": "1005480012",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 3,
+  "yearBuilt": 1940,
+  "yearAlter": "1984",
+  "bldgClass": "J9",
+  "landmark": null,
+  "histDist": null,
+  "bins": [
+   1008834
+  ],
+  "roofHeightM": 8.1,
+  "roofHeightFt": 27,
+  "footprintM2": 1036,
+  "centroid": [
+   219,
+   -10
+  ],
+  "osmNames": [
+   "Iris and B. Gerald Cantor Film Center"
+  ]
+ },
+ {
+  "label": "Puck Building 295 Lafayette",
+  "address": "295 LAFAYETTE STREET",
+  "block": "510",
+  "lot": "7502",
+  "bbl": "1005107502",
+  "owner": "UNAVAILABLE OWNER",
+  "floors": 10,
+  "yearBuilt": 1886,
+  "yearAlter": "2004",
+  "bldgClass": "RM",
+  "landmark": "INDIVIDUAL LANDMARK",
+  "histDist": null,
+  "bins": [
+   1007941
+  ],
+  "roofHeightM": 44.6,
+  "roofHeightFt": 146,
+  "footprintM2": 2111,
+  "centroid": [
+   153,
+   -732
+  ],
+  "osmNames": [
+   "Puck Building"
+  ]
+ },
+ {
+  "label": "Puck Building 295 Lafayette",
+  "address": "298 LAFAYETTE STREET",
+  "block": "510",
+  "lot": "38",
+  "bbl": "1005100038",
+  "owner": "LVC 298, LLC",
+  "floors": null,
+  "yearBuilt": 2017,
+  "yearAlter": null,
+  "bldgClass": "O3",
+  "landmark": null,
+  "histDist": "SoHo-Cast Iron Historic District Extension",
+  "bins": [
+   1090340
+  ],
+  "roofHeightM": 37.5,
+  "roofHeightFt": 123,
+  "footprintM2": 1081,
+  "centroid": [
+   104,
+   -710
+  ],
+  "osmNames": []
+ },
+ {
+  "label": "Provincetown Playhouse / Wilf Hall 133-139 MacDougal",
+  "address": "139 MAC DOUGAL STREET",
+  "block": "543",
+  "lot": "53",
+  "bbl": "1005430053",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 6,
+  "yearBuilt": 2011,
+  "yearAlter": null,
+  "bldgClass": "W9",
+  "landmark": null,
+  "histDist": "South Village Historic District",
+  "bins": [
+   1008760
+  ],
+  "roofHeightM": 26.8,
+  "roofHeightFt": 88,
+  "footprintM2": 797,
+  "centroid": [
+   -253,
+   -33
+  ],
+  "osmNames": [
+   "Wilf Hall"
+  ]
+ },
+ {
+  "label": "The Row: 1-13 Washington Sq N",
+  "address": "5 WASHINGTON SQUARE N",
+  "block": "550",
+  "lot": "5",
+  "bbl": "1005500005",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 3.5,
+  "yearBuilt": 1920,
+  "yearAlter": "1984",
+  "bldgClass": "W6",
+  "landmark": null,
+  "histDist": "Greenwich Village Historic District",
+  "bins": [
+   1083132,
+   1008843
+  ],
+  "roofHeightM": 17.9,
+  "roofHeightFt": 59,
+  "partHeightsM": [
+   7,
+   17.9
+  ],
+  "footprintM2": 353,
+  "centroid": [
+   117,
+   12
+  ],
+  "osmNames": []
+ },
+ {
+  "label": "The Row: 1-13 Washington Sq N",
+  "address": "1 WASHINGTON SQUARE N",
+  "block": "550",
+  "lot": "1",
+  "bbl": "1005500001",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 4,
+  "yearBuilt": 1900,
+  "yearAlter": "1986",
+  "bldgClass": "W6",
+  "landmark": null,
+  "histDist": "Greenwich Village Historic District",
+  "bins": [
+   1080106,
+   1080107,
+   1085663,
+   1066883,
+   1082547
+  ],
+  "roofHeightM": 19.6,
+  "roofHeightFt": 64,
+  "partHeightsM": [
+   9.6,
+   19.6,
+   17.2,
+   17,
+   7.7
+  ],
+  "footprintM2": 1042,
+  "centroid": [
+   141,
+   1
+  ],
+  "osmNames": [
+   "Ruth Lewis Farkas House",
+   "Jane Eisner and William B. Bram House",
+   "John J. Creedon House",
+   "NYU - La Maison Française"
+  ]
+ },
+ {
+  "label": "The Row: 1-13 Washington Sq N",
+  "address": "6 WASHINGTON SQUARE N",
+  "block": "550",
+  "lot": "6",
+  "bbl": "1005500006",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 3.5,
+  "yearBuilt": 1900,
+  "yearAlter": null,
+  "bldgClass": "W6",
+  "landmark": null,
+  "histDist": "Greenwich Village Historic District",
+  "bins": [
+   1080108,
+   1080109
+  ],
+  "roofHeightM": 18.9,
+  "roofHeightFt": 62,
+  "partHeightsM": [
+   7.2,
+   18.9
+  ],
+  "footprintM2": 297,
+  "centroid": [
+   112,
+   19
+  ],
+  "osmNames": []
+ },
+ {
+  "label": "The Row: 1-13 Washington Sq N",
+  "address": "4 WASHINGTON SQUARE N",
+  "block": "550",
+  "lot": "4",
+  "bbl": "1005500004",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 3.5,
+  "yearBuilt": 1900,
+  "yearAlter": null,
+  "bldgClass": "W6",
+  "landmark": null,
+  "histDist": "Greenwich Village Historic District",
+  "bins": [
+   1083131,
+   1008842
+  ],
+  "roofHeightM": 17.4,
+  "roofHeightFt": 57,
+  "partHeightsM": [
+   9.8,
+   17.4
+  ],
+  "footprintM2": 350,
+  "centroid": [
+   125,
+   7
+  ],
+  "osmNames": []
+ },
+ {
+  "label": "The Row: 1-13 Washington Sq N",
+  "address": "3 WASHINGTON SQUARE N",
+  "block": "549",
+  "lot": "1",
+  "bbl": "1005490001",
+  "owner": "NYC DEPARTMENT OF PARKS AND RECREATION",
+  "floors": 1,
+  "yearBuilt": 2013,
+  "yearAlter": null,
+  "bldgClass": "Q1",
+  "landmark": null,
+  "histDist": "Greenwich Village Historic District",
+  "bins": [
+   1088179
+  ],
+  "roofHeightM": 4.3,
+  "roofHeightFt": 14,
+  "footprintM2": 182,
+  "centroid": [
+   -102,
+   -53
+  ],
+  "osmNames": [
+   "Washington Square Park House"
+  ]
+ },
+ {
+  "label": "The Row west: 19-26 Washington Sq N",
+  "address": "23 WASHINGTON SQUARE N",
+  "block": "551",
+  "lot": "12",
+  "bbl": "1005510012",
+  "owner": "HARRAN HOLDING CORP",
+  "floors": 3.5,
+  "yearBuilt": 1836,
+  "yearAlter": null,
+  "bldgClass": "C1",
+  "landmark": null,
+  "histDist": "Greenwich Village Historic District",
+  "bins": [
+   1008852
+  ],
+  "roofHeightM": 20.5,
+  "roofHeightFt": 67,
+  "footprintM2": 192,
+  "centroid": [
+   -69,
+   105
+  ],
+  "osmNames": []
+ },
+ {
+  "label": "The Row west: 19-26 Washington Sq N",
+  "address": "26 WASHINGTON SQUARE N",
+  "block": "551",
+  "lot": "15",
+  "bbl": "1005510015",
+  "owner": "26 WSN",
+  "floors": 4,
+  "yearBuilt": 1839,
+  "yearAlter": null,
+  "bldgClass": "C2",
+  "landmark": null,
+  "histDist": "Greenwich Village Historic District",
+  "bins": [
+   1008854
+  ],
+  "roofHeightM": 18.1,
+  "roofHeightFt": 59,
+  "footprintM2": 144,
+  "centroid": [
+   -92,
+   116
+  ],
+  "osmNames": []
+ },
+ {
+  "label": "The Row west: 19-26 Washington Sq N",
+  "address": "27 WASHINGTON SQUARE N",
+  "block": "551",
+  "lot": "16",
+  "bbl": "1005510016",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 7,
+  "yearBuilt": 1898,
+  "yearAlter": null,
+  "bldgClass": "D9",
+  "landmark": null,
+  "histDist": "Greenwich Village Historic District",
+  "bins": [
+   1008855
+  ],
+  "roofHeightM": 29.9,
+  "roofHeightFt": 98,
+  "footprintM2": 476,
+  "centroid": [
+   -97,
+   124
+  ],
+  "osmNames": []
+ },
+ {
+  "label": "The Row west: 19-26 Washington Sq N",
+  "address": "19 WASHINGTON SQUARE N",
+  "block": "551",
+  "lot": "7",
+  "bbl": "1005510007",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 3.5,
+  "yearBuilt": 1890,
+  "yearAlter": "2009",
+  "bldgClass": "O2",
+  "landmark": null,
+  "histDist": "Greenwich Village Historic District",
+  "bins": [
+   1077881,
+   1077805
+  ],
+  "roofHeightM": 18.6,
+  "roofHeightFt": 61,
+  "partHeightsM": [
+   18.6,
+   7
+  ],
+  "footprintM2": 298,
+  "centroid": [
+   -35,
+   86
+  ],
+  "osmNames": []
+ },
+ {
+  "label": "The Row west: 19-26 Washington Sq N",
+  "address": "22 WASHINGTON SQUARE N",
+  "block": "551",
+  "lot": "11",
+  "bbl": "1005510011",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 3.5,
+  "yearBuilt": 1925,
+  "yearAlter": "2008",
+  "bldgClass": "O2",
+  "landmark": null,
+  "histDist": "Greenwich Village Historic District",
+  "bins": [
+   1080110,
+   1080111
+  ],
+  "roofHeightM": 20.5,
+  "roofHeightFt": 67,
+  "partHeightsM": [
+   18.3,
+   20.5
+  ],
+  "footprintM2": 230,
+  "centroid": [
+   -59,
+   106
+  ],
+  "osmNames": [
+   "NYU Law Jean Monnet Center"
+  ]
+ },
+ {
+  "label": "The Row west: 19-26 Washington Sq N",
+  "address": "21 WASHINGTON SQUARE N",
+  "block": "551",
+  "lot": "10",
+  "bbl": "1005510010",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 3.5,
+  "yearBuilt": 1900,
+  "yearAlter": "1985",
+  "bldgClass": "C1",
+  "landmark": null,
+  "histDist": "Greenwich Village Historic District",
+  "bins": [
+   1077884,
+   1077872,
+   1077885
+  ],
+  "roofHeightM": 20.9,
+  "roofHeightFt": 69,
+  "partHeightsM": [
+   11.6,
+   9.3,
+   20.9
+  ],
+  "footprintM2": 249,
+  "centroid": [
+   -52,
+   103
+  ],
+  "osmNames": []
+ },
+ {
+  "label": "The Row west: 19-26 Washington Sq N",
+  "address": "20 WASHINGTON SQUARE N",
+  "block": "551",
+  "lot": "8",
+  "bbl": "1005510008",
+  "owner": "SIS CHARITY ST VINCEN",
+  "floors": 4,
+  "yearBuilt": 1920,
+  "yearAlter": "1984",
+  "bldgClass": "W2",
+  "landmark": null,
+  "histDist": "Greenwich Village Historic District",
+  "bins": [
+   1008851
+  ],
+  "roofHeightM": 17.6,
+  "roofHeightFt": 58,
+  "footprintM2": 505,
+  "centroid": [
+   -42,
+   95
+  ],
+  "osmNames": [
+   "NYU Abu Dhabi"
+  ]
+ },
+ {
+  "label": "The Row west: 19-26 Washington Sq N",
+  "address": "24 WASHINGTON SQUARE N",
+  "block": "551",
+  "lot": "13",
+  "bbl": "1005510013",
+  "owner": "24 WSN LLC",
+  "floors": 3.5,
+  "yearBuilt": 1900,
+  "yearAlter": null,
+  "bldgClass": "C7",
+  "landmark": null,
+  "histDist": "Greenwich Village Historic District",
+  "bins": [
+   1089302,
+   1008853
+  ],
+  "roofHeightM": 18.2,
+  "roofHeightFt": 60,
+  "partHeightsM": [
+   11.9,
+   18.2
+  ],
+  "footprintM2": 220,
+  "centroid": [
+   -70,
+   122
+  ],
+  "osmNames": []
+ },
+ {
+  "label": "The Row west: 19-26 Washington Sq N",
+  "address": "25 WASHINGTON SQUARE N",
+  "block": "551",
+  "lot": "14",
+  "bbl": "1005510014",
+  "owner": "25 WSN LLC",
+  "floors": 3.5,
+  "yearBuilt": 1900,
+  "yearAlter": "1987",
+  "bldgClass": "C2",
+  "landmark": null,
+  "histDist": "Greenwich Village Historic District",
+  "bins": [
+   1077886,
+   1077821
+  ],
+  "roofHeightM": 18.2,
+  "roofHeightFt": 60,
+  "partHeightsM": [
+   18.2,
+   6.5
+  ],
+  "footprintM2": 190,
+  "centroid": [
+   -85,
+   109
+  ],
+  "osmNames": []
+ },
+ {
+  "label": "Washington Mews",
+  "address": "58 WASHINGTON MEWS",
+  "block": "550",
+  "lot": "16",
+  "bbl": "1005500016",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 2,
+  "yearBuilt": 1833,
+  "yearAlter": null,
+  "bldgClass": "A4",
+  "landmark": null,
+  "histDist": "Greenwich Village Historic District",
+  "bins": [
+   1008844
+  ],
+  "roofHeightM": 7.2,
+  "roofHeightFt": 24,
+  "footprintM2": 69,
+  "centroid": [
+   107,
+   43
+  ],
+  "osmNames": []
+ },
+ {
+  "label": "Washington Mews",
+  "address": "60 WASHINGTON MEWS",
+  "block": "550",
+  "lot": "17",
+  "bbl": "1005500017",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 2,
+  "yearBuilt": 1833,
+  "yearAlter": null,
+  "bldgClass": "A4",
+  "landmark": null,
+  "histDist": "Greenwich Village Historic District",
+  "bins": [
+   1008845
+  ],
+  "roofHeightM": 6.7,
+  "roofHeightFt": 22,
+  "footprintM2": 70,
+  "centroid": [
+   100,
+   47
+  ],
+  "osmNames": []
+ },
+ {
+  "label": "Washington Mews",
+  "address": "62 WASHINGTON MEWS",
+  "block": "550",
+  "lot": "18",
+  "bbl": "1005500018",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 2,
+  "yearBuilt": 1833,
+  "yearAlter": null,
+  "bldgClass": "A4",
+  "landmark": null,
+  "histDist": "Greenwich Village Historic District",
+  "bins": [
+   1008846
+  ],
+  "roofHeightM": 6.9,
+  "roofHeightFt": 23,
+  "footprintM2": 67,
+  "centroid": [
+   93,
+   50
+  ],
+  "osmNames": []
+ },
+ {
+  "label": "Casa Italiana 24 W 12th",
+  "address": "24 WEST 12 STREET",
+  "block": "575",
+  "lot": "40",
+  "bbl": "1005750040",
+  "owner": "NY UNIVERSITY",
+  "floors": 5,
+  "yearBuilt": 1852,
+  "yearAlter": "1989",
+  "bldgClass": "W9",
+  "landmark": null,
+  "histDist": "Greenwich Village Historic District",
+  "bins": [
+   1009577
+  ],
+  "roofHeightM": 16.6,
+  "roofHeightFt": 54,
+  "footprintM2": 225,
+  "centroid": [
+   105,
+   410
+  ],
+  "osmNames": []
+ },
+ {
+  "label": "Lillian Vernon House 58 W 10th",
+  "address": "58 WEST 10 STREET",
+  "block": "573",
+  "lot": "13",
+  "bbl": "1005730013",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 3,
+  "yearBuilt": 1836,
+  "yearAlter": null,
+  "bldgClass": "W9",
+  "landmark": null,
+  "histDist": "Greenwich Village Historic District",
+  "bins": [
+   1009459
+  ],
+  "roofHeightM": 12.1,
+  "roofHeightFt": 40,
+  "footprintM2": 113,
+  "centroid": [
+   -77,
+   343
+  ],
+  "osmNames": []
+ },
+ {
+  "label": "Rubin Hall 35 Fifth Av",
+  "address": "35 5 AVENUE",
+  "block": "568",
+  "lot": "1",
+  "bbl": "1005680001",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 15,
+  "yearBuilt": 1925,
+  "yearAlter": "2023",
+  "bldgClass": "H8",
+  "landmark": null,
+  "histDist": "Greenwich Village Historic District",
+  "bins": [
+   1009250
+  ],
+  "roofHeightM": 48.5,
+  "roofHeightFt": 159,
+  "footprintM2": 846,
+  "centroid": [
+   181,
+   250
+  ],
+  "osmNames": [
+   "Rubin Hall"
+  ]
+ },
+ {
+  "label": "Brittany Hall 55 E 10th",
+  "note": "NO PLUTO MATCH for ^55 EAST 10"
+ },
+ {
+  "label": "Third North 75 Third Av",
+  "address": "67 3 AVENUE",
+  "block": "467",
+  "lot": "1",
+  "bbl": "1004670001",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 14,
+  "yearBuilt": 1988,
+  "yearAlter": "2009",
+  "bldgClass": "H8",
+  "landmark": null,
+  "histDist": null,
+  "bins": [
+   1006826,
+   1084498
+  ],
+  "roofHeightM": 45.9,
+  "roofHeightFt": 151,
+  "partHeightsM": [
+   45.9,
+   45.9
+  ],
+  "footprintM2": 2378,
+  "centroid": [
+   772,
+   29
+  ],
+  "osmNames": []
+ },
+ {
+  "label": "Alumni Hall 33 Third Av",
+  "address": "31 3 AVENUE",
+  "block": "465",
+  "lot": "1",
+  "bbl": "1004650001",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 16,
+  "yearBuilt": 1986,
+  "yearAlter": null,
+  "bldgClass": "H8",
+  "landmark": null,
+  "histDist": null,
+  "bins": [
+   1006764
+  ],
+  "roofHeightM": 54.3,
+  "roofHeightFt": 178,
+  "footprintM2": 1196,
+  "centroid": [
+   689,
+   -115
+  ],
+  "osmNames": [
+   "New York University Alumni Hall",
+   "NYU Alumni Hall"
+  ]
+ },
+ {
+  "label": "Coral Tower 129 Third Av",
+  "note": "NO PLUTO MATCH for ^129 3 AVENUE"
+ },
+ {
+  "label": "University Hall 110 E 14th",
+  "address": "106 EAST 14 STREET",
+  "block": "559",
+  "lot": "12",
+  "bbl": "1005590012",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 20,
+  "yearBuilt": 1998,
+  "yearAlter": "2018",
+  "bldgClass": "H8",
+  "landmark": null,
+  "histDist": null,
+  "bins": [
+   1009072
+  ],
+  "roofHeightM": 59.9,
+  "roofHeightFt": 197,
+  "footprintM2": 1289,
+  "centroid": [
+   659,
+   275
+  ],
+  "osmNames": []
+ },
+ {
+  "label": "Palladium Hall 140 E 14th",
+  "address": "126 EAST 14 STREET",
+  "block": "559",
+  "lot": "22",
+  "bbl": "1005590022",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 16,
+  "yearBuilt": 1999,
+  "yearAlter": null,
+  "bldgClass": "H8",
+  "landmark": null,
+  "histDist": null,
+  "bins": [
+   1085790
+  ],
+  "roofHeightM": 50.6,
+  "roofHeightFt": 166,
+  "footprintM2": 3851,
+  "centroid": [
+   765,
+   219
+  ],
+  "osmNames": [
+   "Palladium Hall"
+  ]
+ },
+ {
+  "label": "Founders Hall 120 E 12th",
+  "address": "120 EAST 12 STREET",
+  "block": "556",
+  "lot": "48",
+  "bbl": "1005560048",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 26,
+  "yearBuilt": 2006,
+  "yearAlter": null,
+  "bldgClass": "H8",
+  "landmark": null,
+  "histDist": null,
+  "bins": [
+   1087924
+  ],
+  "roofHeightM": 75.3,
+  "roofHeightFt": 247,
+  "footprintM2": 1049,
+  "centroid": [
+   658,
+   95
+  ],
+  "osmNames": [
+   "Founders Hall"
+  ]
+ },
+ {
+  "label": "Lipton Hall 33 Washington Sq W",
+  "address": "37 WASHINGTON SQUARE W",
+  "block": "552",
+  "lot": "26",
+  "bbl": "1005520026",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 16,
+  "yearBuilt": 1929,
+  "yearAlter": null,
+  "bldgClass": "H8",
+  "landmark": null,
+  "histDist": "Greenwich Village Historic District",
+  "bins": [
+   1008877
+  ],
+  "roofHeightM": 64.3,
+  "roofHeightFt": 211,
+  "footprintM2": 589,
+  "centroid": [
+   -220,
+   17
+  ],
+  "osmNames": []
+ },
+ {
+  "label": "Lipton Hall 33 Washington Sq W",
+  "address": "35 WASHINGTON SQUARE W",
+  "block": "552",
+  "lot": "24",
+  "bbl": "1005520024",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 16,
+  "yearBuilt": 1955,
+  "yearAlter": "1989/2014",
+  "bldgClass": "H8",
+  "landmark": null,
+  "histDist": "Greenwich Village Historic District",
+  "bins": [
+   1008875
+  ],
+  "roofHeightM": 60.8,
+  "roofHeightFt": 200,
+  "footprintM2": 1383,
+  "centroid": [
+   -219,
+   44
+  ],
+  "osmNames": [
+   "Lipton Dining Hall",
+   "Lipton Hall"
+  ]
+ },
+ {
+  "label": "Lipton Hall 33 Washington Sq W",
+  "address": "29 WASHINGTON SQUARE W",
+  "block": "552",
+  "lot": "60",
+  "bbl": "1005520060",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 15,
+  "yearBuilt": 1927,
+  "yearAlter": "1988",
+  "bldgClass": "H8",
+  "landmark": null,
+  "histDist": "Greenwich Village Historic District",
+  "bins": [
+   1008892
+  ],
+  "roofHeightM": 65.6,
+  "roofHeightFt": 215,
+  "footprintM2": 753,
+  "centroid": [
+   -164,
+   100
+  ],
+  "osmNames": []
+ },
+ {
+  "label": "Hayden Hall 240 Mercer",
+  "address": "246 MERCER STREET",
+  "block": "532",
+  "lot": "8",
+  "bbl": "1005320008",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 20,
+  "yearBuilt": 1981,
+  "yearAlter": null,
+  "bldgClass": "H8",
+  "landmark": null,
+  "histDist": "NoHo Historic District",
+  "bins": [
+   1086637,
+   1066869
+  ],
+  "roofHeightM": 55.4,
+  "roofHeightFt": 182,
+  "partHeightsM": [
+   19.5,
+   55.4
+  ],
+  "footprintM2": 1909,
+  "centroid": [
+   114,
+   -403
+  ],
+  "osmNames": []
+ },
+ {
+  "label": "Alcott Houses 130 MacDougal",
+  "address": "130 MAC DOUGAL STREET",
+  "block": "540",
+  "lot": "14",
+  "bbl": "1005400014",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 14,
+  "yearBuilt": 1852,
+  "yearAlter": null,
+  "bldgClass": "H8",
+  "landmark": null,
+  "histDist": "South Village Historic District",
+  "bins": [
+   1087045,
+   1008701
+  ],
+  "roofHeightM": 45.6,
+  "roofHeightFt": 150,
+  "partHeightsM": [
+   45.6,
+   11.2
+  ],
+  "footprintM2": 1296,
+  "centroid": [
+   -241,
+   -125
+  ],
+  "osmNames": [
+   "Filomen D'agostino Residence Hall"
+  ]
+ },
+ {
+  "label": "Sixth Street Hall (Cooper Sq)",
+  "address": "35 COOPER SQUARE",
+  "block": "461",
+  "lot": "6",
+  "bbl": "1004610006",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 13,
+  "yearBuilt": 2014,
+  "yearAlter": "2011/2013",
+  "bldgClass": "H8",
+  "landmark": null,
+  "histDist": null,
+  "bins": [
+   1090311
+  ],
+  "roofHeightM": 40.5,
+  "roofHeightFt": 133,
+  "footprintM2": 401,
+  "centroid": [
+   543,
+   -350
+  ],
+  "osmNames": []
+ },
+ {
+  "label": "Grey Art Museum 18 Cooper Sq",
+  "note": "NO PLUTO MATCH for ^18 COOPER"
+ },
+ {
+  "label": "60 Fifth Avenue (CDS / CS)",
+  "address": "60 5 AVENUE",
+  "block": "576",
+  "lot": "46",
+  "bbl": "1005760046",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 8,
+  "yearBuilt": 1924,
+  "yearAlter": "1986/2015",
+  "bldgClass": "O3",
+  "landmark": null,
+  "histDist": null,
+  "bins": [
+   1009620
+  ],
+  "roofHeightM": 37.7,
+  "roofHeightFt": 124,
+  "footprintM2": 1182,
+  "centroid": [
+   199,
+   423
+  ],
+  "osmNames": []
+ },
+ {
+  "label": "Kevorkian Center 50 WSS",
+  "note": "NO PLUTO MATCH for ^50 WASHINGTON SQ"
+ },
+ {
+  "label": "Pless / Steinhardt 82 WSE",
+  "address": "82 WASHINGTON SQUARE E",
+  "block": "546",
+  "lot": "5",
+  "bbl": "1005460005",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 7,
+  "yearBuilt": 1900,
+  "yearAlter": null,
+  "bldgClass": "W6",
+  "landmark": null,
+  "histDist": null,
+  "bins": [
+   1008808
+  ],
+  "roofHeightM": 25.9,
+  "roofHeightFt": 85,
+  "footprintM2": 559,
+  "centroid": [
+   91,
+   -149
+  ],
+  "osmNames": [
+   "Joseph and Violet Pless Building"
+  ]
+ },
+ {
+  "label": "726 Broadway",
+  "address": "726 BROADWAY",
+  "block": "545",
+  "lot": "15",
+  "bbl": "1005450015",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 10,
+  "yearBuilt": 1919,
+  "yearAlter": "1982/2014",
+  "bldgClass": "O6",
+  "landmark": null,
+  "histDist": "NoHo Historic District",
+  "bins": [
+   1008796
+  ],
+  "roofHeightM": 47.6,
+  "roofHeightFt": 156,
+  "footprintM2": 3243,
+  "centroid": [
+   357,
+   -232
+  ],
+  "osmNames": [
+   "NYU Health Center"
+  ]
+ },
+ {
+  "label": "370 Jay? no; 383 Lafayette",
+  "address": "383 LAFAYETTE STREET",
+  "block": "531",
+  "lot": "20",
+  "bbl": "1005310020",
+  "owner": "NEW YORK UNIVERSITY",
+  "floors": 4,
+  "yearBuilt": 1913,
+  "yearAlter": "1988/2015",
+  "bldgClass": "O2",
+  "landmark": null,
+  "histDist": "NoHo Historic District",
+  "bins": [
+   1008512
+  ],
+  "roofHeightM": 17.1,
+  "roofHeightFt": 56,
+  "footprintM2": 1275,
+  "centroid": [
+   356,
+   -422
+  ],
+  "osmNames": [
+   "NYU Admissions Office"
+  ]
+ },
+ {
+  "label": "Thirteenth Street Hall 47 W 13th",
+  "note": "NO PLUTO MATCH for ^47 WEST 13"
+ },
+ {
+  "label": "Second Street 1 E 2nd",
+  "address": "1 EAST 2 STREET",
+  "block": "457",
+  "lot": "9",
+  "bbl": "1004570009",
+  "owner": "321 BOWERY",
+  "floors": 12,
+  "yearBuilt": 2001,
+  "yearAlter": null,
+  "bldgClass": "H8",
+  "landmark": null,
+  "histDist": null,
+  "bins": [
+   1086133
+  ],
+  "roofHeightM": 39.6,
+  "roofHeightFt": 130,
+  "footprintM2": 773,
+  "centroid": [
+   474,
+   -666
+  ],
+  "osmNames": []
+ }
+]

@@ -5,3 +5,8 @@ node_modules/
 *.tar.gz
 .openai/
 .DS_Store
+
+# Raw open-data extracts (re-fetch per RESEARCH/data/SOURCES.md)
+RESEARCH/data/raw/
+nightview-stage.tar.gz
+Claude outputs/

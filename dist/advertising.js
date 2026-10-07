@@ -1,5 +1,5 @@
 import * as T from './vendor/three.module.js';
-import {adAssets,adSettings,chooseAd,surfacePolicy,adRandom} from './ad-catalog.js?v=16';
+import {adAssets,adSettings,chooseAd,surfacePolicy,adRandom} from './ad-catalog.js?v=17';
 const SIZE=2048,COLS=4,ROWS=2;
 function canvas(){const c=document.createElement('canvas');c.width=SIZE;c.height=SIZE;return c;}
 function tile(asset){return adAssets.indexOf(asset);}

@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node tests/physics.test.js && node tests/aftermath.test.js && node tests/world.test.js && node tests/advertising.test.js",
+    "test": "node tests/physics.test.js && node tests/aftermath.test.js && node tests/world.test.js && node tests/advertising.test.js && node tests/campus.test.js",
     "start": "python3 -m http.server 4173 --directory dist"
   }
 }

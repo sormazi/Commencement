@@ -1,0 +1,306 @@
+00422/0049 | 1005618 |                          |  13.4 | null | 2000 | 638 | 598,-914 |     | Sunshine Cinema | 
+00427/0007 | 1078074 | 257 BOWERY               |  38.8 |    8 | 2009 | 215 | 383,-897 |     | Sperone Westwater | [WEST-ONE, LLC]
+00427/7504 | 1087241 | 95 EAST HOUSTON STREET   |  45.9 |   14 |  | 5429 | 422,-858 |     | Avalon Chrystie Place | [AVALON CHRYSTIE PLACE]
+00427/7507 | 1090397 | 215 CHRYSTIE STREET      |  97.8 |   28 |  | 1150 | 429,-909 |     | PUBLIC, an Ian Schrager hotel | [UNAVAILABLE OWNER]
+00443/0005 | 1006080 | 28 2 AVENUE              |  31.2 |   10 | 1923 | 449 | 585,-744 |     | Manhattan Mini Storage | [SM I MMS, L.L.C.]
+00443/0016 | 1082819 | 59 EAST 2 STREET         |  16.1 |    3 | 1891 | 816 | 641,-771 |     | Orthodox Cathedral of the Holy Virgin Protection | [RUSSIAN ORTHODOX ETC]
+00444/0010 | 1006116 | 44 EAST 3 STREET         |  11.4 |    3 | 1836 | 95 | 629,-657 |     | 3 | [THE SUZANNE TICK REVOCABLE TRUST]
+00444/0011 | 1006117 | 46 EAST 3 STREET         |  12.0 |    3 | 1836 | 79 | 634,-661 |     | 3 | [46 EAST 3RD ST CORP]
+00444/0012 | 1006118 | 48 EAST 3 STREET         |  11.5 |    3 | 1837 | 80 | 639,-663 |     | 3 | [DAVIES, DENNIS RUSSELL]
+00447/0047 | 1006254 | 323 EAST 5 STREET        |  36.2 |    6 | 2004 | 393 | 783,-521 |     | 9th Precinct NYPD | [NYC POLICE DEPARTMENT]
+00448/0005 | 1006265 | 112 2ND AVENUE           |  17.8 | null | 1892 | 274 | 785,-401 |     | Middle Collegiate Church | [THE MINISTER, ELDERS, AND DEACONS OF THE  REFORMED]
+00449/0005 | 1006311 | 126 2 AVENUE             |  10.8 |    3 | 1930 | 332 | 815,-338 |     | Orpheum Theatre | [ORPHEUM LIVE, LLC]
+00449/0020 | 1006326 | 62 ST MARKS PLACE        |  16.5 |    3 | 1920 | 193 | 895,-374 |     | Saint Cyril Catholic Church | [RC CHUR OF ST CYRIL]
+00456/0007 | 1087255 | 285 BOWERY               |  29.3 |    9 | 2005 | 2845 | 458,-765 |     | Avalon Bowery Place | [CVP II, LLC]
+00458/0006 | 1006545 | 335 BOWERY               |  66.8 |   16 | 2003 | 1047 | 480,-584 |     | The Bowery Hotel | [WOODCUTTERS REALTY CORP.]
+00459/0023 | 1006572 | 74 EAST 4 STREET         |  17.6 |    4 | 1900 | 131 | 583,-546 |     | La MaMa | [LA MAMA E T C]
+00459/7501 | 1082671 | 5 EAST 3 STREET          |  33.1 |    9 | 1920 | 194 | 507,-540 |     | Wyoming Building | [WYOMING ARTS CONDOMINIUM  ASSOCIATION]
+00460/0046 | 1006601 | 79 EAST 4 STREET         |   7.4 |    1 | 1944 | 437 | 603,-504 |     | New York Theatre Workshop | [NEW YORK THEATRE ETC]
+00461/0006 | 1090311 | 35 COOPER SQUARE         |  40.5 |   13 | 2017 | 401 | 543,-350 | NYU |  | 
+00461/0018 | 1006616 | 220 EAST 6 STREET        |  13.0 |    3 | 2002 | 649 | 624,-387 |     | The Ukrainian Museum | [UKRAINIAN MUSEUM]
+00462/0001 | 1006642 | 41 COOPER SQUARE         |  37.5 |    9 | 2008 | 1632 | 581,-304 |     | 41 Cooper Square | [NYC DEPARTMENT OF CITYWIDE ADMINISTRATIVE SERVICES]
+00462/0007 | 1006644 | 6 TARAS SHEVCHENKO PL    |  33.3 |    1 | 1976 | 761 | 621,-319 |     | St. George's Church | [ORDER-ST BASIL THE GR]
+00462/0018 | 1006649 | 38 EAST 7 STREET         |  16.2 |    3 | 1920 | 718 | 694,-356 | NYU | NYU Seventh Street Residence | 
+00462/0025 | 1006653 | 107 2 AVENUE             |  26.3 |    5 | 1928 | 808 | 710,-372 | NYU |  | 
+00463/0001 | 1006656 | 61 COOPER SQUARE         |  24.7 |    4 | 1867 | 317 | 599,-252 |     | Cornerstone First Ukrainian Assembly of God | [UKRAINIAN EVANGELICAL ASSEMBLIES]
+00464/0039 | 1079841 | 135 2 AVENUE             |  14.0 |    3 | 1884 | 126 | 787,-256 |     | Ottendorfer Library | [OTTENDORFER LIBRARY]
+00465/0001 | 1006764 | 31 3 AVENUE              |  54.3 |   16 | 1986 | 1196 | 689,-115 | NYU | New York University Alumni Hall / NYU Alumni Hall | 
+00465/0037 | 1088854 | 28 STUYVESANT STREET     |  27.1 |    6 | 1920 | 855 | 767,-165 | NYU | Barney Building | 
+00466/0012 | 1006808 | 206 EAST 11 STREET       |  11.2 |    1 | 1949 | 211 | 760,-37 |     | All Saints Ukrainian Orthodox Church | [ALL SAINTS UKRAINIAN CH]
+00466/0026 | 1006818 | 165 2 AVENUE             |  16.4 |    2 | 1799 | 966 | 845,-97 |     | Saint Mark's in-the-Bowery | [ST MARKS PROT EPIS CH]
+00467/0001 | 1006826 | 67 3 AVENUE              |  45.9 |   14 | 1988 | 1713 | 772,29 | NYU |  | 
+00467/0001 | 1084498 | 67 3 AVENUE              |  45.9 |   14 | 1988 | 664 | 794,25 | NYU |  | 
+00467/0021 | 1006833 | 224 EAST 12 STREET       |  17.7 |    6 | 1910 | 132 | 850,6 |     | The Brownstone | [GATEWAYS ORGANIZATION INC.]
+00467/0031 | 1006836 | 181 2 AVENUE             |  23.9 |    5 | 1926 | 1078 | 895,-28 |     | Village East Cinema | [SENYAR HOLDING, LLC]
+00467/7501 | 1006849 | 235 EAST 11 STREET       |  27.4 |    5 | 1926 | 733 | 863,-39 |     | Third Street Music School | [235 EAST 11 STREET CONDO CORP]
+00468/0036 | 1006868 | 203 2 AVENUE             |  18.4 |    5 | 1920 | 224 | 943,39 |     | Ukrainian Congress Committee of America | [UKRANIAN CONGRESS COMMITTEE OF AMERICA,  INC.]
+00488/0003 | 1087362 | 60 THOMPSON STREET       |  44.9 |   14 | 1999 | 473 | -505,-807 |     | Sixty SoHo | [SIP NY ACQUISITION, LLC]
+00488/0039 | 1007340 | 512 BROOME STREET        |   5.2 |    1 | 1900 | 93 | -519,-842 |     | Pi Bakerie | [FLAMBEAU REALTY INC]
+00495/0007 | 1007523 | 247 LAFAYETTE STREET     |  21.9 |    5 | 1972 | 992 | 51,-913 |     | FDNY Ladder 20/Division 1 | [FIRE DEPARTMENT OF NEW YORK]
+00496/0001 | 1088952 | 79 CROSBY STREET         |  48.8 |   11 | 2009 | 440 | -26,-913 |     | Crosby Street Hotel | [79 CROSBY STREET LLC]
+00497/7502 | 1007568 | 81 SPRING STREET         |  30.2 |    6 | 1885 | 503 | -73,-919 |     | MoMA Design Store | [UNAVAILABLE OWNER]
+00498/0001 | 1088113 | 92 PRINCE STREET         |   7.9 |    1 | 2001 | 236 | -128,-758 |     | Nespresso | [92 PRINCE LLC]
+00498/0011 | 1007576 | 549 BROADWAY             |  47.9 |   12 | 1890 | 1829 | -124,-812 |     | Singer Building | [ESRT 555-557 BROADWAY, L.L.C.]
+00498/0021 | 1007582 | 535 BROADWAY             |  20.0 |    5 | 1852 | 225 | -147,-876 |     | Charles Broadway Rouss Building | [535 BROADWAY CE LLC]
+00499/0007 | 1007605 | 104 GREENE STREET        |  49.2 |   13 | 1908 | 1270 | -191,-762 |     | The Soho Building | [110 GREENE FEE OWNER LP]
+00500/0021 | 1007645 | 110 PRINCE STREET        |   4.4 |    1 | 1966 | 128 | -209,-700 |     | Camper | [BUGER REALTY CORP.]
+00501/0028 | 1007714 | 101 WOOSTER STREET       |  26.4 |    7 | 1894 | 394 | -326,-729 |     | Knoll International Design Center | [WOOSTERS OWNERS INC]
+00508/0033 | 1007898 | 257 ELIZABETH STREET     |   5.3 |    1 | 1940 | 195 | 262,-828 |     | Ba&sh | [257 ELIZABETH REALTYCRP]
+00508/0034 | 1007899 | 255 ELIZABETH STREET     |   5.2 |    1 | 1900 | 189 | 261,-836 |     | Lunya | [255 ELIZABETH REALTY CORP]
+00509/0001 | 1079992 | 256 MULBERRY STREET      |  24.8 |    3 | 1900 | 1202 | 157,-851 |     | Saint Patrick's Old Cathedral | [ST PARICKS RC CHURCH]
+00509/0001 | 1079993 | 256 MULBERRY STREET      |  14.3 |    3 | 1900 | 99 | 159,-808 |     | Saint Michael's Church | [ST PARICKS RC CHURCH]
+00510/7502 | 1007941 | 295 LAFAYETTE STREET     |  44.6 |   10 | 1886 | 2111 | 153,-732 |     | Puck Building | [UNAVAILABLE OWNER]
+00512/0023 | 1080019 | 569 BROADWAY             |  38.2 |    6 | 1882 | 1837 | -81,-734 |     | La Mer 575 Broadway | [575 BROADWAY LLC]
+00514/0001 | 1007986 | 134 WOOSTER STREET       |   6.8 |    1 | 1947 | 326 | -209,-627 |     | Hauser & Wirth | [134-136 WOOSTER REALTY LLC]
+00515/7502 | 1008013 | 149 WOOSTER STREET       |  34.7 |    8 | 1898 | 619 | -225,-554 |     | 151 Wooster Street, Soho | [UNAVAILABLE OWNER]
+00517/0011 | 1008046 | 155 SULLIVAN STREET      |  29.6 |    1 | 1888 | 1017 | -341,-452 |     | Saint Anthony of Padua Church | [CHURCH OF ST ANTHONY PADUA]
+00518/0012 | 1008068 | 60 MAC DOUGAL STREET     |  22.2 |    5 | 1909 | 392 | -425,-398 |     | St. Anthony's School | [CHUR ST ANTHONY OF PA]
+00521/0043 | 1008187 | 18 BLEECKER STREET       |  20.9 |    5 | 1927 | 757 | 311,-656 |     | The Sheen Center for Thought and Culture | [OUR LADY OF LORETO]
+00521/0086 | 1090504 | 76 EAST HOUSTON STREET   |   8.8 |    2 | 2017 | 110 | 330,-740 |     | The Detox Market | [ELIZABETH HOUSTON ASSOC]
+00523/0046 | 1008238 | 625 BROADWAY             |  48.0 |   12 | 1898 | 608 | 30,-561 |     | 194 Mercer Street | [625 BROADWAY ACQUISITIONS LLC]
+00523/0048 | 1008240 | 18 WEST HOUSTON STREET   |  41.3 |    9 | 1894 | 2528 | 13,-588 |     | The Cable Building | [CABLE BUILDING OWNERS]
+00524/0001 | 1008241 | 505 LA GUARDIA PLACE     |  89.9 |   30 | 1967 | 631 | -159,-450 |     | University Towers Apartments III | [WASHINGTON SQ. APARTMENTS INC]
+00524/0009 | 1008242 | 509 LA GUARDIA PLACE     |   5.1 |    1 | 1961 | 1352 | -134,-403 | NYU |  | 
+00524/0066 | 1087825 | 100 BLEECKER STREET      |  88.7 |   30 | 1967 | 648 | -72,-476 | NYU | University Towers Apartments I | 
+00524/0066 | 1083218 | 100 BLEECKER STREET      |  89.6 |   30 | 1967 | 652 | -126,-502 | NYU | University Towers Apartments II | 
+00524/0066 | 1090263 | 100 BLEECKER STREET      |  60.4 |   30 | 2022 | 7484 | -37,-515 | NYU | NYU Paulson Center | 
+00525/0024 | 1077793 | 169 THOMPSON STREET      |  19.5 |    6 | 1859 | 75 | -284,-393 |     | Leon's Bagels | [JONIS REALTY /W HOUSTON STREET PARTNERS,  LLC,]
+00525/7501 | 1083503 | 156 BLEECKER STREET      |  38.7 | 11.5 | 1896 | 1805 | -258,-316 |     | Mill House No.1 | [UNAVAILABLE OWNER]
+00526/0018 | 1008298 | 200 BLEECKER STREET      |  18.2 |    3 | 1826 | 439 | -410,-216 |     | Little Red School House & Elisabeth Irwin High School | [LITTLE RED SCHOOL HOU]
+00526/0030 | 1080053 | 77 MAC DOUGAL STREET     |  15.5 |    4 | 1890 | 89 | -395,-275 |     | Tiro A Segno | [FIROA SEGNA HLDG CO]
+00526/0061 | 1008322 | 176 BLEECKER STREET      |  18.5 |    5 | 1861 | 96 | -317,-265 |     | 176 Bleecker | [176 BLEECKER LLC]
+00529/0072 | 1008454 | 65 BLEECKER STREET       |  49.1 |   13 | 1899 | 686 | 179,-539 |     | Bayard-Condict Building | [KERWAY REALTY LLC]
+00530/7507 | 1008491 | 54 BOND STREET           |  24.6 |    6 | 1874 | 241 | 399,-589 |     | Bouwerie Lane Theatre | [UNAVAILABLE OWNER]
+00531/0003 | 1008507 | 686 BROADWAY             |  14.9 |    2 | 1993 | 488 | 243,-369 |     | Great Jones Distilling Co | [686 BROADWAY REALTY LLC]
+00531/0020 | 1008512 | 383 LAFAYETTE STREET     |  17.1 |    4 | 1913 | 1275 | 356,-422 | NYU | NYU Admissions Office | 
+00531/0039 | 1008518 | 356 BOWERY               |  16.5 |    5 | 1832 | 115 | 435,-478 |     | Yawning Cobra | [MH 356 BOWERY LLC]
+00531/0043 | 1008522 | 348 BOWERY               |   4.7 |    1 | 1954 | 60 | 424,-505 |     | T&J Auto Repairs | [BOWERY JONES OWNER, LLC]
+00531/0049 | 1008526 | 42 GREAT JONES STREET    |  23.4 |    4 | 1899 | 355 | 389,-470 |     | FDNY Engine 33/Ladder 9 | [FIRE DEPARTMENT OF NEW YORK]
+00531/7501 | 1008529 | 14 EAST 4 STREET         |  50.6 |   12 | 1909 | 1346 | 280,-363 | NYU | NYU Shanghai | 
+00531/7504 | 1008509 | 380 LAFAYETTE STREET     |  25.8 |    6 | 1889 | 669 | 282,-398 |     | Schermerhorn Building | [UNAVAILABLE OWNER]
+00532/0008 | 1086637 | 246 MERCER STREET        |  19.5 |   20 | 1981 | 333 | 114,-403 | NYU |  | 
+00532/0008 | 1066869 | 246 MERCER STREET        |  55.4 |   20 | 1981 | 1576 | 144,-386 | NYU |  | 
+00533/0001 | 1077835 | 1 WASHINGTON SQ VLLGE    |  48.3 |   17 | 1959 | 1774 | -89,-366 | NYU |  | 
+00533/0001 | 1077833 | 1 WASHINGTON SQ VLLGE    |  48.6 |   17 | 1959 | 1761 | -28,-272 | NYU |  | 
+00533/0001 | 1077834 | 1 WASHINGTON SQ VLLGE    |  47.7 |   17 | 1959 | 1760 | 60,-329 | NYU |  | 
+00533/0001 | 1085656 | 1 WASHINGTON SQ VLLGE    |   2.7 |   17 | 1959 | 5347 | -14,-345 | NYU |  | 
+00533/0001 | 1077836 | 1 WASHINGTON SQ VLLGE    |  48.2 |   17 | 1959 | 1840 | -1,-423 | NYU |  | 
+00533/0010 | 1080076 | 543 LA GUARDIA PLACE     |   4.8 |    1 | 1960 | 1633 | -74,-298 | NYU |  | 
+00535/0001 | 1078952 | 44 WEST 4 STREET         |  50.5 |   11 | 1990 | 2644 | 63,-237 | NYU | Henry Kaufman Management Center | 
+00535/0001 | 1077346 | 44 WEST 4 STREET         |  45.0 |   11 | 1990 | 915 | 77,-271 | NYU | Tisch Hall | 
+00535/0008 | 1008626 | 567 LA GUARDIA PLACE     |  47.4 |   12 | 1973 | 3604 | -5,-203 | NYU | Elmer Holmes Bobst Library | 
+00535/0036 | 1008627 | 17 WEST 3 STREET         |  49.6 |   13 | 1975 | 1256 | 119,-285 | NYU | Warren Weaver Hall | 
+00538/0040 | 1008662 | 566 LA GUARDIA PLACE     |  50.0 |   11 | 2000 | 2102 | -66,-151 | NYU | Helen and Martin Kimmel Center for University Life | 
+00538/7501 | 1088844 | 58 WASHINGTON SQUARE S   |  40.4 |    7 | 2010 | 1197 | -86,-147 |     | Global Center for Academic and Spiritual Life | [UNAVAILABLE OWNER]
+00539/0031 | 1008680 | 211 THOMPSON STREET      |  24.7 |    6 | 1887 | 765 | -209,-250 |     | Preschool of the Arts | [211 THOMPSON OWNER CORP]
+00540/0014 | 1087045 | 130 MAC DOUGAL STREET    |  45.6 |   14 | 1852 | 1202 | -241,-125 | NYU | Filomen D'agostino Residence Hall | 
+00540/0014 | 1008701 | 130 MAC DOUGAL STREET    |  11.2 |   14 | 1852 | 93 | -261,-119 | NYU |  | 
+00541/0001 | 1008716 | 40 WASHINGTON SQUARE S   |  24.1 |    5 | 1951 | 3654 | -193,-63 | NYU |  | 
+00541/0018 | 1082207 | 51 WASHINGTON SQUARE S   |  17.3 |   10 | 1900 | 177 | -146,-95 | NYU | Heyman Hall | 
+00541/0018 | 1082205 | 51 WASHINGTON SQUARE S   |  21.1 |   10 | 1900 | 306 | -131,-92 | NYU |  | 
+00541/0023 | 1008717 | 55 WASHINGTON SQUARE S   |  20.5 |    5 | 1893 | 900 | -117,-111 |     | King Juan Carlos I of Spain Center / Judson Memorial Church | [JUDSON MEMORIAL CHURCH]
+00541/0033 | 1066875 | 249 SULLIVAN STREET      |  20.4 |    4 | 1972 | 205 | -150,-89 | NYU | Hagop Kevorkian Center for Near Eastern Studies | 
+00541/7501 | 1086188 | 89 WEST 3 STREET         |  44.2 |   10 | 2002 | 1733 | -139,-130 |     | Furman Hall | [UNAVAILABLE OWNER]
+00542/0051 | 1008733 | 99 MAC DOUGAL STREET     |  18.0 |    5 | 1888 | 170 | -337,-175 |     | The Kati Roll Company | [99 MACDOUGAL, LLC.]
+00543/0053 | 1008760 | 139 MAC DOUGAL STREET    |  26.8 |    6 | 2011 | 797 | -253,-33 | NYU | Wilf Hall | 
+00544/0012 | 1008772 | 417 LAFAYETTE STREET     |  34.0 |    8 | 1894 | 380 | 423,-301 |     | Semm | [THE SYLVIA WALD AND PO KIM ART GALLERY]
+00544/0016 | 1008774 | 423 LAFAYETTE STREET     |  25.6 |    3 | 1853 | 2305 | 460,-250 |     | Public Theater | [NYC DEPARTMENT OF CULTURAL AFFAIRS]
+00544/0050 | 1008780 | 16 COOPER SQUARE         |  29.8 |    7 | 1901 | 1497 | 453,-358 | NYU |  | 
+00544/0065 | 1088594 | 2 COOPER SQUARE          |  46.0 |   16 | 2009 | 685 | 452,-401 |     | 2 Cooper | [10-12 COOPER SQUARE INC]
+00544/0071 | 1008785 | 29 EAST 4 STREET         |  19.1 |    3 | 1832 | 131 | 400,-397 |     | Merchant's House Museum | [NYC DEPARTMENT OF PARKS AND RECREATION]
+00544/0076 | 1008788 | 7 EAST 7 STREET          |  32.5 |    7 | 1859 | 1881 | 563,-195 |     | The Cooper Union's Foundation Building | [COOPER UNION ADVNCMNT SCIENCE/ART]
+00545/0006 | 1080090 | 708 BROADWAY             |  33.4 |   10 | 1896 | 1071 | 331,-302 | NYU |  | 
+00545/0006 | 1080089 | 708 BROADWAY             |  41.0 |   10 | 1896 | 297 | 300,-290 | NYU | School of Global Public Health | 
+00545/0015 | 1008796 | 726 BROADWAY             |  47.6 |   10 | 1919 | 3243 | 357,-232 | NYU | NYU Health Center | 
+00545/0053 | 1080096 | 400 LAFAYETTE STREET     |  22.2 |    6 | 1888 | 535 | 317,-323 | NYU |  | 
+00545/0053 | 1080097 | 400 LAFAYETTE STREET     |  21.5 |    6 | 1888 | 812 | 327,-336 | NYU |  | 
+00545/0053 | 1080095 | 400 LAFAYETTE STREET     |  23.1 |    6 | 1888 | 336 | 303,-315 | NYU |  | 
+00545/7501 | 1008789 | 696 BROADWAY             |  40.5 |    8 | 1891 | 864 | 284,-312 |     | Weitz & Luxenberg Building | [700 BROADWAY 1891 LLC]
+00545/7503 | 1008807 | 21 ASTOR PLACE           |  47.9 |   11 | 1892 | 1164 | 445,-125 |     | Clinton Hall | [UNAVAILABLE OWNER]
+00546/0001 | 1076069 | 79 WASHINGTON SQUARE E   |  25.5 |    7 | 1900 | 845 | 79,-176 | NYU | Paulette Goddard Hall | 
+00546/0005 | 1008808 | 82 WASHINGTON SQUARE E   |  25.9 |    7 | 1900 | 559 | 91,-149 | NYU | Joseph and Violet Pless Building | 
+00546/0008 | 1008809 | 26 WASHINGTON PLACE      |  26.2 |    7 | 1900 | 232 | 108,-155 | NYU | Pless Annex | 
+00546/0010 | 1008810 | 18 WASHINGTON PLACE      |  35.4 |    8 | 1910 | 842 | 118,-174 | NYU | Academic Resource Center | 
+00546/0011 | 1008811 | 35 WEST 4 STREET         |  58.2 |   13 | 1930 | 853 | 106,-189 | NYU | Frederick Loewe Theatre | 
+00546/0015 | 1008812 | 14 WASHINGTON PLACE      |  43.4 |   14 | 1931 | 817 | 162,-200 | NYU | Mark and Debra Leslie Entrepreneurs Lab | 
+00546/0020 | 1008813 | 10 WASHINGTON PLACE      |  24.8 |    6 | 1900 | 326 | 180,-208 | NYU | Arthur L. Carter Hall | 
+00546/0021 | 1080098 | 19 WEST 4TH STREET       |  42.1 |    8 | 1900 | 978 | 177,-225 | NYU | 19 West Fourth Street-Department of Politics | 
+00546/0026 | 1008814 | 21 WEST 4 STREET         |  24.5 |    6 | 1920 | 774 | 147,-226 | NYU | Bonomi Family NYU Admissions Center | 
+00546/0030 | 1008815 | 31 WEST 4 STREET         |  14.2 |    4 | 1900 | 236 | 134,-212 | NYU | Global Inclusion, Diversity, and Strategic Innovation Office | 
+00546/0031 | 1008816 | 4 WASHINGTON PLACE       |  44.0 |   11 | 1904 | 534 | 228,-230 | NYU | Center for Neural Science | 
+00546/0033 | 1008817 | 713 BROADWAY             |  50.0 |   10 | 1971 | 496 | 249,-251 | NYU | Andre and Bella Meyer Hall of Physics | 
+00546/0035 | 1008818 | 707 BROADWAY             |  44.5 |   10 | 1971 | 995 | 231,-254 | NYU | Department of Psychology | 
+00546/0040 | 1008819 | 699 BROADWAY             |  22.9 |    5 | 1979 | 1497 | 218,-266 | NYU | Hebrew Union College - Jewish Institute of Religion | 
+00547/0001 | 1008820 | 32 WAVERLY PLACE         |  49.4 |   10 | 1900 | 1817 | 134,-109 | NYU | Silver Center for Arts and Science | 
+00547/0005 | 1008822 | 24 WAVERLY PLACE         |  49.7 |   11 | 1906 | 713 | 155,-105 | NYU | Waverly Building | 
+00547/0008 | 1008823 | 23 WASHINGTON PLACE      |  43.7 |   10 | 1901 | 956 | 142,-121 | NYU | Brown Building | 
+00547/0014 | 1008824 | 18 WAVERLY PLACE         |  35.5 |    6 | 1900 | 389 | 193,-124 | NYU | Kimball Hall | 
+00547/0014 | 1008825 | 18 WAVERLY PLACE         |  30.8 |    6 | 1900 | 245 | 206,-128 | NYU |  | 
+00547/0015 | 1088876 | 12 WAVERLY PLACE         |  43.9 |    8 | 1800 | 233 | 220,-147 | NYU |  | 
+00547/0015 | 1088877 | 12 WAVERLY PLACE         |  44.5 |    8 | 1800 | 231 | 210,-138 | NYU | Center for Genomics and Systems Biology | 
+00547/0015 | 1080101 | 12 WAVERLY PLACE         |  45.4 |    8 | 1800 | 194 | 226,-150 | NYU |  | 
+00547/0018 | 1008826 | 10 WAVERLY PLACE         |  37.9 |   10 | 1910 | 201 | 236,-151 | NYU | 285 Mercer Street | 
+00547/0019 | 1008827 | 7 WASHINGTON PLACE       |  17.1 |    4 | 1900 | 252 | 220,-174 | NYU | NYU Department of Public Safety and Card Center | 
+00547/0020 | 1008828 | 15 WASHINGTON PLACE      |  19.2 |    6 | 1941 | 934 | 194,-162 | NYU |  | 
+00547/0025 | 1008829 | 21 WASHINGTON PLACE      |  32.2 |    8 | 1900 | 258 | 177,-143 | NYU | 244 Greene Street-Department of English | 
+00547/0026 | 1008830 | 3 WASHINGTON PLACE       |  24.1 |    6 | 1891 | 428 | 245,-189 | NYU | NYU Department of Philosophy | 
+00547/0030 | 1008831 | 715 BROADWAY             |  56.7 |   12 | 1896 | 1177 | 263,-196 | NYU | Gallatin School of Individualized Study | 
+00547/0030 | 1088447 | 715 BROADWAY             |  58.5 |   12 | 1896 | 1567 | 269,-182 | NYU | Tisch School of the Arts | 
+00548/0004 | 1080105 | 5 UNIVERSITY PLACE       |  31.4 |    9 | 1962 | 1787 | 196,-31 | NYU | Weinstein Dining facilities and Sidestein Market / Weinstein Hall / Weinstein Hall | 
+00548/0009 | 1008833 | 13 UNIVERSITY PLACE      |  29.9 |    6 | 1930 | 896 | 202,1 | NYU | Languages and Literature Building | 
+00548/0012 | 1008834 | 36 EAST 8 STREET         |   8.1 |    3 | 1940 | 1036 | 219,-10 | NYU | Iris and B. Gerald Cantor Film Center | 
+00548/0021 | 1008835 | 25 WAVERLY PLACE         |  36.0 |    9 | 1900 | 329 | 196,-67 | NYU | Rufus D. Smith Hall | 
+00548/0070 | 1008840 | 300 MERCER STREET        |  91.8 |   35 | 1976 | 2461 | 312,-134 |     | Hilary Gardens | [HILARY GARDENS COMPANY]
+00548/7501 | 1080855 | 60 EAST 8 STREET         |  99.4 |   31 | 1965 | 2725 | 346,-77 |     | Georgetown Plaza | [GEORGETOWN PLZ OWNERS CORP]
+00549/0001 | 1088179 | 3 WASHINGTON SQUARE N    |   4.3 |    1 | 2013 | 182 | -102,-53 |     | Washington Square Park House | [NYC DEPARTMENT OF PARKS AND RECREATION]
+00550/0001 | 1080106 | 1 WASHINGTON SQUARE N    |   9.6 |    4 | 1900 | 90 | 141,1 | NYU |  | 
+00550/0001 | 1080107 | 1 WASHINGTON SQUARE N    |  19.6 |    4 | 1900 | 393 | 128,-4 | NYU | Ruth Lewis Farkas House | 
+00550/0001 | 1085663 | 1 WASHINGTON SQUARE N    |  17.2 |    4 | 1900 | 171 | 126,-24 | NYU | Jane Eisner and William B. Bram House | 
+00550/0001 | 1066883 | 1 WASHINGTON SQUARE N    |  17.0 |    4 | 1900 | 260 | 138,-24 | NYU | John J. Creedon House | 
+00550/0001 | 1082547 | 1 WASHINGTON SQUARE N    |   7.7 |    4 | 1900 | 129 | 147,-7 | NYU | NYU - La Maison Française | 
+00550/0004 | 1083131 | 4 WASHINGTON SQUARE N    |   9.8 |  3.5 | 1900 | 114 | 125,7 | NYU |  | 
+00550/0004 | 1008842 | 4 WASHINGTON SQUARE N    |  17.4 |  3.5 | 1900 | 236 | 114,-12 | NYU |  | 
+00550/0005 | 1083132 | 5 WASHINGTON SQUARE N    |   7.0 |  3.5 | 1920 | 102 | 117,12 | NYU |  | 
+00550/0005 | 1008843 | 5 WASHINGTON SQUARE N    |  17.9 |  3.5 | 1920 | 251 | 105,-7 | NYU |  | 
+00550/0006 | 1080108 | 6 WASHINGTON SQUARE N    |   7.2 |  3.5 | 1900 | 63 | 112,19 | NYU |  | 
+00550/0006 | 1080109 | 6 WASHINGTON SQUARE N    |  18.9 |  3.5 | 1900 | 234 | 99,-2 | NYU |  | 
+00550/0013 | 1078077 | 1 1/2 5 AVENUE           |   6.9 |    5 | 1932 | 77 | 62,44 | NYU |  | 
+00550/0013 | 1078075 | 1 1/2 5 AVENUE           |   7.8 |    5 | 1932 | 78 | 50,51 | NYU |  | 
+00550/0013 | 1078080 | 1 1/2 5 AVENUE           |   7.2 |    5 | 1932 | 78 | 80,34 | NYU |  | 
+00550/0013 | 1078081 | 1 1/2 5 AVENUE           |   7.0 |    5 | 1932 | 155 | 89,29 | NYU |  | 
+00550/0013 | 1078083 | 1 1/2 5 AVENUE           |   6.9 |    5 | 1932 | 76 | 99,24 | NYU |  | 
+00550/0013 | 1078079 | 1 1/2 5 AVENUE           |   7.2 |    5 | 1932 | 80 | 74,37 | NYU |  | 
+00550/0013 | 1078078 | 1 1/2 5 AVENUE           |   7.2 |    5 | 1932 | 78 | 68,41 | NYU |  | 
+00550/0013 | 1078084 | 1 1/2 5 AVENUE           |   7.0 |    5 | 1932 | 72 | 105,20 | NYU |  | 
+00550/0013 | 1078076 | 1 1/2 5 AVENUE           |   7.2 |    5 | 1932 | 76 | 56,47 | NYU |  | 
+00550/0013 | 1078085 | 1 1/2 5 AVENUE           |  18.8 |    5 | 1932 | 1290 | 64,21 | NYU |  | 
+00550/0016 | 1008844 | 58 WASHINGTON MEWS       |   7.2 |    2 | 1833 | 69 | 107,43 | NYU |  | 
+00550/0017 | 1008845 | 60 WASHINGTON MEWS       |   6.7 |    2 | 1833 | 70 | 100,47 | NYU |  | 
+00550/0018 | 1008846 | 62 WASHINGTON MEWS       |   6.9 |    2 | 1833 | 67 | 93,50 | NYU |  | 
+00550/0024 | 1008848 | 6 EAST 8 STREET          |  19.0 |    6 | 1930 | 197 | 110,70 | NYU |  | 
+00550/0027 | 1077900 | 12 EAST 8 STREET         |  16.9 |    6 | 1930 | 200 | 129,59 | NYU |  | 
+00550/0027 | 1077837 | 12 EAST 8 STREET         |   6.5 |    6 | 1930 | 74 | 121,37 | NYU |  | 
+00550/0027 | 1077901 | 12 EAST 8 STREET         |   7.1 |    6 | 1930 | 68 | 113,39 | NYU |  | 
+00550/0029 | 1077849 | 16 EAST 8 STREET         |   7.2 |    6 | 1930 | 65 | 127,32 | NYU |  | 
+00550/0029 | 1077902 | 16 EAST 8 STREET         |  17.1 |    6 | 1930 | 172 | 137,49 | NYU |  | 
+00550/0030 | 1077904 | 18 EAST 8 STREET         |   8.5 |    6 | 1900 | 71 | 140,25 | NYU |  | 
+00550/0030 | 1077905 | 18 EAST 8 STREET         |   8.5 |    6 | 1900 | 70 | 134,28 | NYU |  | 
+00550/0030 | 1083507 | 18 EAST 8 STREET         |  19.0 |    6 | 1900 | 208 | 149,48 | NYU |  | 
+00550/0032 | 1088875 | 22 EAST 8 STREET         |   8.2 |    6 | 1920 | 129 | 162,17 | NYU | NYU - Deutsches Haus | 
+00550/0032 | 1077879 | 22 EAST 8 STREET         |   9.4 |    6 | 1920 | 71 | 154,17 | NYU | Africa House | 
+00550/0032 | 1077877 | 22 EAST 8 STREET         |  16.6 |    6 | 1920 | 221 | 161,43 | NYU |  | 
+00550/0032 | 1077878 | 22 EAST 8 STREET         |  15.8 |    6 | 1920 | 125 | 171,34 | NYU | Draper Interdisciplinary Graduate Program | 
+00550/0032 | 1084421 | 22 EAST 8 STREET         |   8.4 |    6 | 1920 | 71 | 147,22 | NYU |  | 
+00551/0007 | 1077881 | 19 WASHINGTON SQUARE N   |  18.6 |  3.5 | 1890 | 252 | -35,86 | NYU |  | 
+00551/0007 | 1077805 | 19 WASHINGTON SQUARE N   |   7.0 |  3.5 | 1890 | 47 | -26,104 | NYU |  | 
+00551/0008 | 1008851 | 20 WASHINGTON SQUARE N   |  17.6 |    4 | 1920 | 505 | -42,95 | NYU | NYU Abu Dhabi | 
+00551/0010 | 1077884 | 21 WASHINGTON SQUARE N   |  11.6 |  3.5 | 1900 | 65 | -52,103 | NYU |  | 
+00551/0010 | 1077872 | 21 WASHINGTON SQUARE N   |   9.3 |  3.5 | 1900 | 58 | -46,113 | NYU |  | 
+00551/0010 | 1077885 | 21 WASHINGTON SQUARE N   |  20.9 |  3.5 | 1900 | 126 | -57,91 | NYU |  | 
+00551/0011 | 1080110 | 22 WASHINGTON SQUARE N   |  18.3 |  3.5 | 1925 | 92 | -59,106 | NYU |  | 
+00551/0011 | 1080111 | 22 WASHINGTON SQUARE N   |  20.5 |  3.5 | 1925 | 138 | -65,96 | NYU | NYU Law Jean Monnet Center | 
+00551/0016 | 1008855 | 27 WASHINGTON SQUARE N   |  29.9 |    7 | 1898 | 476 | -97,124 | NYU |  | 
+00552/0024 | 1008875 | 35 WASHINGTON SQUARE W   |  60.8 |   16 | 1955 | 1383 | -219,44 | NYU | Lipton Dining Hall / Lipton Hall | 
+00552/0026 | 1008877 | 37 WASHINGTON SQUARE W   |  64.3 |   16 | 1929 | 589 | -220,17 | NYU |  | 
+00552/0060 | 1008892 | 29 WASHINGTON SQUARE W   |  65.6 |   15 | 1927 | 753 | -164,100 | NYU |  | 
+00552/7503 | 1087257 | 135 WEST 4 STREET        |  20.1 |    6 | 1860 | 479 | -243,28 |     | Washington Square Church | [UNAVAILABLE OWNER]
+00553/7502 | 1087531 | 171 MAC DOUGAL STREET    |  23.5 |    6 | 1891 | 466 | -125,164 |     | Tenth Church of Christ Scientist | [UNAVAILABLE OWNER]
+00554/0035 | 1089443 | 51 ASTOR PLACE           |  65.2 |   14 | 2012 | 2882 | 590,-128 |     | 51 Astor Place | [COOPER UNION FOR THE ADVANCEMENT OF SCIE NCE & ART]
+00554/7501 | 1008952 | 770 BROADWAY             |  65.5 |   15 | 1907 | 6059 | 481,-75 |     | Wanamaker Store Annex | [770 BROADWAY OWNER LL]
+00555/0028 | 1008962 | 30 3 AVENUE              |  53.8 |   20 | 1965 | 1390 | 632,-71 |     | The St. Mark | [EAST 9TH ST APTS CORP]
+00556/0016 | 1090241 | 112 EAST 11 STREET       |  36.6 |   13 | 2019 | 1008 | 650,24 |     | Moxy | [UD-DEV ASSOCIATES LLC]
+00556/0036 | 1008976 | 93 PARK AVENUE SOUTH     |  15.6 |    3 | 1936 | 1302 | 615,90 |     | Cooper Post Office | [UNITED STATES POSTAL SERVICE]
+00556/0048 | 1087924 | 120 EAST 12 STREET       |  75.3 |   26 | 2006 | 1049 | 658,95 | NYU | Founders Hall | 
+00556/0068 | 1008983 | 119 EAST 11 STREET       |  21.8 |  3.5 | 1920 | 823 | 668,63 |     | Webster Hall | [UNITY GALLEGA EAST 11TH STREET LLC]
+00557/0001 | 1008997 | 788 BROADWAY             |  32.6 |    6 | 1900 | 2400 | 529,84 |     | Grace Church / Grace Memorial House | [THE RECTOR CHURCH]
+00558/0011 | 1009010 | 106 EAST 13 STREET       |   9.1 |    2 | 1929 | 261 | 645,210 |     | FDNY Ladder 3/Battalion 6 | [FIRE DEPARTMENT OF NEW YORK]
+00558/0037 | 1076070 | 131 EAST 12 STREET       |  41.1 |   16 | 1989 | 316 | 731,122 |     | Loeb Hall | [NEW SCHOOL SOCIAL RSRCH]
+00558/7501 | 1009030 | 114 EAST 13 STREET       |  44.5 |   12 | 1985 | 501 | 669,194 |     | American Felt Building | [ARLINGTON PROPERTIES INC]
+00559/0012 | 1009072 | 106 EAST 14 STREET       |  59.9 |   20 | 1998 | 1289 | 659,275 | NYU |  | 
+00559/0016 | 1084306 | 124 EAST 14 STREET       |  87.2 |   22 | 2021 | 1226 | 700,268 |     | Zero Irving | [NYC DEPARTMENT OF CITYWIDE ADMINISTRATIVE SERVICES]
+00559/0022 | 1085790 | 126 EAST 14 STREET       |  50.6 |   16 | 1999 | 3851 | 765,219 | NYU | Palladium Hall | 
+00559/0032 | 1080124 | 120 3 AVENUE             |   4.4 |    1 | 1900 | 217 | 805,219 |     | Gen Korean BBQ House | [118 THIRD AVENUE LLC]
+00559/0032 | 1080125 | 120 3 AVENUE             |   3.8 |    1 | 1900 | 91 | 798,227 |     | Joe's Pizza | [118 THIRD AVENUE LLC]
+00559/0036 | 1009080 | 114 3 AVENUE             |   6.6 |    2 | 1964 | 243 | 795,206 |     | Bagel Belly | [114 THIRD AVENUE, LLC]
+00562/0030 | 1009112 | 787 BROADWAY             |  50.6 |   16 | 1929 | 811 | 450,101 | NYU |  | 
+00563/0037 | 1009138 | 801 BROADWAY             |  26.8 |    7 | 1930 | 1393 | 457,182 |     | Cast Iron Building | [CAST IRON CORP]
+00564/0011 | 1080129 | 52 EAST 13 STREET        |  26.2 |    7 | 1930 | 201 | 456,315 |     | Roosevelt Building | [52 E LLC]
+00564/0045 | 1009211 | 132 4 AVENUE             |  10.6 |   11 | 1910 | 1007 | 581,242 |     | Hyatt Union Square New York | [1776 PORTFOLIO INVESTMENT, LLC]
+00567/0009 | 1009228 | 6 EAST 10 STREET         |  19.8 |    5 | 1848 | 140 | 178,200 |     | The Lancaster | [6 EAST 10TH STREET LLC]
+00568/0001 | 1009250 | 35 5 AVENUE              |  48.5 |   15 | 1925 | 846 | 181,250 | NYU | Rubin Hall | 
+00568/0032 | 1009269 | 7 EAST 10 STREET         |  17.9 |    5 | 1887 | 194 | 210,232 | NYU | NYU Edgar M Bronfman Center for Jewish Student Life | 
+00569/0017 | 1009279 | 22 EAST 12 STREET        |  10.1 |    1 | 1964 | 234 | 309,301 |     | Cinema Village | [KYPRO ENTERPRISES INC]
+00569/0038 | 1009293 | 11 EAST 11 STREET        |   5.9 |    2 | 1898 | 74 | 239,312 |     | Conservative Synagogue of 5th Avenue | [CONSERVATIVE SYNAGGETAL]
+00570/0042 | 1009390 | 7 EAST 12 STREET         |  54.1 |   12 | 1947 | 1036 | 296,377 | NYU |  | 
+00571/0001 | 1088879 | 2 EAST 14 STREET         |  63.7 |   17 | 2011 | 2810 | 311,467 |     | The New School University Center | [THE NEW SCHOOL]
+00572/0006 | 1009409 | 412 AVENUE OF THE AMERICAS |  23.2 |    7 | 1902 | 259 | -161,291 |     | Bigelow Building | [W A & W O KAISER INC]
+00572/0016 | 1077280 | 52 WEST 9 STREET         |  18.7 |    4 | 1980 | 82 | -116,265 |     | The Portsmouth | [52 W 9TH ST OWNRS CP]
+00573/0013 | 1009459 | 58 WEST 10 STREET        |  12.1 |    3 | 1836 | 113 | -77,343 | NYU |  | 
+00574/0044 | 1009540 | 36 5 AVENUE              |  17.4 |    1 | 1841 | 873 | 122,284 |     | Church of the Ascension | [CHURCH OF THE ASCENSI]
+00575/0017 | 1083136 | 66 WEST 12 STREET        |  32.0 |    8 | 1931 | 710 | 6,477 |     | The New School | [NEW SCHOOL SOC RESEAR]
+00575/0040 | 1009577 | 24 WEST 12 STREET        |  16.6 |    5 | 1852 | 225 | 105,410 | NYU |  | 
+00575/0048 | 1009582 | 12 WEST 12 STREET        |  18.3 |    4 | 1846 | 1350 | 156,359 |     | First Presbyterian Church | [FIRST PRESBYTERIAN CHURCH]
+00576/0014 | 1080148 | 54 WEST 13 STREET        |  52.4 |   17 | 2011 | 291 | 40,548 |     | Walker Hotel | [BRIDGETON WEST 13 FEE LLC]
+00576/0025 | 1077930 | 37 WEST 12 STREET        |  20.2 |   13 | 1961 | 376 | 102,481 |     | Butterfield House | [BUTTERFIELD HOUSE INC-B.H.S.(37120)]
+00576/0046 | 1009620 | 60 5 AVENUE              |  37.7 |    8 | 1924 | 1182 | 199,423 | NYU |  | 
+00576/0056 | 1009627 | 31 WEST 12 STREET        |  40.2 | 11.5 | 1901 | 345 | 119,462 |     | The Ardea | [31 OPERATING CORP]
+00577/0015 | 1080153 | 48 WEST 14 STREET        |  35.4 |    9 | 1910 | 235 | 77,583 |     | Senior House at 13th Street (NYU) | [47 DEVELOPMENT LLC]
+00577/0071 | 1009722 | 55 WEST 13 STREET        |  42.7 |    9 | 1900 | 992 | 55,601 |     | The New School Arnold Hall | [NEW SCHOOL-SOCL RESEARCH]
+00577/7501 | 1009720 | 72 5 AVENUE              |  26.2 |    7 | 1920 | 495 | 233,483 |     | The New School | [UNAVAILABLE OWNER]
+00586/0020 | 1009904 | 240 BLEECKER STREET      |  40.3 |    6 | 1928 | 1626 | -488,-75 |     | Great Oaks Kathleen Sherry Charter School NYC | [CHUR OUR LADY POMPEI]
+00589/0017 | 1077813 | 20 CORNELIA STREET       |  15.8 |    5 | 1871 | 136 | -409,16 |     | Pearl Oyster Bar | [20 PIERRE ASSOCIATES]
+00589/0031 | 1010072 | 323 AVENUE OF THE AMERICAS |  15.2 |    3 | 1853 | 352 | -388,1 |     | IFC Center | [323 SIXTH LLC]
+00590/0016 | 1010139 | 22 JONES STREET          |  22.8 |    6 | 1895 | 342 | -466,65 |     | Jones Street Cleaners | [TRILOBITE LLC]
+00590/0056 | 1010159 | 27 BARROW STREET         |  27.5 |    7 | 1917 | 424 | -502,120 |     | Greenwich House | [COOP-SOC SETTLEMNT SO]
+00591/0034 | 1010190 | 18 BARROW STREET         |   4.9 |    2 | 1923 | 215 | -509,152 |     | 18 Barrow St | [EIGHTY-NINE SEVENTH, LLC]
+00592/0071 | 1010252 | 365 AVENUE OF THE AMERICAS |  14.9 |    2 | 1834 | 639 | -306,157 |     | Saint Joseph Catholic Church | [RC CHUR ST JOSEPH]
+00593/0023 | 1010270 | 395 AVENUE OF THE AMERICAS |   7.8 |    2 | 1915 | 226 | -253,244 |     | Citibank | [REALYA GVA, LLC]
+00593/0024 | 1010271 | 391 AVENUE OF THE AMERICAS |   4.9 |    1 | 1920 | 305 | -256,237 |     | Orangetheory Fitness | [REALYA GVA, LLC]
+00593/0051 | 1010284 | 165 WAVERLY PLACE        |  12.6 |    5 | 1831 | 140 | -355,273 |     | Northern Dispensary | [WILLIAM GOTTLIEB]
+00606/0001 | 1082668 | 421 AVENUE OF THE AMERICAS |  54.0 |    3 | 1877 | 653 | -171,381 |     | Jefferson Market Library | [NEW YORK PUBLIC LIBRARY]
+00607/7503 | 1089806 | 133 WEST 11 STREET       |  62.5 |   17 | 2018 | 6254 | -253,583 |     | The Greenwich Lane | [THE GREENWICH LANE CONDOMINIUM]
+00608/0017 | 1083193 | 144 WEST 13 STREET       |  16.9 |    4 | 1842 | 88 | -195,678 |     | City and Country School | [THE CITY COUNTRY SCHOOL INC.]
+00608/7506 | 1010613 | 118 WEST 13TH STREET     |  33.0 |    7 | 1931 | 471 | -116,624 |     | 13th St. Residence Hall | [118 WEST 13TH STREET OWNER LLC]
+00609/0023 | 1010639 | 120 WEST 14 STREET       |  63.5 |   16 | 1930 | 2379 | -107,687 |     | John and Mary R Markle Memorial Residence | [THE SALVATION ARMY]
+00609/0039 | 1091089 | 525 AVENUE OF THE AMERICAS |  41.1 |   13 | 2025 | 1221 | -22,671 |     | The Village West | [525 6TH AVE LLC]
+00610/0001 | 1082221 | 113 7 AVENUE SOUTH       |   6.0 |    3 | 1915 | 192 | -429,295 |     | Stonewall Inn State Historic Site | [CHRISTOPHER & SEVENTH REALTY LLC]
+00610/0051 | 1010686 | 132 WEST 10 STREET       |  16.0 |    3 | 1891 | 212 | -274,357 |     | FDNY Squad 18 | [FIRE DEPARTMENT OF NEW YORK]
+00612/7504 | 1010899 | 15 CHARLES STREET        |  55.4 |   18 | 1961 | 751 | -356,464 |     | 15 Charles At Waverly Place | [UNAVAILABLE OWNER]
+00613/0017 | 1010915 | 232 WEST 11 STREET       |  21.3 |    2 | 1881 | 654 | -476,540 |     | Seventh-Day Adventist Church | [GREATER NEW YORK CORP]
+00613/0059 | 1080207 | 61 GREENWICH AVENUE      |  12.8 |    2 |  | 222 | -335,544 |     | IRT Substation | [NYC TRANSIT AUTHORITY]
+00617/0047 | 1067571 | 208 WEST 13 STREET       |  18.6 |    4 | 1925 | 691 | -340,751 |     | NYC LGBT Community Center | [THE LESBIAN & GAY SERVICE]
+00617/0055 | 1011094 | 20 7 AVENUE              |  26.9 |    6 | 1963 | 3167 | -330,724 |     | National Maritime Union Building | [LENOX HILL HOSPITAL]
+00618/0040 | 1011113 | 42 7 AVENUE              |  28.4 |    4 | 1931 | 555 | -282,769 |     | Church of the Village | [METROPOLITAN TEMPLE]
+00618/0066 | 1011132 | 253 WEST 13 STREET       |  20.7 | null | 1930 | 458 | -434,863 |     | Greenwich Substation | [NYC TRANSIT AUTHORITY]
+00618/7501 | 1067572 | 222 WEST 14 STREET       |  47.9 |   15 | 1987 | 1140 | -354,851 |     | The Sequoia Building | [222-228 WEST 14TH STREET REALTY CORP.]
+00791/0054 | 1068168 | 120 WEST 16 STREET       |  10.8 |    2 | 1931 | 215 | 7,858 |     | Young Adults Institute | [NYS OFFICE FOR PEOPLE WITH DISABIL]
+00817/0072 | 1080629 | 30 WEST 16 STREET        |  28.0 |    5 | 1865 | 1606 | 189,746 |     | Xavier High School | [COLLEGE ST FRANCIS XA]
+00817/0080 | 1015316 | 46 WEST 16 STREET        |  31.4 |    1 | 1870 | 1453 | 152,753 |     | Church of Saint Francis Xavier | [CHURCH ST FRANCIS XAVIER]
+00817/7502 | 1080621 | 100 5 AVENUE             |  84.4 |   19 | 1906 | 1466 | 319,655 |     | Judge Building | [UNAVAILABLE OWNER]
+00817/7503 | 1089677 | 31 WEST 15 STREET        |  94.3 |   25 | 2012 | 989 | 208,711 |     | 35 XV | [UNAVAILABLE OWNER]
+00818/0075 | 1015404 | 44 WEST 17 STREET        |  20.3 |    5 | 1861 | 111 | 221,828 |     | Petite Abeille | [44 W 17 LLC]
+00842/0021 | 1016063 | 1 UNION SQUARE WEST      |  36.3 |    9 | 1890 | 539 | 444,478 |     | Lincoln Building | [UNION SQUARE ASSOCIATES, LLC.]
+00842/0023 | 1016064 | 5 UNION SQUARE           |  38.1 |    8 | 1900 | 919 | 447,493 |     | Springler Building | [SQUARE WEST LLC C/O N]
+00842/0034 | 1089902 | 10 EAST 15 STREET        |  10.4 |    9 | 2013 | 1654 | 411,542 |     | The Clinton School | [NYC SCHOOL CONSTRUCTION AUTHORITY]
+00842/7501 | 1016061 | 69 5 AVENUE              |  52.4 |   19 | 1961 | 863 | 336,545 |     | The Wedgwood House | [NAME NOT ON FILE]
+00843/0008 | 1016071 | 7 EAST 15 STREET         |  29.8 |  6.5 | 1887 | 698 | 405,598 |     | SGI-USA New York Culture Centre | [SGI NEW YORK BUDDHIST CENTER LLC]
+00843/0022 | 1087303 | 21 UNION SQUARE          |  34.1 |   12 | 1986 | 478 | 469,603 | NYU |  | 
+00843/0022 | 1078700 | 21 UNION SQUARE          |  34.2 |   12 | 1986 | 486 | 452,566 | NYU |  | 
+00843/0022 | 1087304 | 21 UNION SQUARE          |  37.9 |   12 | 1986 | 535 | 498,559 | NYU | Carlyle Court | 
+00844/0019 | 1016085 | 33 UNION SQUARE          |  50.9 |   11 | 1893 | 372 | 525,623 |     | Decker Building | [DECKER ASSOCIATES LLC]
+00844/0025 | 1016088 | 39 UNION SQUARE          |   5.1 |    1 | 1974 | 303 | 537,647 |     | McDonald's | [HARTFORD PROPERTIES 41 LLC]
+00845/0002 | 1016108 | 69 EAST 17 STREET        |  10.4 |    1 | 1929 | 240 | 606,579 |     | FREEHOLD In The Park | [NYC DEPARTMENT OF PARKS AND RECREATION]
+00846/0066 | 1016141 | 14 EAST 18 STREET        |  16.7 |    3 | 1895 | 186 | 515,747 |     | FDNY Engine 14 | [FIRE DEPARTMENT OF NEW YORK]
+00847/0027 | 1080755 | 33 EAST 18 STREET        |  46.1 |   10 | 1900 | 1140 | 652,747 |     | ABC Kitchen | [880 BROADWAY TENANT, LLC]
+00847/0029 | 1016148 | 37 EAST 18 STREET        |  45.8 |   10 | 1897 | 565 | 655,725 |     | Dstillery | [EAST 18TH STREET LLC]
+00848/0061 | 1016184 | 894 BROADWAY             |  44.6 |   10 | 1887 | 897 | 637,849 |     | Goelet Building | [20TH ST PROPERTY ASSOCTS]
+00870/0024 | 1084936 | 121 EAST 14 STREET       |  77.2 | null | 1911 | 6385 | 769,295 |     | Consolidated Edison Company Building | [CONSOLIDATED EDISON CO. OF NY, INC.]
+00870/7501 | 1083247 | 10 UNION SQUARE EAST     |  83.5 |   27 | 1988 | 7088 | 664,377 |     | Zeckendorf Towers | [EAST UNION SQUARE C]
+00872/0035 | 1017822 | 166 3 AVENUE             |  57.8 |   19 | 1963 | 1461 | 904,421 |     | Washington Irving House | [145 EAST 16TH STREET]
+00872/0057 | 1017828 | 38 IRVING PLACE          |  61.3 |    9 | 1913 | 4038 | 856,450 |     | Washington Irving Campus | [NYC DEPARTMENT OF EDUCATION]
+00872/0078 | 1017839 | 44 UNION SQUARE          |  26.5 |    6 | 1929 | 1106 | 709,549 |     | 44 Union Square | [READING TAMMANY OWNER LLC]
+00873/0001 | 1080799 | 201 PARK AVENUE SOUTH    |  91.8 |   20 | 1911 | 811 | 726,598 |     | W Hotels | [MI PARK 201, LLC]
+00873/0015 | 1082518 | 51 IRVING PLACE          |   6.9 |    6 | 1969 | 57 | 793,547 |     | The House | [GH 51 IRVING LLC]
+00873/0032 | 1017852 | 143 EAST 17 STREET       |   6.3 |    1 | 1910 | 197 | 923,485 |     | St. John the Baptist | [HELLENIC EASTN ORTH C]
+00874/0071 | 1017904 | 108 EAST 19 STREET       |  18.3 | null |  | 431 | 825,658 |     | IRT Substation #12 | [NYC TRANSIT AUTHORITY]
+00896/0001 | 1082118 | 125 3 AVENUE             |  48.0 |   16 | 1999 | 720 | 880,234 |     | Coral Tower | [CORAL CRYSTAL LLC]

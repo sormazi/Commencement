@@ -45,6 +45,7 @@ The app is static. The GitHub repository contains the playable files; GitHub Pag
 
 | Location | District features |
 | :--- | :--- |
+| **Washington Square · NYU** (default) | Free roam over the real street grid, curbs and park of NYU's Washington Square campus, built from OpenStreetMap and NYC Open Data. Work in progress, see [CAMPUS.md](CAMPUS.md) |
 | **Times Square · New York** | Illuminated tower, damaged displays, plaza steps and avenue crossings |
 | **SoHo · New York** | Cast-iron facades, storefronts, fire escapes and a narrower cobbled corridor |
 | **Shibuya · Tokyo** | Scramble crossing, glass towers, rounded commercial corner and dense signage |
@@ -106,6 +107,8 @@ Touch driving buttons are provided on smaller screens. Transmission, atmosphere,
 | `dist/game.js` | Inputs, session state, contacts and UI |
 | `dist/renderer3d.js` | Three.js vehicles, camera, lighting and postprocessing |
 | `dist/locations.js` | Location metadata and streetscape builders |
+| `dist/campus/` | Free-roam Washington Square campus: projection, street graph, collision, streamed world, minimap |
+| `tools/build-campus-data.mjs` | Rebuilds the campus dataset from open-data extracts |
 | `dist/aftermath.js` / `destruction.js` | World population, overgrowth and collapse effects |
 | `dist/traffic.js` | Shared traffic poses for physics and rendering |
 | `tests/` | Dynamics, timing, traffic and world regression checks |

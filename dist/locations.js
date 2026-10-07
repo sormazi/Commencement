@@ -1,9 +1,12 @@
-import {AdvertisingSystem} from './advertising.js?v=16';
-import {EnvironmentTransformation} from './environment.js?v=16';
-import {FacadeDestruction} from './destruction.js?v=16';
-import {Aftermath} from './aftermath.js?v=16';
+import {AdvertisingSystem} from './advertising.js?v=17';
+import {EnvironmentTransformation} from './environment.js?v=17';
+import {FacadeDestruction} from './destruction.js?v=17';
+import {Aftermath} from './aftermath.js?v=17';
 import * as T from './vendor/three.module.js';
+import {campusLocation} from './campus/campus.js?v=17';
+import {CampusWorld} from './campus/campus-world.js?v=17';
 export const locations=[
+campusLocation,
 {id:'times-square',name:'Times Square',city:'New York',street:'Seventh Avenue',halfWidth:11,length:900,spawn:0},
 {id:'soho',name:'SoHo',city:'New York',street:'Greene Street',halfWidth:5.8,length:800,spawn:0},
 {id:'shibuya',name:'Shibuya',city:'Tokyo',street:'Scramble Crossing',halfWidth:10,length:900,spawn:0}
@@ -21,8 +24,10 @@ function surface(g,w,d,color,y=.012){const m=new T.Mesh(new T.PlaneGeometry(w,d)
 function zebra(g,x,z,w,angle=0){const cross=new T.Group();cross.position.set(x,.025,z);cross.rotation.y=angle;for(let i=0;i<12;i++)box(cross,0,0,(i-5.5)*.75,w,.015,.42,materials.white);g.add(cross);}
 function lamp(g,x,z,japan=false){const pole=new T.Mesh(poleGeo,materials.iron);pole.scale.y=japan?7:6;pole.position.set(x,pole.scale.y/2,z);g.add(pole);const glow=new T.MeshStandardMaterial({color:0xffe9c4,emissive:0xffcf86,emissiveIntensity:4});box(g,x,6,z,.45,.4,.45,glow);box(g,x,6.4,z,.65,.08,.65,materials.iron);box(g,x,2.1,z,.4,.07,.4,materials.iron);}
 function streetSign(g,x,z,street){lamp(g,x,z);const t=label(street,'#164939','#eef5e8',42);box(g,x+.8,4.8,z,2.2,.5,.08,new T.MeshStandardMaterial({map:t,roughness:.5}));}
+// Free-roam locations build their own world; corridor locations use LocationWorld below.
+export function createWorld(id){const config=locations.find(l=>l.id===id);if(!config)throw Error('Unknown location');return config.freeRoam?new CampusWorld(config):new LocationWorld(id);}
 export class LocationWorld{
-constructor(id){this.config=locations.find(l=>l.id===id);if(!this.config)throw Error('Unknown location');this.group=new T.Group();this.props=[];this.screens=[];this.build();this.aftermath=new Aftermath(this);this.destruction=new FacadeDestruction(this);this.environment=new EnvironmentTransformation(this);this.advertising=new AdvertisingSystem(this);this.group.traverse(o=>{if(o.isMesh){o.castShadow=!o.userData.noShadow;o.receiveShadow=true;}});}
+constructor(id){this.config=locations.find(l=>l.id===id);if(!this.config)throw Error('Unknown location');if(this.config.freeRoam)throw Error('Use createWorld for free-roam locations');this.group=new T.Group();this.props=[];this.screens=[];this.build();this.aftermath=new Aftermath(this);this.destruction=new FacadeDestruction(this);this.environment=new EnvironmentTransformation(this);this.advertising=new AdvertisingSystem(this);this.group.traverse(o=>{if(o.isMesh){o.castShadow=!o.userData.noShadow;o.receiveShadow=true;}});}
 add(g,s,x=0){this.group.add(g);this.props.push({g,s,x});return g;}
 build(){const c=this.config,soho=c.id==='soho',tokyo=c.id==='shibuya';const curb=soho?7:13;
 // Independently authored streetscape blocks, not extracted mapping or imagery.
