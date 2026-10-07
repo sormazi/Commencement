@@ -1,0 +1,3 @@
+// Heyman Hall, 51 Washington Square South. NYU lot beside Judson; the other part of the lot is Judson's former hall,
+// built with the Judson landmark. Not separately photographed; red-brown brick matching the block, estimate.
+export default {slug:"heyman",name:"Heyman Hall, 51 Washington Square South",bin:1082207,also:[],source:"NYU lot beside Judson; the other part of the lot is Judson's former hall, built with the Judson landmark. Not separately photographed; red-brown brick matching the block, estimate.",wall:'brickRed',trim:'limestone',ground:{h:4.0,style:'base',mat:'limestone'},floor:3.3,pitch:2.8,win:[1.0,1.8],sash:1,cornice:'modillion',doors:[{rank:0,at:.5,w:1.8,h:2.9}]};
