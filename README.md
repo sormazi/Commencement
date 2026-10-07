@@ -27,12 +27,14 @@ It is a work in progress. Some of what is described above is built, some of it i
   - Vanderbilt Hall
   - Tisch Hall and the Kaufman Management Center
   - the John A. Paulson Center
+- **The rest of NYU.** About seventy more NYU buildings (residence halls, academic buildings, the Mews, Washington Square Village, Founders Hall with the St. Ann's facade, the Puck Building, the Provincetown Playhouse front and others) have their own material, window rhythm, entrances and banners from a facade kit. Their entrance doors are separate objects, ready for a walking character.
+- **Every other building** has a material colour and window rhythm chosen from city records: brick tenements, cast-iron lofts, town houses with stoops, post-war apartment blocks, glass towers.
 - **Sidewalk sheds** where Street View showed long-standing ones in 2026.
 - **First drafts of the atmosphere around the park:** decay on the park and the buildings facing it, the surviving street lamps and fog, no traffic, about two hundred loiterers, and the soundtrack.
 - **Real New York time of day.** The light on Washington Square follows the real time in New York: the sun stands where it really is over the park right now, shadows fall off the Arch the way they really do at that hour, and the lamps come on at dusk. See below.
 - **An on-screen FPS counter** for checking performance.
 
-Still to come: the other NYU buildings (they currently show as plain massing), colour and material for the non-NYU blocks, the billboards, and the atmosphere beyond the park. The decay, night, crowds and soundtrack are first drafts limited to the park and the buildings facing it. See the roadmap.
+Still to come: the park details, the billboards, and the decay and crowds beyond the park. The decay, night, crowds and soundtrack are first drafts limited to the park and the buildings facing it. See the roadmap.
 
 ## Roadmap
 

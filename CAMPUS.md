@@ -52,6 +52,13 @@ In the browser console: `NightView.teleport(x, z, yaw)` moves the car to map met
 - Sources checked for the tests: the sunrise-sunset.org New York table for October 2026, solarwatch.app (5 Nov 2026 after the clocks go back, June and December extremes) and sunrisesunset.io (31 Oct 2026, earliest sunset). timeanddate.com refused automated access, so the March clock change is tested on the clock jump and the sun's continuity rather than against a published table.
 - Limits: the ground is flat and the horizon is open, so the sun rises and sets at the astronomical times even where a real building would hide it. Distant buildings outside the shadow box do not cast shadows. The moon disc is drawn about 10% larger than life so it reads on screen.
 
+## Third-tier buildings (Phase 2, Step 3)
+
+- `dist/campus/tier3/facades.js`: `classify(b)` turns PLUTO class, year, floors and height into an upper-floor facade type, a ground-storey type, a material and a colour (stable per building). `facadeAtlas` draws the 4 x 3 atlas of one-bay, one-floor cells; `patchFacadeMaterial` picks the cell per fragment from a packed vertex attribute and the floor index (ground floor below the first floor line), with a door every third bay for town houses.
+- `dist/campus/tier3/blocks.js` lists the tax blocks switched on (all 174 now).
+- Cost: none in geometry or draw calls; one texture.
+- Limits: types are inferred from records, not checked against each building; colours are drawn from a palette per material; bay widths are typical values per type, not measured.
+
 ## Second-tier buildings (Phase 2, Step 2)
 
 - `dist/campus/tier2/b/*.js`: one spec per NYU building (73), each with its sources in `source`. A spec gives wall and trim material, floor height, window pitch, size and pairing, the ground storey (storefront, stone base, glass or plain), an optional stone base up to a height, the cornice, entrances and banners, plus an optional `extra` for a signature feature.

@@ -3,7 +3,7 @@
 Read this file and `RESEARCH/campus-inventory.md` first when picking the work back up.
 
 ## Current phase
-Avi's plan of 7 Oct 2026, steps 1 to 8 with three stop points. Step 0 (README rewrite, atmosphere slice) is done. Step 1 (real New York time of day) and Step 2 (73 second-tier NYU buildings) are done and committed. Next: Step 3, third-tier non-NYU buildings in batches by block; then Stop point 1 (noon and midnight street screenshots, numbers at the Arch).
+Avi's plan of 7 Oct 2026, steps 1 to 8 with three stop points. Step 0 (README rewrite, atmosphere slice) is done. Steps 1 to 3 are done and committed (real New York time of day, 73 second-tier NYU buildings, third-tier facades for every other building). Stopped at Stop point 1 for Avi's review; next is Step 4, park details (noon and midnight street screenshots, numbers at the Arch).
 
 ## Finished
 - Phase 0: free-roam campus world (projection, street graph, collision, curbs/surfaces, streamed tiles, minimap, spawn/reset). Default location is Washington Square · NYU. Corridor locations unchanged. Tests pass. See CAMPUS.md.
@@ -13,6 +13,8 @@ Avi's plan of 7 Oct 2026, steps 1 to 8 with three stop points. Step 0 (README re
 - Phase 2 massing pass: 4,110 buildings from 3D-model roof pieces, 138 extrusions, Paulson estimated. Screenshots in RESEARCH/screenshots/phase2-massing/.
 
 ## In progress
+- **Step 3 done: third-tier non-NYU buildings** (8 Oct 2026). All 4,113 non-NYU buildings get a material colour and window rhythm from their NYC data: PLUTO class, year built, floors and height pick an upper-floor type (tenement, loft, cast iron, apartment, post-war, curtain wall, town house, solid), a ground storey (storefront, residential, stoop) and a colour from a per-material palette. The facade is a cell of a 4 x 3 texture atlas on the existing massing walls (dist/campus/tier3/facades.js), so it adds no triangles or draw calls. Committed in 12 batches of tax blocks. No individual detail work, by design; types are inferred, not checked building by building.
+- **Stop point 1** reached: waiting for Avi's review of noon and midnight street screenshots and the Arch numbers (screenshots in RESEARCH/screenshots/stop1/).
 - **Step 2 done: second-tier NYU buildings** (8 Oct 2026). 73 buildings built from short specs (dist/campus/tier2/b/*.js) by the kit in dist/campus/tier2/kit.js: wall material, window rhythm, ground storey, stone base, cornice, entrances, banners, and a signature feature where one exists (Provincetown Playhouse front, St. Ann's facade and fence at Founders, the Puck Building's arched windows and name, Washington Square Village's glazed brick panels and balcony bands, Pless's arched top storey, the Waverly Building's name panel). One commit per building. About 25 were checked on Street View or Google Maps user panoramas (looked at, not saved); the rest are labelled estimates in each spec's `source`. Entrance doors are separate instances listed in world.doors (80 doors). Kit facades show within 260 m and fall back to plain massing beyond. 37 Washington Sq W has no Street View imagery on the park side. Brittany Hall is matched to PLUTO's 787 Broadway lot by position, height and date (Q19, estimate).
 - Measured at 13:00 (daylight, shadows on): start position facing the Arch 670 calls / 930k triangles (was 608 / 772k), fountain view 458 / 749k (was 414 / 642k), Bobst steps 382 / 611k. The kit adds about 60 calls and 160k triangles at the Arch.
 - **Real New York time of day** (7 Oct 2026, Avi's request). Washington Square's light follows the real time in New York: NOAA sun position for the park, moon at its real phase, lamps on at dusk and off at dawn, Dead of night after dark, hazy washed-out daylight. "Real NYC time" is the default atmosphere; the old presets are manual overrides. Preview with `?time=19:30`, `?date=2026-12-21`, `?speed=600`. Tests in `tests/sky.test.js` (sunrise and sunset against published New York tables, both sides of the November clock change; the March change checked on the clock jump). Measured: start position 608 calls / 772k triangles in daylight (same as the old daylight preset), 513 / 571k at night; fountain view 414 / 642k by day, 317 / 438k at night. Shadow cost at the Arch: about 95 draw calls and 200k triangles while the sun is up (the shadow pass), nothing at night. Before this change the default (Dead of night) was 513 / 571k, so nights are unchanged and days cost what the old daylight preset did. Avi checked the game on his laptop at the Arch (7 Oct): runs and looks good. Fixed on the way: the realtime path had left the road reflector on, which doubled the draw calls. Screenshots in RESEARCH/screenshots/time-of-day/.
@@ -214,3 +216,16 @@ Target is 60 fps at the Arch. My own checks run in a software renderer in the cl
 | 2026-10-08 | 0dc9179 | Second tier: Carlyle Court |
 | 2026-10-08 | abeed23 | Second tier: Washington Square Village |
 | 2026-10-08 | f8a1459 | Second tier: Puck Building |
+| 2026-10-08 | 5233d4f | Third-tier facades: kit and classification |
+| 2026-10-08 | 5c8b247 | Third tier: blocks 397-446 (1 Av, E 2 St, E Houston St) |
+| 2026-10-08 | 6f3efab | Third tier: blocks 447-463 (E 7 St, E 6 St, 2 Av) |
+| 2026-10-08 | 28aec12 | Third tier: blocks 464-489 (3 Av, E 10 St, Spring St) |
+| 2026-10-08 | 70027c2 | Third tier: blocks 493-509 (Prince St, Mulberry St, Spring St) |
+| 2026-10-08 | ed9d18c | Third tier: blocks 510-524 (W Houston St, Prince St, MacDougal St) |
+| 2026-10-08 | b3eb4a8 | Third tier: blocks 525-543 (MacDougal St, Sullivan St, W Houston St) |
+| 2026-10-08 | baeee57 | Third tier: blocks 544-560 (3 Av, Washington Pl, MacDougal Alley) |
+| 2026-10-08 | aa41567 | Third tier: blocks 561-575 (W 9 St, University Pl, W 12 St) |
+| 2026-10-08 | cdcd31d | Third tier: blocks 576-612 (6 Av · Av of the Americas, Bleecker St, Jones St) |
+| 2026-10-08 | 269d3a0 | Third tier: blocks 613-816 (W 15 St, Bank St, Greenwich Av) |
+| 2026-10-08 | 675476a | Third tier: blocks 817-870 (E 18 St, W 15 St, 6 Av · Av of the Americas) |
+| 2026-10-08 | 5b4d72e | Third tier: blocks 871-897 (Irving Pl, E 19 St, E 17 St) |
