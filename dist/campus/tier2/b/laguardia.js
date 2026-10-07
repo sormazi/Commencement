@@ -1,0 +1,3 @@
+// 509 and 543 LaGuardia Place. One-storey NYU commercial strip and supermarket building, 1960-61 (University Village).
+// Not checked on Street View (estimate): plain concrete and glass storefronts.
+export default {slug:"laguardia",name:"509 and 543 LaGuardia Place",bin:1008242,also:[1080076],source:"One-storey NYU commercial strip and supermarket building, 1960-61 (University Village). Not checked on Street View (estimate): plain concrete and glass storefronts.",wall:'concrete',trim:'concrete',ground:{h:4.4,style:'storefront',mat:'concrete',pitch:5.0},floor:4,pitch:4,win:[2,1.5],cornice:'coping',doors:[{rank:0,at:.3,w:2.4,h:2.8},{rank:1,at:.5,w:2.4,h:2.8}]};
