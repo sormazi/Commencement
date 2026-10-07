@@ -1,6 +1,3 @@
-<p align="center">
-  <img src="docs/media/nightview.svg" alt="NightView" width="100%">
-</p>
 
 # NightView
 
