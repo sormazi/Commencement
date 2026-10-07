@@ -3,19 +3,17 @@ import {Parts,Face} from './kit.js?v=19';
 import {v3} from './facade.js?v=19';
 // Sidewalk sheds (and construction fences) where Google Street View showed them, with the capture
 // date of each observation, since sheds come and go. Each shed runs along a building line given in
-// map metres from a to b with the street on the right-hand side. Building lines for the W 4th St
-// site are taken 10.5 m off the street centrelines (estimate; no footprint in the data).
+// map metres from a to b with the street on the right-hand side. The W 4th St site has no footprint in
+// the data, so its building line is the Kaufman Management Center's front extended east.
 // NYU Public Safety booths: none were visible at the twelve campus corners surveyed (captures Apr–May
 // 2026), so none are placed; see the inventory.
 export const SHEDS=[
  {id:'washington-pl-south',a:[141.1,-165.8],b:[107.2,-144.5],depth:2.6,height:3.3,fence:false,
   note:'South side of Washington Pl from Washington Sq E to Greene St, along the Academic Resource Center (18 Washington Pl) and Pless Annex; Citi Bike dock along the curb.',
   seen:'Google Street View, Greene St at Washington Pl (40.72979, -73.99531), heading 300, capture Apr 2026'},
- {id:'w4th-greene-sw',a:[95.7,-230.9],b:[70.5,-214.7],depth:2.6,height:3.6,fence:true,
-  note:'South-west corner of W 4th St and Greene St: scaffold shed over a green plywood construction fence (site not in the 2014 3D model or the footprint data). Extent along W 4th estimated at 30 m.',
-  seen:'Google Street View, W 4th St at Greene St (40.72917, -73.99577), heading 210, capture Apr 2026'},
- {id:'w4th-greene-sw-greene',a:[87.6,-243.5],b:[95.7,-230.9],depth:2.4,height:3.6,fence:true,
-  note:'Return of the same shed along the west side of Greene St; extent estimated.',seen:'same as above'}];
+ {id:'w4th-south-greene-mercer',a:[127.7,-250.6],b:[80.7,-220.1],depth:3.4,height:3.6,fence:true,
+  note:'South side of W 4th St facing the end of Greene St: scaffold shed over a green plywood and chain-link construction fence, from the north-east corner of the Kaufman Management Center about 56 m east towards Mercer St (the site has no footprint in the data). The building line follows the KMC front; the east end, where a low brick wall begins, is read from two panoramas and is good to about 3 m. Greene St does not continue south of W 4th, so there is no return.',
+  seen:'Google Street View, W 4th St at Greene St (40.72917, -73.99577), headings 150, 210 and 260, and W 4th St east of Greene (40.72906, -73.99555), heading 210; both capture Apr 2026. Checked again from W 4th St at Mercer St (40.72885, -73.99515), heading 285.'}];
 export function shedParts(list=SHEDS){const P=new Parts();
  for(const s of list){const dx=s.b[0]-s.a[0],dn=s.b[1]-s.a[1],L=Math.hypot(dx,dn);
   // Face along the building line, normal pointing to the street (right of a → b in map space).
