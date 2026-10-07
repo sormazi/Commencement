@@ -1,0 +1,4 @@
+// Lipton Hall. 33 Washington Square West (dining hall and first-year residence). Google Street View (looked at, not
+// saved), Jul 2022 (Washington Pl side): red-brown brick, a two-storey limestone base, a central limestone entrance bay
+// with pilasters, carved stone surrounds at the third floor, paired windows.
+export default {slug:"lipton",name:"Lipton Hall",bin:1008875,also:[],source:"33 Washington Square West (dining hall and first-year residence). Google Street View (looked at, not saved), Jul 2022 (Washington Pl side): red-brown brick, a two-storey limestone base, a central limestone entrance bay with pilasters, carved stone surrounds at the third floor, paired windows.",wall:'brickRed',trim:'limestone',ground:{h:4.4,style:'base',mat:'limestone'},base:{to:8.0,mat:'limestone'},floor:3.0,pitch:3.4,win:[.9,1.6],pair:1,sash:1,cornice:'band',doors:[{rank:0,at:.5,w:2.2,h:3.2}],flags:{rank:0,n:2,y:5.4}};
