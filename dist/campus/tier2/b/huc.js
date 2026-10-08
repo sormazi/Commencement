@@ -1,3 +1,4 @@
-// Hebrew Union College, 1 W 4th St. NYU-owned lot with a non-NYU tenant, 1979, 5 storeys. Not checked on Street View; a
-// late-modern brick block (estimate).
-export default {slug:"huc",name:"Hebrew Union College, 1 W 4th St",bin:1008819,also:[],source:"NYU-owned lot with a non-NYU tenant, 1979, 5 storeys. Not checked on Street View; a late-modern brick block (estimate).",wall:'brickBrown',trim:'concrete',ground:{h:4.2,style:'glass',pitch:3},floor:3.6,pitch:3.6,win:[2.4,1.6],cornice:'none',doors:[{rank:0,at:.5,w:2.4,h:3}]};
+// Hebrew Union College, 1 W 4th St. Status: observed. NYU-owned lot with a non-NYU tenant, 1979, 5 storeys. Not checked
+// on Street View; a late-modern brick block (estimate). Observed on Street View, 2026 pass: Apr 2026 (W 4th St): late-
+// modern red brick with long horizontal window bands and a glazed lower front.
+export default {slug:"huc",name:"Hebrew Union College, 1 W 4th St",status:"observed",bin:1008819,also:[],source:"NYU-owned lot with a non-NYU tenant, 1979, 5 storeys. Not checked on Street View; a late-modern brick block (estimate). Observed on Street View, 2026 pass: Apr 2026 (W 4th St): late-modern red brick with long horizontal window bands and a glazed lower front.",wall:'brickBrown',trim:'concrete',ground:{h:4.2,style:'glass',pitch:3},floor:3.6,pitch:3.6,win:[3.3,1.3],cornice:'none',doors:[{rank:0,at:.5,w:2.4,h:3}]};
