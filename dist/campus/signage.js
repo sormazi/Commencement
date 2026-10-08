@@ -1,5 +1,5 @@
 import * as T from '../vendor/three.module.js';
-import {SIGNAGE} from '../assets/signage/manifest.js?v=21';
+import {SIGNAGE} from '../assets/signage/manifest.js?v=22';
 // Signage decals (see assets/signage/manifest.js). Every decal has its own texture file. Two ways to draw:
 // - Banners and flags: one material per decal and one instanced plane for all its placements.
 // - Shop signs and plaques (kinds 'sign' and 'plaque', which can run to hundreds): packed into shared

@@ -1,6 +1,6 @@
 import * as T from '../vendor/three.module.js';
-import {Parts,Face} from './landmarks/kit.js?v=21';
-import {STOREFRONTS} from './storefronts/index.js?v=21';
+import {Parts,Face} from './landmarks/kit.js?v=22';
+import {STOREFRONTS} from './storefronts/index.js?v=22';
 // Storefront kit (Step 4B, Tier B): turns the records in storefronts/ into real ground-floor geometry,
 // merged per 120 m tile and per material and parented to the tile's props (so storefront detail only
 // draws within about 330 m). Signs are decals in the signage atlas (see signage.js and the manifest).

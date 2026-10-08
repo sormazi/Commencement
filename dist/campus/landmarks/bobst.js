@@ -1,5 +1,5 @@
 import * as T from '../../vendor/three.module.js';
-import {Parts,Face,footprintFrame,placeOnFrame,canvas,stoneTextures,normalMap} from './kit.js?v=21';
+import {Parts,Face,footprintFrame,placeOnFrame,canvas,stoneTextures,normalMap} from './kit.js?v=22';
 // Elmer Holmes Bobst Library, 70 Washington Square South (Philip Johnson & Richard Foster, 1967–73).
 // Twelve storeys of red sandstone over a recessed, fully glazed ground floor. Every face has the
 // same grammar: square piers at the base, a continuous spandrel band, then round-fronted stone

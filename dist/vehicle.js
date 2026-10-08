@@ -1,6 +1,6 @@
 import * as T from './vendor/three.module.js';
-import {decayMaterial,DECAY} from './campus/atmosphere/decay.js?v=21';
-import {VEHICLE} from './physics.js?v=21';
+import {decayMaterial,DECAY} from './campus/atmosphere/decay.js?v=22';
+import {VEHICLE} from './physics.js?v=22';
 // NYU Facilities Fleet unit 07: the last working vehicle on campus. An original design (no real make or
 // model): a small boxy electric utility van of the kind that runs along park paths and between buildings,
 // a short cab with an upright windshield and a cargo box behind, faded NYU violet with "NYU" and the fleet

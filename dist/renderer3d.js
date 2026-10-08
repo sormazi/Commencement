@@ -1,9 +1,9 @@
-import {VEHICLE} from './physics.js?v=21';
+import {VEHICLE} from './physics.js?v=22';
 import * as T from './vendor/three.module.js';
-import {createWorld} from './locations.js?v=21';
-import {makeVehicle} from './vehicle.js?v=21';
-import {DECAY} from './campus/atmosphere/decay.js?v=21';
-import {SkyDriver} from './campus/atmosphere/sky-driver.js?v=21';
+import {createWorld} from './locations.js?v=22';
+import {makeVehicle} from './vehicle.js?v=22';
+import {DECAY} from './campus/atmosphere/decay.js?v=22';
+import {SkyDriver} from './campus/atmosphere/sky-driver.js?v=22';
 const rand=n=>{let x=Math.sin(n*127.1+311.7)*43758.5453;return x-Math.floor(x);};
 function texture(w,h,paint){const c=document.createElement('canvas');c.width=w;c.height=h;paint(c.getContext('2d'),w,h);const tex=new T.CanvasTexture(c);tex.colorSpace=T.SRGBColorSpace;return tex;}
 const glowMap=texture(128,128,c=>{let g=c.createRadialGradient(64,64,1,64,64,64);g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(.15,'rgba(255,255,255,.4)');g.addColorStop(1,'rgba(255,255,255,0)');c.fillStyle=g;c.fillRect(0,0,128,128);});

@@ -1,6 +1,6 @@
 import * as T from '../../vendor/three.module.js';
-import {pointInRing,centroid,ringArea} from '../geometry.js?v=21';
-import {archPiers,CURB_HEIGHT} from '../collision.js?v=21';
+import {pointInRing,centroid,ringArea} from '../geometry.js?v=22';
+import {archPiers,CURB_HEIGHT} from '../collision.js?v=22';
 // Phase 3 first slice: a hundred years of reclamation on Washington Square Park and the buildings
 // facing it (the Arch, Bobst, Kimmel, Judson, the Row and the Silver Center). Everything here is
 // generated from the map data with seeded noise so it is the same on every run.

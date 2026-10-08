@@ -1,21 +1,21 @@
 import * as T from '../vendor/three.module.js';
-import {campus} from './campus.js?v=21';
-import model3d from './data/campus-3d.js?v=21';
-import {archPiers,CURB_HEIGHT} from './collision.js?v=21';
-import {ringArea,centroid,rectFrame,rectRing,pointInRing} from './geometry.js?v=21';
-import {buildArch} from './landmarks/arch.js?v=21';
-import {LANDMARK_BUILDINGS} from './landmarks/index.js?v=21';
-import {buildSheds} from './landmarks/sheds.js?v=21';
-import {ROW_BINS} from './landmarks/row.js?v=21';
-import {buildDecay,treeBoost,volunteerTrees,dryFountain,inSlice,cleanInstanceAttributes,blendInstances,applyDecay,DECAY} from './atmosphere/decay.js?v=21';
-import {buildNight} from './atmosphere/night.js?v=21';
-import {buildCrowd} from './atmosphere/crowd.js?v=21';
-import {buildSpeaker} from './atmosphere/speaker.js?v=21';
-import {buildSignage} from './signage.js?v=21';
-import {buildStorefronts} from './storefronts.js?v=21';
-import {buildFountain,lampLayout,lampParts,chessLayout,chessParts,furnitureGeometry,furnitureMaterial,chessTopMaterial} from './park.js?v=21';
-import {buildTier2,TIER2_BINS} from './tier2/world.js?v=21';
-import {classify,facadeCode,GENERIC_CODE,tier3Enabled,facadeAtlas,patchFacadeMaterial} from './tier3/facades.js?v=21';
+import {campus} from './campus.js?v=22';
+import model3d from './data/campus-3d.js?v=22';
+import {archPiers,CURB_HEIGHT} from './collision.js?v=22';
+import {ringArea,centroid,rectFrame,rectRing,pointInRing} from './geometry.js?v=22';
+import {buildArch} from './landmarks/arch.js?v=22';
+import {LANDMARK_BUILDINGS} from './landmarks/index.js?v=22';
+import {buildSheds} from './landmarks/sheds.js?v=22';
+import {ROW_BINS} from './landmarks/row.js?v=22';
+import {buildDecay,treeBoost,volunteerTrees,dryFountain,inSlice,cleanInstanceAttributes,blendInstances,applyDecay,DECAY} from './atmosphere/decay.js?v=22';
+import {buildNight} from './atmosphere/night.js?v=22';
+import {buildCrowd} from './atmosphere/crowd.js?v=22';
+import {buildSpeaker} from './atmosphere/speaker.js?v=22';
+import {buildSignage} from './signage.js?v=22';
+import {buildStorefronts} from './storefronts.js?v=22';
+import {buildFountain,lampLayout,lampParts,chessLayout,chessParts,furnitureGeometry,furnitureMaterial,chessTopMaterial} from './park.js?v=22';
+import {buildTier2,TIER2_BINS} from './tier2/world.js?v=22';
+import {classify,facadeCode,GENERIC_CODE,tier3Enabled,facadeAtlas,patchFacadeMaterial} from './tier3/facades.js?v=22';
 // Free-roam world for Washington Square · NYU. Phase 0: real street/curb/sidewalk/park layout and
 // footprint massing at surveyed roof heights, streamed in 120 m tiles. Facade detail comes in Phase 2.
 // Second-tier buildings show their kit facades within DETAIL metres and fall back to plain massing beyond.

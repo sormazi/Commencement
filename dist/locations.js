@@ -1,5 +1,5 @@
-import {campusLocation} from './campus/campus.js?v=21';
-import {CampusWorld} from './campus/campus-world.js?v=21';
+import {campusLocation} from './campus/campus.js?v=22';
+import {CampusWorld} from './campus/campus-world.js?v=22';
 // NightView has one location: Washington Square, the free-roam campus world. (Times Square, SoHo and
 // Shibuya were removed in Step 10; they remain in git history and on the main branch.)
 export const locations=[campusLocation];

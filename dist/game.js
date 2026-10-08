@@ -1,10 +1,10 @@
-import {DriveAudio} from './audio.js?v=21';
-import {Soundtrack} from './soundtrack.js?v=21';
-import {CityRenderer} from './renderer3d.js?v=21';
+import {DriveAudio} from './audio.js?v=22';
+import {Soundtrack} from './soundtrack.js?v=22';
+import {CityRenderer} from './renderer3d.js?v=22';
 import * as THREE from './vendor/three.module.js';
-import {VEHICLE,FixedVehicleLoop,inputFromKeys,resolveContact} from './physics.js?v=21';
-import {campus,snapToStreet} from './campus/campus.js?v=21';
-import {CampusMinimap} from './campus/minimap.js?v=21';
+import {VEHICLE,FixedVehicleLoop,inputFromKeys,resolveContact} from './physics.js?v=22';
+import {campus,snapToStreet} from './campus/campus.js?v=22';
+import {CampusMinimap} from './campus/minimap.js?v=22';
 // NightView: one place (Washington Square) and one vehicle (NYU Facilities unit 07, see vehicle.js).
 const $=id=>document.getElementById(id),canvas=$('world'),city=new CityRenderer(canvas),mini=$('mini').getContext('2d');
 const audio=new DriveAudio(),soundtrack=new Soundtrack();

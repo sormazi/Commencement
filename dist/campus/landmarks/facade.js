@@ -1,5 +1,5 @@
 import * as T from '../../vendor/three.module.js';
-import {Face,stack,out,up,ovolo,cymaRecta} from './kit.js?v=21';
+import {Face,stack,out,up,ovolo,cymaRecta} from './kit.js?v=22';
 // Facade kit for landmarks whose volume comes from the NYC 3D Building Model: every roof piece is
 // turned into walls, and each wall gets a facade (punched windows, curtain wall or storefront)
 // chosen by a callback. Works in world coordinates (x east, y up, z = -north).

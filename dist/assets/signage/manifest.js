@@ -7,9 +7,9 @@
 // drawing (bg, fg, lines of text, font) used until the PNG loads or if it is missing; seen (where and when
 // it was observed on Street View; imagery date); placements: p [map x, map n] of the decal's centre,
 // y = height of its bottom edge above the curb, normal = map direction the front faces, and where (words).
-import {STOREFRONTS} from '../../campus/storefronts/index.js?v=21';
-import {signDecal,resolveStorefronts} from '../../campus/storefronts.js?v=21';
-import data from '../../campus/data/campus-data.js?v=21';
+import {STOREFRONTS} from '../../campus/storefronts/index.js?v=22';
+import {signDecal,resolveStorefronts} from '../../campus/storefronts.js?v=22';
+import data from '../../campus/data/campus-data.js?v=22';
 const FIXED=[
  {id:'nyu-pole-banner-violet',file:'assets/signage/nyu-pole-banner-violet.png',kind:'pole-banner',size:[.6,1.5],bg:'#57068c',fg:'#ffffff',lines:['NYU'],font:'sans-bold',
   seen:'Washington Sq W, building side, on the second lamp post north of W 4th St (Street View at 43 MacDougal St, May 2026)',

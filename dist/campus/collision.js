@@ -1,6 +1,6 @@
 import {Grid,closestOnSegment,pointInRing,bboxOf,rectFrame,rectRing,centroid} from './geometry.js';
-import {SHEDS} from './landmarks/sheds.js?v=21';
-import {SYLVETTE} from './landmarks/silver-towers.js?v=21';
+import {SHEDS} from './landmarks/sheds.js?v=22';
+import {SYLVETTE} from './landmarks/silver-towers.js?v=22';
 // Static collision and surface queries for the free-roam campus, in physics/map space
 // (x = east, z = north). Contacts are returned in the format physics.resolveContact expects.
 export const CAR_CIRCLES=[.85,0,-.85],CAR_RADIUS=.7;// the van: 3.0 m long, 1.36 m wide
