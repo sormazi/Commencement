@@ -59,7 +59,7 @@ The plan in detail, with every decision so far, is in [PROGRESS.md](PROGRESS.md)
 
 ### From a fresh clone
 
-The current game lives on the **`nyu-campus`** branch. The `main` branch still has the old arcade version (Times Square, SoHo, Shibuya and the sports car), so clone this branch by name:
+The current game lives on the **`nyu-campus`** branch, which is the repository's default branch, so a plain clone gets it. The `main` branch keeps the old arcade version (Times Square, SoHo, Shibuya and the sports car). Naming the branch in the clone command makes sure:
 
 ```bash
 git clone -b nyu-campus https://github.com/sormazi/NightView.git
