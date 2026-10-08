@@ -1,2 +1,4 @@
-// 383 Lafayette St (Admissions Office). 1913, 4 storeys. Not checked on Street View (estimate).
-export default {slug:"laf383",name:"383 Lafayette St (Admissions Office)",bin:1008512,also:[],source:"1913, 4 storeys. Not checked on Street View (estimate).",wall:'brickRed',trim:'limestone',ground:{h:4.6,style:'storefront',mat:'limestone',pitch:4.2},floor:3.8,pitch:4.0,win:[1.1,2.2],pair:1,sash:1,cornice:'modillion',doors:[{rank:0,at:.5,w:2,h:3.2}]};
+// 383 Lafayette St (Admissions Office). Status: observed. 1913, 4 storeys. Not checked on Street View (estimate).
+// Observed on Street View, 2026 pass: Apr 2026 (E 4th St side): tan brick commercial block with a regular grid of wide
+// three-light windows, plain stone base, a flag at the corner.
+export default {slug:"laf383",name:"383 Lafayette St (Admissions Office)",status:"observed",bin:1008512,also:[],source:"1913, 4 storeys. Not checked on Street View (estimate). Observed on Street View, 2026 pass: Apr 2026 (E 4th St side): tan brick commercial block with a regular grid of wide three-light windows, plain stone base, a flag at the corner.",wall:'brickBuff',trim:'limestone',ground:{h:4.6,style:'storefront',mat:'limestone',pitch:4.2},floor:3.8,pitch:4.6,win:[3.2,2.2],pair:0,sash:1,cornice:'modillion',doors:[{rank:0,at:.5,w:2,h:3.2}]};
