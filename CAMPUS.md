@@ -53,6 +53,12 @@ In the browser console: `NightView.teleport(x, z, yaw)` moves the car to map met
 - Cost: lamps, tables and benches are instanced per 120 m tile (a few draw calls per tile); the fountain is four meshes.
 - Limits: lamp positions come from OSM, styles from where each lamp stands. The plaza paving pattern (light granite with radial bands) is not drawn yet.
 
+## The clean campus and the decay layer (2026 and 2126)
+
+- The clean 2026 campus (massing, facade kits, landmarks, storefronts, park furniture, signs) is never altered by decay. Everything that makes it 2126 is one layer on top, driven by a single shared level `DECAY.value` (`dist/campus/atmosphere/decay.js`): 0 is the clean campus, 1 the ruin.
+- How each part follows the level: weathering shaders compute the clean colour first and mix toward the decayed one (soot, moss, rust, broken glass, boarded panes), so materials keep their clean look at 0; torn cloth (banners, flags, awnings) only loses pieces as the level rises; grass, ivy and saplings grow from their base; trees carry both their surveyed size and their century-grown size and blend between them; the fountain fades from running water and jets to a dry basin with moss and a young tree; lamps go from all lit to a few flickering survivors; ground fog thickens; the loiterers of 2126 dissolve in (the ordinary 2026 crowd comes with Step 9). The Brown Building and the memorial are untouched at every level.
+- Controls: `world.setDecay(t)` jumps, `world.eraTo(t, seconds)` fades (about a second by default); `NightView.era(t)` from the console; `?era=2026`, `?era=2126` or a number in the address; the Era option in the menu (Washington Square only). Blending costs nothing extra: the same draw calls and triangles at 0, 0.5 and 1 (Arch at noon: 742 calls, 1.0M tris at 0.5).
+
 ## Decay and crowds across the area (Steps 5 and 6)
 
 - Decay (`dist/campus/atmosphere/decay.js`): every landmark except the preserved Brown Building and memorial, every second-tier building and the third-tier facades and roofs weather in the shader: soot, streaks, moss at the base, crazed and broken glass; on third-tier facades about one pane in four is black or boarded. Grass grows on every lawn and along the curbs; ivy climbs the NYU buildings and landmarks and patches the rest; street trees have grown a little and park trees a lot. Lamps are dead except a few (night.js). Banners and signs bleach and tear.
