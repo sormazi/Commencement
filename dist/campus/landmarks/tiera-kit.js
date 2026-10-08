@@ -11,7 +11,7 @@ export const TIERA_KIT=[
  {slug:'onefifth',name:'One Fifth Avenue',bin:1008847,status:'observed',seen:'Street View from Fifth Ave at Washington Sq N, Apr 2026: pale buff brick (not brown), unbroken vertical piers with dark recessed window columns and spandrels, stepped and chamfered crown, two-storey stone base with a dark entrance canopy on Fifth Ave',
   source:'1 Fifth Avenue at Washington Square North, 1927 (Helmle, Corbett & Harrison with Sugarman & Berger). Art Deco apartment-hotel tower of 27 storeys with setbacks and chamfered upper corners, brick piers running unbroken to the crown, a stone base of two storeys; 85 m in the NYC data.',
   wall:'brickBuff',trim:'limestone',style:'piers',pitch:2.4,pier:.62,depth:.5,floor:3.0,storeys:27,ground:{h:7.0,style:'base',mat:'limestone',win:[1.6,3.4],pitch:3.6},cornice:'band',doors:[{rank:0,at:.5,w:2.4,h:3.2,canopy:2.2}]},
- {slug:'wanamaker',name:'770 Broadway (Wanamaker Annex)',bin:1008952,status:'estimate',
+ {slug:'wanamaker',name:'770 Broadway (Wanamaker Annex)',bin:1008952,status:'observed',seen:'Photo sphere at Lafayette St and Astor Pl (Jan 2023) on Street View: pale cream terracotta, an even grid of wide windows, partly under scaffolding at the time',
   source:'770 Broadway, the block between Broadway, Lafayette St, Astor Pl and E 9th St; 1903-07 (D. H. Burnham & Co.) as the Wanamaker department store annex. Fifteen storeys of pale terracotta-faced steel frame with wide three-part windows, a tall glazed base (Wegmans since 2023) and a heavy cornice; 65 m in the NYC data.',
   wall:'terracotta',trim:'limestone',style:'punched',pitch:3.1,win:[2.3,2.3],floor:3.95,storeys:15,ground:{h:6.0,style:'storefront',mat:'limestone',pitch:5.2},cornice:'modillion',doors:[{rank:0,at:.5,w:3.2,h:3.2,canopy:2.4},{rank:1,at:.5,w:2.4,h:3.0}]},
  {slug:'cable',name:'The Cable Building (Angelika Film Center)',bin:1008240,status:'estimate',
@@ -20,9 +20,9 @@ export const TIERA_KIT=[
  {slug:'strand',name:'826 Broadway (the Strand)',bin:1009208,status:'estimate',
   source:'826-828 Broadway at E 12th St, 1902 (William H. Birkmire); the Strand Book Store since 1957; LPC 2019 (826 Broadway). Eleven storeys of red brick and terracotta over a cast-iron storefront base, with the red awnings and sidewalk book carts of the shop.',
   wall:'brickRed',trim:'terracotta',style:'punched',pitch:2.8,win:[1.5,2.2],floor:3.7,storeys:11,ground:{h:4.6,style:'storefront',mat:'castIron',pitch:3.6},cornice:'modillion',doors:[{rank:0,at:.35,w:2.2,h:3.0}]},
- {slug:'cooperunion',name:'The Cooper Union Foundation Building',bin:1008788,status:'estimate',
+ {slug:'cooperunion',name:'The Cooper Union Foundation Building',bin:1008788,status:'observed',seen:'Street View from Cooper Square at Astor Place, Apr 2026: warm reddish-brown stone (lighter than dark brownstone), deep round-arched ground arcade, paired round-arched windows on every floor, heavy cornice',
   source:'7 E 7th St at Cooper Square, 1853-59 (Frederick A. Peterson); LPC 1965; Abraham Lincoln spoke in the Great Hall in 1860. Italianate brownstone over one of the first wrought-iron beam frames: a round-arched arcade at the ground storey, round-arched windows in pairs above, a bracketed cornice; 32 m in the NYC data.',
-  wall:'brownstone',trim:'brownstone',style:'punched',pitch:3.2,win:[1.3,2.6],pair:1,arch:1,floor:4.6,storeys:6,ground:{h:5.6,style:'base',mat:'brownstone',win:[2.4,4.2],pitch:3.6,arch:1,first:.3},cornice:'modillion',corniceMat:'brownstone',doors:[{rank:0,at:.5,w:2.6,h:3.4}]}];
+  wall:'sandstone',trim:'sandstone',style:'punched',pitch:3.2,win:[1.3,2.6],pair:1,arch:1,floor:4.6,storeys:6,ground:{h:5.6,style:'base',mat:'sandstone',win:[2.4,4.2],pitch:3.6,arch:1,first:.3},cornice:'modillion',corniceMat:'sandstone',doors:[{rank:0,at:.5,w:2.6,h:3.4}]}];
 export const TIERA_KIT_BINS=new Map(TIERA_KIT.map(s=>[s.bin,s]));
 const byBin=new Map(data.buildings.map(b=>[b.bin,b]));
 export function buildTierAKit(b){const spec=TIERA_KIT_BINS.get(b.bin),P=new Parts(),bb=byBin.get(b.bin)||b;const r=buildKit(P,spec,volumePieces(bb,[]),{bins:new Set([b.bin])});
