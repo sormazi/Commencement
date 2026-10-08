@@ -52,7 +52,7 @@ export function graceParts(b){const G=GRACE,F=new Frame(G.origin,G.axis),P=new P
  const church=new Set([40,19.1,9.8]);const rest=pieces(model3d[b.bin]).filter(p=>!church.has(+p.z.toFixed(1)));
  for(const w of walls(rest)){if(w.y1-w.y0<2.5)continue;punched(P,w,w.y0,w.y1,{wall:'stone',glass:'glass',pitch:2.8,floor:3.6,win:[1.0,2.0],parapet:.8,reveal:.25,first:1.1,margin:.8});P.block('trim',w.face,0,w.len,w.y1-.3,w.y1,0,.2,{skip:['left','right']});}
  roofs(P,rest,'slate');return {P};}
-export function buildGrace(b){const {P}=graceParts(b);const s=stoneTextures({base:'#cfccc4',course:.45,block:1.1,tileW:3.3,seed:23});
+export function buildGrace(b){const {P}=graceParts(b);const s=stoneTextures({base:'#b9b0a0',course:.45,block:1.1,tileW:3.3,seed:23});
  const m={stone:new T.MeshStandardMaterial({map:s.map,normalMap:s.normalMap,normalScale:new T.Vector2(.5,.5),roughness:.85}),trim:new T.MeshStandardMaterial({color:0xd6d3cb,roughness:.8}),slate:new T.MeshStandardMaterial({color:0x4b5055,roughness:.75}),
   glass:new T.MeshStandardMaterial({color:0x2c3138,roughness:.3,metalness:.3}),louvre:new T.MeshStandardMaterial({color:0x2a2724,roughness:.8}),door:new T.MeshStandardMaterial({color:0x3a2a1e,roughness:.7}),
   dial:new T.MeshStandardMaterial({color:0x22262a,roughness:.5,metalness:.3}),metal:new T.MeshStandardMaterial({color:0x3d3f40,roughness:.5,metalness:.6}),frame:new T.MeshStandardMaterial({color:0x3d3f40,roughness:.5,metalness:.4})};
