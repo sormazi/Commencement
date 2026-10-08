@@ -1,4 +1,6 @@
-// Hayden Hall, 240 Mercer St. Law residence, 1981, 20 storeys. Google Street View (looked at, not saved), Apr 2024 (W
-// 3rd St at Mercer): orange-red brick slab, dark-framed windows paired in each bay, a ground storey of large windows
-// behind an iron fence and planting.
-export default {slug:"hayden",name:"Hayden Hall, 240 Mercer St",bin:1066869,also:[1086637],source:"Law residence, 1981, 20 storeys. Google Street View (looked at, not saved), Apr 2024 (W 3rd St at Mercer): orange-red brick slab, dark-framed windows paired in each bay, a ground storey of large windows behind an iron fence and planting.",wall:'brickOrange',trim:'brickOrange',ground:{h:3.6,style:'base',mat:'brickOrange',win:[2.6,2.2],pitch:3.4},floor:2.75,pitch:3.4,win:[.95,1.45],pair:1,cornice:'none',doors:[{rank:0,at:.8,w:2.2,h:2.8,canopy:1.2}],flags:{rank:0,n:1,y:4.4}};
+// Hayden Hall, 240 Mercer St. Status: observed. Law residence, 1981, 20 storeys. Google Street View (looked at, not
+// saved), Apr 2024 (W 3rd St at Mercer): orange-red brick slab, dark-framed windows paired in each bay, a ground storey
+// of large windows behind an iron fence and planting. Counted on Street View: n 9 bays (W 3rd, Apr 2026: orange brick,
+// paired windows, a low wing along W 3rd and the 20-storey tower behind, iron fence and planting), 20 storeys at the
+// tower.
+export default {slug:"hayden",name:"Hayden Hall, 240 Mercer St",status:"observed",bin:1066869,also:[1086637],source:"Law residence, 1981, 20 storeys. Google Street View (looked at, not saved), Apr 2024 (W 3rd St at Mercer): orange-red brick slab, dark-framed windows paired in each bay, a ground storey of large windows behind an iron fence and planting. Counted on Street View: n 9 bays (W 3rd, Apr 2026: orange brick, paired windows, a low wing along W 3rd and the 20-storey tower behind, iron fence and planting), 20 storeys at the tower.",wall:'brickOrange',trim:'brickOrange',ground:{h:3.6,style:'base',mat:'brickOrange',win:[2.6,2.2],pitch:3.4},floor:2.75,pitch:3.4,win:[.95,1.45],pair:1,cornice:'none',bays:{n:9},doors:[{rank:0,at:.8,w:2.2,h:2.8,canopy:1.2}],flags:{rank:0,n:1,y:4.4}};
