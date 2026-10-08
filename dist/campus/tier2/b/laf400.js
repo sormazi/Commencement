@@ -1,2 +1,4 @@
-// 400 Lafayette St. 1888, 6 storeys, NoHo. Not checked on Street View; brick loft (estimate).
-export default {slug:"laf400",name:"400 Lafayette St",bin:1080095,also:[1080096, 1080097],source:"1888, 6 storeys, NoHo. Not checked on Street View; brick loft (estimate).",wall:'brickRed',trim:'brownstone',ground:{h:4.6,style:'storefront',mat:'castIron',pitch:4.0},floor:3.6,pitch:3.6,win:[1.0,2.2],pair:1,sash:1,lintel:.25,cornice:'modillion',doors:[{rank:0,at:.5,w:2,h:3.2}]};
+// 400 Lafayette St. Status: observed. 1888, 6 storeys, NoHo. Not checked on Street View; brick loft (estimate). Observed
+// on Street View, 2026 pass: Apr 2026 (Lafayette St): red brick with white stone lintels and sills in a tight rhythm,
+// storefronts below; confirms the estimate.
+export default {slug:"laf400",name:"400 Lafayette St",status:"observed",bin:1080095,also:[1080096, 1080097],source:"1888, 6 storeys, NoHo. Not checked on Street View; brick loft (estimate). Observed on Street View, 2026 pass: Apr 2026 (Lafayette St): red brick with white stone lintels and sills in a tight rhythm, storefronts below; confirms the estimate.",wall:'brickRed',trim:'brownstone',ground:{h:4.6,style:'storefront',mat:'castIron',pitch:4.0},floor:3.6,pitch:3.6,win:[1.0,2.2],pair:1,sash:1,lintel:.25,cornice:'modillion',doors:[{rank:0,at:.5,w:2,h:3.2}]};
