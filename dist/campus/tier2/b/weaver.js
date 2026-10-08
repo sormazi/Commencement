@@ -1,4 +1,4 @@
-// Warren Weaver Hall. 251 Mercer St (Courant Institute), 1966. Google Street View (looked at, not saved) user panorama
-// (Mercer St plaza): brown brick piers running the full height, tapering, with dark curtain glass between; a raised
-// plaza with steps and planters at the entrance.
-export default {slug:"weaver",name:"Warren Weaver Hall",bin:1008627,also:[],source:"251 Mercer St (Courant Institute), 1966. Google Street View (looked at, not saved) user panorama (Mercer St plaza): brown brick piers running the full height, tapering, with dark curtain glass between; a raised plaza with steps and planters at the entrance.",wall:'brickBrown',trim:'concrete',style:'piers',pitch:3.4,pier:1.1,depth:.9,floor:3.6,ground:{h:4.4,style:'glass',pitch:3.4,belt:0},cornice:'none',doors:[{rank:0,at:.5,w:3.2,h:3}]};
+// Warren Weaver Hall. Status: observed. 251 Mercer St (Courant Institute), 1966. Google Street View (looked at, not
+// saved) user panorama (Mercer St plaza): brown brick piers running the full height, tapering, with dark curtain glass
+// between; a raised plaza with steps and planters at the entrance.
+export default {slug:"weaver",name:"Warren Weaver Hall",status:"observed",bin:1008627,also:[],source:"251 Mercer St (Courant Institute), 1966. Google Street View (looked at, not saved) user panorama (Mercer St plaza): brown brick piers running the full height, tapering, with dark curtain glass between; a raised plaza with steps and planters at the entrance.",wall:'brickBrown',trim:'concrete',style:'piers',pitch:3.4,pier:1.1,depth:.9,floor:3.6,ground:{h:4.4,style:'glass',pitch:3.4,belt:0},cornice:'none',doors:[{rank:0,at:.5,w:3.2,h:3}]};
