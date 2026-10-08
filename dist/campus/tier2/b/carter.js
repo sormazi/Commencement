@@ -1,3 +1,5 @@
-// Arthur L. Carter Hall, 10 Washington Pl. 1900, 6 storeys; not in the 3D model, footprint extruded. Not checked on
-// Street View (estimate).
-export default {slug:"carter",name:"Arthur L. Carter Hall, 10 Washington Pl",bin:1008813,also:[],source:"1900, 6 storeys; not in the 3D model, footprint extruded. Not checked on Street View (estimate).",wall:'brickRed',trim:'limestone',ground:{h:4.4,style:'base',mat:'limestone'},floor:3.6,pitch:3.4,win:[1.1,2.1],sash:1,cornice:'modillion',doors:[{rank:0,at:.5,w:2,h:3}]};
+// Arthur L. Carter Hall, 10 Washington Pl. Status: observed. 1900, 6 storeys; not in the 3D model, footprint extruded.
+// Not checked on Street View (estimate). Observed on Street View, 2026 pass: Apr 2026 (Washington Pl, seen from across
+// the street): red brick Romanesque front of six storeys with round-arched windows, a violet NYU flag, shopfronts at the
+// ground storey.
+export default {slug:"carter",name:"Arthur L. Carter Hall, 10 Washington Pl",status:"observed",bin:1008813,also:[],source:"1900, 6 storeys; not in the 3D model, footprint extruded. Not checked on Street View (estimate). Observed on Street View, 2026 pass: Apr 2026 (Washington Pl, seen from across the street): red brick Romanesque front of six storeys with round-arched windows, a violet NYU flag, shopfronts at the ground storey.",wall:'brickRed',trim:'limestone',ground:{h:4.4,style:'storefront',mat:'brickRed',pitch:4.0},floor:3.6,pitch:3.4,win:[1.1,2.1],sash:1,cornice:'modillion',doors:[{rank:0,at:.5,w:2,h:3}],flags:{rank:0,n:1,y:5.4}};
