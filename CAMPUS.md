@@ -53,6 +53,12 @@ In the browser console: `NightView.teleport(x, z, yaw)` moves the car to map met
 - Cost: lamps, tables and benches are instanced per 120 m tile (a few draw calls per tile); the fountain is four meshes.
 - Limits: lamp positions come from OSM, styles from where each lamp stands. The plaza paving pattern (light granite with radial bands) is not drawn yet.
 
+## Decay and crowds across the area (Steps 5 and 6)
+
+- Decay (`dist/campus/atmosphere/decay.js`): every landmark except the preserved Brown Building and memorial, every second-tier building and the third-tier facades and roofs weather in the shader: soot, streaks, moss at the base, crazed and broken glass; on third-tier facades about one pane in four is black or boarded. Grass grows on every lawn and along the curbs; ivy climbs the NYU buildings and landmarks and patches the rest; street trees have grown a little and park trees a lot. Lamps are dead except a few (night.js). Banners and signs bleach and tear.
+- Crowds (`dist/campus/atmosphere/crowd.js`): about 800 figures. The park slice keeps its roles (lecture rows, the graduating class, people facing walls and trees, queues at the Bobst and Kimmel doors) and adds chess players; beyond it, short queues at every NYU entrance and loiterers on Gould Plaza, the Silver Towers walk, the Paulson Center front, Astor Place, Cooper Square, Union Square, the MacDougal strip and Broadway. Nobody stands inside a building or within 40 m of the Brown Building. There is no traffic and nobody can be hit: people turn to watch the car and step aside, and a fast car passes through them.
+- Cost: shader-only weathering; grass, ivy and people are instanced per 120 m tile, so they cull with distance like the other props.
+
 ## Signage decals
 
 - Every flag, banner, sign and plaque is a separate decal with its own texture file in `dist/assets/signage/` and an entry in `dist/assets/signage/manifest.js`: id, file, kind, size in metres, where and when it was seen, and every placement (map position, height, facing, and a description of the spot).

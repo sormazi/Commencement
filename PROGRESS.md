@@ -3,7 +3,7 @@
 Read this file and `RESEARCH/campus-inventory.md` first when picking the work back up.
 
 ## Current phase
-Avi's plan of 7 Oct 2026, steps 1 to 8 with three stop points. Step 0 (README rewrite, atmosphere slice) is done. Steps 1 to 3 are done and committed (real New York time of day, 73 second-tier NYU buildings, third-tier facades for every other building). Stopped at Stop point 1 for Avi's review; next is Step 4, park details (noon and midnight street screenshots, numbers at the Arch).
+Avi's plan of 7 Oct 2026, steps 1 to 8 with three stop points. Step 0 (README rewrite, atmosphere slice) is done. Steps 1 to 3 done; Stop point 1 approved 8 Oct. Since then (8 Oct): night pushed darker with screen-edge falloff; real bay and storey counts on 16 NYU buildings and 70 of 73 specs observed on Street View; Step 4 (park details and the signage decal system) done; Step 5 first pass (decay across the area) and Step 6 (crowds across the area) done, built while the Street View pane was unavailable. In progress: Step 4B (inventory written; Tier A landmarks and Tier B storefronts need Street View). Then Stop point 2.
 
 ## Finished
 - Phase 0: free-roam campus world (projection, street graph, collision, curbs/surfaces, streamed tiles, minimap, spawn/reset). Default location is Washington Square · NYU. Corridor locations unchanged. Tests pass. See CAMPUS.md.
@@ -52,7 +52,8 @@ Avi's plan of 7 Oct 2026, steps 1 to 8 with three stop points. Step 0 (README re
 - 2026-10-07 Bobst atrium screens: research and model as architecture only; never a subject for satire or billboards.
 - 2026-10-07 Resolve Paulson heights, Mercer–Houston dog run, Mews paving, Glucksman Ireland House, Gould Welcome Center, 29/37 WSW, Grey Art Museum myself from Street View, OSM, NYU pages and news.
 - 2026-10-07 Q1: Washington Sq E and University Pl are a straight continuation, as the city data shows. The "angle" in the original prompt was a mistake.
-- 2026-10-07 Q3–Q6 (fountain plaza level, chess tables, lamp posts, banners): leave as unverified placeholders, not modelled in detail, until Avi's photos and notes land in RESEARCH/my-photos. Those photos are then authoritative.
+- 2026-10-07 Q3–Q6 (fountain plaza level, chess tables, lamp posts, banners): leave as unverified placeholders until Avi's photos land in RESEARCH/my-photos. Superseded by the 7 Oct plan's Step 4 (take them from Street View), done 8 Oct; Avi's photos, if added, still override.
+- 2026-10-08 Copyrighted sculptures (the Alamo cube at Astor Place, the Metronome at Union Square, the Gay Liberation Monument) are not modelled; their sites are.
 - 2026-10-07 Brown Building and Triangle Fire memorial: kept intact and dignified while everything around them decays; excluded from every joke, billboard and banner.
 - 2026-10-07 Remaining questions: resolve from 3D model, LPC reports and other sources where possible; ask what's left in one batch.
 - 2026-10-07 Commit at the end of every phase and after large changes; log each commit here.
