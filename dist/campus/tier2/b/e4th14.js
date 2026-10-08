@@ -1,2 +1,4 @@
-// 14 E 4th St (NYU Shanghai office). 1909, 12 storeys, NYU by OSM name only. Not checked on Street View (estimate).
-export default {slug:"e4th14",name:"14 E 4th St (NYU Shanghai office)",bin:1008529,also:[],source:"1909, 12 storeys, NYU by OSM name only. Not checked on Street View (estimate).",wall:'brickBuff',trim:'limestone',ground:{h:4.8,style:'storefront',mat:'limestone',pitch:4.4},floor:3.6,pitch:4.2,win:[1.1,2.2],pair:1,sash:1,cornice:'modillion',doors:[{rank:0,at:.5,w:2.2,h:3.2}]};
+// 14 E 4th St (NYU Shanghai office). Status: observed. 1909, 12 storeys, NYU by OSM name only. Not checked on Street
+// View (estimate). Observed on Street View, 2026 pass: Apr 2026 (E 4th St): grey stone ground storey with a columned
+// entrance under a sidewalk shed, pale stone and brick loft above.
+export default {slug:"e4th14",name:"14 E 4th St (NYU Shanghai office)",status:"observed",bin:1008529,also:[],source:"1909, 12 storeys, NYU by OSM name only. Not checked on Street View (estimate). Observed on Street View, 2026 pass: Apr 2026 (E 4th St): grey stone ground storey with a columned entrance under a sidewalk shed, pale stone and brick loft above.",wall:'limestone',trim:'limestone',ground:{h:4.8,style:'storefront',mat:'limestone',pitch:4.4},floor:3.6,pitch:4.2,win:[1.1,2.2],pair:1,sash:1,cornice:'modillion',doors:[{rank:0,at:.5,w:2.2,h:3.2}]};
