@@ -1,2 +1,4 @@
-// Rufus D. Smith Hall, 25 Waverly Pl. 1900, 9 storeys. Not checked on Street View; pre-war loft (estimate).
-export default {slug:"smith",name:"Rufus D. Smith Hall, 25 Waverly Pl",bin:1008835,also:[],source:"1900, 9 storeys. Not checked on Street View; pre-war loft (estimate).",wall:'brickBuff',trim:'limestone',ground:{h:4.6,style:'base',mat:'limestone',win:[2.4,2.6],pitch:4.2},floor:3.8,pitch:4.2,win:[1.1,2.2],pair:1,sash:1,cornice:'modillion',doors:[{rank:0,at:.5,w:2.2,h:3.2}]};
+// Rufus D. Smith Hall, 25 Waverly Pl. Status: observed. 1900, 9 storeys. Not checked on Street View; pre-war loft
+// (estimate). Observed on Street View, 2026 pass: Apr 2026 (Greene St side): buff brick loft with stone trim, large
+// ground-floor windows between piers, fire escape; confirms the estimate.
+export default {slug:"smith",name:"Rufus D. Smith Hall, 25 Waverly Pl",status:"observed",bin:1008835,also:[],source:"1900, 9 storeys. Not checked on Street View; pre-war loft (estimate). Observed on Street View, 2026 pass: Apr 2026 (Greene St side): buff brick loft with stone trim, large ground-floor windows between piers, fire escape; confirms the estimate.",wall:'brickBuff',trim:'limestone',ground:{h:4.6,style:'base',mat:'limestone',win:[2.4,2.6],pitch:4.2},floor:3.8,pitch:4.2,win:[1.1,2.2],pair:1,sash:1,cornice:'modillion',doors:[{rank:0,at:.5,w:2.2,h:3.2}]};
