@@ -1,3 +1,5 @@
-// Bonomi Family Admissions Center. 21-27 W 4th St, 1920, 6 storeys; not in the 3D model. Not checked on Street View
-// (estimate).
-export default {slug:"bonomi",name:"Bonomi Family Admissions Center",bin:1008814,also:[],source:"21-27 W 4th St, 1920, 6 storeys; not in the 3D model. Not checked on Street View (estimate).",wall:'brickRed',trim:'limestone',ground:{h:4.4,style:'glass',pitch:2.6},floor:3.6,pitch:3.6,win:[1.1,2.1],pair:1,sash:1,cornice:'coping',doors:[{rank:0,at:.5,w:2.6,h:3,canopy:1.2}],flags:{rank:0,n:2,y:5.2}};
+// Bonomi Family Admissions Center. Status: observed. 21-27 W 4th St, 1920, 6 storeys; not in the 3D model. Not checked
+// on Street View (estimate). Observed on Street View, 2026 pass: Apr 2026 (W 4th St): red brick upper storeys over a
+// two-storey white stone base of very large windows, COLLEGE OF ARTS & SCIENCE lettering over the entrance and a violet
+// banner; the entrance is on W 4th St.
+export default {slug:"bonomi",name:"Bonomi Family Admissions Center",status:"observed",bin:1008814,also:[],source:"21-27 W 4th St, 1920, 6 storeys; not in the 3D model. Not checked on Street View (estimate). Observed on Street View, 2026 pass: Apr 2026 (W 4th St): red brick upper storeys over a two-storey white stone base of very large windows, COLLEGE OF ARTS & SCIENCE lettering over the entrance and a violet banner; the entrance is on W 4th St.",wall:'brickRed',trim:'limestone',ground:{h:4.6,style:'storefront',mat:'limestone',pitch:4.0},base:{to:9.0,mat:'limestone'},floor:3.6,pitch:3.6,win:[1.1,2.1],pair:1,sash:1,cornice:'coping',doors:[{dir:'s',at:.5,w:2.6,h:3,canopy:1.2}],flags:{dir:'s',n:1,y:5.2},signs:{sign_bonomi:{text:['COLLEGE OF ARTS & SCIENCE'],opt:{bg:'#d8d2c4',ink:'#2f2f2f',h:64}}}};
