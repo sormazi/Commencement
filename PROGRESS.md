@@ -241,3 +241,4 @@ Target is 60 fps at the Arch. My own checks run in a software renderer in the cl
 | 2026-10-08 | fc70434 | Darker night: lower ambient, night vignette, stronger headlights and lamps |
 | 2026-10-07 | 45bb08f..76c555c | Kit: real bay and storey counts; Real bay and storey counts for 16 buildings; 54 more checked on Street View and marked observed; 3 remain estimates (East 8th Street houses (6-22 E 8th St), 21 Washington Square North, rear parts, 22 Washington Square North, rear part) |
 | 2026-10-08 | 2496d61 | Step 4 park details: fountain rim and steps, 3 lamp types, 13 chess tables, banners where seen; signage decal system and manifest |
+| 2026-10-08 | 9dd8315 | Step 4B inventory: Tier A list plus candidates for review |
