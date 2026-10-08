@@ -272,3 +272,4 @@ Target is 60 fps at the Arch. My own checks run in a software renderer in the cl
 | 2026-10-08 | 616e1aa | Step 10 Part 1: campus is the only location; NYU Facilities electric van replaces all cars; old locations, ads and tests removed |
 | 2026-10-08 | 343b018 | Cache-bust to v22 after Step 10 Part 1 (splash-screen hang from stale cached modules) |
 | 2026-10-08 | 532e3cd | NYU Campus Safety unit 4 replaces the van (livery decals, electric sound, physics, docs) |
+| 2026-10-08 | 87c77ab | No-cache local server (tools/serve.py) and v23 asset bump; fixes stale-module splash hang |
