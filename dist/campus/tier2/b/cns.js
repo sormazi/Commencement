@@ -1,4 +1,4 @@
-// Center for Neural Science, 4 Washington Pl. 1904 loft, 11 storeys. Google Street View (looked at, not saved) user
-// panorama (Washington Pl at Broadway): pale buff brick and terracotta, tripartite windows in each bay, a two-storey
-// stone base with heavy piers and dark storefronts.
-export default {slug:"cns",name:"Center for Neural Science, 4 Washington Pl",bin:1008816,also:[],source:"1904 loft, 11 storeys. Google Street View (looked at, not saved) user panorama (Washington Pl at Broadway): pale buff brick and terracotta, tripartite windows in each bay, a two-storey stone base with heavy piers and dark storefronts.",wall:'brickBuff',trim:'terracotta',ground:{h:4.6,style:'storefront',mat:'limestone',pitch:4.6,pier:.9},base:{to:8.6,mat:'limestone'},floor:3.8,pitch:4.6,win:[1.2,2.3],pair:1,sash:1,cornice:'modillion',doors:[{rank:0,at:.3,w:2.2,h:3.2}]};
+// Center for Neural Science, 4 Washington Pl. Status: observed. 1904 loft, 11 storeys. Google Street View (looked at,
+// not saved) user panorama (Washington Pl at Broadway): pale buff brick and terracotta, tripartite windows in each bay,
+// a two-storey stone base with heavy piers and dark storefronts.
+export default {slug:"cns",name:"Center for Neural Science, 4 Washington Pl",status:"observed",bin:1008816,also:[],source:"1904 loft, 11 storeys. Google Street View (looked at, not saved) user panorama (Washington Pl at Broadway): pale buff brick and terracotta, tripartite windows in each bay, a two-storey stone base with heavy piers and dark storefronts.",wall:'brickBuff',trim:'terracotta',ground:{h:4.6,style:'storefront',mat:'limestone',pitch:4.6,pier:.9},base:{to:8.6,mat:'limestone'},floor:3.8,pitch:4.6,win:[1.2,2.3],pair:1,sash:1,cornice:'modillion',doors:[{rank:0,at:.3,w:2.2,h:3.2}]};
