@@ -249,3 +249,4 @@ Target is 60 fps at the Arch. My own checks run in a software renderer in the cl
 | 2026-10-08 | 40b69c7 | Step 6: crowds across the area (door queues, plazas, strip), about 800 figures |
 | 2026-10-08 | d767fa6 | Docs for Steps 5 and 6 |
 | 2026-10-08 | 4603088 | Tier B tooling: storefront kit, sign atlas, blockface survey tool |
+| 2026-10-08 | 76c3829 | Decay as a separate runtime layer (2026/2126 blend) |
