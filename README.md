@@ -111,4 +111,3 @@ Full credits are in [dist/credits.html](dist/credits.html), which is also linked
 - **Wikimedia Commons**: 87 reference photographs under CC0, CC BY and CC BY-SA, each credited with author, licence and source page.
 - **Three.js** is vendored under its MIT licence.
 
-Licensing of the code and artwork is described in [LICENSE.md](LICENSE.md). To work on the project, start with [CONTRIBUTING.md](CONTRIBUTING.md) and [PROGRESS.md](PROGRESS.md).
