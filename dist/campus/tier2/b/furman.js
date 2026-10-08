@@ -1,4 +1,5 @@
-// Furman Hall. NYU Law, 245 Sullivan St / 89 W 3rd St, opened 2004. Google Street View (looked at, not saved), Apr 2024:
-// a red-brick lower block of three storeys and attic on a stone base with tall six-over-six windows and a stone door
-// surround (it carries the rebuilt front of Edgar Allan Poe's 85 W 3rd St house); a taller brick block behind.
-export default {slug:"furman",name:"Furman Hall",bin:1086188,also:[],source:"NYU Law, 245 Sullivan St / 89 W 3rd St, opened 2004. Google Street View (looked at, not saved), Apr 2024: a red-brick lower block of three storeys and attic on a stone base with tall six-over-six windows and a stone door surround (it carries the rebuilt front of Edgar Allan Poe's 85 W 3rd St house); a taller brick block behind.",wall:'brickRed',trim:'limestone',ground:{h:3.8,style:'base',mat:'limestone',first:1.1},floor:3.3,pitch:2.9,win:[1.05,2.0],sash:1,lintel:.22,cornice:'modillion',doors:[{rank:1,at:.5,w:1.8,h:3,steps:3,y:.6}]};
+// Furman Hall. Status: observed. NYU Law, 245 Sullivan St / 89 W 3rd St, opened 2004. Google Street View (looked at, not
+// saved), Apr 2024: a red-brick lower block of three storeys and attic on a stone base with tall six-over-six windows
+// and a stone door surround (it carries the rebuilt front of Edgar Allan Poe's 85 W 3rd St house); a taller brick block
+// behind.
+export default {slug:"furman",name:"Furman Hall",status:"observed",bin:1086188,also:[],source:"NYU Law, 245 Sullivan St / 89 W 3rd St, opened 2004. Google Street View (looked at, not saved), Apr 2024: a red-brick lower block of three storeys and attic on a stone base with tall six-over-six windows and a stone door surround (it carries the rebuilt front of Edgar Allan Poe's 85 W 3rd St house); a taller brick block behind.",wall:'brickRed',trim:'limestone',ground:{h:3.8,style:'base',mat:'limestone',first:1.1},floor:3.3,pitch:2.9,win:[1.05,2.0],sash:1,lintel:.22,cornice:'modillion',doors:[{rank:1,at:.5,w:1.8,h:3,steps:3,y:.6}]};
