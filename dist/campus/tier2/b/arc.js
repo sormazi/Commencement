@@ -1,3 +1,4 @@
-// Academic Resource Center. 18 Washington Pl, 1910, 8 storeys. Not checked on Street View; a pre-war brick loft like its
-// neighbours (estimate).
-export default {slug:"arc",name:"Academic Resource Center",bin:1008810,also:[],source:"18 Washington Pl, 1910, 8 storeys. Not checked on Street View; a pre-war brick loft like its neighbours (estimate).",wall:'brickRed',trim:'limestone',ground:{h:4.4,style:'storefront',mat:'limestone',pitch:4.2},floor:3.7,pitch:4.0,win:[1.05,2.2],pair:1,sash:1,cornice:'modillion',doors:[{rank:0,at:.5,w:2.4,h:3.2,canopy:1}]};
+// Academic Resource Center. Status: observed. 18 Washington Pl, 1910, 8 storeys. Not checked on Street View; a pre-war
+// brick loft like its neighbours (estimate). Observed on Street View, 2026 pass: Apr 2026 (Washington Pl): tan brick
+// loft with round-arched windows in the top storey and paired windows below, sidewalk shed.
+export default {slug:"arc",name:"Academic Resource Center",status:"observed",bin:1008810,also:[],source:"18 Washington Pl, 1910, 8 storeys. Not checked on Street View; a pre-war brick loft like its neighbours (estimate). Observed on Street View, 2026 pass: Apr 2026 (Washington Pl): tan brick loft with round-arched windows in the top storey and paired windows below, sidewalk shed.",wall:'brickBuff',trim:'limestone',ground:{h:4.4,style:'storefront',mat:'limestone',pitch:4.2},floor:3.7,pitch:4.0,win:[1.05,2.2],pair:1,sash:1,cornice:'modillion',doors:[{rank:0,at:.5,w:2.4,h:3.2,canopy:1}]};
