@@ -1,3 +1,4 @@
-// University Hall. 110 E 14th St, 1998, 20 storeys. Google Street View (looked at, not saved), Apr 2024: pale grey-beige
-// brick and precast with regular punched windows.
-export default {slug:"uhall",name:"University Hall",bin:1009072,also:[],source:"110 E 14th St, 1998, 20 storeys. Google Street View (looked at, not saved), Apr 2024: pale grey-beige brick and precast with regular punched windows.",wall:'brickWhite',trim:'precast',ground:{h:4.6,style:'storefront',mat:'precast',pitch:4.4},base:{to:8.6,mat:'precast'},floor:2.9,pitch:2.9,win:[1.3,1.5],cornice:'band',doors:[{rank:0,at:.5,w:2.4,h:3,canopy:1.6}],flags:{rank:0,n:2,y:5.4}};
+// University Hall. Status: observed. 110 E 14th St, 1998, 20 storeys. Google Street View (looked at, not saved), Apr
+// 2024: pale grey-beige brick and precast with regular punched windows. Counted on Street View: n 11 bays (E 14th, Apr
+// 2026: pale grey precast, regular punched windows), 20 storeys.
+export default {slug:"uhall",name:"University Hall",status:"observed",bin:1009072,also:[],source:"110 E 14th St, 1998, 20 storeys. Google Street View (looked at, not saved), Apr 2024: pale grey-beige brick and precast with regular punched windows. Counted on Street View: n 11 bays (E 14th, Apr 2026: pale grey precast, regular punched windows), 20 storeys.",wall:'brickWhite',trim:'precast',ground:{h:4.6,style:'storefront',mat:'precast',pitch:4.4},base:{to:8.6,mat:'precast'},floor:2.9,pitch:2.9,win:[1.3,1.5],cornice:'band',bays:{n:11},storeys:20,doors:[{rank:0,at:.5,w:2.4,h:3,canopy:1.6}],flags:{rank:0,n:2,y:5.4}};
