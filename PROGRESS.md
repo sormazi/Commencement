@@ -276,3 +276,4 @@ Target is 60 fps at the Arch. My own checks run in a software renderer in the cl
 | 2026-10-08 | 16355cc | Tier A: One Fifth observed (buff brick, piers); Tier A drafts wired into the world, unverified ones marked estimate |
 | 2026-10-08 | 431391a | Tier A: Grace Church observed (position, warmer marble) |
 | 2026-10-08 | 20ebfff | Tier A: Cooper Union (warmer stone) and Wanamaker observed |
+| 2026-10-08 | eca58f0 | Tier A: 826 Broadway (the Strand) observed, pale cream |
