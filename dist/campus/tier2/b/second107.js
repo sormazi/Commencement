@@ -1,2 +1,4 @@
-// 107 Second Avenue. 1928, 5 storeys, NYU-owned. Not checked on Street View (estimate).
-export default {slug:"second107",name:"107 Second Avenue",bin:1006653,also:[],source:"1928, 5 storeys, NYU-owned. Not checked on Street View (estimate).",wall:'brickBuff',trim:'limestone',ground:{h:4.4,style:'storefront',mat:'limestone',pitch:4.2},floor:3.6,pitch:3.4,win:[1.1,2.0],sash:1,cornice:'coping',doors:[{rank:0,at:.5,w:2,h:3}]};
+// 107 Second Avenue. Status: observed. 1928, 5 storeys, NYU-owned. Not checked on Street View (estimate). Observed on
+// Street View, 2026 pass: Apr 2026 (Second Ave): cream terracotta five-storey front with round-arched windows in the top
+// storey, two flags over stone-framed storefronts.
+export default {slug:"second107",name:"107 Second Avenue",status:"observed",bin:1006653,also:[],source:"1928, 5 storeys, NYU-owned. Not checked on Street View (estimate). Observed on Street View, 2026 pass: Apr 2026 (Second Ave): cream terracotta five-storey front with round-arched windows in the top storey, two flags over stone-framed storefronts.",wall:'terracotta',trim:'limestone',ground:{h:4.4,style:'storefront',mat:'limestone',pitch:4.2},floor:3.6,pitch:3.4,win:[1.1,2.0],sash:1,cornice:'coping',doors:[{rank:0,at:.5,w:2,h:3}]};
