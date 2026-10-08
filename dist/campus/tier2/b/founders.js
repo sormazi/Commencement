@@ -1,9 +1,11 @@
-// Founders Hall and the St. Ann's facade. 120 E 12th St, 2006 (Perkins Eastman), 26 storeys, built behind the retained
-// 1847 facade of St. Ann's Church. User panorama 2017 on Google Maps: dark brownstone Gothic front with a pointed-arch
-// doorway and lancets, a square tower, and a black iron fence with an arched gate. The facade's distance in front of the
-// hall is an estimate.
+// Founders Hall and the St. Ann's facade. Status: observed. 120 E 12th St, 2006 (Perkins Eastman), 26 storeys, built
+// behind the retained 1847 facade of St. Ann's Church. User panorama 2017 on Google Maps: dark brownstone Gothic front
+// with a pointed-arch doorway and lancets, a square tower, and a black iron fence with an arched gate. The facade's
+// distance in front of the hall is an estimate. Counted on Street View: n 6 bays (E 12th, Apr 2026: tan-grey brick tower
+// with dark window strips, a glass box over the lower storeys at the front, St. Ann's dark stone front), 26 storeys.
+// Wall material corrected to buff/grey brick.
 import {Face} from '../../landmarks/kit.js?v=21';
-export default {slug:"founders",name:"Founders Hall and the St. Ann's facade",bin:1087924,also:[],source:"120 E 12th St, 2006 (Perkins Eastman), 26 storeys, built behind the retained 1847 facade of St. Ann's Church. User panorama 2017 on Google Maps: dark brownstone Gothic front with a pointed-arch doorway and lancets, a square tower, and a black iron fence with an arched gate. The facade's distance in front of the hall is an estimate.",wall:'brickRed',trim:'precast',ground:{h:4.6,style:'glass',pitch:2.4},floor:2.9,pitch:3.0,win:[1.2,1.5],cornice:'band',doors:[{rank:0,at:.5,w:2.4,h:3}],flags:{rank:0,n:2,y:5},
+export default {slug:"founders",name:"Founders Hall and the St. Ann's facade",status:"observed",bin:1087924,also:[],source:"120 E 12th St, 2006 (Perkins Eastman), 26 storeys, built behind the retained 1847 facade of St. Ann's Church. User panorama 2017 on Google Maps: dark brownstone Gothic front with a pointed-arch doorway and lancets, a square tower, and a black iron fence with an arched gate. The facade's distance in front of the hall is an estimate. Counted on Street View: n 6 bays (E 12th, Apr 2026: tan-grey brick tower with dark window strips, a glass box over the lower storeys at the front, St. Ann's dark stone front), 26 storeys. Wall material corrected to buff/grey brick.",wall:'brickBuff',bays:{n:6},storeys:26,trim:'precast',ground:{h:4.6,style:'glass',pitch:2.4},floor:2.9,pitch:3.0,win:[1.2,1.5],cornice:'band',doors:[{rank:0,at:.5,w:2.4,h:3}],flags:{rank:0,n:2,y:5},
  extra:K=>{const w=K.ranked[0];if(!w)return;const f0=w.face,P=K.P,c=w.len/2,set=9;// St. Ann's front stands free in the courtyard, `set` m in front of the hall.
   const f=f0.offset(set);const W=13,H=11,G=5.5,hole=[];for(let k=0;k<=10;k++){const t=Math.PI*k/10;hole.push([c+Math.cos(t)*1.4,3.4+Math.sin(t)*1.6]);}hole.unshift([c+1.4,0],[c+1.4,3.4]);hole.push([c-1.4,3.4],[c-1.4,0]);
   const outline=[[c-W/2,0],[c+W/2,0],[c+W/2,H],[c,H+G],[c-W/2,H]];P.poly('brownstone',f,outline,[hole.slice().reverse()],0);P.poly('brownstone',new Face(f.at(0,0,-.8),f.u.map(x=>-x),f.v),outline.map(([u,v])=>[-u,v]),[],0);
