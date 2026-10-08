@@ -7,11 +7,12 @@ import {buildArch} from './landmarks/arch.js?v=21';
 import {LANDMARK_BUILDINGS} from './landmarks/index.js?v=21';
 import {buildSheds} from './landmarks/sheds.js?v=21';
 import {ROW_BINS} from './landmarks/row.js?v=21';
-import {buildDecay,treeBoost,volunteerTrees,dryFountain,inSlice} from './atmosphere/decay.js?v=21';
+import {buildDecay,treeBoost,volunteerTrees,dryFountain,inSlice,cleanInstanceAttributes,blendInstances,applyDecay,DECAY} from './atmosphere/decay.js?v=21';
 import {buildNight} from './atmosphere/night.js?v=21';
 import {buildCrowd} from './atmosphere/crowd.js?v=21';
 import {buildSpeaker} from './atmosphere/speaker.js?v=21';
 import {buildSignage} from './signage.js?v=21';
+import {buildStorefronts} from './storefronts.js?v=21';
 import {buildFountain,lampLayout,lampParts,chessLayout,chessParts,furnitureGeometry,furnitureMaterial,chessTopMaterial} from './park.js?v=21';
 import {buildTier2,TIER2_BINS} from './tier2/world.js?v=21';
 import {classify,facadeCode,GENERIC_CODE,tier3Enabled,facadeAtlas,patchFacadeMaterial} from './tier3/facades.js?v=21';
@@ -60,13 +61,16 @@ export function paulsonMassing(ring){const c=centroid(ring);let sxx=0,sxy=0,syy=
  return [{ring,h:PAULSON.podium},{ring:clipHalf(ring,ax,an,hi-L*PAULSON.northShare,true),h:PAULSON.towerN},{ring:clipHalf(ring,ax,an,lo+L*PAULSON.southShare,false),h:PAULSON.towerS}].filter(m=>m.ring.length>=3);}
 export class CampusWorld{
  constructor(config){this.config=config;this.freeRoam=true;const c=campus();this.campus=c;this.data=c.data;this.collision=c.collision;this.streets=c.streets;this.spawn=c.spawn;
-  this.stats={model:0,extruded:0,estimated:0};this.group=new T.Group();this.group.name='washington-square';this.tiles=new Map();this.disposables=new Set();this.rowBin=ROW_BINS[0];this.rowBins=ROW_BINS;this.tier2Bins=TIER2_BINS;this.build();this.group.add(buildSignage(this));this.decay=buildDecay(this);this.group.add(this.decay);this.night=buildNight(this);this.group.add(this.night.group);this.night.setNight(false);this.crowd=buildCrowd(this);this.group.add(this.crowd.group);this.group.add(buildSpeaker(this));}
+  this.stats={model:0,extruded:0,estimated:0};this.group=new T.Group();this.group.name='washington-square';this.tiles=new Map();this.disposables=new Set();this.rowBin=ROW_BINS[0];this.rowBins=ROW_BINS;this.tier2Bins=TIER2_BINS;this.build();buildStorefronts(this);this.group.add(buildSignage(this));this.decay=buildDecay(this);this.group.add(this.decay);this.night=buildNight(this);this.group.add(this.night.group);this.night.setNight(false);this.crowd=buildCrowd(this);this.group.add(this.crowd.group);{const q=new URLSearchParams(globalThis.location?.search||'').get('era');const t=q==='2026'?0:q==='2126'||q==null?1:Math.max(0,Math.min(1,+q||0));this.setDecay(t);}this.group.add(buildSpeaker(this));}
  // Manual atmosphere presets fix the lamps and ground fog; Real NYC time sets them continuously through setSky.
  setPreset(p){if(p!=='realtime')this.night?.setNight(p==='night');}
- setSky(lamps,cards,fog){this.night?.setLevels(lamps,cards,fog);}
+ setSky(lamps,cards,fog){this.night?.setLevels(lamps,cards,fog);this.lampLevel=lamps;this.materials.lamp.emissiveIntensity=1.2*lamps*(1-DECAY.value);}
+ // The decay layer (2026 clean <-> 2126 ruin). setDecay jumps; eraTo fades over about a second.
+ setDecay(t){this.era=this.eraTarget=t;applyDecay(this,t);}
+ eraTo(t,seconds=1){this.eraTarget=Math.max(0,Math.min(1,t));this.eraRate=1/Math.max(.05,seconds);}
  tile(x,n){const i=Math.floor(x/TILE),j=Math.floor(n/TILE),k=i+','+j;let t=this.tiles.get(k);if(!t){t={i,j,center:[(i+.5)*TILE,(j+.5)*TILE],group:new T.Group(),b:{},inst:{}};t.group.name='tile '+k;this.group.add(t.group);this.tiles.set(k,t);}return t;}
  builder(t,name){return t.b[name]||(t.b[name]=new Builder());}
- inst(t,name,p,s=[1,1,1],r=0,color=null){(t.inst[name]||(t.inst[name]=[])).push({p,s,r,color});}
+ inst(t,name,p,s=[1,1,1],r=0,color=null,clean=null){(t.inst[name]||(t.inst[name]=[])).push({p,s,r,color,clean});}
  build(){const d=this.data,col=hex=>new T.Color(hex);
   const wallTex=canvasTexture(64,64,(g,w,h)=>{g.fillStyle='#ffffff';g.fillRect(0,0,w,h);g.fillStyle='#ece9e2';g.fillRect(0,h-6,w,6);g.fillStyle='#4b5157';g.fillRect(w*.24,h*.2,w*.52,h*.56);g.fillStyle='#e2ded6';g.fillRect(w*.24,h*.74,w*.52,h*.05);});
   const pavingTex=canvasTexture(128,128,(g,w,h)=>{g.fillStyle='#d8d6d0';g.fillRect(0,0,w,h);g.strokeStyle='rgba(60,60,60,.18)';for(let i=0;i<=w;i+=32){g.beginPath();g.moveTo(i,0);g.lineTo(i,h);g.stroke();g.beginPath();g.moveTo(0,i);g.lineTo(w,i);g.stroke();}});
@@ -74,6 +78,7 @@ export class CampusWorld{
   const grassTex=canvasTexture(128,128,(g,w,h)=>{g.fillStyle='#7f8e5e';g.fillRect(0,0,w,h);for(let i=0;i<1600;i++){g.fillStyle=`hsl(${70+hash(i)*30},${25+hash(i+3)*20}%,${30+hash(i+5)*20}%)`;g.fillRect(hash(i+7)*w,hash(i+9)*h,1,2+hash(i)*3);}});
   this.materials={wall:patchFacadeMaterial(new T.MeshStandardMaterial({map:facadeAtlas(T),vertexColors:true,roughness:.86})),roof:new T.MeshStandardMaterial({vertexColors:true,roughness:.95}),paving:new T.MeshStandardMaterial({map:pavingTex,vertexColors:true,roughness:.9}),grass:new T.MeshStandardMaterial({map:grassTex,vertexColors:true,roughness:1,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2}),parkFloor:new T.MeshStandardMaterial({map:pavingTex,vertexColors:true,roughness:.92,polygonOffset:true,polygonOffsetFactor:-1,polygonOffsetUnits:-1}),marble:new T.MeshStandardMaterial({color:0xe8e4da,roughness:.6}),iron:new T.MeshStandardMaterial({color:0x1d2124,metalness:.6,roughness:.5}),bark:new T.MeshStandardMaterial({color:0x4d4436,roughness:1}),leaves:new T.MeshStandardMaterial({color:0xffffff,roughness:.9,flatShading:true}),stripe:new T.MeshStandardMaterial({color:0xe9e7df,roughness:.7,polygonOffset:true,polygonOffsetFactor:-4,polygonOffsetUnits:-4}),water:new T.MeshStandardMaterial({color:0x2c3a3c,roughness:.25,metalness:.2}),lamp:new T.MeshStandardMaterial({color:0xfff1cf,emissive:0xffd59a,emissiveIntensity:1.2})};
   for(const m of Object.values(this.materials)){this.disposables.add(m);if(m.map)this.disposables.add(m.map);}
+  blendInstances(this.materials.bark);blendInstances(this.materials.leaves);
   // Park furniture (park.js): granite for the fountain and chess tables, grey steel street poles, bench slats.
   Object.assign(this.materials,{granite:new T.MeshStandardMaterial({color:0xb9b4aa,roughness:.75}),steel:new T.MeshStandardMaterial({color:0x8d9296,metalness:.5,roughness:.5}),wood:new T.MeshStandardMaterial({color:0x6b4a32,roughness:.85})});
   for(const k of ['granite','steel','wood'])this.disposables.add(this.materials[k]);this.materials.chessTop=chessTopMaterial();for(const m of new Set(this.materials.chessTop)){this.disposables.add(m);if(m.map)this.disposables.add(m.map);}
@@ -119,9 +124,14 @@ export class CampusWorld{
   // Trees (NYC Parks Forestry + OSM), lamps, benches, fences and crosswalk bars, instanced per tile.
   // Phase 3 slice: park trees have had a century to grow, and volunteers have seeded in the lawns.
     const vol=volunteerTrees(d,parkRing);if(!this.collision._volunteers){for(const v of vol)this.collision.addCircle(v.p,.55,'tree');this.collision._volunteers=true;}this.volunteers=vol;
-    for(const tr of [...d.trees,...vol]){const bo=treeBoost(tr.p,parkRing)||(tr.volunteer?{height:1.8,crown:2.1,trunk:1.6}:null),dbh=tr.dbh||8,height=(tr.landmark?24:Math.min(24,5+dbh*.42))*(bo?bo.height:1),crown=(tr.landmark?9:Math.min(5.5,1.4+dbh*.12))*(bo?bo.crown:1),cy=Math.max(height-crown*.75,3.2+crown*.7),t=this.tile(...tr.p),y=CURB_HEIGHT,r=Math.max(.14,dbh*.0254/2)*(bo?bo.trunk:1);
+    // Each tree in both eras: as surveyed (2026) and after a century of growth (2126); volunteers only in 2126.
+    // The instance carries both transforms and the decay layer blends between them (blendInstances).
+    const treeDims=(tr,bo)=>{const dbh=tr.dbh||8,height=(tr.landmark?24:Math.min(24,5+dbh*.42))*(bo?bo.height:1),crown=(tr.landmark?9:Math.min(5.5,1.4+dbh*.12))*(bo?bo.crown:1),cy=Math.max(height-crown*.75,3.2+crown*.7),r=Math.max(.14,dbh*.0254/2)*(bo?bo.trunk:1);return {crown,cy,r};};
+    for(const tr of [...d.trees,...vol]){const bo=treeBoost(tr.p,parkRing)||(tr.volunteer?{height:1.8,crown:2.1,trunk:1.6}:null),D=treeDims(tr,bo),C=tr.volunteer?null:treeDims(tr,null),t=this.tile(...tr.p),y=CURB_HEIGHT;
    // Street trees are limbed up for clearance: crown sits on a clear trunk of at least ~3 m.
-   this.inst(t,'trunk',toV(tr.p,y+cy/2),[r,cy,r]);const tint=new T.Color().setHSL(.22+hash(tr.p[0])*.08,.32,.24+hash(tr.p[1])*.1);this.inst(t,'crown',toV(tr.p,y+cy),[crown,crown*.7,crown],hash(tr.p[0]+tr.p[1])*6,tint);}
+   const rot=hash(tr.p[0]+tr.p[1])*6,tint=new T.Color().setHSL(.22+hash(tr.p[1]*.37)*.08+.0*0,.32,.24+hash(tr.p[1])*.1);tint.setHSL(.22+hash(tr.p[0])*.08,.32,.24+hash(tr.p[1])*.1);
+   this.inst(t,'trunk',toV(tr.p,y+D.cy/2),[D.r,D.cy,D.r],0,null,C?{p:toV(tr.p,y+C.cy/2),s:[C.r,C.cy,C.r]}:{p:toV(tr.p,y),s:[0,0,0]});
+   this.inst(t,'crown',toV(tr.p,y+D.cy),[D.crown,D.crown*.7,D.crown],rot,tint,C?{p:toV(tr.p,y+C.cy),s:[C.crown,C.crown*.7,C.crown]}:{p:toV(tr.p,y),s:[0,0,0]});}
   // Lamps: three kinds (park lanterns, plaza globe clusters, street poles); see park.js.
   this.lamps=lampLayout(d,parkRing,this.fountain?.c);for(const L of this.lamps){const t=this.tile(...L.p);for(const [name,p,r] of lampParts(L,CURB_HEIGHT))this.inst(t,name,p,[1,1,1],r);}
   // Chess tables in the south-west corner.
@@ -138,10 +148,10 @@ export class CampusWorld{
   for(const t of this.tiles.values()){
    for(const [name,b] of Object.entries(t.b)){if(!b.idx.length)continue;const m=new T.Mesh(b.geometry(),name.startsWith('wall')?mats.wall:name.startsWith('roof')?mats.roof:name==='grass'?mats.grass:name==='parkFloor'?mats.parkFloor:name==='arch'?mats.marble:mats.paving);m.castShadow=name.startsWith('wall')||name==='arch';m.receiveShadow=true;m.userData.kind=name;if(name.endsWith('Lod'))(t.lod||(t.lod=[])).push(m);this.disposables.add(m.geometry);t.group.add(m);}
    t.props=new T.Group();t.group.add(t.props);
-   for(const [name,list] of Object.entries(t.inst)){const im=new T.InstancedMesh(geo[name],mats[instMat[name]],list.length);list.forEach((it,k)=>{o3.position.copy(it.p);o3.rotation.set(0,it.r,0);o3.scale.set(...it.s);o3.updateMatrix();im.setMatrixAt(k,o3.matrix);if(it.color)im.setColorAt(k,it.color);});im.castShadow=name==='trunk'||name==='crown'||/Pole$|^pole$|chessTop|chessBase/.test(name);im.receiveShadow=name!=='stripe';im.computeBoundingSphere();(name==='stripe'?t.group:t.props).add(im);}
+   for(const [name,list] of Object.entries(t.inst)){const im=new T.InstancedMesh(geo[name],mats[instMat[name]],list.length);list.forEach((it,k)=>{o3.position.copy(it.p);o3.rotation.set(0,it.r,0);o3.scale.set(...it.s);o3.updateMatrix();im.setMatrixAt(k,o3.matrix);if(it.color)im.setColorAt(k,it.color);});if(list.some(it=>it.clean)){const A=new Float32Array(list.length*16);list.forEach((it,k)=>{const c=it.clean||it;o3.position.copy(c.p);o3.rotation.set(0,it.r,0);o3.scale.set(...c.s);o3.updateMatrix();o3.matrix.toArray(A,k*16);});im.geometry=cleanInstanceAttributes(geo[name].clone(),A);this.disposables.add(im.geometry);im.customDepthMaterial=this.treeDepth||(this.treeDepth=blendInstances(new T.MeshDepthMaterial({depthPacking:T.RGBADepthPacking})));}im.castShadow=name==='trunk'||name==='crown'||/Pole$|^pole$|chessTop|chessBase/.test(name);im.receiveShadow=name!=='stripe';im.computeBoundingSphere();(name==='stripe'?t.group:t.props).add(im);}
    delete t.b;delete t.inst;}
  }
- update(state,time,camera){if(this.decayUniforms)this.decayUniforms.uTime.value=time;if(camera)this.night?.update(time,camera);this.crowd?.update(state,time);const x=camera?camera.position.x:state?.position?.x||0,n=camera?-camera.position.z:state?.position?.z||0;this.visibleTiles=0;for(const t of this.tiles.values()){const dx=Math.max(Math.abs(t.center[0]-x)-TILE/2,0),dn=Math.max(Math.abs(t.center[1]-n)-TILE/2,0),d=Math.hypot(dx,dn);t.group.visible=d<(this.viewDistance||VIEW);if(t.tier2Group){const near=d<DETAIL;t.tier2Group.visible=near;if(t.lod)for(const m of t.lod)m.visible=!near;}if(t.props)t.props.visible=d<PROP_VIEW;if(t.group.visible)this.visibleTiles++;}}
+ update(state,time,camera){if(this.decayUniforms)this.decayUniforms.uTime.value=time;if(this.eraTarget!==undefined&&this.era!==this.eraTarget){const dt=Math.min(.1,Math.max(0,time-(this.eraClock??time)));const d=this.eraTarget-this.era,k=Math.min(Math.abs(d),dt*(this.eraRate||1));this.era+=Math.sign(d)*k;applyDecay(this,this.era*this.era*(3-2*this.era));}this.eraClock=time;if(camera)this.night?.update(time,camera);this.crowd?.update(state,time);const x=camera?camera.position.x:state?.position?.x||0,n=camera?-camera.position.z:state?.position?.z||0;this.visibleTiles=0;for(const t of this.tiles.values()){const dx=Math.max(Math.abs(t.center[0]-x)-TILE/2,0),dn=Math.max(Math.abs(t.center[1]-n)-TILE/2,0),d=Math.hypot(dx,dn);t.group.visible=d<(this.viewDistance||VIEW);if(t.tier2Group){const near=d<DETAIL;t.tier2Group.visible=near;if(t.lod)for(const m of t.lod)m.visible=!near;}if(t.props)t.props.visible=d<PROP_VIEW;if(t.group.visible)this.visibleTiles++;}}
  trackDisposables(g){g.traverse(o=>{if(o.geometry)this.disposables.add(o.geometry);});for(const m of g.userData.materials||[]){this.disposables.add(m);for(const k of ['map','normalMap'])if(m[k])this.disposables.add(m[k]);}}
  dispose(){for(const d of this.disposables)d.dispose?.();this.disposables.clear();}
 }

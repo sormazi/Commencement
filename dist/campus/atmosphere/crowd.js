@@ -1,7 +1,7 @@
 import * as T from '../../vendor/three.module.js';
 import {pointInRing,centroid,ringArea} from '../geometry.js?v=21';
 import {CURB_HEIGHT} from '../collision.js?v=21';
-import {hash,gu,gv,mp,inSlice,DECAY_BINS} from './decay.js?v=21';
+import {hash,gu,gv,mp,inSlice,DECAY_BINS,DECAY} from './decay.js?v=21';
 import {chessLayout} from '../park.js?v=21';
 // Phase 4 first slice: the loiterers. People stand about the park and on the Bobst and Kimmel fronts
 // doing nobody knows what: facing walls, queueing at locked doors, holding lanyards up to dead card
@@ -82,7 +82,8 @@ export function crowdPlan(d,world){const people=[],add=(p,pose,yaw,o={})=>{peopl
 // ---- Runtime -----------------------------------------------------------------------------------
 export function buildCrowd(world){const d=world.data,group=new T.Group();group.name='crowd';const keep=x=>{world.disposables.add(x);return x;};
  const {people,doors}=crowdPlan(d,world);
- const mat=keep(new T.MeshStandardMaterial({vertexColors:true,roughness:.92}));const geos={};for(const pose of POSES)geos[pose]=keep(figure(pose));
+ // The 2126 crowd is part of the decay layer: it dissolves out (screen-door) as the layer goes to 2026.
+ const mat=keep(new T.MeshStandardMaterial({vertexColors:true,roughness:.92}));mat.onBeforeCompile=sh=>{sh.uniforms.uDecay=DECAY;sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nuniform float uDecay;').replace('#include <clipping_planes_fragment>','#include <clipping_planes_fragment>\nif(fract(sin(dot(floor(gl_FragCoord.xy),vec2(12.9898,78.233)))*43758.5453)>uDecay)discard;');};mat.customProgramCacheKey=()=>'nv-crowd';const geos={};for(const pose of POSES)geos[pose]=keep(figure(pose));
  people.forEach(p=>{if(p.pose==='lecturer')p.pose='stand';});
  // One instanced mesh per pose per 120 m tile, parented to the tile's props so it culls with distance.
  const buckets=new Map();for(const p of people){const t=world.tile?world.tile(p.home[0],p.home[1]):null,key=t||'all';const b=buckets.get(key)||buckets.set(key,{t,list:{}}).get(key);(b.list[p.pose]||(b.list[p.pose]=[])).push(p);}

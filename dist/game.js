@@ -74,6 +74,8 @@ window.NightView={start,pause,reset,openOptions,closeOptions,
 // Developer helpers for review screenshots in free-roam locations (map metres: x east, z north; yaw 0 = north).
 teleport:(x,z,yaw=0)=>{if(!currentLocation().freeRoam)return false;simulation=new FixedVehicleLoop(cars[car]);state=simulation.state;placeVehicle({x,z,yaw});return true;},
 viewFrom:o=>{city.cameraOverride=o||null;if(!o)city.preset='';},
+// The decay layer on Washington Square: 0 = clean 2026, 1 = ruined 2126; fades over `seconds` (0 = jump).
+era:(t,seconds=1)=>{const w=city.world;if(!w?.eraTo)return false;if(seconds<=0)w.setDecay(t);else w.eraTo(t,seconds);return true;},
 sky:()=>city.sky.info(),
 renderInfo:()=>{let meshes=0,tris=0;const cam=city.camera,fr=new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse));
  city.scene.traverseVisible(o=>{if(!o.isMesh||!o.geometry)return;if(o.geometry.boundingSphere==null)o.geometry.computeBoundingSphere();const s=o.geometry.boundingSphere.clone().applyMatrix4(o.matrixWorld);if(!fr.intersectsSphere(s))return;meshes++;const g=o.geometry,n=(g.index?g.index.count:g.attributes.position.count)/3;tris+=n*(o.isInstancedMesh?o.count:1);});return {drawCalls:meshes,triangles:Math.round(tris)};},
@@ -81,3 +83,5 @@ getState:()=>({...state,playing,paused,optionsOpen,mode,location:locationId,car,
 if(document.modelContext?.registerTool){try{document.modelContext.registerTool({name:'read_driving_session',description:'Read current vehicle, mode and arcade session statistics.',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true},execute:()=>window.NightView.getState()});document.modelContext.registerTool({name:'start_arcade_drive',description:'Start a fresh free-drive session at the selected modeled location with a chosen vehicle.',inputSchema:{type:'object',properties:{car:{type:'integer',minimum:0,maximum:2}},required:['car'],additionalProperties:false},execute:input=>{if(!Number.isInteger(input.car)||input.car<0||input.car>2)throw Error('Car must be 0, 1 or 2.');document.querySelector(`[data-car="${input.car}"]`).click();chooseMode('demo');car=input.car;mode='demo';start();return window.NightView.getState();}});}catch(e){console.warn('WebMCP unavailable',e);}}
 
 start();paused=true;document.body.classList.add('booting');setTimeout(dismissIntro,2400);
+// Era option (Washington Square only): the decay layer fades between 2126 and 2026.
+{const e=$('era');if(e){const q=new URLSearchParams(location.search).get('era');if(q==='2026')e.value='2026';e.addEventListener('change',()=>city.world?.eraTo?.(e.value==='2026'?0:1));}}

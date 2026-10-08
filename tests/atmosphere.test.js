@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {inSlice,DECAY_BINS,treeBoost,decayKind,gu,gv} from '../dist/campus/atmosphere/decay.js';
+import {inSlice,DECAY_BINS,treeBoost,decayKind,gu,gv,DECAY,applyDecay} from '../dist/campus/atmosphere/decay.js';
 import {flicker} from '../dist/campus/atmosphere/night.js';
 import {crowdPlan} from '../dist/campus/atmosphere/crowd.js';
 import {SPEAKER} from '../dist/soundtrack.js';
@@ -26,4 +26,6 @@ test('crowds: the park slice roles plus queues at NYU doors and people on the pl
  const near=data.buildings.filter(b=>people.some(p=>Math.abs(b.rings[0][0][0]-p.home[0])<150&&Math.abs(b.rings[0][0][1]-p.home[1])<150));
  for(const p of people)if(p.role!=='wall'&&p.role!=='reader')for(const b of near)assert.ok(!pointInRing(p.home,b.rings[0]),p.role+' inside '+b.bin);});
 test('the broken loudspeaker stands just south of the Arch, on open ground',()=>{assert.ok(Math.hypot(SPEAKER.x,SPEAKER.z)<25);assert.ok(Math.hypot(SPEAKER.x+30,SPEAKER.z+46)>20,'clear of the fountain');});
+test('the decay layer is one shared level that hooks follow, from clean 2026 (0) to the 2126 ruin (1)',()=>{const seen=[];const w={decayHooks:[t=>seen.push(t)]};
+ applyDecay(w,0);assert.equal(DECAY.value,0);applyDecay(w,.5);applyDecay(w,1);assert.deepEqual(seen,[0,.5,1]);assert.equal(DECAY.value,1);});
 console.log('atmosphere: '+passed+' passed');
