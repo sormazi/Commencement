@@ -1,2 +1,4 @@
-// 31 West 4th Street. 1900, 4 storeys. Not checked on Street View (estimate).
-export default {slug:"w4th31",name:"31 West 4th Street",bin:1008815,also:[],source:"1900, 4 storeys. Not checked on Street View (estimate).",wall:'brickRed',trim:'limestone',ground:{h:4.0,style:'base',mat:'limestone'},floor:3.4,pitch:3.0,win:[1.05,2.0],sash:1,lintel:.22,cornice:'modillion',doors:[{rank:0,at:.5,w:1.8,h:2.9}]};
+// 31 West 4th Street. Status: observed. 1900, 4 storeys. Not checked on Street View (estimate). Observed on Street View,
+// 2026 pass: Apr 2026 (Greene St): red brick upper storeys with plain rectangular windows over a two-storey tan stone
+// base of wide office windows.
+export default {slug:"w4th31",name:"31 West 4th Street",status:"observed",bin:1008815,also:[],source:"1900, 4 storeys. Not checked on Street View (estimate). Observed on Street View, 2026 pass: Apr 2026 (Greene St): red brick upper storeys with plain rectangular windows over a two-storey tan stone base of wide office windows.",wall:'brickRed',trim:'limestone',ground:{h:4.0,style:'base',mat:'concrete',win:[2.6,2.2],pitch:3.0},base:{to:7.6,mat:'concrete'},floor:3.4,pitch:3.0,win:[1.05,2.0],sash:1,lintel:.22,cornice:'modillion',doors:[{rank:0,at:.5,w:1.8,h:2.9}]};
