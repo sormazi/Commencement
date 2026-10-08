@@ -46,9 +46,11 @@ float crack=1.-smoothstep(.004,.014,abs(dkNoise(dp*1.3)-.5)),crack2=1.-smoothste
 diffuseColor.rgb*=mix(.72,1.,fine)*mix(.78,1.,smoothstep(.3,.7,broad));
 diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.07,.09,.05),max(crack,crack2*.6)*.85*smoothstep(.42,.62,dkNoise(dp*.11+4.)));
 diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.2,.23,.12),smoothstep(.72,.88,broad)*.55);`,
+ cloth:`float broad=dkNoise(dp*.6),fine=dkNoise(dp*11.);float lum=dot(diffuseColor.rgb,vec3(.3,.59,.11));
+diffuseColor.rgb=mix(diffuseColor.rgb,vec3(lum)*.8+vec3(.17,.16,.14),.5);diffuseColor.rgb*=mix(.78,1.,fine);diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.33,.31,.26),smoothstep(.55,.9,broad)*.45);`,
  light:`float broad=dkNoise(dp*.6),fine=dkNoise(dp*11.);float streak=pow(dkNoise(vec3(dp.x*3.,dp.y*.06,dp.z*3.)),4.);
 diffuseColor.rgb*=mix(.7,.95,fine)*(1.-streak*.45);diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.3,.29,.24),smoothstep(.5,.9,broad)*.5);`};
-const ROUGH={paving:'',masonry:'roughnessFactor=clamp(roughnessFactor+.08-moss*.25,.35,1.);',glass:'roughnessFactor=mix(.08,.7,grime);',metal:'roughnessFactor=mix(roughnessFactor,.9,rust);metalnessFactor=mix(metalnessFactor,.15,rust);',light:''};
+const ROUGH={cloth:'',paving:'',masonry:'roughnessFactor=clamp(roughnessFactor+.08-moss*.25,.35,1.);',glass:'roughnessFactor=mix(.08,.7,grime);',metal:'roughnessFactor=mix(roughnessFactor,.9,rust);metalnessFactor=mix(metalnessFactor,.15,rust);',light:''};
 export function decayMaterial(material,kind='masonry'){const m=material.clone();
  if(kind==='glass'){m.transparent=false;m.opacity=1;m.depthWrite=true;m.emissiveIntensity=0;}
  if(m.emissive&&kind!=='light')m.emissiveIntensity=Math.min(m.emissiveIntensity||0,.02);
@@ -68,6 +70,10 @@ export function ivyTexture(){return tex(128,128,(g,w,h)=>{const r=(i=>()=>(i=(i*
 export function grassTexture(){return tex(64,128,(g,w,h)=>{const r=(i=>()=>(i=(i*16807)%2147483647)/2147483647)(5);g.clearRect(0,0,w,h);
  for(let i=0;i<34;i++){const x=4+r()*(w-8),top=h*(.05+r()*.5),bend=(r()-.5)*18;g.strokeStyle=`hsl(${45+r()*35},${18+r()*22}%,${26+r()*26}%)`;g.lineWidth=1+r()*1.6;g.beginPath();g.moveTo(x,h);g.quadraticCurveTo(x+bend*.3,(h+top)/2,x+bend,top);g.stroke();
   if(r()<.25){g.fillStyle=`hsl(${40+r()*15},40%,${55+r()*20}%)`;g.beginPath();g.ellipse(x+bend,top,1.8,4.5,0,0,Math.PI*2);g.fill();}}});}
+// Alpha mask for torn cloth: white where the cloth survives, black where it has rotted away (green channel).
+export function ragMask(){return tex(64,160,(g,w,h)=>{const r=(i=>()=>(i=(i*16807)%2147483647)/2147483647)(29);g.fillStyle='#000';g.fillRect(0,0,w,h);g.fillStyle='#fff';
+ const cols=6;for(let c=0;c<cols;c++){const x0=c*w/cols,len=h*(.4+r()*.58);g.beginPath();g.moveTo(x0,0);g.lineTo(x0+w/cols+.5,0);g.lineTo(x0+w/cols+.5-r()*3,len*(.8+r()*.2));g.lineTo(x0+w/cols*(.3+r()*.4),len);g.lineTo(x0+r()*3,len*(.75+r()*.2));g.closePath();g.fill();}
+ g.fillStyle='#000';for(let i=0;i<8;i++)g.fillRect(r()*w,10+r()*h*.45,2+r()*5,2+r()*7);});}
 export function bannerTexture(){return tex(64,192,(g,w,h)=>{const r=(i=>()=>(i=(i*16807)%2147483647)/2147483647)(23);g.clearRect(0,0,w,h);
  // Sun-bleached violet cloth, torn into ragged strips from the bottom up, with holes.
  const cols=7;for(let c=0;c<cols;c++){const x0=c*w/cols,len=h*(.35+r()*.6);const grd=g.createLinearGradient(0,0,0,len);grd.addColorStop(0,'#a796b0');grd.addColorStop(.5,'#9c8aa6');grd.addColorStop(1,'#b8adbd');g.fillStyle=grd;g.beginPath();g.moveTo(x0,0);g.lineTo(x0+w/cols+.5,0);
@@ -134,41 +140,36 @@ export function buildDecay(world){const d=world.data,group=new T.Group();group.n
  const ig=keep(new T.PlaneGeometry(1,1).translate(0,.5,0)),im=keep(new T.MeshStandardMaterial({map:keep(ivyTexture()),alphaTest:.4,side:T.DoubleSide,roughness:.9}));const ivyMesh=new T.InstancedMesh(ig,im,ivy.length),col=new T.Color();
  ivy.forEach((v,i)=>{o3.position.copy(toV(v.p,v.y));o3.rotation.set(0,v.yaw,(v.c-.5)*.5);o3.scale.set(v.s,v.s,1);o3.updateMatrix();ivyMesh.setMatrixAt(i,o3.matrix);ivyMesh.setColorAt(i,col.setHSL(.24+v.c*.06,.3,.45+v.c*.25));});
  ivyMesh.computeBoundingSphere();ivyMesh.name='ivy';group.add(ivyMesh);stats.ivy=ivy.length;
- // 4. Shredded, sun-bleached violet banners on the lamp posts round the park edge (two per post).
- const posts=P?d.lamps.filter(l=>inSlice(l.p)&&!pointInRing(l.p,P)&&hash(l.p[0]*1.3+l.p[1])<.5):[];
- const bg=keep(new T.PlaneGeometry(.62,1.8).translate(0,-.9,0)),bm=new T.InstancedMesh(bg,cache.banner,posts.length*2);
- posts.forEach((l,i)=>{for(const s of [-1,1]){const yaw=hash(i*5)*6.28+(s>0?Math.PI:0);o3.position.copy(toV([l.p[0]+Math.sin(yaw)*.38,l.p[1]+Math.cos(yaw)*.38],CURB_HEIGHT+4.0));o3.rotation.set(0,yaw+Math.PI/2,(hash(i+s)-.5)*.12);o3.scale.set(1,.7+hash(i*2+s)*.5,1);o3.updateMatrix();bm.setMatrixAt(i*2+(s>0?1:0),o3.matrix);}});
- bm.computeBoundingSphere();bm.name='banners';group.add(bm);stats.banners=posts.length*2;
- // 5. The chess tables in the south-west corner of the park, one game still set up.
+ // 4. Signage decals (signage.js): grimy and sun-bleached; pole banners also torn into ragged strips.
+ if(world.signage){const weathered={},rag=keep(ragMask());for(const im of world.signage.group.children){const id=im.userData.decal,src=im.material;const m=keep(decayMaterial(src,'cloth'));
+   if(im.userData.kind==='pole-banner'){m.alphaMap=rag;m.alphaTest=.5;}weathered[id]=m;im.material=m;stats.banners+=im.count;}
+  world.onSignage=(id,mat)=>{const m=weathered[id];if(m){m.map=mat.map;m.needsUpdate=true;}};}
+ // 5. Park furniture weathers too: granite fountain and chess tables stain, steel poles rust, bench slats grey.
+ const swap=new Map();for(const [k,kind] of [['granite','masonry'],['steel','metal'],['wood','masonry']]){const m=world.materials[k];if(!m)continue;const w=keep(decayMaterial(m,kind));if(k==='wood')w.color.set(0x5d5348);swap.set(m,w);world.materials[k]=w;}
+ if(Array.isArray(world.materials.chessTop)){const arr=world.materials.chessTop.map(m=>{if(!swap.has(m))swap.set(m,keep(decayMaterial(m,'light')));return swap.get(m);});swap.set(world.materials.chessTop,arr);world.materials.chessTop=arr;}
+ world.group.traverse(o=>{if(!o.isMesh)return;if(swap.has(o.material))o.material=swap.get(o.material);});
+ // 6. The chess tables in the south-west corner of the park, one game still set up.
  group.add(chessCorner(world,P,keep,o3));
  world.decayUniforms=uniforms;world.decayStats=stats;return group;}
 // Tree boost for the park: the trees have had a century to grow.
 export function treeBoost(p,park){if(!park||!pointInRing(p,park)||!inSlice(p))return null;const h=hash(p[0]*.7+p[1]*1.3);return {height:1.55+h*.45,crown:1.7+h*.6,trunk:1.5};}
 // Volunteer trees self-seeded in the lawns (positions only; solid like the others).
 export function volunteerTrees(d,park){if(!park)return [];const out=[];d.areas.filter(a=>a.kind==='grass'&&pointInRing(centroid(a.ring),park)&&Math.abs(ringArea(a.ring))>250).forEach((a,i)=>{if(hash(i*3.7)<.55){const p=scatter(a.ring,1,9000+i*13)[0];if(p)out.push({p,dbh:22+hash(i)*16,volunteer:true});}});return out;}
-function chessCorner(world,P,keep,o3){const g=new T.Group();g.name='chess tables';if(!P)return g;
- // South-west corner of the park in the grid frame (u min, v min), set 14 m in along both edges.
- const us=P.map(gu),vs=P.map(gv),u0=Math.min(...us)+14,v0=Math.min(...vs)+12;
- const stone=keep(decayMaterial(new T.MeshStandardMaterial({color:0x9b968b,roughness:.9}),'masonry')),board=keep(new T.MeshStandardMaterial({map:keep(chessTexture()),roughness:.85}));
- const tables=[];for(let i=0;i<3;i++)for(let j=0;j<2;j++)tables.push(mp(u0+i*4.2,v0+j*4.4));
- const yaw=Math.atan2(GU[0],GU[1]);
- for(const [k,p] of tables.entries()){const base=new T.Mesh(keep(new T.CylinderGeometry(.22,.3,.72,10)),stone);base.position.copy(toV(p,CURB_HEIGHT+.36));
-  const top=new T.Mesh(keep(new T.BoxGeometry(.95,.07,.95)),[stone,stone,board,stone,stone,stone]);top.position.copy(toV(p,CURB_HEIGHT+.75));top.rotation.y=yaw+(k===3?.08:0);g.add(base,top);
-  for(const s of [-1,1]){const st=new T.Mesh(keep(new T.CylinderGeometry(.2,.24,.45,8)),stone);st.position.copy(toV([p[0]+GV[0]*s*.85,p[1]+GV[1]*s*.85],CURB_HEIGHT+.22));g.add(st);}}
+function chessCorner(world,P,keep,o3){const g=new T.Group();g.name='chess game';const tables=world.chessTables||[];if(!tables.length)return g;
  // A game abandoned mid-way on the first table: pawns, a few pieces, two knocked over.
- const t0=tables[0],sq=.95/10,at=(f,r)=>{const u=(f-3.5)*sq,v=(r-3.5)*sq;return [t0[0]+GU[0]*u+GV[0]*v,t0[1]+GU[1]*u+GV[1]*v];};
+ const t0=tables[0].p,ax=tables[0].axis,pe=[ax[1],-ax[0]],sq=.8/10,at=(f,r)=>{const u=(f-3.5)*sq,v=(r-3.5)*sq;return [t0[0]+ax[0]*u+pe[0]*v,t0[1]+ax[1]*u+pe[1]*v];};
  const pawn=keep(new T.LatheGeometry([[0,0],[.028,0],[.026,.012],[.014,.03],[.012,.05],[.02,.06],[0,.075]].map(([x,y])=>new T.Vector2(x,y)),8));
  const tall=keep(new T.LatheGeometry([[0,0],[.032,0],[.03,.014],[.015,.04],[.013,.08],[.022,.095],[.012,.11],[0,.125]].map(([x,y])=>new T.Vector2(x,y)),8));
  const W=[[0,1],[1,1],[2,3],[3,3],[5,1],[6,2],[7,1],[4,0,'t'],[6,0,'t'],[2,0,'t'],[3,2,'t']],B=[[0,6],[1,5],[3,4],[4,6],[5,6],[6,6],[7,5],[4,7,'t'],[2,5,'t'],[5,7,'t'],[0,7,'t',1],[6,4,'t',1]];
  for(const [list,c] of [[W,0xd8d0bc],[B,0x26231f]]){const mat=keep(decayMaterial(new T.MeshStandardMaterial({color:c,roughness:.6}),'light'));
   for(const kind of ['p','t']){const L=list.filter(x=>(x[2]||'p')===kind);if(!L.length)continue;const m=new T.InstancedMesh(kind==='p'?pawn:tall,mat,L.length);
-   L.forEach((x,i)=>{const q=at(x[0],x[1]);o3.position.copy(toV(q,CURB_HEIGHT+.785+(x[3]?.02:0)));o3.rotation.set(x[3]?Math.PI/2:0,hash(i)*3,0);o3.scale.setScalar(1.4);o3.updateMatrix();m.setMatrixAt(i,o3.matrix);});m.computeBoundingSphere();g.add(m);}}
- g.userData.tables=tables;return g;}
+   L.forEach((x,i)=>{const q=at(x[0],x[1]);o3.position.copy(toV(q,CURB_HEIGHT+.76+(x[3]?.02:0)));o3.rotation.set(x[3]?Math.PI/2:0,hash(i)*3,0);o3.scale.setScalar(1.4);o3.updateMatrix();m.setMatrixAt(i,o3.matrix);});m.computeBoundingSphere();g.add(m);}}
+ return g;}
 // The fountain, dry: a stained basin with leaf litter, moss on the rim and a young tree in the middle.
 export function dryFountain(g,r,keep){const basinMat=keep(new T.MeshStandardMaterial({map:keep(basinTexture()),roughness:.95}));basinMat.map.repeat.set(r/4,r/4);
- for(const m of g.children){if(m.material&&m.material.color&&m.geometry.type==='CircleGeometry'){m.material=basinMat;m.position.y=.03;}
+ for(const m of g.children){if(m.material&&m.material.color&&m.geometry.type==='CircleGeometry'){m.material=basinMat;m.position.y=.07;}
   else if(m.material&&m.material.color)m.material=keep(decayMaterial(m.material,'masonry'));}
- const ring=new T.Mesh(keep(new T.TorusGeometry(r-.25,.18,6,64)),keep(new T.MeshStandardMaterial({color:0x3f4a26,roughness:1})));ring.rotation.x=Math.PI/2;ring.position.y=.12;g.add(ring);
+ const ring=new T.Mesh(keep(new T.TorusGeometry(r-1.95,.2,6,64)),keep(new T.MeshStandardMaterial({color:0x3f4a26,roughness:1})));ring.rotation.x=Math.PI/2;ring.position.y=.1;g.add(ring);
  const sap=new T.Group();const trunk=new T.Mesh(keep(new T.CylinderGeometry(.08,.14,3.2,6)),keep(new T.MeshStandardMaterial({color:0x4b4134,roughness:1})));trunk.position.y=1.6;trunk.rotation.z=.08;
  const crown=new T.Mesh(keep(new T.IcosahedronGeometry(1.4,1)),keep(new T.MeshStandardMaterial({color:0x4f5f2c,roughness:.9,flatShading:true})));crown.position.set(.2,3.4,0);crown.scale.set(1,.8,1);sap.add(trunk,crown);sap.position.set(1.8,.05,-1.2);g.add(sap);
  return g;}

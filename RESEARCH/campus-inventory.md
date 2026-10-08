@@ -33,7 +33,7 @@ This section supersedes the matching facts further down. Two new tags:
 
 ### Decisions from Avi
 - **Q1**: Washington Sq E and University Pl are a straight continuation, as the city data shows.
-- **Q3–Q6** (fountain plaza level, chess tables, lamp posts, banners): placeholders, not modelled in detail, until photos arrive in `RESEARCH/my-photos/`; the photos then become the authoritative source. My one park-lamp observation below is recorded but not acted on.
+- **Q3–Q6** (fountain plaza level, chess tables, lamp posts, banners): first placeholders pending photos in `RESEARCH/my-photos/`; Avi's plan of 7 Oct then set Step 4 to take them from Street View, done 8 Oct (section 2.5b). Photos in `RESEARCH/my-photos/`, if added, override.
 - **Brown Building and the Triangle Fire memorial**: intact and dignified while everything around them decays; excluded from every joke, billboard and banner.
 
 ### NYC 3D Building Model ingested
@@ -132,7 +132,7 @@ This section supersedes the matching facts further down. Two new tags:
 | **Shimkin Hall / KMC**, W 4th St | [O Apr 2026] | **Leon Shimkin Hall is 50 W 4th St** (sign "LEON SHIMKIN HALL / NEW YORK UNIVERSITY"): buff stone neoclassical. To its east, the **Kaufman Management Center**: buff panels with **red-painted window frames** in large gridded openings. |
 | **Tisch Hall** (seen from the foot of Greene St) | [O Apr 2026] | Red sandstone with a regular window grid and a dark recessed top floor. The **sidewalk shed** seen in front of it stands on the W 4th front of Gould Plaza (see the shed row in Research update 4b; corrected 7 Oct 2026). |
 | **Silver Towers** | Bleecker St [O Apr 2026] | Buff concrete towers with gridded recessed windows rising above bare trees. Paulson's glass is visible to the left. |
-| Park lamp (Q4, not acted on) | inside the park [O Jun 2021] | Black cast-iron post with a lantern-style head. Recorded only; your photos decide. |
+| Park lamp (Q4) | inside the park [O Jun 2021, Jul 2017] | Black cast-iron post with a lantern-style head on the paths; five-globe clusters round the fountain plaza [O Sep 2015]. Modelled in Step 4. |
 
 ### Status of the 24 questions
 
@@ -140,7 +140,8 @@ This section supersedes the matching facts further down. Two new tags:
 |---|---|---|
 | Q1 | **Resolved** | Avi: straight continuation |
 | Q2 / Q11 Weinstein | **Partly resolved** | Exterior and entrance observed (above). Still needed: security desk and card-reader positions, where the dining-hall entrance is, how the East and West towers read |
-| Q3–Q6 | **Waiting for Avi's photos** | Placeholders, not modelled |
+| Q2–Q5 | **Resolved on Street View (8 Oct 2026)** | Fountain plaza flush with three inner steps; 13 chess tables in the SW plaza; three lamp types; banners on three posts only. See section 2.5b. Avi's photos, if they come, still override |
+| Q6 Gould Plaza sculpture | Open | |
 | Q7 Mercer–Houston dog run | Open | Not found in the Dog Runs dataset or the aerial |
 | Q8 Bobst | **Partly resolved** | Exterior observed. Open: which door is the main entrance; what the atrium screens are now |
 | Q9 Silver Center | **Resolved** | Observed |
@@ -271,6 +272,13 @@ Street furniture in the area from open data [D]: 318 traffic signals, 866 hydran
 All [D]. The two largest lawns are ~3,000 m² north of the fountain (-64, 19) and ~2,100 m² west (-106, -38). The northwest lawn reopened in 2020 after restoration (39,000 sq ft of turf) [S].
 
 **Chess and checkers tables, southwest corner**: not mapped in OSM at all. [K] They sit in the plaza at the park's southwest corner by MacDougal Street and Washington Square South, stone tables with inlaid boards and fixed stools. I need position and count from you or a photo (Q3).
+
+### 2.5b Park details observed on Street View (Step 4, 8 Oct 2026)
+All looked at in Google Maps (Street View and user photospheres), nothing saved; dates are imagery dates.
+- **Fountain plaza (Q2)** [O Sep 2015, Jul 2017]: the plaza is flush with the paths, light granite with darker radial bands. The fountain rim is a low granite wall with a coping about 0.6 m up; inside, three broad steps go down to the basin floor; wedge-shaped spout blocks sit on the rim (I could see about four on the near half, so about eight); a round stepped pedestal carries the centre jet.
+- **Chess tables (Q3)** [O Jul 2017]: Google Maps place "Washington Square West Chess Tables" at 40.73105, -73.99915. A small plaza of hexagonal asphalt blocks round a fenced, planted round bed; square tables with inlaid boards (light and dark squares) on single pedestals, in rows along the planted edges, with benches. I counted 13 tables.
+- **Lamp posts (Q4)**: plaza, five white globes on a black post [O Sep 2015]; paths, black post with a six-sided lantern and cap [O Jul 2017]; streets round the park, tall grey steel poles with an arm [O May 2026].
+- **Banners (Q5)** [O May 2026]: violet and white NYU pole banners (NYU lettering with the torch, which we leave out) on the two Washington Sq W lamp posts north of W 4th St, building side; white Washington Square Park banners with green lettering and the park's logo (left out) on the first of those posts and on the post in front of 19 Washington Square North. None seen on the other posts along Washington Sq S, Washington Sq N, LaGuardia Pl, University Pl or W 4th St. Building flags (violet NYU flags over entrances) are separate and come with each building's spec.
 
 ### 2.6 Other public spaces
 

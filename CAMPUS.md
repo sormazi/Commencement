@@ -34,15 +34,32 @@ The car can drive on every road, on sidewalks and through the park's paved paths
 
 - The world is flat. Real ground elevation varies by a few metres across the area; it is ignored.
 - Walls use a generic window texture until the facade pass. Roof forms come from 2014, so buildings altered since then may differ.
-- The Arch is massing only (piers and attic). The fountain is a plain ring.
-- Benches have no orientation yet; lamp posts and fences use one generic style.
+- Benches have no orientation yet; fences use one generic style.
 - Crosswalks come from OSM and are incomplete; there are no lane markings yet.
-- Retaining walls around the fountain plaza are drawn but not solid, pending confirmation of the plaza's level.
+- The fountain plaza is flush with the paths (seen on Street View); the OSM retaining walls round it are not drawn as walls.
 - Performance has only been checked in software WebGL in a headless browser (not representative). It has not been profiled on a real mid-range laptop yet.
 
 ## Developer helpers
 
 In the browser console: `NightView.teleport(x, z, yaw)` moves the car to map metres (x east, z north, yaw 0 = north). `NightView.viewFrom({x, y, n, lx, ly, ln, fov, fog, view})` fixes the camera for review screenshots; `NightView.viewFrom(null)` returns to the chase camera. `NightView.renderInfo()` reports draw calls and triangles inside the current view. `NightView.sky()` reports the New York time, sun and moon position, lamp level and whether shadows are on; add `?time=HH:MM`, `?date=YYYY-MM-DD` and `?speed=N` to the address to preview other times.
+
+## Park details (Phase 2, Step 4)
+
+- `dist/campus/park.js`, from Street View and user photospheres on Google Maps (looked at, not saved; dates in the file):
+  - Fountain: one lathe for the granite rim, coping and three inner steps down to the basin floor, a stepped centre pedestal and eight spout blocks on the rim. The plaza is level with the paths.
+  - Lamp posts in three kinds: black posts with clusters of five globes in the two rings round the fountain plaza (16), black posts with six-sided lanterns along the park paths (116), grey steel street poles with an arm over the road outside the park. Night lighting glows at each kind's real head.
+  - Chess tables: 13 granite tables with inlaid boards and a bench either side, in two rows round the small south-west plaza (Google Maps place "Washington Square West Chess Tables"). They are solid to the car.
+  - Banners on lamp posts only where Street View shows them (see Signage below). The earlier violet banners on half the park-edge posts were a guess and are gone.
+- Cost: lamps, tables and benches are instanced per 120 m tile (a few draw calls per tile); the fountain is four meshes.
+- Limits: lamp positions come from OSM, styles from where each lamp stands. The plaza paving pattern (light granite with radial bands) is not drawn yet.
+
+## Signage decals
+
+- Every flag, banner, sign and plaque is a separate decal with its own texture file in `dist/assets/signage/` and an entry in `dist/assets/signage/manifest.js`: id, file, kind, size in metres, where and when it was seen, and every placement (map position, height, facing, and a description of the spot).
+- To use your own image, replace the PNG with one of the same name; keep the aspect ratio of the decal's size. The game draws a plain-lettering fallback until the PNG loads, so a missing file never breaks anything. `tools/make-signage.py` regenerates the PNGs from the manifest (it skips files that exist unless you name their id).
+- `dist/campus/signage.js` turns each decal into one instanced plane, so a decal costs one draw call however many times it is placed.
+- Rules: NYU appears as plain lettering on NYU violet (#57068c), never the torch or any logo artwork; businesses appear as their names in matching colours and lettering style without logo artwork. Nothing is placed on or names the Brown Building or the Triangle Fire memorial (a test checks this).
+- In the decay pass decals get grime and sun bleaching, and pole banners are torn into ragged strips.
 
 ## Time of day (real New York time)
 
@@ -65,7 +82,8 @@ In the browser console: `NightView.teleport(x, z, yaw)` moves the car to map met
 - `dist/campus/tier2/kit.js`: builds a spec on the building's NYC 3D Building Model volume (or the footprint extruded to the surveyed height when the model lacks it). Walls that face a neighbouring footprint are party walls and stay blank up to the neighbour's height; coplanar walls from stacked roof pieces are deduplicated. Entrances go on walls that face open ground.
 - `dist/campus/tier2/world.js`: merges all kit geometry per 120 m tile and per material with one shared material set, so the cost is a handful of draw calls per tile. Doors are one instanced mesh; `world.doors` lists each with building, position, facing and size for the future walking character.
 - Level of detail: kit facades within 260 m of the camera, plain massing beyond.
-- Limits: about a third of the specs were checked on Street View; the others are estimates from the inventory, the period and the neighbours. Window counts follow a regular pitch, not each building's real bay count. Signs are plain text panels. The Puck figures are plain gilt placeholders. Interiors do not exist yet behind the doors.
+- Every spec carries `status: "observed"` (70 of 73, checked on Street View) or `"estimate"` (the E 8th St houses and the rear parts of 21 and 22 Washington Square North, which Street View cannot see). The residence halls, Silver Towers, Washington Square Village and the NYU buildings facing the park give their real bay count per face (`bays: {n: 24}`) and storey count (`storeys`), counted on Street View; the kit spaces windows to match. The rest keep a regular pitch.
+- Limits: signs are plain text panels. The Puck figures are plain gilt placeholders. Interiors do not exist yet behind the doors.
 
 ## Landmark detail (Phase 2 detail pass)
 

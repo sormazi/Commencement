@@ -11,6 +11,8 @@ import {buildDecay,treeBoost,volunteerTrees,dryFountain,inSlice} from './atmosph
 import {buildNight} from './atmosphere/night.js?v=21';
 import {buildCrowd} from './atmosphere/crowd.js?v=21';
 import {buildSpeaker} from './atmosphere/speaker.js?v=21';
+import {buildSignage} from './signage.js?v=21';
+import {buildFountain,lampLayout,lampParts,chessLayout,chessParts,furnitureGeometry,furnitureMaterial,chessTopMaterial} from './park.js?v=21';
 import {buildTier2,TIER2_BINS} from './tier2/world.js?v=21';
 import {classify,facadeCode,GENERIC_CODE,tier3Enabled,facadeAtlas,patchFacadeMaterial} from './tier3/facades.js?v=21';
 // Free-roam world for Washington Square · NYU. Phase 0: real street/curb/sidewalk/park layout and
@@ -58,7 +60,7 @@ export function paulsonMassing(ring){const c=centroid(ring);let sxx=0,sxy=0,syy=
  return [{ring,h:PAULSON.podium},{ring:clipHalf(ring,ax,an,hi-L*PAULSON.northShare,true),h:PAULSON.towerN},{ring:clipHalf(ring,ax,an,lo+L*PAULSON.southShare,false),h:PAULSON.towerS}].filter(m=>m.ring.length>=3);}
 export class CampusWorld{
  constructor(config){this.config=config;this.freeRoam=true;const c=campus();this.campus=c;this.data=c.data;this.collision=c.collision;this.streets=c.streets;this.spawn=c.spawn;
-  this.stats={model:0,extruded:0,estimated:0};this.group=new T.Group();this.group.name='washington-square';this.tiles=new Map();this.disposables=new Set();this.rowBin=ROW_BINS[0];this.rowBins=ROW_BINS;this.build();this.decay=buildDecay(this);this.group.add(this.decay);this.night=buildNight(this);this.group.add(this.night.group);this.night.setNight(false);this.crowd=buildCrowd(this);this.group.add(this.crowd.group);this.group.add(buildSpeaker(this));}
+  this.stats={model:0,extruded:0,estimated:0};this.group=new T.Group();this.group.name='washington-square';this.tiles=new Map();this.disposables=new Set();this.rowBin=ROW_BINS[0];this.rowBins=ROW_BINS;this.build();this.group.add(buildSignage(this));this.decay=buildDecay(this);this.group.add(this.decay);this.night=buildNight(this);this.group.add(this.night.group);this.night.setNight(false);this.crowd=buildCrowd(this);this.group.add(this.crowd.group);this.group.add(buildSpeaker(this));}
  // Manual atmosphere presets fix the lamps and ground fog; Real NYC time sets them continuously through setSky.
  setPreset(p){if(p!=='realtime')this.night?.setNight(p==='night');}
  setSky(lamps,cards,fog){this.night?.setLevels(lamps,cards,fog);}
@@ -72,6 +74,9 @@ export class CampusWorld{
   const grassTex=canvasTexture(128,128,(g,w,h)=>{g.fillStyle='#7f8e5e';g.fillRect(0,0,w,h);for(let i=0;i<1600;i++){g.fillStyle=`hsl(${70+hash(i)*30},${25+hash(i+3)*20}%,${30+hash(i+5)*20}%)`;g.fillRect(hash(i+7)*w,hash(i+9)*h,1,2+hash(i)*3);}});
   this.materials={wall:patchFacadeMaterial(new T.MeshStandardMaterial({map:facadeAtlas(T),vertexColors:true,roughness:.86})),roof:new T.MeshStandardMaterial({vertexColors:true,roughness:.95}),paving:new T.MeshStandardMaterial({map:pavingTex,vertexColors:true,roughness:.9}),grass:new T.MeshStandardMaterial({map:grassTex,vertexColors:true,roughness:1,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2}),parkFloor:new T.MeshStandardMaterial({map:pavingTex,vertexColors:true,roughness:.92,polygonOffset:true,polygonOffsetFactor:-1,polygonOffsetUnits:-1}),marble:new T.MeshStandardMaterial({color:0xe8e4da,roughness:.6}),iron:new T.MeshStandardMaterial({color:0x1d2124,metalness:.6,roughness:.5}),bark:new T.MeshStandardMaterial({color:0x4d4436,roughness:1}),leaves:new T.MeshStandardMaterial({color:0xffffff,roughness:.9,flatShading:true}),stripe:new T.MeshStandardMaterial({color:0xe9e7df,roughness:.7,polygonOffset:true,polygonOffsetFactor:-4,polygonOffsetUnits:-4}),water:new T.MeshStandardMaterial({color:0x2c3a3c,roughness:.25,metalness:.2}),lamp:new T.MeshStandardMaterial({color:0xfff1cf,emissive:0xffd59a,emissiveIntensity:1.2})};
   for(const m of Object.values(this.materials)){this.disposables.add(m);if(m.map)this.disposables.add(m.map);}
+  // Park furniture (park.js): granite for the fountain and chess tables, grey steel street poles, bench slats.
+  Object.assign(this.materials,{granite:new T.MeshStandardMaterial({color:0xb9b4aa,roughness:.75}),steel:new T.MeshStandardMaterial({color:0x8d9296,metalness:.5,roughness:.5}),wood:new T.MeshStandardMaterial({color:0x6b4a32,roughness:.85})});
+  for(const k of ['granite','steel','wood'])this.disposables.add(this.materials[k]);this.materials.chessTop=chessTopMaterial();for(const m of new Set(this.materials.chessTop)){this.disposables.add(m);if(m.map)this.disposables.add(m.map);}
   // Asphalt everywhere at y=0; blocks and sidewalks are raised by the curb height.
   const B=d.meta.bounds,w=B.maxX-B.minX+600,h=B.maxN-B.minN+600;asphaltTex.repeat.set(w/9,h/9);const ground=new T.Mesh(new T.PlaneGeometry(w,h),new T.MeshStandardMaterial({map:asphaltTex,color:0x8c8f92,roughness:.88}));ground.rotation.x=-Math.PI/2;ground.position.set((B.minX+B.maxX)/2,0,-(B.minN+B.maxN)/2);ground.receiveShadow=true;ground.userData.noShadow=true;this.group.add(ground);this.disposables.add(ground.geometry);this.disposables.add(ground.material);
   // Sidewalk/block slabs: outer outlines only, skipping slabs wholly inside a larger one (park walks).
@@ -103,28 +108,37 @@ export class CampusWorld{
   // Sidewalk sheds seen on Street View (street furniture; see landmarks/sheds.js for dates).
   {const g=buildSheds();this.tile(110,-200).group.add(g);this.trackDisposables(g);}
   // Fountain: rim, basin and centre jet. Radius from the OSM outline.
-  for(const a of d.areas.filter(a=>a.kind==='fountain')){const c=centroid(a.ring),r=a.ring.reduce((s,p)=>s+Math.hypot(p[0]-c[0],p[1]-c[1]),0)/a.ring.length;if(r<2)continue;const g=new T.Group();g.position.copy(toV(c,CURB_HEIGHT));
+  const parkRing=(d.areas.find(a=>a.kind==='park'&&pointInRing([-30,-46],a.ring))||{}).ring;
+  for(const a of d.areas.filter(a=>a.kind==='fountain')){const c=centroid(a.ring),r=a.ring.reduce((s,p)=>s+Math.hypot(p[0]-c[0],p[1]-c[1]),0)/a.ring.length;if(r<2)continue;
+   // The Washington Square fountain in detail (park.js); any other fountain keeps the plain basin.
+   if(parkRing&&pointInRing(c,parkRing)){const g=buildFountain(r,this.materials);g.position.copy(toV(c,CURB_HEIGHT));this.fountain={c,r,group:g};if(inSlice(c))dryFountain(g,r,x=>{this.disposables.add(x);return x;});for(const m of g.children)this.disposables.add(m.geometry);this.tile(...c).group.add(g);continue;}
+   const g=new T.Group();g.position.copy(toV(c,CURB_HEIGHT));
    const rim=new T.Mesh(new T.CylinderGeometry(r,r,.55,72,1,true),this.materials.marble);rim.position.y=.27;const inner=new T.Mesh(new T.CylinderGeometry(r-.45,r-.45,.55,72,1,true),this.materials.marble);inner.position.y=.27;inner.material=this.materials.marble.clone();inner.material.side=T.BackSide;this.disposables.add(inner.material);
    const top=new T.Mesh(new T.RingGeometry(r-.45,r,72),this.materials.marble);top.rotation.x=-Math.PI/2;top.position.y=.55;const basin=new T.Mesh(new T.CircleGeometry(r-.45,72),this.materials.water);basin.rotation.x=-Math.PI/2;basin.position.y=.08;const jet=new T.Mesh(new T.CylinderGeometry(.6,.9,.9,24),this.materials.marble);jet.position.y=.45;
    g.add(rim,inner,top,basin,jet);if(inSlice(c))dryFountain(g,r,x=>{this.disposables.add(x);return x;});for(const m of g.children)this.disposables.add(m.geometry);this.tile(...c).group.add(g);}
   // Trees (NYC Parks Forestry + OSM), lamps, benches, fences and crosswalk bars, instanced per tile.
   // Phase 3 slice: park trees have had a century to grow, and volunteers have seeded in the lawns.
-    const parkRing=(d.areas.find(a=>a.kind==='park'&&pointInRing([-30,-46],a.ring))||{}).ring,vol=volunteerTrees(d,parkRing);if(!this.collision._volunteers){for(const v of vol)this.collision.addCircle(v.p,.55,'tree');this.collision._volunteers=true;}this.volunteers=vol;
+    const vol=volunteerTrees(d,parkRing);if(!this.collision._volunteers){for(const v of vol)this.collision.addCircle(v.p,.55,'tree');this.collision._volunteers=true;}this.volunteers=vol;
     for(const tr of [...d.trees,...vol]){const bo=treeBoost(tr.p,parkRing)||(tr.volunteer?{height:1.8,crown:2.1,trunk:1.6}:null),dbh=tr.dbh||8,height=(tr.landmark?24:Math.min(24,5+dbh*.42))*(bo?bo.height:1),crown=(tr.landmark?9:Math.min(5.5,1.4+dbh*.12))*(bo?bo.crown:1),cy=Math.max(height-crown*.75,3.2+crown*.7),t=this.tile(...tr.p),y=CURB_HEIGHT,r=Math.max(.14,dbh*.0254/2)*(bo?bo.trunk:1);
    // Street trees are limbed up for clearance: crown sits on a clear trunk of at least ~3 m.
    this.inst(t,'trunk',toV(tr.p,y+cy/2),[r,cy,r]);const tint=new T.Color().setHSL(.22+hash(tr.p[0])*.08,.32,.24+hash(tr.p[1])*.1);this.inst(t,'crown',toV(tr.p,y+cy),[crown,crown*.7,crown],hash(tr.p[0]+tr.p[1])*6,tint);}
-  for(const l of d.lamps){const t=this.tile(...l.p);this.inst(t,'pole',toV(l.p,CURB_HEIGHT+2.2),[1,1,1]);this.inst(t,'lantern',toV(l.p,CURB_HEIGHT+4.45),[1,1,1]);}
+  // Lamps: three kinds (park lanterns, plaza globe clusters, street poles); see park.js.
+  this.lamps=lampLayout(d,parkRing,this.fountain?.c);for(const L of this.lamps){const t=this.tile(...L.p);for(const [name,p,r] of lampParts(L,CURB_HEIGHT))this.inst(t,name,p,[1,1,1],r);}
+  // Chess tables in the south-west corner.
+  this.chessTables=chessLayout();for(const c of this.chessTables){const t=this.tile(...c.p);for(const [name,p,r] of chessParts(c,CURB_HEIGHT))this.inst(t,name,p,[1,1,1],r);}
+  if(!this.collision._chess){for(const c of this.chessTables)this.collision.addCircle(c.p,.6,'chess table');this.collision._chess=true;}
   for(const b of d.benches){const t=this.tile(...b.p);this.inst(t,'bench',toV(b.p,CURB_HEIGHT+.45),[1,1,1],hash(b.p[0]*3.1)*0);}
   for(const br of d.barriers){if(br.kind==='retaining_wall')continue;const ht=br.height||(br.kind==='wall'?1.2:1.0);for(let i=1;i<br.pts.length;i++){const a=br.pts[i-1],b=br.pts[i],L=Math.hypot(b[0]-a[0],b[1]-a[1]);if(L<.05)continue;const m=[(a[0]+b[0])/2,(a[1]+b[1])/2];this.inst(this.tile(...m),br.kind==='wall'?'wallseg':'fence',toV(m,CURB_HEIGHT+ht/2),[L,ht,br.kind==='wall'?.3:.05],Math.atan2(b[1]-a[1],b[0]-a[0]));}}
   for(const c of d.crossings){if(c.pts.length<2)continue;for(let i=1;i<c.pts.length;i++){const a=c.pts[i-1],b=c.pts[i],L=Math.hypot(b[0]-a[0],b[1]-a[1]);const ang=Math.atan2(b[1]-a[1],b[0]-a[0]);for(let s=.6;s<L-.3;s+=1.2){const p=[a[0]+(b[0]-a[0])*s/L,a[1]+(b[1]-a[1])*s/L];this.inst(this.tile(...p),'stripe',toV(p,.012),[.6,1,3.0],ang);}}}
   for(const m of d.monuments){if(/plaque/.test(m.kind)||m.kind==='memorial'&&!m.name)continue;const t=this.tile(...m.p);if(m.kind==='flagpole')this.inst(t,'flagpole',toV(m.p,CURB_HEIGHT+11),[1,1,1]);else this.inst(t,'pedestal',toV(m.p,CURB_HEIGHT+1),/Garibaldi/.test(m.name||'')?[3,2,2.4]:[1.6,2,1.6]);}
   const geo={trunk:new T.CylinderGeometry(.7,1,1,7),crown:new T.IcosahedronGeometry(1,1),pole:new T.CylinderGeometry(.07,.11,4.4,8),lantern:new T.BoxGeometry(.42,.55,.42),bench:new T.BoxGeometry(1.8,.12,.55),fence:new T.BoxGeometry(1,1,1),wallseg:new T.BoxGeometry(1,1,1),stripe:new T.PlaneGeometry(1,1).rotateX(-Math.PI/2),flagpole:new T.CylinderGeometry(.08,.16,22,8),pedestal:new T.BoxGeometry(1,1,1)};
-  const instMat={trunk:'bark',crown:'leaves',pole:'iron',lantern:'lamp',bench:'iron',fence:'iron',wallseg:'marble',stripe:'stripe',flagpole:'iron',pedestal:'marble'};for(const g of Object.values(geo))this.disposables.add(g);
+  const furn=furnitureGeometry();Object.assign(geo,furn);
+  const instMat={trunk:'bark',crown:'leaves',pole:'iron',lantern:'lamp',bench:'iron',fence:'iron',wallseg:'marble',stripe:'stripe',flagpole:'iron',pedestal:'marble'};for(const k of Object.keys(furn))instMat[k]=furnitureMaterial(k);for(const g of Object.values(geo))this.disposables.add(g);
   const o3=new T.Object3D(),mats=this.materials;
   for(const t of this.tiles.values()){
    for(const [name,b] of Object.entries(t.b)){if(!b.idx.length)continue;const m=new T.Mesh(b.geometry(),name.startsWith('wall')?mats.wall:name.startsWith('roof')?mats.roof:name==='grass'?mats.grass:name==='parkFloor'?mats.parkFloor:name==='arch'?mats.marble:mats.paving);m.castShadow=name.startsWith('wall')||name==='arch';m.receiveShadow=true;m.userData.kind=name;if(name.endsWith('Lod'))(t.lod||(t.lod=[])).push(m);this.disposables.add(m.geometry);t.group.add(m);}
    t.props=new T.Group();t.group.add(t.props);
-   for(const [name,list] of Object.entries(t.inst)){const im=new T.InstancedMesh(geo[name],mats[instMat[name]],list.length);list.forEach((it,k)=>{o3.position.copy(it.p);o3.rotation.set(0,it.r,0);o3.scale.set(...it.s);o3.updateMatrix();im.setMatrixAt(k,o3.matrix);if(it.color)im.setColorAt(k,it.color);});im.castShadow=name==='trunk'||name==='crown'||name==='pole';im.receiveShadow=name!=='stripe';im.computeBoundingSphere();(name==='stripe'?t.group:t.props).add(im);}
+   for(const [name,list] of Object.entries(t.inst)){const im=new T.InstancedMesh(geo[name],mats[instMat[name]],list.length);list.forEach((it,k)=>{o3.position.copy(it.p);o3.rotation.set(0,it.r,0);o3.scale.set(...it.s);o3.updateMatrix();im.setMatrixAt(k,o3.matrix);if(it.color)im.setColorAt(k,it.color);});im.castShadow=name==='trunk'||name==='crown'||/Pole$|^pole$|chessTop|chessBase/.test(name);im.receiveShadow=name!=='stripe';im.computeBoundingSphere();(name==='stripe'?t.group:t.props).add(im);}
    delete t.b;delete t.inst;}
  }
  update(state,time,camera){if(this.decayUniforms)this.decayUniforms.uTime.value=time;if(camera)this.night?.update(time,camera);this.crowd?.update(state,time);const x=camera?camera.position.x:state?.position?.x||0,n=camera?-camera.position.z:state?.position?.z||0;this.visibleTiles=0;for(const t of this.tiles.values()){const dx=Math.max(Math.abs(t.center[0]-x)-TILE/2,0),dn=Math.max(Math.abs(t.center[1]-n)-TILE/2,0),d=Math.hypot(dx,dn);t.group.visible=d<(this.viewDistance||VIEW);if(t.tier2Group){const near=d<DETAIL;t.tier2Group.visible=near;if(t.lod)for(const m of t.lod)m.visible=!near;}if(t.props)t.props.visible=d<PROP_VIEW;if(t.group.visible)this.visibleTiles++;}}

@@ -22,7 +22,9 @@ function flickerMaterial(base,uniforms,key){base.onBeforeCompile=sh=>{sh.uniform
 export function buildNight(world){const d=world.data,group=new T.Group();group.name='dead of night';const keep=x=>{world.disposables.add(x);return x;};
  const uniforms={uTime:{value:0},uNight:{value:0}},o3=new T.Object3D();
  // Live lamps: about one in nine in the park slice, one in thirty elsewhere.
- const live=d.lamps.filter(l=>hash(l.p[0]*2.17+l.p[1]*.31)<(inSlice(l.p)?.11:.035)).map(l=>({p:l.p,seed:hash(l.p[0]*7.31+l.p[1]*3.17)}));
+ // Each live lamp glows at its own head (park lantern, plaza globes or street-pole head; see park.js).
+ const lampList=world.lamps||d.lamps.map(l=>({p:l.p,head:[l.p[0],4.45,l.p[1]]}));
+ const live=lampList.filter(l=>hash(l.p[0]*2.17+l.p[1]*.31)<(inSlice(l.p)?.11:.035)).map(l=>({p:l.p,head:l.head,seed:hash(l.p[0]*7.31+l.p[1]*3.17)}));
  // Each lamp's flicker seed travels as an instanced attribute, so the real lights match the glow.
  const seeds=new Float32Array(live.map(l=>l.seed));
  const lg=keep(new T.BoxGeometry(.42,.55,.42));lg.setAttribute('aSeed',new T.InstancedBufferAttribute(seeds,1));const _x=0,lm=keep(flickerMaterial(new T.MeshBasicMaterial({color:0xffd9a0}),uniforms,'lantern'));const lantern=new T.InstancedMesh(lg,lm,live.length);
@@ -32,7 +34,7 @@ export function buildNight(world){const d=world.data,group=new T.Group();group.n
 vec4 mvPosition=modelViewMatrix*instanceMatrix*vec4(0.,0.,0.,1.);mvPosition.xy+=position.xy*3.2;gl_Position=projectionMatrix*mvPosition;`);
   sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nvarying float vFl;').replace('#include <opaque_fragment>','outgoingLight*=vFl;diffuseColor.a*=vFl;\n#include <opaque_fragment>');};
  hm.customProgramCacheKey=()=>'nv-halo';const halo=new T.InstancedMesh(hg,hm,live.length);
- live.forEach((l,i)=>{o3.position.set(l.p[0],CURB_HEIGHT+4.45,-l.p[1]);o3.rotation.set(0,0,0);o3.scale.set(1.01,1.01,1.01);o3.updateMatrix();lantern.setMatrixAt(i,o3.matrix);halo.setMatrixAt(i,o3.matrix);});
+ live.forEach((l,i)=>{o3.position.set(l.head[0],CURB_HEIGHT+l.head[1],-l.head[2]);o3.rotation.set(0,0,0);o3.scale.set(1.01,1.01,1.01);o3.updateMatrix();lantern.setMatrixAt(i,o3.matrix);halo.setMatrixAt(i,o3.matrix);});
  for(const m of [lantern,halo]){m.computeBoundingSphere();m.frustumCulled=false;group.add(m);}halo.renderOrder=3;
  // Pool of real lights on the nearest live lamps.
  const pool=[0,1,2].map(()=>{const L=new T.PointLight(0xffc98a,0,26,1.6);group.add(L);return L;});
@@ -48,7 +50,7 @@ vec4 mvPosition=modelViewMatrix*instanceMatrix*vec4(0.,0.,0.,1.);mvPosition.xy+=
   update(time,camera){uniforms.uTime.value=time;if(lamps<=.01&&cardLv<=.01)return;const cx=camera.position.x,cz=camera.position.z;
    // Nearest live lamps get the real lights.
    const near=live.map(l=>({l,d:(l.p[0]-cx)**2+(-l.p[1]-cz)**2})).sort((a,b)=>a.d-b.d).slice(0,pool.length);
-   pool.forEach((L,i)=>{const e=near[i];if(!e||e.d>90*90||lamps<=.01){L.intensity=0;return;}L.position.set(e.l.p[0],CURB_HEIGHT+4.2,-e.l.p[1]);L.intensity=55*lamps*flicker(time,e.l.seed);});
+   pool.forEach((L,i)=>{const e=near[i];if(!e||e.d>90*90||lamps<=.01){L.intensity=0;return;}L.position.set(e.l.head[0],CURB_HEIGHT+e.l.head[1]-.25,-e.l.head[2]);L.intensity=55*lamps*flicker(time,e.l.seed);});
    // Fog cards wrap round the camera and drift slowly east.
    cards.forEach(c=>{let dx=c.x-cx,dz=c.z-cz;if(!c.init||Math.hypot(dx,dz)>75){const a=hash(c.i*7.1+Math.floor(time))*6.28,r=18+hash(c.i*3.3+time)*55;c.x=cx+Math.cos(a)*r;c.z=cz+Math.sin(a)*r;c.y=.8+hash(c.i)*2.5;c.w=14+hash(c.i*2)*18;c.h=3+hash(c.i*5)*3;c.init=true;}
     c.x+=.012;c.z+=.004;o3.position.set(c.x,c.y,c.z);o3.rotation.set(0,0,0);o3.scale.set(c.w,c.h,1);o3.updateMatrix();fog.setMatrixAt(c.i,o3.matrix);});fog.instanceMatrix.needsUpdate=true;}};}
