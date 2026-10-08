@@ -1,3 +1,4 @@
-// 7 East 12th Street. 1947, 12 storeys, NYU-owned. Not checked on Street View; post-war brick apartment block
-// (estimate).
-export default {slug:"e12th7",name:"7 East 12th Street",bin:1009390,also:[],source:"1947, 12 storeys, NYU-owned. Not checked on Street View; post-war brick apartment block (estimate).",wall:'brickRed',trim:'limestone',ground:{h:3.8,style:'base',mat:'limestone'},floor:2.9,pitch:3.0,win:[1.3,1.5],cornice:'coping',doors:[{rank:0,at:.5,w:2,h:2.8,canopy:1.6}]};
+// 7 East 12th Street. Status: observed. 1947, 12 storeys, NYU-owned. Not checked on Street View; post-war brick
+// apartment block (estimate). Observed on Street View, 2026 pass: Apr 2026 (E 12th St): a glass curtain-wall front with
+// a double-height glazed lobby, not the brick block assumed.
+export default {slug:"e12th7",name:"7 East 12th Street",status:"observed",bin:1009390,also:[],source:"1947, 12 storeys, NYU-owned. Not checked on Street View; post-war brick apartment block (estimate). Observed on Street View, 2026 pass: Apr 2026 (E 12th St): a glass curtain-wall front with a double-height glazed lobby, not the brick block assumed.",wall:'metalPanel',trim:'metalPanel',style:'curtain',spandrel:.6,ground:{h:6.0,style:'glass',pitch:1.6},floor:3.4,pitch:1.6,win:[1.3,1.5],cornice:'none',doors:[{rank:0,at:.5,w:2,h:2.8,canopy:1.6}]};
