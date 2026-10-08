@@ -55,3 +55,33 @@ export function spire(P,F,u,v,y0,h,{r=3,name='stone',lucarnes=true,sides=8,finia
  P.geo('metal',new T.CylinderGeometry(.04,.06,finial,6),F.matrix(u,v,y0+h+finial/2));P.geo('metal',new T.BoxGeometry(.6,.06,.06),F.matrix(u,v,y0+h+finial*.75));}
 // Battlemented parapet along a wall face, from u0 to u1 at height y (merlons every 1.2 m).
 export function battlements(P,f,u0,u1,y,{h=.9,name='stone',pitch=1.2}={}){P.block(name,f,u0,u1,y,y+h*.45,0,.25,{skip:['bottom']});for(let u=u0;u<u1-pitch*.4;u+=pitch)P.block(name,f,u,Math.min(u1,u+pitch*.55),y+h*.45,y+h,0,.25,{skip:['bottom']});}
+// A whole Gothic Revival church from a plan spec, in its local frame (u along the axis from the tower into
+// the nave, v to the left): tower {u0,u1,v0,v1,top,style: 'battlement' | 'spire', spireTop, pinnacles},
+// nave {u0,u1,v0,v1,eave,ridge,bay}, aisles [{u0,u1,v0,v1,eave,high}], east end window, entrance in the tower.
+export function gothicChurch(P,F,S){const t=S.tower,n=S.nave,bay=n.bay||3.6,mat=S.mat||'stone';
+ // Aisles: outer wall with a lancet per bay and buttresses, lean-to roof up to the nave wall.
+ for(const a of S.aisles||[]){const north=a.v1>n.v1-.01,vOut=north?a.v1:a.v0,vIn=north?n.v1:n.v0,L=a.u1-a.u0,cnt=Math.max(1,Math.round(L/bay));
+  const f=north?F.face([a.u1,vOut],[a.u0,vOut]):F.face([a.u0,vOut],[a.u1,vOut]);wall(P,f,L,0,a.eave,Array.from({length:cnt},(_,i)=>({hole:pointed((i+.5)*L/cnt,1.3,1.6,a.eave-2.4),depth:.35})),{mat});
+  for(let i=1;i<cnt;i++)buttress(P,f,i*L/cnt,0,a.eave+.4,{w:.7,d:.8,steps:1,name:mat});leanTo(P,F,a.u0,a.u1,vIn,vOut+(north?.3:-.3),a.high,a.eave-.1);
+  for(const [u,front] of [[a.u0,true],[a.u1,false]]){const fe=front?(north?F.face([u,vOut],[u,vIn]):F.face([u,vIn],[u,vOut])):(north?F.face([u,vIn],[u,vOut]):F.face([u,vOut],[u,vIn])),wl=Math.abs(vOut-vIn);
+   wall(P,fe,wl,0,a.eave,[{hole:pointed(wl/2,Math.min(1.6,wl*.4),1.8,a.eave-2),depth:.35}],{mat});const hiAt0=front?!north:north;P.poly(mat,fe,hiAt0?[[0,a.eave],[wl,a.eave],[0,a.high]]:[[0,a.eave],[wl,a.eave],[wl,a.high]]);}}
+ // Nave: clerestory or full walls with tall lancets, buttresses, gable roof, east gable with a great window.
+ const hasAisle=v=>(S.aisles||[]).some(a=>v>0?a.v1>n.v1-.01:a.v0<n.v0+.01),L=n.u1-n.u0,cnt=Math.max(1,Math.round(L/bay));
+ for(const north of [true,false]){const v=north?n.v1:n.v0,f=north?F.face([n.u1,v],[n.u0,v]):F.face([n.u0,v],[n.u1,v]),a=hasAisle(north?1:-1),y0=a?Math.max(...(S.aisles||[]).map(x=>x.high)):0;
+  wall(P,f,L,y0,n.eave,Array.from({length:cnt},(_,i)=>({hole:pointed((i+.5)*L/cnt,a?1.0:1.5,y0+(a?.8:2.0),n.eave-1.6),depth:.35,mullion:!a})),{mat});if(!a)for(let i=1;i<cnt;i++)buttress(P,f,i*L/cnt,0,n.eave-.6,{w:.8,d:1.0,name:mat});}
+ gableRoof(P,F,n.u0,n.u1,n.v0,n.v1,n.eave,n.ridge,{ends:false});
+ {const W=n.v1-n.v0,f=F.face([n.u1,n.v0],[n.u1,n.v1]);wall(P,f,W,0,n.eave,[{hole:pointed(W/2,Math.min(4.2,W*.4),2.6,n.eave-1.4),depth:.5,mullion:1}],{mat,gable:n.ridge-n.eave});
+  for(const u of [.3,W-.3])buttress(P,f,u,0,n.eave-.5,{w:.8,d:1.2,name:mat});}
+ // The west (entrance) gable beside the tower, above the aisles, where the nave is wider than the tower.
+ {const W=n.v1-n.v0,f=F.face([n.u0,n.v1],[n.u0,n.v0]);P.poly(mat,f,[[0,n.eave],[W,n.eave],[W/2,n.ridge]]);P.poly(mat,f,[[0,0],[(W-(t.v1-t.v0))/2,0],[(W-(t.v1-t.v0))/2,n.eave],[0,n.eave]]);P.poly(mat,f,[[W-(W-(t.v1-t.v0))/2,0],[W,0],[W,n.eave],[W-(W-(t.v1-t.v0))/2,n.eave]]);}
+ // Tower.
+ const tw=t.u1-t.u0,td=t.v1-t.v0,stage=t.top/4,faces=[[F.face([t.u0,t.v1],[t.u0,t.v0]),td,0],[F.face([t.u0,t.v0],[t.u1,t.v0]),tw,1],[F.face([t.u1,t.v1],[t.u0,t.v1]),tw,2],[F.face([t.u1,t.v0],[t.u1,t.v1]),td,3]];
+ for(const [f,W,i] of faces){const y0=i===3?n.ridge-.6:0,ops=[];if(i===0){ops.push({hole:pointed(W/2,Math.min(2.6,W*.38),0,3.8),depth:.9,glass:'door'},{hole:pointed(W/2,Math.min(2.2,W*.32),stage*1.3,stage*2.2),depth:.45,mullion:1});}
+  ops.push({hole:pointed(W/2-W*.14,Math.min(.9,W*.13),stage*3.05,stage*3.75),depth:.6,glass:'louvre'},{hole:pointed(W/2+W*.14,Math.min(.9,W*.13),stage*3.05,stage*3.75),depth:.6,glass:'louvre'});
+  wall(P,f,W,y0,t.top,ops,{mat});for(const y of [stage,stage*2,stage*2.9])if(y>y0)P.block('trim',f,0,W,y,y+.25,0,.18,{skip:['left','right']});
+  if(i<3)for(const u of [0,W])buttress(P,f,u,y0,t.top-1.5,{w:.9,d:.9,steps:3,name:mat});
+  if(t.style==='battlement')battlements(P,f,-.2,W+.2,t.top,{name:mat});else P.block('trim',f,-.2,W+.2,t.top-.5,t.top,0,.35);}
+ for(const [u,v] of [[t.u0,t.v0],[t.u0,t.v1],[t.u1,t.v0],[t.u1,t.v1]])pinnacle(P,F,u,v,t.top-.4,t.top+(t.pinnacles||2.2),{s:t.turret||.9,h:t.spirelet||2.8,name:mat});
+ if(t.style==='spire')spire(P,F,(t.u0+t.u1)/2,(t.v0+t.v1)/2,t.top,t.spireTop-t.top,{r:Math.min(tw,td)*.4,name:mat});
+ // A plain roof over the tower.
+ P.poly('slate',new Face(F.w(t.u0,t.v0,t.top-.02),F.dir(1,0),F.dir(0,1)),[[0,0],[tw,0],[tw,td],[0,td]]);}
