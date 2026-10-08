@@ -243,3 +243,4 @@ Target is 60 fps at the Arch. My own checks run in a software renderer in the cl
 | 2026-10-08 | 2496d61 | Step 4 park details: fountain rim and steps, 3 lamp types, 13 chess tables, banners where seen; signage decal system and manifest |
 | 2026-10-08 | 9dd8315 | Step 4B inventory: Tier A list plus candidates for review |
 | 2026-10-08 | cc592ee | Step 5: decay everywhere (facades, NYU buildings, lawns, ivy, trees) |
+| 2026-10-08 | 40b69c7 | Step 6: crowds across the area (door queues, plazas, strip), about 800 figures |
