@@ -1,3 +1,4 @@
-// Third North. 75 Third Avenue, 1988, 14 storeys, three towers. Not checked on Street View; late-modern brick
-// (estimate).
-export default {slug:"thirdnorth",name:"Third North",bin:1006826,also:[1084498],source:"75 Third Avenue, 1988, 14 storeys, three towers. Not checked on Street View; late-modern brick (estimate).",wall:'brickBrown',trim:'concrete',ground:{h:4.2,style:'storefront',mat:'concrete',pitch:4.2},floor:2.8,pitch:3.2,win:[1.0,1.4],pair:1,cornice:'none',doors:[{rank:0,at:.5,w:2.4,h:2.9,canopy:1.4}],flags:{rank:0,n:1,y:5}};
+// Third North. Status: observed. 75 Third Avenue, 1988, 14 storeys, three towers. Not checked on Street View; late-
+// modern brick (estimate). Counted on Street View: w 5 bays per tower face (3rd Ave, Apr 2026: two red-brown brick
+// towers joined by a recessed middle, lighter brick base, sidewalk shed), 14 storeys.
+export default {slug:"thirdnorth",name:"Third North",status:"observed",bin:1006826,also:[1084498],source:"75 Third Avenue, 1988, 14 storeys, three towers. Not checked on Street View; late-modern brick (estimate). Counted on Street View: w 5 bays per tower face (3rd Ave, Apr 2026: two red-brown brick towers joined by a recessed middle, lighter brick base, sidewalk shed), 14 storeys.",wall:'brickBrown',trim:'concrete',ground:{h:4.2,style:'storefront',mat:'concrete',pitch:4.2},floor:2.8,pitch:3.2,win:[1.0,1.4],pair:1,cornice:'none',bays:{w:5},storeys:14,doors:[{rank:0,at:.5,w:2.4,h:2.9,canopy:1.4}],flags:{rank:0,n:1,y:5}};
