@@ -8,4 +8,4 @@ Volumes from the NYC 3D Building Model; facades from the shared kit. Street View
 | 770 Broadway (Wanamaker Annex) | observed (photo sphere, Jan 2023) | pale cream terracotta, even grid of wide windows | storefront base and Wegmans entrance not checked close up |
 | Cooper Union Foundation Building | observed (Apr 2026) | warm reddish-brown stone (changed from dark brownstone), round-arched ground arcade, paired arched windows, cornice | cupola and Great Hall entrance details |
 | Cable Building (Angelika) | estimate | | full check from Houston St and Broadway |
-| 826 Broadway (the Strand) | estimate | | full check from Broadway at 12th St |
+| 826 Broadway (the Strand) | observed (photo sphere, about 2018) | pale cream upper storeys (changed from red brick), window grid, red shop awnings | awnings and book carts as storefront detail in Tier B |
