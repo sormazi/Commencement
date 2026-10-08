@@ -1,2 +1,4 @@
-// Second Street Residence. 1 E 2nd St at the Bowery, 2001, 12 storeys (leased). Not checked on Street View (estimate).
-export default {slug:"secondst",name:"Second Street Residence",bin:1086133,also:[],source:"1 E 2nd St at the Bowery, 2001, 12 storeys (leased). Not checked on Street View (estimate).",wall:'brickRed',trim:'precast',ground:{h:4.4,style:'storefront',mat:'precast',pitch:4.2},floor:2.9,pitch:3.0,win:[1.2,1.5],cornice:'band',doors:[{rank:0,at:.5,w:2.2,h:3}]};
+// Second Street Residence. Status: observed. 1 E 2nd St at the Bowery, 2001, 12 storeys (leased). Not checked on Street
+// View (estimate). Observed on Street View, 2026 pass: Apr 2026 (E 2nd St): red brick with stacked projecting white-
+// framed window bays, twelve storeys; confirms the estimate.
+export default {slug:"secondst",name:"Second Street Residence",status:"observed",bin:1086133,also:[],source:"1 E 2nd St at the Bowery, 2001, 12 storeys (leased). Not checked on Street View (estimate). Observed on Street View, 2026 pass: Apr 2026 (E 2nd St): red brick with stacked projecting white-framed window bays, twelve storeys; confirms the estimate.",wall:'brickRed',trim:'precast',ground:{h:4.4,style:'storefront',mat:'precast',pitch:4.2},floor:2.9,pitch:3.0,win:[1.2,1.5],cornice:'band',doors:[{rank:0,at:.5,w:2.2,h:3}]};
