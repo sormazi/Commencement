@@ -11,9 +11,9 @@ test('decay slice covers the park and the facing landmarks but never the Brown B
  for(const bin of Object.values(DECAY_BINS))assert.ok(inSlice(centroid(B(bin).rings[0])),'in slice '+bin);
  assert.ok(!Object.values(DECAY_BINS).includes(1008823));assert.ok(!inSlice(centroid(B(1008823).rings[0])),'Brown outside the slice');
  assert.ok(inSlice([-30,-46]),'fountain');});
-test('only park trees get the century of growth',()=>{const park=data.areas.find(a=>a.kind==='park'&&pointInRing([-30,-46],a.ring)).ring;
+test('park trees grow most over the century; street trees grow less',()=>{const park=data.areas.find(a=>a.kind==='park'&&pointInRing([-30,-46],a.ring)).ring;
  const inside=data.trees.find(t=>pointInRing(t.p,park)),outside=data.trees.find(t=>!pointInRing(t.p,park)&&!inSlice(t.p));
- assert.ok(treeBoost(inside.p,park).height>1.5);assert.equal(treeBoost(outside.p,park),null);});
+ assert.ok(treeBoost(inside.p,park).height>1.5);const o=treeBoost(outside.p,park);assert.ok(o.height>1.2&&o.height<treeBoost(inside.p,park).height+.31&&o.crown<2.2);});
 test('weathering kinds by material name',()=>{assert.equal(decayKind('glassClear'),'glass');assert.equal(decayKind('iron'),'metal');assert.equal(decayKind('sign'),'light');assert.equal(decayKind('brick'),'masonry');});
 test('lamp flicker stays between 0 and 1 and some lamps go dark',()=>{let dark=0;for(let i=0;i<400;i++){const v=flicker(i*.13,.9);assert.ok(v>=0&&v<=1);if(v===0)dark++;}assert.ok(dark>0);for(let i=0;i<50;i++)assert.ok(flicker(i,.2)>.6);});
 test('loiterers: queues, card readers, wall-facers, lecture rows and gowns, all inside the slice and none near the Brown Building',()=>{const {people,doors}=crowdPlan(data,{});

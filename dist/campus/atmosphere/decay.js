@@ -46,18 +46,25 @@ float crack=1.-smoothstep(.004,.014,abs(dkNoise(dp*1.3)-.5)),crack2=1.-smoothste
 diffuseColor.rgb*=mix(.72,1.,fine)*mix(.78,1.,smoothstep(.3,.7,broad));
 diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.07,.09,.05),max(crack,crack2*.6)*.85*smoothstep(.42,.62,dkNoise(dp*.11+4.)));
 diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.2,.23,.12),smoothstep(.72,.88,broad)*.55);`,
+ facade:`float broad=dkNoise(dp*.31),fine=dkNoise(dp*13.),damp=1.-smoothstep(0.,9.,dp.y);
+float streak=pow(dkNoise(vec3(dp.x*2.3,dp.y*.04,dp.z*2.3)),4.);float moss=smoothstep(.45,.75,broad+damp*.45)*damp;
+float isGlass=1.-step(.34,dot(sampledDiffuseColor.rgb,vec3(.333)));vec2 cell=floor(vMapUv);float pane=dkHash(vec3(cell,floor(dp.x*.05)+floor(dp.z*.05)*7.));
+diffuseColor.rgb*=mix(.72,.98,fine)*.88*(1.-streak*.6);diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.12,.17,.07),moss*.7);
+diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.008),isGlass*step(.72,pane));diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.42,.34,.24),isGlass*step(.62,pane)*(1.-step(.72,pane)));`,
  cloth:`float broad=dkNoise(dp*.6),fine=dkNoise(dp*11.);float lum=dot(diffuseColor.rgb,vec3(.3,.59,.11));
 diffuseColor.rgb=mix(diffuseColor.rgb,vec3(lum)*.8+vec3(.17,.16,.14),.5);diffuseColor.rgb*=mix(.78,1.,fine);diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.33,.31,.26),smoothstep(.55,.9,broad)*.45);`,
  light:`float broad=dkNoise(dp*.6),fine=dkNoise(dp*11.);float streak=pow(dkNoise(vec3(dp.x*3.,dp.y*.06,dp.z*3.)),4.);
 diffuseColor.rgb*=mix(.7,.95,fine)*(1.-streak*.45);diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.3,.29,.24),smoothstep(.5,.9,broad)*.5);`};
-const ROUGH={cloth:'',paving:'',masonry:'roughnessFactor=clamp(roughnessFactor+.08-moss*.25,.35,1.);',glass:'roughnessFactor=mix(.08,.7,grime);',metal:'roughnessFactor=mix(roughnessFactor,.9,rust);metalnessFactor=mix(metalnessFactor,.15,rust);',light:''};
+const ROUGH={facade:'',cloth:'',paving:'',masonry:'roughnessFactor=clamp(roughnessFactor+.08-moss*.25,.35,1.);',glass:'roughnessFactor=mix(.08,.7,grime);',metal:'roughnessFactor=mix(roughnessFactor,.9,rust);metalnessFactor=mix(metalnessFactor,.15,rust);',light:''};
 export function decayMaterial(material,kind='masonry'){const m=material.clone();
+ // Chain onto an existing shader patch (the third-tier facade atlas), so decay draws on top of it.
+ const prev=Object.prototype.hasOwnProperty.call(material,'onBeforeCompile')?material.onBeforeCompile:null,prevKey=prev&&material.customProgramCacheKey?material.customProgramCacheKey():'';
  if(kind==='glass'){m.transparent=false;m.opacity=1;m.depthWrite=true;m.emissiveIntensity=0;}
  if(m.emissive&&kind!=='light')m.emissiveIntensity=Math.min(m.emissiveIntensity||0,.02);
- m.onBeforeCompile=sh=>{sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nvarying vec3 dp;').replace('#include <begin_vertex>','#include <begin_vertex>\n#ifdef USE_INSTANCING\ndp=(modelMatrix*instanceMatrix*vec4(position,1.)).xyz;\n#else\ndp=(modelMatrix*vec4(position,1.)).xyz;\n#endif\n');
+ m.onBeforeCompile=(sh,r)=>{if(prev)prev(sh,r);sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nvarying vec3 dp;').replace('#include <begin_vertex>','#include <begin_vertex>\n#ifdef USE_INSTANCING\ndp=(modelMatrix*instanceMatrix*vec4(position,1.)).xyz;\n#else\ndp=(modelMatrix*vec4(position,1.)).xyz;\n#endif\n');
   sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nvarying vec3 dp;\n'+NOISE).replace('#include <color_fragment>','#include <color_fragment>\n'+BODY[kind]);
   if(ROUGH[kind])sh.fragmentShader=sh.fragmentShader.replace('#include <metalnessmap_fragment>','#include <metalnessmap_fragment>\n'+ROUGH[kind]);};
- m.customProgramCacheKey=()=>'nv-decay-'+kind;return m;}
+ m.customProgramCacheKey=()=>'nv-decay-'+kind+(prevKey?'|'+prevKey:'');return m;}
 export const decayKind=name=>/glass|lobby|drum/i.test(name)?'glass':/iron|frame|rail|steel|bronze|brass|copper|mullion|fin|column|pole|lamp/i.test(name)?'metal':/sign|plaque|text|inscr|num|tablet/i.test(name)?'light':'masonry';
 // Re-material a landmark group in place (cached per original material).
 export function weatherGroup(g,cache,disposables){if(g.userData.preserve)return 0;let n=0;
@@ -101,16 +108,18 @@ float ph=instanceMatrix[3].x*.37+instanceMatrix[3].z*.21;transformed.x+=sin(uTim
 function scatter(ring,count,seed){const xs=ring.map(p=>p[0]),ns=ring.map(p=>p[1]),x0=Math.min(...xs),x1=Math.max(...xs),n0=Math.min(...ns),n1=Math.max(...ns),out=[];let k=0;
  for(let tries=0;out.length<count&&tries<count*8;tries++){const p=[x0+hash(seed+k++)*(x1-x0),n0+hash(seed+k++)*(n1-n0)];if(pointInRing(p,ring))out.push(p);}return out;}
 // ---- The decay pass ----------------------------------------------------------------------------
-export function buildDecay(world){const d=world.data,group=new T.Group();group.name='decay (park slice)';
+export function buildDecay(world){const d=world.data,group=new T.Group();group.name='decay';
  const uniforms={uTime:{value:0}},dis=world.disposables,keep=x=>{dis.add(x);return x;};
  const park=d.areas.find(a=>a.kind==='park'&&pointInRing([-30,-46],a.ring));const P=park?park.ring:null;
  const o3=new T.Object3D(),stats={weathered:0,ivy:0,tufts:0,banners:0,trees:0};
- // 1. Weather the facing landmarks and the Arch (shader only).
+ // 1. Weather every landmark except the preserved ones (the Brown Building and memorial), the Arch, every
+ // second-tier building and the third-tier facades and roofs (shader only; no extra draw calls).
  const cache=new Map();cache.banner=keep(new T.MeshStandardMaterial({map:keep(bannerTexture()),alphaTest:.4,side:T.DoubleSide,roughness:.95}));
- const want=new Set([...Object.values(DECAY_BINS),world.rowBin]);
- for(const L of world.landmarks){if(want.has(L.bin))stats.weathered+=weatherGroup(L.group,cache,dis);
-  else if(!L.group.userData.preserve){const b=d.buildings.find(x=>x.bin===L.bin);if(b&&inSlice(centroid(b.rings[0])))L.group.traverse(o=>{if(o.isMesh&&/^(banner|flag|flags)$/.test(o.name))o.material=cache.banner;});}}
+ for(const L of world.landmarks)if(!L.group.userData.preserve)stats.weathered+=weatherGroup(L.group,cache,dis);
  if(world.archGroup)stats.weathered+=weatherGroup(world.archGroup,cache,dis);
+ for(const t of world.tiles.values())if(t.tier2Group)stats.weathered+=weatherGroup(t.tier2Group,cache,dis);
+ {const wall=keep(decayMaterial(world.materials.wall,'facade')),roof=keep(decayMaterial(world.materials.roof,'masonry')),sw=new Map([[world.materials.wall,wall],[world.materials.roof,roof]]);
+  world.materials.wall=wall;world.materials.roof=roof;world.group.traverse(o=>{if(o.isMesh&&sw.has(o.material))o.material=sw.get(o.material);});}
  // Lamp poles, benches and fences rust; dead lanterns everywhere (night.js adds the few that work).
  world.materials.iron.color.set(0x3a2a20);world.materials.iron.roughness=.85;world.materials.iron.metalness=.3;
  world.materials.lamp.emissiveIntensity=0;world.materials.lamp.color.set(0x2f322e);world.materials.lamp.roughness=.4;
@@ -120,26 +129,34 @@ export function buildDecay(world){const d=world.data,group=new T.Group();group.n
  world.group.traverse(o=>{if(o.isMesh&&(o.userData.kind==='parkFloor'||o.userData.kind==='paving'))o.material=world.materials[o.userData.kind];});
  // 2. Meadow: lawns re-textured, and tall grass tufts across the park lawns.
  world.materials.grass.map=keep(meadowTexture());world.materials.grass.map.repeat.set(.6,.6);world.materials.grass.needsUpdate=true;
- const lawns=P?d.areas.filter(a=>(a.kind==='grass'||a.kind==='pitch')&&inSlice(centroid(a.ring))&&pointInRing(centroid(a.ring),P)):[];
- const tufts=[];lawns.forEach((a,i)=>{const A=Math.abs(ringArea(a.ring));tufts.push(...scatter(a.ring,Math.round(A*.42),1000+i*97));});
- if(P){const xs=P.map(p=>p[0]),ns=P.map(p=>p[1]);let k=0;for(let i=0;i<5000;i++){const p=[Math.min(...xs)+hash(5000+k++)*(Math.max(...xs)-Math.min(...xs)),Math.min(...ns)+hash(5000+k++)*(Math.max(...ns)-Math.min(...ns))];if(pointInRing(p,P)&&!lawns.some(a=>pointInRing(p,a.ring)))tufts.push([...p,1]);}}// sparse tufts in the paving cracks
- const tg=keep(crossedQuads()),tm=keep(swayMaterial(keep(grassTexture()),uniforms,{amp:.12}));const tuft=new T.InstancedMesh(tg,tm,tufts.length);
- tufts.forEach((p,i)=>{const small=p[2]===1,h=small?.25+hash(i*3)*.3:.55+hash(i*3)*1.0;o3.position.copy(toV(p,CURB_HEIGHT+.01));o3.rotation.set(0,hash(i*7)*3.14,0);o3.scale.set(h*.9,h,h*.9);o3.updateMatrix();tuft.setMatrixAt(i,o3.matrix);});
- tuft.computeBoundingSphere();tuft.receiveShadow=true;tuft.name='meadow';group.add(tuft);stats.tufts=tufts.length;
+ // Tall grass across every lawn in the study area (thicker in the park), sparse tufts in the park paving
+ // cracks and along the curbs; one instanced mesh per tile so tiles cull and fade like the other props.
+ const lawns=d.areas.filter(a=>a.kind==='grass'||a.kind==='pitch');const tufts=[];
+ lawns.forEach((a,i)=>{const A=Math.abs(ringArea(a.ring)),inPark=P&&pointInRing(centroid(a.ring),P);tufts.push(...scatter(a.ring,Math.round(A*(inPark?.42:.3)),1000+i*97));});
+ if(P){const xs=P.map(p=>p[0]),ns=P.map(p=>p[1]);let k=0;for(let i=0;i<5000;i++){const p=[Math.min(...xs)+hash(5000+k++)*(Math.max(...xs)-Math.min(...xs)),Math.min(...ns)+hash(5000+k++)*(Math.max(...ns)-Math.min(...ns))];if(pointInRing(p,P)&&!lawns.some(a=>pointInRing(p,a.ring)))tufts.push([...p,1]);}}
+ for(const [si,s] of (d.sidewalk||[]).entries()){const r=Array.isArray(s[0]?.[0])?s[0]:s;if(!Array.isArray(r)||r.length<3||!Array.isArray(r[0]))continue;for(let i=0;i<r.length;i++){const a=r[i],b=r[(i+1)%r.length],L=Math.hypot(b[0]-a[0],b[1]-a[1]);for(let t=1;t<L;t+=2.2){const k=si*131+i*17+t;if(hash(k)<.3)tufts.push([a[0]+(b[0]-a[0])*t/L,a[1]+(b[1]-a[1])*t/L,1]);}}}
+ const tg=keep(crossedQuads()),tm=keep(swayMaterial(keep(grassTexture()),uniforms,{amp:.12}));const tileTufts=new Map();
+ tufts.forEach((p,i)=>{const t=world.tile(p[0],p[1]);(tileTufts.get(t)||tileTufts.set(t,[]).get(t)).push([p,i]);});
+ for(const [t,list] of tileTufts){const tuft=new T.InstancedMesh(tg,tm,list.length);list.forEach(([p,i],j)=>{const small=p[2]===1,h=small?.25+hash(i*3)*.3:.55+hash(i*3)*1.0;o3.position.copy(toV(p,CURB_HEIGHT+.01));o3.rotation.set(0,hash(i*7)*3.14,0);o3.scale.set(h*.9,h,h*.9);o3.updateMatrix();tuft.setMatrixAt(j,o3.matrix);});
+  tuft.computeBoundingSphere();tuft.receiveShadow=true;tuft.name='meadow';(t.props||t.group).add(tuft);}
+ stats.tufts=tufts.length;
  // 3. Ivy on the facing landmarks (footprint edges), the Arch piers and the park fences.
  const ivy=[];const wall=(a,b,seed,maxH,step=1.05,chance=.62)=>{const dx=b[0]-a[0],dn=b[1]-a[1],L=Math.hypot(dx,dn);if(L<1)return;const n=[dn/L,-dx/L];
   for(let s=.5;s<L;s+=step){const k=seed+s*13.1;if(hash(k)>chance)continue;const h=maxH*(.25+.75*Math.pow(hash(k+1),.7));const p=[a[0]+dx*s/L+n[0]*.16,a[1]+dn*s/L+n[1]*.16];
    for(let y=0;y<h;y+=.85){const sz=1.0+hash(k+y)*.7;ivy.push({p:[p[0]+(hash(k+y*3)-.5)*.6*dx/L,p[1]+(hash(k+y*3)-.5)*.6*dn/L],y:CURB_HEIGHT+y,yaw:Math.atan2(n[0],n[1]),s:sz*(1-.45*(y/h)),c:hash(k+y*5)});}}};
- for(const b of d.buildings){const L=world.landmarks.find(l=>l.bin===b.bin||(world.rowBins&&world.rowBins.includes(b.bin)&&l.bin===world.rowBin));
-  if(!(want.has(b.bin)||(world.rowBins&&world.rowBins.includes(b.bin))))continue;const r=ringArea(b.rings[0])>0?b.rings[0]:[...b.rings[0]].reverse();
-  const tall=b.bin===DECAY_BINS.judson||(world.rowBins&&world.rowBins.includes(b.bin))?16:b.bin===DECAY_BINS.bobst?22:12;
-  for(let i=0;i<r.length;i++)wall(r[i],r[(i+1)%r.length],b.bin%1000+i*31,tall);}
+ const landmarkBins=new Set();for(const L of world.landmarks){if(L.group.userData.preserve)continue;landmarkBins.add(L.bin);for(const x of L.also||[])landmarkBins.add(x);}
+ const preserved=new Set(world.landmarks.filter(L=>L.group.userData.preserve).flatMap(L=>[L.bin,...(L.also||[])]));
+ for(const b of d.buildings){if(preserved.has(b.bin))continue;const r=ringArea(b.rings[0])>0?b.rings[0]:[...b.rings[0]].reverse(),big=landmarkBins.has(b.bin)||world.tier2Bins?.has(b.bin)||(world.rowBins&&world.rowBins.includes(b.bin));
+  const tall=b.bin===DECAY_BINS.judson||(world.rowBins&&world.rowBins.includes(b.bin))?16:b.bin===DECAY_BINS.bobst?22:big?12:6;
+  for(let i=0;i<r.length;i++)big?wall(r[i],r[(i+1)%r.length],b.bin%1000+i*31,tall,1.05,inSlice(r[i])?.62:.4):wall(r[i],r[(i+1)%r.length],b.bin%1000+i*31,tall,2.2,.09);}
  for(const pier of archPiers(d.arch)){const r=ringArea(pier)>0?pier:[...pier].reverse();for(let i=0;i<r.length;i++)wall(r[i],r[(i+1)%r.length],77+i*19,11,.9,.7);}
- for(const br of d.barriers){if(br.kind!=='fence')continue;for(let i=1;i<br.pts.length;i++){const a=br.pts[i-1],b=br.pts[i];if(!inSlice(a))continue;const dx=b[0]-a[0],dn=b[1]-a[1],L=Math.hypot(dx,dn);
+ for(const br of d.barriers){if(br.kind!=='fence')continue;for(let i=1;i<br.pts.length;i++){const a=br.pts[i-1],b=br.pts[i];const dx=b[0]-a[0],dn=b[1]-a[1],L=Math.hypot(dx,dn);
   for(let s=.4;s<L;s+=1.4){const k=a[0]*3.1+a[1]*7.7+s;if(hash(k)>.45)continue;ivy.push({p:[a[0]+dx*s/L,a[1]+dn*s/L],y:CURB_HEIGHT,yaw:Math.atan2(dx,dn)+Math.PI/2,s:.8+hash(k+1)*.5,c:hash(k+2)});}}}
- const ig=keep(new T.PlaneGeometry(1,1).translate(0,.5,0)),im=keep(new T.MeshStandardMaterial({map:keep(ivyTexture()),alphaTest:.4,side:T.DoubleSide,roughness:.9}));const ivyMesh=new T.InstancedMesh(ig,im,ivy.length),col=new T.Color();
- ivy.forEach((v,i)=>{o3.position.copy(toV(v.p,v.y));o3.rotation.set(0,v.yaw,(v.c-.5)*.5);o3.scale.set(v.s,v.s,1);o3.updateMatrix();ivyMesh.setMatrixAt(i,o3.matrix);ivyMesh.setColorAt(i,col.setHSL(.24+v.c*.06,.3,.45+v.c*.25));});
- ivyMesh.computeBoundingSphere();ivyMesh.name='ivy';group.add(ivyMesh);stats.ivy=ivy.length;
+ const ig=keep(new T.PlaneGeometry(1,1).translate(0,.5,0)),im=keep(new T.MeshStandardMaterial({map:keep(ivyTexture()),alphaTest:.4,side:T.DoubleSide,roughness:.9})),col=new T.Color(),tileIvy=new Map();
+ for(const v of ivy){const t=world.tile(v.p[0],v.p[1]);(tileIvy.get(t)||tileIvy.set(t,[]).get(t)).push(v);}
+ for(const [t,list] of tileIvy){const ivyMesh=new T.InstancedMesh(ig,im,list.length);list.forEach((v,i)=>{o3.position.copy(toV(v.p,v.y));o3.rotation.set(0,v.yaw,(v.c-.5)*.5);o3.scale.set(v.s,v.s,1);o3.updateMatrix();ivyMesh.setMatrixAt(i,o3.matrix);ivyMesh.setColorAt(i,col.setHSL(.24+v.c*.06,.3,.45+v.c*.25));});
+  ivyMesh.computeBoundingSphere();ivyMesh.name='ivy';(t.props||t.group).add(ivyMesh);}
+ stats.ivy=ivy.length;
  // 4. Signage decals (signage.js): grimy and sun-bleached; pole banners also torn into ragged strips.
  if(world.signage){const weathered={},rag=keep(ragMask());for(const im of world.signage.group.children){const id=im.userData.decal,src=im.material;const m=keep(decayMaterial(src,'cloth'));
    if(im.userData.kind==='pole-banner'){m.alphaMap=rag;m.alphaTest=.5;}weathered[id]=m;im.material=m;stats.banners+=im.count;}
@@ -152,7 +169,9 @@ export function buildDecay(world){const d=world.data,group=new T.Group();group.n
  group.add(chessCorner(world,P,keep,o3));
  world.decayUniforms=uniforms;world.decayStats=stats;return group;}
 // Tree boost for the park: the trees have had a century to grow.
-export function treeBoost(p,park){if(!park||!pointInRing(p,park)||!inSlice(p))return null;const h=hash(p[0]*.7+p[1]*1.3);return {height:1.55+h*.45,crown:1.7+h*.6,trunk:1.5};}
+export function treeBoost(p,park){const h=hash(p[0]*.7+p[1]*1.3);if(park&&pointInRing(p,park))return {height:1.55+h*.45,crown:1.7+h*.6,trunk:1.5};
+ // Street trees have had a century too, though their pits hold them back.
+ return {height:1.25+h*.3,crown:1.4+h*.4,trunk:1.35};}
 // Volunteer trees self-seeded in the lawns (positions only; solid like the others).
 export function volunteerTrees(d,park){if(!park)return [];const out=[];d.areas.filter(a=>a.kind==='grass'&&pointInRing(centroid(a.ring),park)&&Math.abs(ringArea(a.ring))>250).forEach((a,i)=>{if(hash(i*3.7)<.55){const p=scatter(a.ring,1,9000+i*13)[0];if(p)out.push({p,dbh:22+hash(i)*16,volunteer:true});}});return out;}
 function chessCorner(world,P,keep,o3){const g=new T.Group();g.name='chess game';const tables=world.chessTables||[];if(!tables.length)return g;

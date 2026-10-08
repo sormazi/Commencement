@@ -60,7 +60,7 @@ export function paulsonMassing(ring){const c=centroid(ring);let sxx=0,sxy=0,syy=
  return [{ring,h:PAULSON.podium},{ring:clipHalf(ring,ax,an,hi-L*PAULSON.northShare,true),h:PAULSON.towerN},{ring:clipHalf(ring,ax,an,lo+L*PAULSON.southShare,false),h:PAULSON.towerS}].filter(m=>m.ring.length>=3);}
 export class CampusWorld{
  constructor(config){this.config=config;this.freeRoam=true;const c=campus();this.campus=c;this.data=c.data;this.collision=c.collision;this.streets=c.streets;this.spawn=c.spawn;
-  this.stats={model:0,extruded:0,estimated:0};this.group=new T.Group();this.group.name='washington-square';this.tiles=new Map();this.disposables=new Set();this.rowBin=ROW_BINS[0];this.rowBins=ROW_BINS;this.build();this.group.add(buildSignage(this));this.decay=buildDecay(this);this.group.add(this.decay);this.night=buildNight(this);this.group.add(this.night.group);this.night.setNight(false);this.crowd=buildCrowd(this);this.group.add(this.crowd.group);this.group.add(buildSpeaker(this));}
+  this.stats={model:0,extruded:0,estimated:0};this.group=new T.Group();this.group.name='washington-square';this.tiles=new Map();this.disposables=new Set();this.rowBin=ROW_BINS[0];this.rowBins=ROW_BINS;this.tier2Bins=TIER2_BINS;this.build();this.group.add(buildSignage(this));this.decay=buildDecay(this);this.group.add(this.decay);this.night=buildNight(this);this.group.add(this.night.group);this.night.setNight(false);this.crowd=buildCrowd(this);this.group.add(this.crowd.group);this.group.add(buildSpeaker(this));}
  // Manual atmosphere presets fix the lamps and ground fog; Real NYC time sets them continuously through setSky.
  setPreset(p){if(p!=='realtime')this.night?.setNight(p==='night');}
  setSky(lamps,cards,fog){this.night?.setLevels(lamps,cards,fog);}
