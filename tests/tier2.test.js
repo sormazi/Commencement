@@ -18,4 +18,7 @@ test('doors stand on their building\'s outline, facing out',()=>{for(const d of 
   if(/St. Ann/.test(d.name))continue;// the St. Ann's gate stands in front of Founders Hall
   assert.ok(rings.some(r=>pointInRing(inn,r)),`${d.name}: door backs onto the building`);assert.ok(!rings.some(r=>pointInRing(out,r)),`${d.name}: door faces outward`);}});
 test('second-tier geometry stays within its triangle budget',()=>{const tris=geo.stats.reduce((a,s)=>a+s.tris,0);assert.ok(tris<900000,'total '+tris);for(const s of geo.stats)assert.ok(s.tris<70000,s.slug+' '+s.tris);});
+test('every spec says whether it was observed on Street View or is an estimate; counted bays are whole numbers',()=>{for(const s of TIER2){assert.ok(['observed','estimate'].includes(s.status),s.slug+' status');
+  for(const [d,n] of Object.entries(s.bays||{})){assert.ok('nesw'.includes(d)&&Number.isInteger(n)&&n>0,s.slug+' bays '+d);}if(s.storeys)assert.ok(Number.isInteger(s.storeys)&&s.storeys>1);}
+ assert.ok(TIER2.filter(s=>s.status==='observed').length>=65,'most buildings observed');});
 console.log(`tier2: ${passed} passed`);

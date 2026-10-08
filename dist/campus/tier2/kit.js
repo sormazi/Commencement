@@ -34,11 +34,12 @@ export function classifyWalls(W,index,skip){for(const w of W){const m=[(w.a[0]+w
 
 // ---- Facade pieces ----
 // Punched windows between y0 and y1. o: {mat, trim, pitch, win:[w,h], pair, floor, first, sill, lintel, reveal, margin, parapet, sash}
-export function windowWall(P,w,y0,y1,o){const L=w.len,f=w.face,{mat,trim=mat,pitch=3.2,win=[1.3,2],pair=0,floor=3.4,first=.9,sill=1,lintel=0,reveal:reveal_=.2,margin=.8,parapet=.9,sash=0,glass='glass',arch=0}=o;
+export function windowWall(P,w,y0,y1,o){const L=w.len,f=w.face,{mat,trim=mat,pitch=3.2,win=[1.3,2],pair=0,floor=3.4,first=.9,sill=1,lintel=0,reveal:reveal_=.2,margin=.8,parapet=.9,sash=0,glass='glass',arch=0,count=0}=o;
  if(y1-y0<.5)return 0;if(L<Math.max(2.2,pitch*.8)){P.rect(mat,f,0,L,y0,y1,0);return 0;}
- const nb=Math.max(1,Math.floor((L-2*margin)/pitch)),p0=(L-nb*pitch)/2,ws=[];
+ // count: the real number of bays on this wall (counted from Street View), spread evenly.
+ const nb=count?count:Math.max(1,Math.floor((L-2*margin)/pitch)),pp=count?(L-2*Math.min(margin,.6))/count:pitch,p0=(L-nb*pp)/2,ws=[];
  const ww=pair?win[0]*2+.3:win[0];
- for(let ys=y0+first;ys+win[1]<=y1-Math.min(parapet,(y1-y0)*.3)+.01;ys+=floor)for(let i=0;i<nb;i++){const c=p0+(i+.5)*pitch;if(ww>pitch-.25)continue;
+ for(let ys=y0+first;ys+win[1]<=y1-Math.min(parapet,(y1-y0)*.3)+.01;ys+=floor)for(let i=0;i<nb;i++){const c=p0+(i+.5)*pp;if(ww>pp-.2)continue;
   if(pair){ws.push([c-ww/2,ys,c-.15,ys+win[1]],[c+.15,ys,c+ww/2,ys+win[1]]);}else ws.push([c-ww/2,ys,c+ww/2,ys+win[1]]);}
  if(arch){const holes=ws.map(([a,b,c,d])=>archHole((a+c)/2,c-a,b,d-(c-a)/2,8));P.poly(mat,f,[[0,y0],[L,y0],[L,y1],[0,y1]],holes,0);
   for(let k=0;k<ws.length;k++){reveal(P,mat,f,holes[k],reveal_,glass);const [u0,v0,u1]=ws[k];if(sill)P.block(trim,f,u0-.08,u1+.08,v0-.12,v0,0,.1,{skip:['left','right','bottom']});}return ws.length;}
@@ -59,7 +60,11 @@ export function modillions(P,w,y,{mat,proj=.65,h=.7,spacing=.7}){const f=w.face,
 // Returns {walls, doors, windows, tris}.
 export function buildKit(P,spec,ps,{index=null,bins=new Set([spec.bin])}={}){
  const s={wall:'brickRed',trim:'limestone',floor:3.4,pitch:3.2,win:[1.3,2.0],pair:0,first:.9,style:'punched',cornice:'coping',sash:0,...spec};
- const g={h:4.2,style:'storefront',mat:s.trim,...(spec.ground||{})};const W=classifyWalls(dedupeCoplanar(mergeWalls(walls(ps))),index,bins);const t0=P.tris;let windows=0;
+ const g={h:4.2,style:'storefront',mat:s.trim,...(spec.ground||{})};
+ // storeys: the real number of storeys of the main volume; sets the floor height so the window rows match.
+ if(spec.storeys){const top=Math.max(...ps.map(p=>p.z));s.floor=(top-g.h-(s.parapet??.9))/(spec.storeys-1);}const W=classifyWalls(dedupeCoplanar(mergeWalls(walls(ps))),index,bins);
+ const dirMax={};for(const w of W)if(!w.party)dirMax[w.dir]=Math.max(dirMax[w.dir]||0,w.len);
+ const countFor=w=>{const n=spec.bays?.[w.dir];return n&&!w.party?Math.max(1,Math.round(n*w.len/dirMax[w.dir])):0;};const t0=P.tris;let windows=0;
  const base=spec.base||null;// {to: height, mat}
  for(const w of W){const y0=w.y0,y1=w.y1,top=w.piece.z;
   if(w.party){P.rect(s.partyMat||s.wall,w.face,0,w.len,y0,w.partyTop,0);if(w.partyTop>=y1-.3){continue;}}
@@ -69,11 +74,11 @@ export function buildKit(P,spec,ps,{index=null,bins=new Set([spec.bin])}={}){
    if(g.style==='storefront')storefront(P,w,0,gh,{wall:g.mat,glass:'glassClear',frames:'frame',pitch:g.pitch||4.2,pier:g.pier||.55});
    else if(g.style==='glass')curtain(P,w,0,gh,{glass:'glassClear',frames:'frame',mw:g.pitch||2,floor:gh});
    else if(g.style==='plain')P.rect(g.mat,w.face,0,w.len,0,gh,0);
-   else windows+=windowWall(P,w,0,gh,{mat:g.mat,trim:s.trim,pitch:g.pitch||s.pitch,win:g.win||[s.win[0],Math.min(gh-1.3,2.6)],pair:s.pair,floor:gh,first:g.first||1.0,sill:1,parapet:.2,sash:s.sash,margin:s.margin});
+   else windows+=windowWall(P,w,0,gh,{arch:g.arch||0,count:g.bays??countFor(w),mat:g.mat,trim:s.trim,pitch:g.pitch||s.pitch,win:g.win||[s.win[0],Math.min(gh-1.3,2.6)],pair:s.pair,floor:gh,first:g.first||1.0,sill:1,parapet:.2,sash:s.sash,margin:s.margin});
    if(g.belt!==0)P.block(s.trim,w.face,0,w.len,gh-.05,gh+.3,0,.12);y=gh;}
   if(s.style==='curtain'){curtain(P,w,y,y1,{glass:'glass',frames:'frame',mw:s.pitch,floor:s.floor,spandrel:s.spandrel||0,spandrelName:s.wall});}
   else if(s.style==='piers'&&!w.party&&w.len>4){pierWall(P,w,y,y1,{mat:s.wall,pitch:s.pitch,floor:s.floor,pier:s.pier||.8,depth:s.depth||.55});}
-  else{const opt={mat:s.wall,trim:s.trim,pitch:s.pitch,win:s.win,pair:s.pair,floor:s.floor,sill:s.sill??1,lintel:s.lintel||0,sash:s.sash,margin:s.margin,first:s.first,parapet:s.parapet??.9,arch:s.arch||0,reveal:s.reveal??.2};
+  else{const opt={count:countFor(w),mat:s.wall,trim:s.trim,pitch:s.pitch,win:s.win,pair:s.pair,floor:s.floor,sill:s.sill??1,lintel:s.lintel||0,sash:s.sash,margin:s.margin,first:s.first,parapet:s.parapet??.9,arch:s.arch||0,reveal:s.reveal??.2};
    if(base&&y<base.to&&!w.party){const bt=Math.min(base.to,y1);windows+=windowWall(P,w,y,bt,{...opt,mat:base.mat,first:y<1?s.first+1:s.first,parapet:.2});if(bt<y1)P.block(s.trim,w.face,0,w.len,bt-.1,bt+.25,0,.15);y=bt;}
    // First upper row: windows start a floor above the ground storey line.
    windows+=windowWall(P,w,y,y1,{...opt,first:y===y0&&y0<1?s.first+(s.raised||0):s.first});}
