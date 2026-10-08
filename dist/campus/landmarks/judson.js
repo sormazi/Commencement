@@ -1,7 +1,7 @@
 import * as T from '../../vendor/three.module.js';
-import {Parts,Face,arcPath,arcOnFace,reveal,circle,brickTextures,grainTextures} from './kit.js?v=22';
-import {pieces,walls,roofs,punched} from './facade.js?v=22';
-import model3d from '../data/campus-3d.js?v=22';
+import {Parts,Face,arcPath,arcOnFace,reveal,circle,brickTextures,grainTextures} from './kit.js?v=23';
+import {pieces,walls,roofs,punched} from './facade.js?v=23';
+import model3d from '../data/campus-3d.js?v=23';
 // Judson Memorial Church, 55 Washington Square South at Thompson Street (McKim, Mead & White,
 // 1888–93; LPC LP-0196) with its campanile (1895–96) and the porch between them.
 // Local frame: origin at the corner of Washington Sq S and Thompson St, +x west along the square,

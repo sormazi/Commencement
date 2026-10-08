@@ -1,7 +1,7 @@
 import * as T from '../../vendor/three.module.js';
-import {Parts,Face,stoneTextures} from './kit.js?v=22';
-import {pieces,walls,roofs,v3,signPanel,punched,storefront,facing,mergeWalls} from './facade.js?v=22';
-import model3d from '../data/campus-3d.js?v=22';
+import {Parts,Face,stoneTextures} from './kit.js?v=23';
+import {pieces,walls,roofs,v3,signPanel,punched,storefront,facing,mergeWalls} from './facade.js?v=23';
+import model3d from '../data/campus-3d.js?v=23';
 // NYU Stern School of Business on Gould Plaza: the Henry Kaufman Management Center (44 W 4th St,
 // BIN 1078952; completed about 1992) and Tisch Hall (40 W 4th St, BIN 1077346;
 // Philip Johnson and Richard Foster, 1972). Volumes from the NYC 3D Building Model (2014); detail from

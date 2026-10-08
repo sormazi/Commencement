@@ -1,6 +1,6 @@
 import * as T from '../../vendor/three.module.js';
-import {Parts,Face,rectLoop,planRun,arcPath,star,circle,smooth,xf,mirrorX,cymaRecta,ovolo,stack,out,up,step,stoneTextures,grainTextures,inscriptionTextures,meanderTextures} from './kit.js?v=22';
-import {washington,reliefFigure,eagle,victory} from './sculpture.js?v=22';
+import {Parts,Face,rectLoop,planRun,arcPath,star,circle,smooth,xf,mirrorX,cymaRecta,ovolo,stack,out,up,step,stoneTextures,grainTextures,inscriptionTextures,meanderTextures} from './kit.js?v=23';
+import {washington,reliefFigure,eagle,victory} from './sculpture.js?v=23';
 // Washington Square Arch (McKim, Mead & White, 1889–92; LPC 489 p.107). Tuckahoe marble.
 // Built in the arch's own frame: x across the arch (east +), y up, z through the opening
 // (south face at +z, the north face with the two Washington statue groups at -z).

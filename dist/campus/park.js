@@ -1,5 +1,5 @@
 import * as T from '../vendor/three.module.js';
-import {pointInRing} from './geometry.js?v=22';
+import {pointInRing} from './geometry.js?v=23';
 // Park details (Phase 2, Step 4): the fountain, the chess tables, the three kinds of lamp post and the
 // banners on them. Sources, all looked at on Google Maps and not saved (dates are the imagery dates):
 // - Fountain plaza: user photospheres in the plaza (Sep 2015, Jul 2017). The plaza is flush with the

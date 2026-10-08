@@ -1,8 +1,8 @@
 import * as T from '../../vendor/three.module.js';
-import {Parts,Face,brickTextures} from './kit.js?v=22';
-import {pieces,walls} from './facade.js?v=22';
-import {Frame,pointed,wall,pinnacle,spire} from './gothic.js?v=22';
-import model3d from '../data/campus-3d.js?v=22';
+import {Parts,Face,brickTextures} from './kit.js?v=23';
+import {pieces,walls} from './facade.js?v=23';
+import {Frame,pointed,wall,pinnacle,spire} from './gothic.js?v=23';
+import model3d from '../data/campus-3d.js?v=23';
 // Jefferson Market Library (former Jefferson Market Courthouse), 425 Sixth Avenue at W 10th St (Frederick
 // Clarke Withers and Calvert Vaux, 1874-77; LPC 1967). High Victorian Gothic in red brick banded with
 // pale stone: tall pointed windows in two tiers, steep slate roofs with gabled dormers, and the clock

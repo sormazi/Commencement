@@ -1,7 +1,7 @@
 import * as T from '../../vendor/three.module.js';
-import {Parts,Face,stoneTextures} from './kit.js?v=22';
-import {pieces,walls,roofs,punched,curtain,storefront,facing,signPanel,v3} from './facade.js?v=22';
-import model3d from '../data/campus-3d.js?v=22';
+import {Parts,Face,stoneTextures} from './kit.js?v=23';
+import {pieces,walls,roofs,punched,curtain,storefront,facing,signPanel,v3} from './facade.js?v=23';
+import model3d from '../data/campus-3d.js?v=23';
 // Helen and Martin Kimmel Center for University Life, 60 Washington Square South
 // (Kevin Roche John Dinkeloo and Associates, opened 2003). Stepped volume from the NYC 3D model:
 // a glass-roofed podium along Washington Sq S, a tan stone block with paired windows and glazed

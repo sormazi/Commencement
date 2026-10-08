@@ -1,5 +1,5 @@
 import * as T from '../../vendor/three.module.js';
-import {skyAt,makeClock,describe} from './sky.js?v=22';
+import {skyAt,makeClock,describe} from './sky.js?v=23';
 // Drives the renderer's lights, sky, fog and post grade from the real New York sun (sky.js).
 // The sky is recomputed every five seconds (every half second in a time-lapse preview) and every value
 // glides toward the new target with a three-second time constant, so nothing ever jumps.

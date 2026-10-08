@@ -130,7 +130,7 @@ Play Washington Square with Options > Driving > Sound and Music both On, and pre
 ## How to run the game locally and check the frame rate
 
 1. Open Terminal and go to the repository: `cd ~/NightView`
-2. Start the local server: `npm start` (the same as `python3 -m http.server 4173 --directory dist`). Leave this window open; press Ctrl+C to stop it.
+2. Start the local server: `npm start` (runs `tools/serve.py`, which serves dist/ and turns browser caching off so updates always load). Leave this window open; press Ctrl+C to stop it.
 3. In Chrome, open **http://localhost:4173/?fps=1**. The `?fps=1` turns the counter on straight away. Without it: Options (top right) > FPS counter > On > Apply. The setting is remembered in that browser.
 4. The counter sits under the NightView logo: frames per second (averaged over half a second), the slowest frame in that half second in ms, and the last frame's draw calls and triangles as WebGL reports them (shadow pass included). It turns orange below 55 fps.
 5. Washington Square · NYU is the only location and you start on Fifth Avenue facing the Arch. Drive up to it and round it (W/S, A/D), and stop in front of it facing south into the square: that is the heaviest view.

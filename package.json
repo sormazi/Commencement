@@ -4,6 +4,6 @@
   "type": "module",
   "scripts": {
     "test": "node tests/physics.test.js && node tests/campus.test.js && node tests/landmarks.test.js && node tests/atmosphere.test.js && node tests/sky.test.js && node tests/tier2.test.js && node tests/tier3.test.js && node tests/park.test.js",
-    "start": "python3 -m http.server 4173 --directory dist"
+    "start": "python3 tools/serve.py"
   }
 }

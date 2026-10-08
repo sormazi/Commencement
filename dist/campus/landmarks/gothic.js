@@ -1,5 +1,5 @@
 import * as T from '../../vendor/three.module.js';
-import {Face,reveal} from './kit.js?v=22';
+import {Face,reveal} from './kit.js?v=23';
 // Gothic Revival kit for the neighbourhood churches (Grace Church, Church of the Ascension, First
 // Presbyterian, Jefferson Market). Everything is authored in a local plan frame (u along the church's
 // axis, v to its left looking along u, metres) and converted to world coordinates by a Frame.

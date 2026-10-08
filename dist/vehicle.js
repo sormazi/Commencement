@@ -1,7 +1,7 @@
 import * as T from './vendor/three.module.js';
-import {decayMaterial,DECAY} from './campus/atmosphere/decay.js?v=22';
-import {VEHICLE} from './physics.js?v=22';
-import {LIVERY,SIDE_PROFILE,liveryPixels} from './assets/signage/livery.js?v=22';
+import {decayMaterial,DECAY} from './campus/atmosphere/decay.js?v=23';
+import {VEHICLE} from './physics.js?v=23';
+import {LIVERY,SIDE_PROFILE,liveryPixels} from './assets/signage/livery.js?v=23';
 // NYU Campus Safety unit 4: the player's car. A compact electric crossover with the size, proportions, ride
 // height and stance of the Campus Safety car in Avi's reference photos (about 4.6 m long, 1.85 m wide,
 // 1.62 m tall, 2.8 m wheelbase, 0.72 m wheels), modelled from simple shapes as an original design: no real

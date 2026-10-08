@@ -1,8 +1,8 @@
 import * as T from '../../vendor/three.module.js';
-import {Parts,Face,brickTextures,stoneTextures,reveal} from '../landmarks/kit.js?v=22';
-import {pieces,walls,roofs,mergeWalls,curtain,storefront,facing,signPanel,sashTexture,archHole} from '../landmarks/facade.js?v=22';
-import {pointInRing,centroid,ringArea} from '../geometry.js?v=22';
-import model3d from '../data/campus-3d.js?v=22';
+import {Parts,Face,brickTextures,stoneTextures,reveal} from '../landmarks/kit.js?v=23';
+import {pieces,walls,roofs,mergeWalls,curtain,storefront,facing,signPanel,sashTexture,archHole} from '../landmarks/facade.js?v=23';
+import {pointInRing,centroid,ringArea} from '../geometry.js?v=23';
+import model3d from '../data/campus-3d.js?v=23';
 // Second-tier kit buildings (Phase 2, Step 2). Every NYU building that is not a detailed landmark is
 // described by a short spec (tier2/b/*.js): its wall material, window rhythm, ground storey, cornice,
 // entrances and any signature feature. This module turns a spec plus the building's surveyed volume

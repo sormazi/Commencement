@@ -4,7 +4,7 @@
 // material colour. The facade is a texture cell (one bay by one floor) from a small atlas, mapped on the
 // existing massing walls, so it costs no extra triangles or draw calls. Pure functions here; the atlas
 // and the shader patch are browser-only.
-import {TIER3_BLOCKS} from './blocks.js?v=22';
+import {TIER3_BLOCKS} from './blocks.js?v=23';
 export const CELLS={tenement:0,loft:1,apartment:2,postwar:3,curtain:4,townhouse:5,solid:6,castiron:7,storefront:8,residential:9,stoop:10,generic:11};
 // Bay width (m) per upper type: the horizontal window rhythm.
 export const BAY={tenement:2.6,loft:4.2,apartment:3.0,postwar:3.4,curtain:1.6,townhouse:2.5,solid:4.5,castiron:4.4};
