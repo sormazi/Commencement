@@ -59,15 +59,37 @@ The plan in detail, with every decision so far, is in [PROGRESS.md](PROGRESS.md)
 
 ### From a fresh clone
 
+The current game lives on the **`nyu-campus`** branch. The `main` branch still has the old arcade version (Times Square, SoHo, Shibuya and the sports car), so clone this branch by name:
+
 ```bash
-git clone https://github.com/sormazi/NightView.git
+git clone -b nyu-campus https://github.com/sormazi/NightView.git
 cd NightView
-python3 -m http.server 4173 --directory dist
+python3 tools/serve.py
 ```
 
-If you have Node.js installed, `npm start` runs the same server command.
+(`npm start` runs the same command if you have Node.js.) The server prints the folder it is serving and the address. Check that the folder ends in `NightView/dist`, then open **http://localhost:4173**. You should start on Fifth Avenue facing the Arch, in a white NYU Campus Safety car with a violet band. Click the page or press a driving key to turn on sound. Press **Ctrl+C** in the Terminal to stop the server.
 
-Leave that Terminal window open and go to **http://localhost:4173**. The game starts on Fifth Avenue facing the Arch. Click the page or press a driving key to turn on sound. Press **Ctrl+C** in the Terminal to stop the server. After pulling new commits, hard-reload the page (**Cmd+Shift+R** on a Mac, **Ctrl+Shift+R** elsewhere) so the browser does not keep old files.
+The server tells the browser not to cache anything, so a normal reload always shows the newest files.
+
+### If you already have a copy
+
+Bring it up to date, then start it the same way:
+
+```bash
+cd NightView
+git checkout nyu-campus
+git pull
+python3 tools/serve.py
+```
+
+### If you see the old game, or the page sticks on the splash screen
+
+Almost always another server is still running on the same port from an older copy, so your browser is talking to that one instead.
+
+- If the server says `Port 4173 is already in use`, stop the old one with `lsof -ti:4173 | xargs kill` and start again, or run this copy on another port with `python3 tools/serve.py 4180` and open **http://localhost:4180**.
+- Check the folder the server prints. It should be this repository's `dist` folder, not an older copy somewhere else.
+- `git branch --show-current` should print `nyu-campus`.
+- Then hard-reload once (**Cmd+Shift+R** on a Mac, **Ctrl+Shift+R** elsewhere).
 
 To run the tests (needs Node.js):
 
