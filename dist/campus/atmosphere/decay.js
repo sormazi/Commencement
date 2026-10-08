@@ -56,24 +56,28 @@ float streak=pow(dkNoise(vec3(dp.x*2.3,dp.y*.04,dp.z*2.3)),4.);float moss=smooth
 float isGlass=1.-step(.34,dot(sampledDiffuseColor.rgb,vec3(.333)));vec2 cell=floor(vMapUv);float pane=dkHash(vec3(cell,floor(dp.x*.05)+floor(dp.z*.05)*7.));
 diffuseColor.rgb*=mix(.72,.98,fine)*.88*(1.-streak*.6);diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.12,.17,.07),moss*.7);
 diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.008),isGlass*step(.72,pane));diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.42,.34,.24),isGlass*step(.62,pane)*(1.-step(.72,pane)));`,
+ paint:`float broad=dkNoise(dp*1.1),fine=dkNoise(dp*17.);float streak=pow(dkNoise(vec3(dp.x*7.,dp.y*.7,dp.z*7.)),3.);
+float rust=smoothstep(.46,.78,broad+streak*.6);float lum=dot(diffuseColor.rgb,vec3(.3,.59,.11));
+diffuseColor.rgb=mix(diffuseColor.rgb,vec3(lum)*.85+vec3(.1,.09,.09),.4);diffuseColor.rgb=mix(diffuseColor.rgb,mix(vec3(.31,.15,.07),vec3(.48,.26,.11),fine),rust*.85);
+diffuseColor.rgb*=1.-streak*.45;diffuseColor.rgb*=mix(.55,1.,smoothstep(-.4,.5,dp.y+fine*.3));`,
  cloth:`float broad=dkNoise(dp*.6),fine=dkNoise(dp*11.);float lum=dot(diffuseColor.rgb,vec3(.3,.59,.11));
 diffuseColor.rgb=mix(diffuseColor.rgb,vec3(lum)*.8+vec3(.17,.16,.14),.5);diffuseColor.rgb*=mix(.78,1.,fine);diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.33,.31,.26),smoothstep(.55,.9,broad)*.45);`,
  light:`float broad=dkNoise(dp*.6),fine=dkNoise(dp*11.);float streak=pow(dkNoise(vec3(dp.x*3.,dp.y*.06,dp.z*3.)),4.);
 diffuseColor.rgb*=mix(.7,.95,fine)*(1.-streak*.45);diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.3,.29,.24),smoothstep(.5,.9,broad)*.5);`};
-const ROUGH={facade:'',cloth:'',paving:'',masonry:'roughnessFactor=clamp(roughnessFactor+.08-moss*.25,.35,1.);',glass:'roughnessFactor=mix(.08,.7,grime);',metal:'roughnessFactor=mix(roughnessFactor,.9,rust);metalnessFactor=mix(metalnessFactor,.15,rust);',light:''};
-export function decayMaterial(material,kind='masonry',{tear=false,dissolve=false}={}){const m=material.clone();
+const ROUGH={paint:'roughnessFactor=mix(roughnessFactor,.95,rust);metalnessFactor=mix(metalnessFactor,.1,rust);',facade:'',cloth:'',paving:'',masonry:'roughnessFactor=clamp(roughnessFactor+.08-moss*.25,.35,1.);',glass:'roughnessFactor=mix(.08,.7,grime);',metal:'roughnessFactor=mix(roughnessFactor,.9,rust);metalnessFactor=mix(metalnessFactor,.15,rust);',light:''};
+export function decayMaterial(material,kind='masonry',{tear=false,dissolve=false,local=false}={}){const m=material.clone();
  // Chain onto an existing shader patch (the third-tier facade atlas, the sign atlas), so decay draws on top.
  const prev=Object.prototype.hasOwnProperty.call(material,'onBeforeCompile')?material.onBeforeCompile:null,prevKey=prev&&material.customProgramCacheKey?material.customProgramCacheKey():'';
  if(tear){m.alphaMap=rag();m.alphaTest=Math.max(m.alphaTest||0,.5);}
  if(dissolve)m.alphaTest=Math.max(m.alphaTest||0,.01);
- m.onBeforeCompile=(sh,r)=>{if(prev)prev(sh,r);sh.uniforms.uDecay=DECAY;sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nvarying vec3 dp;').replace('#include <begin_vertex>','#include <begin_vertex>\n#ifdef USE_INSTANCING\ndp=(modelMatrix*instanceMatrix*vec4(position,1.)).xyz;\n#else\ndp=(modelMatrix*vec4(position,1.)).xyz;\n#endif\n');
+ m.onBeforeCompile=(sh,r)=>{if(prev)prev(sh,r);sh.uniforms.uDecay=DECAY;sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nvarying vec3 dp;').replace('#include <begin_vertex>',local?'#include <begin_vertex>\ndp=(modelMatrix*vec4(position,1.)).xyz-modelMatrix[3].xyz;dp=vec3(dot(dp,normalize(modelMatrix[0].xyz)),dot(dp,normalize(modelMatrix[1].xyz)),dot(dp,normalize(modelMatrix[2].xyz)));':'#include <begin_vertex>\n#ifdef USE_INSTANCING\ndp=(modelMatrix*instanceMatrix*vec4(position,1.)).xyz;\n#else\ndp=(modelMatrix*vec4(position,1.)).xyz;\n#endif\n');
   sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nvarying vec3 dp;\nuniform float uDecay;\n'+NOISE).replace('#include <color_fragment>','#include <color_fragment>\nvec4 nvClean=diffuseColor;\n'+BODY[kind]+'\ndiffuseColor=mix(nvClean,diffuseColor,uDecay);'+(dissolve?'\nif(dkHash(vec3(floor(gl_FragCoord.xy),3.))>uDecay)discard;':''));
   if(ROUGH[kind])sh.fragmentShader=sh.fragmentShader.replace('#include <metalnessmap_fragment>','#include <metalnessmap_fragment>\nfloat nvR0=roughnessFactor,nvM0=metalnessFactor;\n'+ROUGH[kind]+'\nroughnessFactor=mix(nvR0,roughnessFactor,uDecay);metalnessFactor=mix(nvM0,metalnessFactor,uDecay);');
   // Lit signs and lamps go dark as the layer comes in (plaques keep their glow, if any).
   if(kind!=='light')sh.fragmentShader=sh.fragmentShader.replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\ntotalEmissiveRadiance*=1.-.98*uDecay;');
   // Torn cloth: the rag mask only bites as the layer comes in.
   if(tear)sh.fragmentShader=sh.fragmentShader.replace('#include <alphamap_fragment>','#ifdef USE_ALPHAMAP\ndiffuseColor.a*=mix(1.,texture2D(alphaMap,vAlphaMapUv).g,uDecay);\n#endif');};
- m.customProgramCacheKey=()=>'nv-decay-'+kind+(tear?'-tear':'')+(dissolve?'-dissolve':'')+(prevKey?'|'+prevKey:'');return m;}
+ m.customProgramCacheKey=()=>'nv-decay-'+kind+(tear?'-tear':'')+(dissolve?'-dissolve':'')+(local?'-local':'')+(prevKey?'|'+prevKey:'');return m;}
 // Two-state instances (trees): each instance has its 2126 transform in instanceMatrix and its 2026 transform
 // in four vec4 attributes (aC0..aC3, the columns); the vertex shader blends them with the decay layer.
 export function cleanInstanceAttributes(geometry,A){const n=A.length/16;for(let c=0;c<4;c++){const a=new Float32Array(n*4);for(let i=0;i<n;i++)for(let k=0;k<4;k++)a[i*4+k]=A[i*16+c*4+k];geometry.setAttribute('aC'+c,new T.InstancedBufferAttribute(a,4));}return geometry;}

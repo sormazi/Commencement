@@ -1,5 +1,13 @@
 # NightView validation
 
+## Step 10 Part 1: one place, one van (8 Oct 2026)
+
+- Times Square, SoHo, Shibuya, the old cars, the archival advertising, traffic and the corridor effects removed from the game, code, assets and tests. Washington Square is the only location; the Options menu has no location or vehicle choice.
+- `npm test` passes: physics (rewritten for the van), campus, landmarks, atmosphere, sky, tier 2, tier 3 and park suites.
+- The van rendered in the browser from the front, side, rear and inside the cab, in 2026 and 2126; screenshots checked for paint, rust, dents, moss, the cracked windshield, the dimmer left headlamp and the map on the passenger seat. Software renderer, so performance is counted in draw calls and triangles only.
+
+The sections below are the earlier record. They describe the corridor locations and systems that Step 10 removed and are kept as history.
+
 - Physics suite passed: vehicle differences, braking/reverse, drifting, boost limits and manual gears.
 - Location module syntax check passed.
 - Browser rendered Times Square, SoHo and Shibuya at localhost:4173; each was selected through Options → Location → Apply.

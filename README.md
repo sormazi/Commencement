@@ -81,23 +81,19 @@ npm test
 | :--- | :--- |
 | Accelerate / brake / reverse | **W / S** or **↑ / ↓** |
 | Steer | **A / D** or **← / →** |
-| Handbrake | **Space** |
-| Boost | **Shift** |
-| Clutch / free rev | **C + W** |
-| Rolling burnout | **W + S** |
-| Shift down / up in manual mode | **Q / E** |
-| Reset and repair | **R** |
+| Parking brake | **Space** |
+| Reset to the street | **R** |
 | Pause | **Esc** |
 
-Touch buttons appear on small screens. Vehicle, location, transmission, atmosphere, sound and the FPS counter are in **Options** (top right).
+Touch buttons appear on small screens. Atmosphere, era, sound, music and the FPS counter are in **Options** (top right).
 
 ### FPS counter
 
-Open **http://localhost:4173/?fps=1**, or turn it on in **Options → Driving → FPS counter**; the browser remembers the setting. The counter sits under the NightView logo. It shows frames per second averaged over half a second, the slowest frame in that half second in milliseconds, and the draw calls and triangles of the last frame. It turns orange below 55 fps. For a fair reading, keep a laptop plugged in and close other heavy tabs.
+Open **http://localhost:4173/?fps=1**, or turn it on in **Options → FPS counter**; the browser remembers the setting. The counter sits under the NightView logo. It shows frames per second averaged over half a second, the slowest frame in that half second in milliseconds, and the draw calls and triangles of the last frame. It turns orange below 55 fps. For a fair reading, keep a laptop plugged in and close other heavy tabs.
 
 ## Real New York time of day
 
-On Washington Square the lighting matches the real time in New York, wherever you are playing from. **Real NYC time** is the default under **Options → Driving → Atmosphere**, and the note under it shows the New York time and where the sun is. The other atmosphere presets (Dead of night, Overgrown daylight, Ash storm, Dusty dawn) are still there as manual overrides.
+On Washington Square the lighting matches the real time in New York, wherever you are playing from. **Real NYC time** is the default under **Options → Atmosphere**, and the note under it shows the New York time and where the sun is. The other atmosphere presets (Dead of night, Overgrown daylight, Ash storm, Dusty dawn) are still there as manual overrides.
 
 - **Clock.** The browser's own time-zone data gives the time in America/New_York, so daylight saving time is handled automatically. Nothing is fetched from the internet; it works offline.
 - **Sun and moon.** The sun's elevation and compass direction over the park (40.7308 N, 73.9973 W) come from NOAA's solar position equations. The moon is placed with a standard low-precision formula (good to about a degree) and drawn at its real phase.
@@ -110,15 +106,19 @@ To preview another time, add it to the address:
 - `http://localhost:4173/?date=2026-12-21&time=16:15` shows a particular day.
 - Add `&speed=600` for a time-lapse (600 times real speed). Without `speed`, a previewed time holds still.
 
-The other three locations do not follow the clock; with Real NYC time selected they use Dead of night.
-
 **Performance.** Sun shadows are on whenever the sun is up, the same shadow pass the old daylight preset used: about 600 draw calls and 770k triangles at the start position in daylight, against about 510 calls and 570k triangles at night, when the shadow pass is off (cloud software renderer, so treat the numbers as relative). The moon adds one draw call. Switching shadows and lamp lights on or off at dusk and dawn makes the browser rebuild its shaders once, which can cause one short stutter.
 
 Sunrise and sunset times from the model are tested against published New York tables (within three minutes), on dates either side of the November clock change; see `tests/sky.test.js`.
 
+## The van
+
+You drive one vehicle: an NYU Facilities electric utility van, fleet number 07, an original design (not a real make or model). It is small and boxy, painted a faded NYU violet, with "NYU" and the fleet number in plain lettering on the doors and the back. It decays with the rest of the campus on the same 2026/2126 layer: in 2126 the paint is dented and streaked with rust, moss grows in the window seals, the windshield is cracked and the left headlamp is dimmer than the right. The cab has a modelled interior with a worn dashboard, and a printed campus map lies on the passenger seat.
+
+The motor is electric and quiet. There is no engine note and no idle: you hear a faint whine that rises with speed, a low inverter hum, the tyres on the paving, and now and then the tick of the cooling motor housing or a creak from the suspension over bumps and under braking. It is slow (about 23 km/h at most), light and softly sprung, and has one forward gear and reverse. The physics are documented in [PHYSICS.md](PHYSICS.md).
+
 ## The original locations
 
-NightView started as an arcade driver with three corridor locations, and they are still in the game under **Options → Location**: **Times Square**, **SoHo** and **Shibuya**. Each is a repeating driving corridor with overgrowth, wrecks, traffic, police patrols, pedestrians, falling facades and archival advertising. They are loose arcade interpretations built from licensed reference photos, not maps. The vehicle physics they share with the campus are documented in [PHYSICS.md](PHYSICS.md), the reclamation effects in [ENVIRONMENT.md](ENVIRONMENT.md) and the advertising in [ADVERTISING.md](ADVERTISING.md).
+NightView started as an arcade driver with three corridor locations, Times Square, SoHo and Shibuya, and a choice of cars. They were removed in Step 10 so the game is one place and one vehicle. They remain in git history and on the `main` branch, along with the archival advertising and the corridor reclamation effects that went with them.
 
 ## How the project handles accuracy
 
@@ -136,7 +136,7 @@ On 25 March 1911, 146 garment workers, most of them young immigrant women, died 
 
 ## Credits and data licences
 
-Full credits are in [dist/credits.html](dist/credits.html), which is also linked in the game under **Options → Location credits**. Every data source, with the exact query used and its licence, is listed in [RESEARCH/data/SOURCES.md](RESEARCH/data/SOURCES.md).
+Full credits are in [dist/credits.html](dist/credits.html), which is also linked in the game under **Options → Credits**. Every data source, with the exact query used and its licence, is listed in [RESEARCH/data/SOURCES.md](RESEARCH/data/SOURCES.md).
 
 - **OpenStreetMap**: map data © OpenStreetMap contributors, under the [Open Database License (ODbL 1.0)](https://opendatacommons.org/licenses/odbl/). The derived dataset `dist/campus/data/campus-data.js` is a Produced Work and, as far as it contains OSM data, is offered under the ODbL.
 - **NYC Open Data**: building footprints, PLUTO, planimetric layers, street centerlines, street trees and more, under the NYC Open Data Terms of Use.

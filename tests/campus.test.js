@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {makeProjection,ARCH_ORIGIN,metresPerDegree} from '../dist/campus/projection.js';
 import {campus,snapToStreet} from '../dist/campus/campus.js';
-import {initial,simulate,resolveContact,cars,FIXED_DT} from '../dist/physics.js';
+import {initial,simulate,resolveContact,VEHICLE,FIXED_DT} from '../dist/physics.js';
 const c=campus(),{data,streets,collision}=c,P=makeProjection(data.meta.origin);
 // ---- Projection: origin at the Arch, round trip, and agreement with great-circle distance.
 assert(Math.abs(data.meta.origin.lat-ARCH_ORIGIN.lat)<1e-6&&Math.abs(data.meta.origin.lon-ARCH_ORIGIN.lon)<1e-6,'Arch is the map origin');
@@ -32,12 +32,12 @@ const elm=data.trees.find(t=>t.landmark);assert(elm&&collision.solidAt(...elm.p)
 const bobst=data.buildings.find(b=>/Bobst/.test(b.name||''));assert(bobst&&bobst.h>35&&bobst.nyu);const bc=bobst.rings[0].reduce((s,p)=>[s[0]+p[0]/bobst.rings[0].length,s[1]+p[1]/bobst.rings[0].length],[0,0]);assert.equal(collision.solidAt(...bc),'building');
 for(const name of ['Kimmel','Silver Center','Brown Building','Weinstein','Furman','Judson'])assert(data.buildings.some(b=>(b.names||[]).some(n=>n.includes(name))),'Missing building '+name);
 // Driving south from the spawn passes through the Arch without touching it.
-let s=initial(cars[0]);Object.assign(s.position,{x:c.spawn.x,z:c.spawn.z});s.orientation.yaw=c.spawn.yaw;let archHits=0,passed=false;
-for(let i=0;i<120*20;i++){simulate(s,{throttle:.5},cars[0],FIXED_DT,c.surface);for(const k of collision.contacts(s.position.x,s.position.z,s.orientation.yaw)){if(k.kind==='arch')archHits++;resolveContact(s,cars[0],k);}if(s.position.z<-5){passed=true;break;}}
-assert(passed,'Car reaches the south side of the Arch');assert.equal(archHits,0,'Arch opening fits the car');assert(s.position.y>.55,'Car climbed the curb onto park paving');
+let s=initial(VEHICLE);Object.assign(s.position,{x:c.spawn.x,z:c.spawn.z});s.orientation.yaw=c.spawn.yaw;let archHits=0,passed=false;
+for(let i=0;i<120*40;i++){simulate(s,{throttle:.7},VEHICLE,FIXED_DT,c.surface);for(const k of collision.contacts(s.position.x,s.position.z,s.orientation.yaw)){if(k.kind==='arch')archHits++;resolveContact(s,VEHICLE,k);}if(s.position.z<-5){passed=true;break;}}
+assert(passed,'Car reaches the south side of the Arch');assert.equal(archHits,0,'Arch opening fits the car');assert(s.position.y>VEHICLE.rideHeight+.08,'Car climbed the curb onto park paving');
 // Driving hard into Bobst stops the car at the wall: no tunnelling, finite state, damage recorded.
-const wall=streets.nearest(bc[0],bc[1]+40,80);s=initial(cars[2]);const start=[bc[0],bc[1]+45];Object.assign(s.position,{x:start[0],z:start[1]});s.orientation.yaw=Math.atan2(bc[0]-start[0],bc[1]-start[1]);
-for(let i=0;i<120*10;i++){simulate(s,{throttle:1},cars[2],FIXED_DT,c.surface);for(const k of collision.contacts(s.position.x,s.position.z,s.orientation.yaw))resolveContact(s,cars[2],k);assert(collision.solidAt(s.position.x,s.position.z)!=='building','Car centre never enters Bobst');for(const v of [s.position.x,s.position.z,s.velocity.x,s.velocity.z])assert(Number.isFinite(v));}
+const wall=streets.nearest(bc[0],bc[1]+40,80);s=initial(VEHICLE);const start=[bc[0],bc[1]+45];Object.assign(s.position,{x:start[0],z:start[1]});s.orientation.yaw=Math.atan2(bc[0]-start[0],bc[1]-start[1]);
+for(let i=0;i<120*10;i++){simulate(s,{throttle:1},VEHICLE,FIXED_DT,c.surface);for(const k of collision.contacts(s.position.x,s.position.z,s.orientation.yaw))resolveContact(s,VEHICLE,k);assert(collision.solidAt(s.position.x,s.position.z)!=='building','Car centre never enters Bobst');for(const v of [s.position.x,s.position.z,s.velocity.x,s.velocity.z])assert(Number.isFinite(v));}
 assert(s.damage>0,'Impact registers damage');assert(wall,'Bobst fronts a street');
 // Reset snaps a car stuck in the park or a building back to the nearest street.
 const snap=snapToStreet(c,bc[0],bc[1],0);assert(streets.streetAt(snap.x,snap.z));
