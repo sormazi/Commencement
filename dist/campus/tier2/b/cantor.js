@@ -1,3 +1,7 @@
-// Cantor Film Center, 36 E 8th St. 1940, 3 storeys (a former cinema). Not checked on Street View (estimate): brick with
-// a plain stone frame and a marquee-style canopy.
-export default {slug:"cantor",name:"Cantor Film Center, 36 E 8th St",bin:1008834,also:[],source:"1940, 3 storeys (a former cinema). Not checked on Street View (estimate): brick with a plain stone frame and a marquee-style canopy.",wall:'brickBuff',trim:'limestone',ground:{h:4.6,style:'glass',pitch:2.4},floor:3.8,pitch:4.0,win:[2.2,1.8],cornice:'coping',doors:[{rank:0,at:.5,w:3.2,h:3,canopy:2.4}]};
+// Cantor Film Center, 36 E 8th St. Status: observed. 1940, 3 storeys (a former cinema). Not checked on Street View
+// (estimate): brick with a plain stone frame and a marquee-style canopy. Observed on Street View, 2026 pass: Apr 2026 (E
+// 8th St): a streamlined former cinema in horizontal bands of pale and grey brick, its name in large letters along the
+// top band.
+export default {slug:"cantor",name:"Cantor Film Center, 36 E 8th St",status:"observed",bin:1008834,also:[],source:"1940, 3 storeys (a former cinema). Not checked on Street View (estimate): brick with a plain stone frame and a marquee-style canopy. Observed on Street View, 2026 pass: Apr 2026 (E 8th St): a streamlined former cinema in horizontal bands of pale and grey brick, its name in large letters along the top band.",wall:'brickBuff',trim:'limestone',ground:{h:4.6,style:'glass',pitch:2.4},floor:3.8,pitch:4.0,win:[2.2,1.8],cornice:'coping',signs:{sign_cantor:{text:['CANTOR FILM CENTER'],opt:{bg:'#d9d4c8',ink:'#3b3f45',h:64}}},doors:[{rank:0,at:.5,w:3.2,h:3,canopy:2.4}],
+ extra:K=>{/* Streamlined former cinema: horizontal bands of grey brick across the pale front and the name along the top band. */const w=K.front('n')||K.ranked[0];if(!w)return;const f=w.face,top=w.piece.z;
+  for(let y=4.8;y<top-1.6;y+=1.1)K.P.block('slate',f,0,w.len,y,y+.45,0,.03,{skip:['left','right']});K.P.panel('sign_cantor',f,w.len*.1,w.len*.9,top-1.5,top-.3,.06);}};
