@@ -1,3 +1,5 @@
-// Goddard Hall. 79 Washington Square East (Steinhardt), 1900, 7 storeys. Google Street View (looked at, not saved)
-// blurred: red brick with a stone base and bands, a central round-arched entrance.
-export default {slug:"goddard",name:"Goddard Hall",bin:1076069,also:[],source:"79 Washington Square East (Steinhardt), 1900, 7 storeys. Google Street View (looked at, not saved) blurred: red brick with a stone base and bands, a central round-arched entrance.",wall:'brickRed',trim:'limestone',ground:{h:4.4,style:'base',mat:'limestone'},floor:3.5,pitch:3.2,win:[1.15,2.1],sash:1,lintel:.25,cornice:'modillion',doors:[{rank:0,at:.5,w:2.2,h:3.4,steps:2,y:.4}],flags:{rank:0,n:2,y:5.4}};
+// Goddard Hall. Status: observed. 79 Washington Square East (Steinhardt), 1900, 7 storeys. Google Street View (looked
+// at, not saved) blurred: red brick with a stone base and bands, a central round-arched entrance. Counted on Street
+// View: w 3 bays (Washington Sq E, user panorama: narrow red brick front with stone bands and a round-arched stone
+// entrance), 7 storeys.
+export default {slug:"goddard",name:"Goddard Hall",status:"observed",bin:1076069,also:[],source:"79 Washington Square East (Steinhardt), 1900, 7 storeys. Google Street View (looked at, not saved) blurred: red brick with a stone base and bands, a central round-arched entrance. Counted on Street View: w 3 bays (Washington Sq E, user panorama: narrow red brick front with stone bands and a round-arched stone entrance), 7 storeys.",wall:'brickRed',trim:'limestone',ground:{h:4.4,style:'base',mat:'limestone'},floor:3.5,pitch:3.2,win:[1.15,2.1],sash:1,lintel:.25,cornice:'modillion',bays:{w:3},doors:[{rank:0,at:.5,w:2.2,h:3.4,steps:2,y:.4}],flags:{rank:0,n:2,y:5.4}};
