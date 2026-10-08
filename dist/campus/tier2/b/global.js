@@ -1,4 +1,7 @@
-// Global Center for Academic and Spiritual Life. 58 Washington Square South at Thompson St, 2012. Google Street View
-// (looked at, not saved), May 2026: a beige patterned screen of perforated panels over the upper floors with a few
-// square windows, a glazed ground storey and the entrance at the corner.
-export default {slug:"global",name:"Global Center for Academic and Spiritual Life",bin:1088844,also:[],source:"58 Washington Square South at Thompson St, 2012. Google Street View (looked at, not saved), May 2026: a beige patterned screen of perforated panels over the upper floors with a few square windows, a glazed ground storey and the entrance at the corner.",wall:'terracotta',trim:'terracotta',ground:{h:4.6,style:'glass',pitch:2.2},floor:3.6,pitch:4.6,win:[1.4,1.4],reveal:.12,sill:0,cornice:'none',doors:[{rank:0,at:.92,w:2.4,h:3.2}]};
+// Global Center for Academic and Spiritual Life. Status: observed. 58 Washington Square South at Thompson St, 2012.
+// Google Street View (looked at, not saved), May 2026: tan-pink stone or terracotta panels with tall narrow windows in
+// pairs, a full-height glass strip over the entrance under a dark canopy (Thompson St, Apr 2026), a glazed ground
+// storey. Counted on Street View: w 10 bays (Thompson St, Apr 2026): tan-pink stone or terracotta panels with tall
+// narrow windows in pairs, a full-height glass strip over the entrance with a dark canopy. The lattice note was wrong;
+// corrected.
+export default {slug:"global",name:"Global Center for Academic and Spiritual Life",status:"observed",bin:1088844,also:[],source:"58 Washington Square South at Thompson St, 2012. Google Street View (looked at, not saved), May 2026: tan-pink stone or terracotta panels with tall narrow windows in pairs, a full-height glass strip over the entrance under a dark canopy (Thompson St, Apr 2026), a glazed ground storey. Counted on Street View: w 10 bays (Thompson St, Apr 2026): tan-pink stone or terracotta panels with tall narrow windows in pairs, a full-height glass strip over the entrance with a dark canopy. The lattice note was wrong; corrected.",wall:'terracotta',trim:'terracotta',ground:{h:4.6,style:'glass',pitch:2.2},floor:3.6,pitch:4.6,win:[.9,2.4],pair:1,reveal:.18,sill:0,bays:{w:10},cornice:'none',doors:[{rank:0,at:.92,w:2.4,h:3.2}]};
