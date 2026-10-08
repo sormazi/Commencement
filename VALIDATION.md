@@ -1,5 +1,11 @@
 # NightView validation
 
+## The Campus Safety car (8 Oct 2026)
+
+- The utility van was replaced by NYU Campus Safety unit 4, an electric crossover with the livery from Avi's reference photos, as separate decals. `npm test` passes, including a new livery test (every part has its own PNG, a size, a source note and placements; plain lettering only).
+- Rendered from the front, side, rear and the driver's seat in 2026 and 2126; checked for the livery, fading and peeling, rust, moss in the seals, the cracked windshield, the dimmer left headlamp and the map on the seat. Draw calls at the start position in daylight went from about 880 to 780 once the car's meshes were merged by material.
+- The faint green patch seen beside the van's front wheel did not appear under the new car by day or at night.
+
 ## Step 10 Part 1: one place, one van (8 Oct 2026)
 
 - Times Square, SoHo, Shibuya, the old cars, the archival advertising, traffic and the corridor effects removed from the game, code, assets and tests. Washington Square is the only location; the Options menu has no location or vehicle choice.

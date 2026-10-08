@@ -5,7 +5,7 @@ import * as THREE from './vendor/three.module.js';
 import {VEHICLE,FixedVehicleLoop,inputFromKeys,resolveContact} from './physics.js?v=22';
 import {campus,snapToStreet} from './campus/campus.js?v=22';
 import {CampusMinimap} from './campus/minimap.js?v=22';
-// NightView: one place (Washington Square) and one vehicle (NYU Facilities unit 07, see vehicle.js).
+// NightView: one place (Washington Square) and one vehicle (NYU Campus Safety unit 4, see vehicle.js).
 const $=id=>document.getElementById(id),canvas=$('world'),city=new CityRenderer(canvas),mini=$('mini').getContext('2d');
 const audio=new DriveAudio(),soundtrack=new Soundtrack();
 // Sound starts on the first key press, click or tap (browsers require a gesture).

@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import data from '../dist/campus/data/campus-data.js';
 import {pointInRing} from '../dist/campus/geometry.js';
 import {chessLayout,lampLayout,fountainProfile,PLAZA_RADIUS} from '../dist/campus/park.js';
-import {SIGNAGE} from '../dist/assets/signage/manifest.js';
+import {SIGNAGE,LIVERY} from '../dist/assets/signage/manifest.js';
 let passed=0;const test=(name,fn)=>{fn();passed++;console.log('ok - '+name);};
 const park=data.areas.find(a=>a.kind==='park'&&pointInRing([-30,-46],a.ring)).ring,fountain=data.areas.find(a=>a.kind==='fountain'&&pointInRing(a.ring[0],park));
 const fc=fountain.ring.reduce((s,p)=>[s[0]+p[0]/fountain.ring.length,s[1]+p[1]/fountain.ring.length],[0,0]);
@@ -20,4 +20,8 @@ test('signage manifest: every decal has its own PNG, a size, a source note and p
   assert.ok(!/torch|logo/i.test(JSON.stringify(s.lines||[])),'no logo text');}});
 test('nothing in the signage names or sits on the Brown Building or the Triangle Fire memorial',()=>{const brown=data.buildings.find(b=>b.bin===1008823);
  for(const s of SIGNAGE){assert.ok(!/brown building|triangle/i.test(s.id+' '+(s.lines||[]).join(' ')));for(const p of s.placements)assert.ok(!pointInRing(p.p,brown.rings[0])&&Math.min(...brown.rings[0].map(q=>Math.hypot(q[0]-p.p[0],q[1]-p.p[1])))>3,s.id+' near Brown');}});
+test('car livery: every part is its own decal with a PNG, a size, a source note and placements on the car; plain lettering only',()=>{const ids=new Set(SIGNAGE.map(s=>s.id));
+ for(const s of LIVERY){assert.ok(!ids.has(s.id));ids.add(s.id);assert.equal(s.kind,'livery');assert.match(s.file,/^assets\/signage\/livery-[a-z0-9-]+\.png$/);assert.ok(fs.existsSync(new URL('../dist/'+s.file,import.meta.url)),s.file);
+  assert.ok(s.size[0]>0&&s.size[1]>0&&s.seen&&typeof s.draw==='function'&&s.placements.length);for(const p of s.placements)assert.ok(['right','left','rear','rear-window'].includes(p.side));assert.ok(!/torch|logo|badge\.png/i.test(s.file));}
+ for(const part of ['band','campus-safety','phone','nyu','unit-4','electric','tailgate-strip'])assert.ok(LIVERY.some(s=>s.id.includes(part)),part);});
 console.log(`park: ${passed} passed`);

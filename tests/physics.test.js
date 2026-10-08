@@ -1,12 +1,12 @@
 import assert from 'node:assert/strict';
 import {VEHICLE,initial,simulate,resolveContact,FixedVehicleLoop,FIXED_DT,interpolate} from '../dist/physics.js';
-// The one vehicle: NYU Facilities unit 07, a small electric utility van. Slow, light and soft.
+// The one vehicle: NYU Campus Safety unit 4, a compact electric crossover. Single speed, campus pace, soft.
 const c=VEHICLE,run=(input,seconds,s=initial(c))=>{for(let i=0;i<Math.round(seconds/FIXED_DT);i++)simulate(s,input,c);return s;};
 const finite=s=>{for(const o of [s.position,s.velocity,s.acceleration,s.orientation,s.angularVelocity,s.angularAcceleration])for(const value of Object.values(o))assert(Number.isFinite(value));};
-assert(c.electric&&c.gears.length===1&&c.mass<1000,'one light electric vehicle, single speed');
-// Gentle acceleration and a governed top speed of about 24 km/h, for crawling and looking.
+assert(c.electric&&c.gears.length===1&&c.mass>1500&&c.mass<2600,'one electric crossover, single speed');
+// Gentle acceleration and a governed top speed of about 30 km/h, a campus pace.
 const a2=run({throttle:1},2).speed;assert(a2>1.2&&a2<3.2,'gentle: '+a2.toFixed(2)+' m/s after 2 s');
-const top=run({throttle:1},20).speed;assert(top>5.5&&top<=c.vmax+.05,'top '+top.toFixed(2));
+const top=run({throttle:1},20).speed;assert(top>7&&top<=c.vmax+.05,'top '+top.toFixed(2));
 // No boost, no clutch, no gear shifts: the electric drive ignores them.
 assert.equal(run({throttle:1,boost:true},10).speed.toFixed(3),run({throttle:1},10).speed.toFixed(3));const sh=run({throttle:1,manual:true,shift:1},5);assert.equal(sh.gear,1);
 // Braking and reverse (slow).

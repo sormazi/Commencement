@@ -15,7 +15,7 @@ constructor(canvas){this.renderer=new T.WebGLRenderer({canvas,antialias:true,pow
 // Original reflection environment: large luminous city panels and a cool sky.
 const envScene=new T.Scene();envScene.background=new T.Color(0x263e5c);for(let i=0;i<14;i++){let panel=new T.Mesh(new T.PlaneGeometry(8,30),new T.MeshBasicMaterial({color:i%3===0?0xe7b881:0xa7cbdc}));panel.position.set(Math.cos(i)*30,10,Math.sin(i)*30);panel.lookAt(0,10,0);envScene.add(panel);}const cubeTarget=new T.WebGLCubeRenderTarget(128,{type:T.HalfFloatType});const cubeCam=new T.CubeCamera(.1,100,cubeTarget);cubeCam.update(this.renderer,envScene);const pm=new T.PMREMGenerator(this.renderer);this.scene.environment=pm.fromCubemap(cubeTarget.texture).texture;pm.dispose();cubeTarget.dispose();
 this.player=null;
-this.contact=new T.Mesh(new T.PlaneGeometry(2.1,3.6),new T.MeshBasicMaterial({map:glowMap,color:0x000000,transparent:true,opacity:.7,depthWrite:false}));this.contact.rotation.x=-Math.PI/2;this.contact.position.y=.04;this.scene.add(this.contact);
+this.contact=new T.Mesh(new T.PlaneGeometry(2.4,5.0),new T.MeshBasicMaterial({map:glowMap,color:0x000000,transparent:true,opacity:.7,depthWrite:false}));this.contact.rotation.x=-Math.PI/2;this.contact.position.y=.04;this.scene.add(this.contact);
 this.headlights=[];for(let x of [-.6,.6]){const l=new T.SpotLight(0xccedff,75,75,.34,.5,1.1);l.position.set(x,.7,-2.2);l.target.position.set(x,.1,-38);this.scene.add(l,l.target);this.headlights.push(l);}
 this.fill=new T.PointLight(0xb4d1ed,24,16,1.2);this.fill.position.set(-4,3,4);this.scene.add(this.fill);
 const smokeGeo=new T.SphereGeometry(1,8,6);this.smoke=Array.from({length:35},()=>{let m=new T.Mesh(smokeGeo,new T.MeshBasicMaterial({color:0xc0c7d1,transparent:true,opacity:0,depthWrite:false}));this.scene.add(m);return {m,life:0,x:0,z:0};});this.smokeIndex=0;
@@ -42,10 +42,10 @@ this.player.position.set(X,.025+(state.position.y-VEHICLE.rideHeight),Z);this.pl
 this.player.userData.wheels.forEach((w,i)=>{const simulationWheel=state.wheels?.[i===0?0:i===1?2:i===2?1:3];w.rotation.x=simulationWheel?-simulationWheel.rotation:0;w.rotation.y=simulationWheel?-simulationWheel.steeringAngle:0;const config=VEHICLE,front=(i===0||i===2),preload=config.mass*9.81*(front?config.frontWeight:1-config.frontWeight)/2/config.springRate;w.position.y=this.player.userData.wheelY+(simulationWheel?simulationWheel.suspension.compression-preload:0);});
 this.player.userData.updateDecay?.();
 this.contact.visible=true;this.contact.position.set(X,ground+.04,Z);this.contact.rotation.z=-yaw;
-for(let i=0;i<2;i++){const side=i?.47:-.47,hx=X+rx*side+fx*1.55,hz=Z+rz*side+fz*1.55;this.headlights[i].position.set(hx,ground+.8,hz);this.headlights[i].target.position.set(hx+fx*30,ground,hz+fz*30);}
+for(let i=0;i<2;i++){const side=i?.6:-.6,hx=X+rx*side+fx*2.25,hz=Z+rz*side+fz*2.25;this.headlights[i].position.set(hx,ground+.9,hz);this.headlights[i].target.position.set(hx+fx*30,ground,hz+fz*30);}
 this.fill.position.set(X-rx*4-fx*4,ground+3,Z-rz*4-fz*4);
 if(!this.sun.target.parent)this.scene.add(this.sun.target);if(this.preset==='realtime')this.sky.update(dt,X,Z,this.world);else{this.sun.position.set(X-40,80,Z-80);this.sun.target.position.set(X,0,Z);}
-// The van's left headlamp burns dimmer as the decay layer comes in.
+// The car's left headlamp burns dimmer as the decay layer comes in.
 this.headlights[0].intensity=this.headlights[1].intensity*(1-.65*DECAY.value);
 if((controls.drifting||controls.burnout||state.damage>.6)&&playing){let p=this.smoke[this.smokeIndex++%this.smoke.length];p.life=1;const side=this.smokeIndex%2?1:-1;p.x=X+rx*side-fx*1.8;p.z=Z+rz*side-fz*1.8;p.y=ground;}
 for(let p of this.smoke){p.life=Math.max(0,p.life-dt*.9);p.m.visible=p.life>0;if(p.life){p.m.position.set(p.x+(1-p.life)*Math.sin(time)*2,(p.y||0)+.4+(1-p.life)*1.8,p.z);p.m.scale.setScalar(.15+(1-p.life)*1.8);p.m.material.opacity=p.life*.25;p.m.material.color.set(state.damage>.6?0x343a30:0xa3a390);}}
@@ -54,7 +54,7 @@ for(const mark of this.skids){mark.life=Math.max(0,mark.life-dt);mark.m.visible=
 if(state.impact>this.previousImpact+.1){for(let i=0;i<this.sparks.length;i++){const p=this.sparks[i];p.life=.4+rand(i+time)*.5;p.p.set(X+fx*1.8,ground+.7,Z+fz*1.8);p.v.set((rand(i+2)-.5)*12,rand(i+6)*7,(rand(i+12)-.5)*10);}}this.previousImpact=state.impact;
 for(const p of this.sparks){p.life=Math.max(0,p.life-dt);p.m.visible=p.life>0;if(p.life){p.v.y-=dt*9.8;p.p.addScaledVector(p.v,dt);p.m.position.copy(p.p);p.m.rotation.set(time*13,time*7,time*11);}}
 const speed=Math.abs(state.speed),shake=playing?(speed>45?.012*speed/80:0)+state.hit*.035:0;this.camera.fov=playing?62+speed*.14+(controls.boosting?5:0):55;this.camera.updateProjectionMatrix();
-const back=playing?8.4:7.2,height=playing?3.2:2.4,desired=new T.Vector3(X-cfx*back+Math.sin(time*43)*shake*4+(playing?0:rx*5),ground+height+Math.cos(time*37)*shake,Z-cfz*back+(playing?0:rz*5));
+const back=playing?9.4:8.2,height=playing?3.4:2.6,desired=new T.Vector3(X-cfx*back+Math.sin(time*43)*shake*4+(playing?0:rx*5),ground+height+Math.cos(time*37)*shake,Z-cfz*back+(playing?0:rz*5));
 this.camera.position.lerp(desired,1-Math.exp(-dt*7));this.camera.lookAt(X+cfx*14,ground+1.05,Z+cfz*14);
 // Developer/review camera: fixed viewpoint in map metres (x east, n north), used for skyline checks.
 const o=this.cameraOverride;if(o){this.camera.fov=o.fov||55;this.camera.updateProjectionMatrix();this.camera.position.set(o.x,o.y,-o.n);this.camera.lookAt(o.lx,o.ly??o.y,-o.ln);this.scene.fog.density=o.fog??this.scene.fog.density;}

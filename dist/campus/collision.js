@@ -3,7 +3,7 @@ import {SHEDS} from './landmarks/sheds.js?v=22';
 import {SYLVETTE} from './landmarks/silver-towers.js?v=22';
 // Static collision and surface queries for the free-roam campus, in physics/map space
 // (x = east, z = north). Contacts are returned in the format physics.resolveContact expects.
-export const CAR_CIRCLES=[.85,0,-.85],CAR_RADIUS=.7;// the van: 3.0 m long, 1.36 m wide
+export const CAR_CIRCLES=[1.5,.5,-.5,-1.5],CAR_RADIUS=.92;// the Campus Safety car: 4.58 m long, 1.85 m wide
 export const CURB_HEIGHT=.15;
 const treeRadius=dbh=>Math.max(.22,Math.min(1.1,dbh*.0254/2+.06));
 export function archPiers(arch){const f=rectFrame(arch.ring),o=arch.openingWidth/2;return [rectRing(f,-f.halfLong,-o,-f.halfShort,f.halfShort),rectRing(f,o,f.halfLong,-f.halfShort,f.halfShort)];}

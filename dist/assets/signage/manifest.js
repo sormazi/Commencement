@@ -22,4 +22,6 @@ const FIXED=[
   placements:[{p:[-197.16,9.18],y:5.0,normal:[.542,.84],where:'Washington Sq W lamp post, west side, just north of W 4th St (upper banner)'},
    {p:[-32.72,53.66],y:4.4,normal:[.839,-.543],where:'Washington Sq N lamp post in front of 19 Washington Square North'}]}];
 // Shop signs: one decal per storefront record in campus/storefronts/ (placed on its sign band).
+// The car's Campus Safety livery is part of this manifest too: see livery.js (decals placed on the car).
+export {LIVERY} from './livery.js?v=22';
 export const SIGNAGE=[...FIXED,...resolveStorefronts(data,STOREFRONTS).map(signDecal).filter(Boolean)];

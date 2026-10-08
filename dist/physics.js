@@ -2,13 +2,14 @@
 // No browser, rendering, mapping or timing dependencies.
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 export const FIXED_DT=1/120;
-// The one vehicle: NYU Facilities Fleet unit 07, a small boxy electric campus utility van (an original
-// design). Light, slow and soft: a single-speed electric motor, a 24 km/h governor, soft springs.
-export const VEHICLE={name:'NYU Facilities utility van',fleet:'07',electric:true,
- mass:780,cgHeight:.66,wheelbase:1.95,frontWeight:.5,track:1.2,yawInertia:640,rollInertia:200,pitchInertia:560,wheelRadius:.27,wheelInertia:.7,
- springRate:21000,damperRate:2100,suspensionTravel:.15,rideHeight:.4,mu:1.0,cornerStiffness:21000,longStiffness:1500,
- engineInertia:.05,peakTorque:36,idleRPM:0,redline:4200,gears:[1],reverseRatio:1,finalDrive:8.5,driveFront:0,vmax:6.7,vmaxReverse:2.5,
- dragArea:1.3,rollingResistance:.02,brakeTorque:650,handbrakeTorque:480,steerMax:.62,steerRate:1.5,tractionControl:.5,stabilityAssist:1400};
+// The one vehicle: NYU Campus Safety unit 4, a compact electric crossover (an original body on the size and
+// weight of the real Campus Safety car): about 2.1 t, single-speed rear motor, governed to a campus pace of
+// about 30 km/h, softly sprung.
+export const VEHICLE={name:'NYU Campus Safety car',unit:'4',electric:true,
+ mass:2100,cgHeight:.58,wheelbase:2.8,frontWeight:.48,track:1.58,yawInertia:4000,rollInertia:650,pitchInertia:3600,wheelRadius:.36,wheelInertia:1.3,
+ springRate:52000,damperRate:5000,suspensionTravel:.17,rideHeight:.5,mu:1.0,cornerStiffness:52000,longStiffness:4000,
+ engineInertia:.05,peakTorque:150,idleRPM:0,redline:4200,gears:[1],reverseRatio:1,finalDrive:9,driveFront:0,vmax:8.3,vmaxReverse:3,
+ dragArea:.75,rollingResistance:.013,brakeTorque:1700,handbrakeTorque:1250,steerMax:.55,steerRate:1.4,tractionControl:.5,stabilityAssist:8500};
 export function initial(c=VEHICLE){const s={position:{x:0,y:c.rideHeight,z:0},velocity:{x:0,y:0,z:0},acceleration:{x:0,y:0,z:0},orientation:{yaw:0,pitch:0,roll:0},angularVelocity:{yaw:0,pitch:0,roll:0},angularAcceleration:{yaw:0,pitch:0,roll:0},localVelocity:{longitudinal:0,lateral:0},steeringAngle:0,throttle:0,brake:0,handbrake:0,engineOmega:c.idleRPM*Math.PI/30,rpm:c.idleRPM,gear:1,shiftTimer:0,boost:100,damage:0,crash:0,impact:0,hit:0,distance:0,top:0,score:0,drift:0,checkpoint:1,tick:0,shiftLatch:0,wheels:Array.from({length:4},()=>({rotation:0,omega:0,steeringAngle:0,suspension:{compression:0,velocity:0,load:0},slip:{ratio:0,angle:0},force:{longitudinal:0,lateral:0},normalLoad:0}))};s.wheels.forEach((w,i)=>{const load=c.mass*9.81*(i<2?c.frontWeight:1-c.frontWeight)/2;w.normalLoad=load;w.suspension.load=load;w.suspension.compression=load/c.springRate;});sync(s);return s;}
 function sync(s){const y=s.orientation.yaw,co=Math.cos(y),si=Math.sin(y);s.localVelocity.longitudinal=s.velocity.x*si+s.velocity.z*co;s.localVelocity.lateral=s.velocity.x*co-s.velocity.z*si;s.speed=s.localVelocity.longitudinal;s.lateral=s.position.x;s.roadPosition=s.position.z;s.yaw=y;s.yawRate=s.angularVelocity.yaw;s.lateralVelocity=s.velocity.x;s.slip=y/.21;s.rpm=s.engineOmega*30/Math.PI;s.engineRPM=s.rpm;s.currentGear=s.gear;}
 export function inputFromKeys(k,manual=false){return {throttle:k.w||k.arrowup?1:0,brake:k.s||k.arrowdown?1:0,steer:(!!(k.d||k.arrowright))-(!!(k.a||k.arrowleft)),handbrake:k[' ']?1:0,clutch:!!k.c,boost:!!k.shift,manual,shift:(!!k.e)-(!!k.q)};}
