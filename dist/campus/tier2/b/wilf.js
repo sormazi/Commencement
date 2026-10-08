@@ -1,8 +1,8 @@
-// Wilf Hall and the Provincetown Playhouse. 139 MacDougal St, 2011 (Morris Adjmi), with the Provincetown Playhouse front
-// at 133 MacDougal. Google Street View (looked at, not saved), Apr 2024: red brick with large rectangular windows in a
-// regular grid and violet flags; to the south the Playhouse front, cream-painted brick, three storeys, double glass
-// doors between two porthole windows.
-export default {slug:"wilf",name:"Wilf Hall and the Provincetown Playhouse",bin:1008760,also:[],source:"139 MacDougal St, 2011 (Morris Adjmi), with the Provincetown Playhouse front at 133 MacDougal. Google Street View (looked at, not saved), Apr 2024: red brick with large rectangular windows in a regular grid and violet flags; to the south the Playhouse front, cream-painted brick, three storeys, double glass doors between two porthole windows.",wall:'brickRed',trim:'brickRed',ground:{h:4.2,style:'base',mat:'brickRed',win:[1.6,2.4],pitch:3.4},floor:3.6,pitch:3.4,win:[1.6,2.2],cornice:'coping',doors:[{rank:0,at:.6,w:2.2,h:3}],flags:{rank:0,n:2,y:6},signs:{sign_provincetown:{text:['PROVINCETOWN PLAYHOUSE'],opt:{bg:'#e6e0d2',ink:'#2b2b2b',h:96}}},
+// Wilf Hall and the Provincetown Playhouse. Status: observed. 139 MacDougal St, 2011 (Morris Adjmi), with the
+// Provincetown Playhouse front at 133 MacDougal. Google Street View (looked at, not saved), Apr 2024: red brick with
+// large rectangular windows in a regular grid and violet flags; to the south the Playhouse front, cream-painted brick,
+// three storeys, double glass doors between two porthole windows.
+export default {slug:"wilf",name:"Wilf Hall and the Provincetown Playhouse",status:"observed",bin:1008760,also:[],source:"139 MacDougal St, 2011 (Morris Adjmi), with the Provincetown Playhouse front at 133 MacDougal. Google Street View (looked at, not saved), Apr 2024: red brick with large rectangular windows in a regular grid and violet flags; to the south the Playhouse front, cream-painted brick, three storeys, double glass doors between two porthole windows.",wall:'brickRed',trim:'brickRed',ground:{h:4.2,style:'base',mat:'brickRed',win:[1.6,2.4],pitch:3.4},floor:3.6,pitch:3.4,win:[1.6,2.2],cornice:'coping',doors:[{rank:0,at:.6,w:2.2,h:3}],flags:{rank:0,n:2,y:6},signs:{sign_provincetown:{text:['PROVINCETOWN PLAYHOUSE'],opt:{bg:'#e6e0d2',ink:'#2b2b2b',h:96}}},
  extra:K=>{const w=K.ranked[0];if(!w)return;const f=w.face,P=K.P,u1=Math.min(7.5,w.len*.3);
   // Provincetown Playhouse front: cream paint over the brick, porthole windows, double doors, name board.
   P.block('brickPainted',f,0,u1,0,11.2,0,.08,{skip:['bottom']});const c=u1/2;
