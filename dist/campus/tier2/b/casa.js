@@ -1,3 +1,5 @@
-// Casa Italiana Zerilli-Marimò, 24 W 12th St. The 1852 General Winfield Scott House, 5 storeys. Not checked on Street
-// View; brownstone-trimmed town house (estimate).
-export default {slug:"casa",name:"Casa Italiana Zerilli-Marim\u00f2, 24 W 12th St",bin:1009577,also:[],source:"The 1852 General Winfield Scott House, 5 storeys. Not checked on Street View; brownstone-trimmed town house (estimate).",wall:'brownstone',trim:'brownstone',ground:{h:3.8,style:'base',mat:'brownstone',first:1.4},floor:3.4,pitch:2.7,win:[1.05,2.2],sash:1,lintel:.3,cornice:'modillion',doors:[{rank:0,at:.25,w:1.5,h:2.9,steps:4,y:1.2}]};
+// Casa Italiana Zerilli-Marimò, 24 W 12th St. Status: observed. The 1852 General Winfield Scott House, 5 storeys. Not
+// checked on Street View; brownstone-trimmed town house (estimate). Observed on Street View, 2026 pass: Apr 2026 (W 12th
+// St): brownstone town house with round-arched ground-floor openings, a long iron balcony across the parlour floor and a
+// stoop; confirms the estimate.
+export default {slug:"casa",name:"Casa Italiana Zerilli-Marim\u00f2, 24 W 12th St",status:"observed",bin:1009577,also:[],source:"The 1852 General Winfield Scott House, 5 storeys. Not checked on Street View; brownstone-trimmed town house (estimate). Observed on Street View, 2026 pass: Apr 2026 (W 12th St): brownstone town house with round-arched ground-floor openings, a long iron balcony across the parlour floor and a stoop; confirms the estimate.",wall:'brownstone',trim:'brownstone',ground:{h:3.8,style:'base',mat:'brownstone',first:1.4},floor:3.4,pitch:2.7,win:[1.05,2.2],sash:1,lintel:.3,cornice:'modillion',doors:[{dir:'n',at:.25,w:1.5,h:2.9,steps:4,y:1.2}]};
