@@ -48,7 +48,7 @@ vec4 mvPosition=modelViewMatrix*instanceMatrix*vec4(0.,0.,0.,1.);mvPosition.xy+=
   update(time,camera){uniforms.uTime.value=time;if(lamps<=.01&&cardLv<=.01)return;const cx=camera.position.x,cz=camera.position.z;
    // Nearest live lamps get the real lights.
    const near=live.map(l=>({l,d:(l.p[0]-cx)**2+(-l.p[1]-cz)**2})).sort((a,b)=>a.d-b.d).slice(0,pool.length);
-   pool.forEach((L,i)=>{const e=near[i];if(!e||e.d>90*90||lamps<=.01){L.intensity=0;return;}L.position.set(e.l.p[0],CURB_HEIGHT+4.2,-e.l.p[1]);L.intensity=38*lamps*flicker(time,e.l.seed);});
+   pool.forEach((L,i)=>{const e=near[i];if(!e||e.d>90*90||lamps<=.01){L.intensity=0;return;}L.position.set(e.l.p[0],CURB_HEIGHT+4.2,-e.l.p[1]);L.intensity=55*lamps*flicker(time,e.l.seed);});
    // Fog cards wrap round the camera and drift slowly east.
    cards.forEach(c=>{let dx=c.x-cx,dz=c.z-cz;if(!c.init||Math.hypot(dx,dz)>75){const a=hash(c.i*7.1+Math.floor(time))*6.28,r=18+hash(c.i*3.3+time)*55;c.x=cx+Math.cos(a)*r;c.z=cz+Math.sin(a)*r;c.y=.8+hash(c.i)*2.5;c.w=14+hash(c.i*2)*18;c.h=3+hash(c.i*5)*3;c.init=true;}
     c.x+=.012;c.z+=.004;o3.position.set(c.x,c.y,c.z);o3.rotation.set(0,0,0);o3.scale.set(c.w,c.h,1);o3.updateMatrix();fog.setMatrixAt(c.i,o3.matrix);});fog.instanceMatrix.needsUpdate=true;}};}

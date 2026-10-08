@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
 import {sunTimes,sunPosition,moonPosition,nyDate,nyOffset,nyParts,lookAt,skyAt,makeClock,KEYS} from '../dist/campus/atmosphere/sky.js';
 let passed=0;const test=(name,fn)=>{fn();passed++;console.log('ok - '+name);};
 // Minutes past midnight on New York's clock.
@@ -46,7 +47,7 @@ test('moon phase and position: full on 25 Jan 2024, new and in front of the sun 
  const r=Math.PI/180,sep=Math.acos(Math.sin(m.altitude*r)*Math.sin(s.elevation*r)+Math.cos(m.altitude*r)*Math.cos(s.elevation*r)*Math.cos((m.azimuth-s.azimuth)*r))/r;
  assert.ok(sep<2,'moon-sun separation '+sep.toFixed(2)+' deg (geocentric moon, no parallax)');});
 test('lighting: night is exactly Dead of night, lamps come on through dusk, day is hazy with shadows',()=>{
- const n=lookAt(-20);assert.equal(n.bg,0x05070c);assert.equal(n.fog,0x0a0e15);assert.equal(n.density,.021);assert.equal(n.hemi,.24);assert.equal(n.lamps,1);assert.equal(n.cards,1);
+ const n=lookAt(-20);assert.equal(n.bg,0x020305);assert.equal(n.fog,0x06080c);assert.equal(n.density,.026);assert.equal(n.hemi,.07);assert.equal(n.vignette,1);assert.equal(n.lamps,1);assert.equal(n.cards,1);
  assert.equal(lookAt(10).lamps,0);assert.ok(lookAt(-1).lamps>.2&&lookAt(-1).lamps<.9,'lamps half on at sunset');
  const day=lookAt(40);assert.ok(day.density>0&&day.density<n.density/3,'thinner fog by day');assert.ok(day.desat>.25,'washed-out grade');
  // Values change continuously with the sun: no step bigger than a small fraction between 0.1 degree samples.
@@ -59,4 +60,6 @@ test('URL preview: ?time and ?date pick a New York moment and hold it; ?speed ru
  fake+=60000;assert.equal(nyParts(c.now()).mm,30,'held still');
  const l=makeClock('?date=2026-03-08&time=01:30&speed=60',now);fake+=60000;const q=nyParts(l.now());assert.deepEqual([q.hh,q.mm],[3,30],'an hour later on the clock is 03:30 after spring-forward');
  assert.equal(makeClock('',now).preview,false);});
+test('the Dead of night preset in the renderer uses the same values as the real-time night',()=>{const src=readFileSync(new URL('../dist/renderer3d.js',import.meta.url),'utf8');const line=src.slice(src.indexOf("if(preset==='night')"));const n=KEYS[0];
+ const hex=v=>'0x'+v.toString(16).padStart(6,'0');for(const frag of [`background.set(${hex(n.bg)})`,`fog.color.set(${hex(n.fog)})`,`fog.density=${String(n.density).replace(/^0/,'')}`,`sun.intensity=${String(n.sun).replace(/^0/,'')}`,`hemi.intensity=${String(n.hemi).replace(/^0/,'')}`])assert.ok(line.slice(0,900).includes(frag),'renderer night has '+frag);});
 console.log(`${passed} sky tests passed`);

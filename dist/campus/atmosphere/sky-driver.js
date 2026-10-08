@@ -3,7 +3,7 @@ import {skyAt,makeClock,describe} from './sky.js?v=21';
 // Drives the renderer's lights, sky, fog and post grade from the real New York sun (sky.js).
 // The sky is recomputed every five seconds (every half second in a time-lapse preview) and every value
 // glides toward the new target with a three-second time constant, so nothing ever jumps.
-const NUM=['sun','density','hemi','exposure','desat','cards','lamps','moonGlow'],COL=['sunC','bg','fog','sky','ground'];
+const NUM=['sun','density','hemi','exposure','desat','cards','lamps','moonGlow','vignette'],COL=['sunC','bg','fog','sky','ground'];
 // Hex colours are sRGB; three.js lights and setRGB work in linear space, so convert once here.
 const rgb=h=>{const c=new T.Color(h);return [c.r,c.g,c.b];};
 function moonTexture(){const c=document.createElement('canvas');c.width=c.height=128;const t=new T.CanvasTexture(c);t.colorSpace=T.SRGBColorSpace;return {c,t};}
@@ -32,14 +32,16 @@ export class SkyDriver{
   for(const n of ['dir','moonDir']){const v=c[n];for(let i=0;i<3;i++)v[i]+=(tg[n][i]-v[i])*k;const l=Math.hypot(...v)||1;for(let i=0;i<3;i++)v[i]/=l;}
   const r=this.r;r.scene.background.setRGB(...c.bg);r.scene.fog.color.setRGB(...c.fog);r.scene.fog.density=c.density;
   r.hemi.intensity=c.hemi;r.hemi.color.setRGB(...c.sky);r.hemi.groundColor.setRGB(...c.ground);
-  r.sun.intensity=c.sun;r.sun.color.setRGB(...c.sunC);r.renderer.toneMappingExposure=c.exposure;r.postMat.uniforms.desat.value=c.desat;
+  r.sun.intensity=c.sun;r.sun.color.setRGB(...c.sunC);r.renderer.toneMappingExposure=c.exposure;r.postMat.uniforms.desat.value=c.desat;r.postMat.uniforms.vignette.value=c.vignette;
   // Key light from the real sun (or moon). The shadow box stays centred on the car, so shadows fall as they
   // really do at this hour; they switch off with a little hysteresis around the horizon.
   const [dx,dy,dn]=c.dir;r.sun.position.set(X+dx*150,dy*150,Z-dn*150);r.sun.target.position.set(X,0,Z);
   const want=this.shadows?this.sky.sun.elevation>-.5:this.sky.sun.elevation>.5;if(want!==this.shadows){this.shadows=want;r.sun.castShadow=want;}
   world?.setSky?.(c.lamps,c.cards,c.fog);
   // The chase camera's fill light (it keeps the car readable) is turned down after dark so it stops floodlighting facades.
-  if(r.fill){r.fill.userData.base??=r.fill.intensity;r.fill.intensity=r.fill.userData.base*(1-.75*c.lamps);}}
+  if(r.fill){r.fill.userData.base??=r.fill.intensity;r.fill.intensity=r.fill.userData.base*(1-.75*c.lamps);}
+  // Headlights carry the night: brighter as the lamps come on.
+  for(const h of r.headlights||[]){h.userData.base??=h.intensity;h.intensity=h.userData.base*(1+1.4*c.lamps);}}
  // Moon disc, placed after the camera has moved.
  place(camera){const g=this.cur?.moonGlow||0;this.moon.visible=g>.02;if(!this.moon.visible)return;const [x,y,n]=this.cur.moonDir,D=900;
   this.moon.position.set(camera.position.x+x*D,camera.position.y+y*D,camera.position.z-n*D);this.moon.scale.setScalar(D*.0095*1.3);this.moon.quaternion.copy(camera.quaternion);this.moon.material.opacity=g;}

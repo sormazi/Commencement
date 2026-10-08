@@ -46,14 +46,14 @@ export function moonPosition(date,lat=WSP.lat,lon=WSP.lon){const dd=date.getTime
 // Look keyframes by sun elevation. Night is the existing "Dead of night" preset exactly; the day is deliberately
 // hazy and washed out (pale grey-green haze, desaturated, soft sun) so the abandoned campus never looks cheerful.
 // sun = light intensity, bg = sky/background, fog/density = FogExp2, hemi = sky/ground fill, desat = post grade,
-// lamps = surviving street lamps lit, cards = low ground-fog cards.
+// lamps = surviving street lamps lit, cards = low ground-fog cards, vignette = how far the screen edges fall into darkness.
 export const KEYS=[
- {e:-12,sun:.2,sunC:0x9fb4d6,bg:0x05070c,fog:0x0a0e15,density:.021,hemi:.24,sky:0x3c4a64,ground:0x15130f,exposure:1.0,desat:0,cards:1},
- {e:-6,sun:.2,sunC:0x9fb4d6,bg:0x151b29,fog:0x1a2130,density:.016,hemi:.5,sky:0x4d5872,ground:0x1b1915,exposure:1.0,desat:.05,cards:.85},
- {e:-1,sun:.5,sunC:0xff9d66,bg:0x5d5866,fog:0x5f5a63,density:.0105,hemi:.85,sky:0x8f8792,ground:0x372f28,exposure:1.02,desat:.15,cards:.45},
- {e:6,sun:2.1,sunC:0xffc890,bg:0x9f9583,fog:0x9a9282,density:.0078,hemi:.9,sky:0xbbb4a2,ground:0x4a4336,exposure:1.03,desat:.25,cards:.18},
- {e:20,sun:3.0,sunC:0xf3e6d0,bg:0xa1a6a2,fog:0xa0a5a1,density:.0058,hemi:.95,sky:0xc0c6c2,ground:0x524b3f,exposure:1.03,desat:.33,cards:.06},
- {e:50,sun:3.2,sunC:0xf6efe2,bg:0xaab0ad,fog:0xa9afac,density:.005,hemi:1.0,sky:0xc8cecb,ground:0x564f43,exposure:1.03,desat:.35,cards:.04}];
+ {e:-12,sun:.06,sunC:0x9fb4d6,bg:0x020305,fog:0x06080c,density:.026,hemi:.07,sky:0x3c4a64,ground:0x15130f,exposure:.95,desat:0,cards:1,vignette:1},
+ {e:-6,sun:.14,sunC:0x9fb4d6,bg:0x111622,fog:0x151b28,density:.018,hemi:.32,sky:0x4d5872,ground:0x1b1915,exposure:1.0,desat:.05,cards:.85,vignette:.8},
+ {e:-1,sun:.5,sunC:0xff9d66,bg:0x5d5866,fog:0x5f5a63,density:.0105,hemi:.85,sky:0x8f8792,ground:0x372f28,exposure:1.02,desat:.15,cards:.45,vignette:.3},
+ {e:6,sun:2.1,sunC:0xffc890,bg:0x9f9583,fog:0x9a9282,density:.0078,hemi:.9,sky:0xbbb4a2,ground:0x4a4336,exposure:1.03,desat:.25,cards:.18,vignette:0},
+ {e:20,sun:3.0,sunC:0xf3e6d0,bg:0xa1a6a2,fog:0xa0a5a1,density:.0058,hemi:.95,sky:0xc0c6c2,ground:0x524b3f,exposure:1.03,desat:.33,cards:.06,vignette:0},
+ {e:50,sun:3.2,sunC:0xf6efe2,bg:0xaab0ad,fog:0xa9afac,density:.005,hemi:1.0,sky:0xc8cecb,ground:0x564f43,exposure:1.03,desat:.35,cards:.04,vignette:0}];
 const COLORS=['sunC','bg','fog','sky','ground'];
 const lerpHex=(a,b,t)=>{let o=0;for(const s of [16,8,0]){const x=(a>>s)&255,y=(b>>s)&255;o|=Math.round(x+(y-x)*t)<<s;}return o;};
 export function lookAt(elev){let i=0;while(i<KEYS.length-2&&elev>KEYS[i+1].e)i++;const a=KEYS[i],b=KEYS[i+1],t=clamp((elev-a.e)/(b.e-a.e),0,1),o={};
