@@ -1,3 +1,4 @@
-// Pless Annex. 26 Washington Pl, 1900, 7 storeys. Not separately photographed; treated as a continuation of the Pless
-// Building (estimate).
-export default {slug:"plessannex",name:"Pless Annex",bin:1008809,also:[],source:"26 Washington Pl, 1900, 7 storeys. Not separately photographed; treated as a continuation of the Pless Building (estimate).",wall:'brickBuff',trim:'limestone',ground:{h:4.4,style:'base',mat:'limestone'},floor:3.5,pitch:3.2,win:[1.1,2.1],sash:1,cornice:'modillion',doors:[{rank:0,at:.5,w:1.8,h:3}]};
+// Pless Annex. Status: observed. 26 Washington Pl, 1900, 7 storeys. Not separately photographed; treated as a
+// continuation of the Pless Building (estimate). Observed on Street View, 2026 pass: Apr 2026 (Washington Pl): tan brick
+// Romanesque loft with round-arched windows at the top; the entrance is on Washington Pl; confirms the estimate.
+export default {slug:"plessannex",name:"Pless Annex",status:"observed",bin:1008809,also:[],source:"26 Washington Pl, 1900, 7 storeys. Not separately photographed; treated as a continuation of the Pless Building (estimate). Observed on Street View, 2026 pass: Apr 2026 (Washington Pl): tan brick Romanesque loft with round-arched windows at the top; the entrance is on Washington Pl; confirms the estimate.",wall:'brickBuff',trim:'limestone',ground:{h:4.4,style:'base',mat:'limestone'},floor:3.5,pitch:3.2,win:[1.1,2.1],sash:1,cornice:'modillion',doors:[{dir:'n',at:.5,w:1.8,h:3}]};
