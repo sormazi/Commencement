@@ -1,9 +1,3 @@
-<p align="center">
-  <img src="docs/media/nightview.svg" alt="NightView" width="100%">
-</p>
-
-# NightView
-
 NightView is a browser driving game set on NYU's Washington Square campus a hundred years from now. The campus has been abandoned for a long time. Trees have pushed through the paving, the lawns have gone to meadow and ivy has climbed the libraries. You drive through it alone: yours is the only vehicle. The place is not empty, though. People loiter everywhere, standing in the park, waiting on the library steps, facing walls, doing nobody knows what, and some of them turn to watch you go by. The billboards around the square make fun of the university, and the soundtrack is slow, brassy and out of tune.
 
 The campus is built from real data. The streets, curbs and park paths are where they are today, and every building stands on its real footprint at its real height. The landmarks are being rebuilt one by one from photographs, city records and Landmarks Preservation Commission reports.
@@ -46,7 +40,6 @@ Still to come: the park details, the billboards, and the decay and crowds beyond
 6. **The soundtrack.** Original music: a slow, detuned, haunted take on the feeling of a big brassy New York standard, without copying any copyrighted song.
 7. **Later:** a walking character who can leave the car and go inside a few buildings.
 
-The plan in detail, with every decision so far, is in [PROGRESS.md](PROGRESS.md). The research behind the campus is in [RESEARCH/campus-inventory.md](RESEARCH/campus-inventory.md).
 
 ## Running it locally
 
@@ -82,7 +75,7 @@ git pull
 python3 tools/serve.py
 ```
 
-### If you see the old game, or the page sticks on the splash screen
+### If the page sticks on the splash screen
 
 Almost always another server is still running on the same port from an older copy, so your browser is talking to that one instead.
 
@@ -132,18 +125,6 @@ To preview another time, add it to the address:
 
 Sunrise and sunset times from the model are tested against published New York tables (within three minutes), on dates either side of the November clock change; see `tests/sky.test.js`.
 
-## The car
-
-You drive one vehicle: NYU Campus Safety unit 4, a compact electric crossover with the size, proportions, ride height and stance of the real Campus Safety car (about 4.6 m long and 1.85 m wide, on a 2.8 m wheelbase). The body is an original design made from simple shapes, with no maker's badges or logos. The livery follows Avi's reference photos of the real car: white body, black lower trim and wheel arches, a diagonal violet band rising from the front door to the tail with "CAMPUS SAFETY" along it in light blue-grey, "NYU" in plain white lettering, the phone number in violet, a large green "4" on the rear quarters and the tailgate, a "100% electric" decal with a plug icon on the front wings and the rear window, and a violet "CAMPUS SAFETY" strip across the tailgate. There is no torch or other logo artwork. Every part of the livery is its own decal with its own PNG in `dist/assets/signage/` (listed in `livery.js`), so any of them can be swapped for a better image of the same name.
-
-The car sits on the same 2026/2126 decay layer as the campus. In 2026 it is clean and working. In 2126 the panels are dented, the livery has faded and is peeling away from its edges, rust runs from the door seams, moss grows in the window seals, the windshield is cracked, the left headlight is much dimmer than the right and the dashboard screens are dead. Inside there is a dashboard with a small driver display and a centre screen, the steering wheel, two front seats and a bench, and a printed campus map on the passenger seat.
-
-The sound is electric only. A soft motor whine rises and falls with speed and load, the low two-note warning hum electric cars play at walking pace fades out as the car speeds up, a faint falling whine comes from regenerative braking when it slows, and under it all are tyre and road noise and the small ticks and creaks of an old car. The car is heavy (about 2.1 t) and softly sprung, with one forward gear and reverse, and is governed to a campus pace of about 30 km/h. The physics are documented in [PHYSICS.md](PHYSICS.md).
-
-## The original locations
-
-NightView started as an arcade driver with three corridor locations, Times Square, SoHo and Shibuya, and a choice of cars. They were removed in Step 10 so the game is one place and one vehicle. They remain in git history and on the `main` branch, along with the archival advertising and the corridor reclamation effects that went with them.
-
 ## How the project handles accuracy
 
 The campus is meant to be faithful, so every fact behind it is tagged by how it is known:
@@ -169,4 +150,3 @@ Full credits are in [dist/credits.html](dist/credits.html), which is also linked
 - **Wikimedia Commons**: 87 reference photographs under CC0, CC BY and CC BY-SA, each credited with author, licence and source page.
 - **Three.js** is vendored under its MIT licence.
 
-Licensing of the code and artwork is described in [LICENSE.md](LICENSE.md). To work on the project, start with [CONTRIBUTING.md](CONTRIBUTING.md) and [PROGRESS.md](PROGRESS.md).
