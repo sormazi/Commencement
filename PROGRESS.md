@@ -237,3 +237,4 @@ Target is 60 fps at the Arch. My own checks run in a software renderer in the cl
 | 2026-10-08 | 675476a | Third tier: blocks 817-870 (E 18 St, W 15 St, 6 Av · Av of the Americas) |
 | 2026-10-08 | 5b4d72e | Third tier: blocks 871-897 (Irving Pl, E 19 St, E 17 St) |
 | 2026-10-07 | db10350 | Night fill light dimmed; stop point 1 screenshots and numbers |
+| 2026-10-08 | f364b1d | Plan: Step 4B neighbourhood landmarks and storefronts |
