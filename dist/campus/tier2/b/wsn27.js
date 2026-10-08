@@ -1,3 +1,5 @@
-// 27 Washington Square North. 1898, 7 storeys, NYU-owned, at MacDougal St. Commons photo ref-row_19_26_east shows a
-// taller brick apartment house with a stone base at the west end of the row (estimate for details).
-export default {slug:"wsn27",name:"27 Washington Square North",bin:1008855,also:[],source:"1898, 7 storeys, NYU-owned, at MacDougal St. Commons photo ref-row_19_26_east shows a taller brick apartment house with a stone base at the west end of the row (estimate for details).",wall:'brickBuff',trim:'limestone',ground:{h:4.2,style:'base',mat:'limestone'},floor:3.4,pitch:3.0,win:[1.1,2.0],sash:1,lintel:.25,cornice:'modillion',doors:[{rank:0,at:.5,w:1.8,h:3,steps:2,y:.4}]};
+// 27 Washington Square North. Status: observed. 1898, 7 storeys, NYU-owned, at MacDougal St. Commons photo ref-
+// row_19_26_east shows a taller brick apartment house with a stone base at the west end of the row (estimate for
+// details). Counted on Street View: w 9 bays (MacDougal St, Jul 2022: grey-brown brick with stone window surrounds and a
+// stone base, iron railing), 7 storeys per records.
+export default {slug:"wsn27",name:"27 Washington Square North",status:"observed",bin:1008855,also:[],source:"1898, 7 storeys, NYU-owned, at MacDougal St. Commons photo ref-row_19_26_east shows a taller brick apartment house with a stone base at the west end of the row (estimate for details). Counted on Street View: w 9 bays (MacDougal St, Jul 2022: grey-brown brick with stone window surrounds and a stone base, iron railing), 7 storeys per records.",wall:'brickBuff',trim:'limestone',ground:{h:4.2,style:'base',mat:'limestone'},floor:3.4,pitch:3.0,win:[1.1,2.0],sash:1,lintel:.25,cornice:'modillion',bays:{w:9},doors:[{rank:0,at:.5,w:1.8,h:3,steps:2,y:.4}]};
