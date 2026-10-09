@@ -8,15 +8,17 @@
 
 <p align="center"><img src="docs/readme/shift.gif" alt="The Arch fading from 2026 to 2126" width="80%"></p>
 
-I'm a student at NYU, which means a lot of my life happens in and around Washington Square. At some point I started wondering what the place would look like if everyone just stopped showing up. Not a disaster. Nothing blows up. The university runs out of reasons to exist, the city stops mowing, and a hundred years go by.
+At some point I started wondering what WSQ would look like if everyone just stopped showing up. Not a disaster. Nothing blows up. The university runs out of reasons to exist, the city stops mowing, and a hundred years go by.
 
-This game is my answer. You drive a Campus Safety car, which as far as anyone can tell is the last vehicle on campus that still starts, through the square and the streets around it in 2126. Trees have pushed up through the paths. Ivy has climbed most of the buildings. The street lamps mostly don't work, and the light follows the real time in New York, so if you play at two in the morning it's two in the morning in the game too.
+
+
+You drive a Campus Safety car, which as far as anyone can tell is the last vehicle on campus that still starts, through the square and the streets around it in 2126. Trees have pushed up through the paths. Ivy has climbed most of the buildings. The street lamps mostly don't work, and the light follows the real time in New York, so if you play at two in the morning it's two in the morning in the game too.
 
 It isn't empty, though. People still stand around the park and wait in lines outside buildings that are never going to open again. Most of them ignore you. A few turn their heads as you drive past. I don't know what they're waiting for either.
 
 ## The place
 
-The game keeps two versions of the neighborhood: the campus as it looks today and the same streets a century later. You can switch between them from the options menu, which is mostly how I check that I got something right.
+The game keeps two versions of the neighborhood: the campus as it looks today and the same streets a century later. You can switch between them from the options menu, which is currently a debugging option that wouldn't exist in the final version. The final version looks to incorporate the two eras together in the narrative and the user would not typically be able to switch between the two.
 
 | 2026 | 2126 |
 | :---: | :---: |
