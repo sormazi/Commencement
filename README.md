@@ -31,7 +31,7 @@ The game keeps two versions of the neighborhood: the campus as it looks today an
 | <img src="docs/readme/astor_2026.jpg" alt="Astor Place looking toward Cooper Union in 2026"> | <img src="docs/readme/astor_2126.jpg" alt="Astor Place looking toward Cooper Union in 2126"> |
 | Astor Place, looking at Cooper Union | |
 
-One building doesn't decay. The Brown Building, where 146 garment workers died in the Triangle Shirtwaist Factory fire in 1911, stays clean and intact, along with the memorial that names them. Everything else in the game is fair game. That isn't.
+One building doesn't decay. The Brown Building, where 146 garment workers died in the Triangle Shirtwaist Factory fire in 1911, stays clean and intact, along with the memorial that names them.
 
 ## Around the neighborhood
 
