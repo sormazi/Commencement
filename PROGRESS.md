@@ -149,7 +149,7 @@ Play Washington Square with Options > Driving > Sound and Music both On, and pre
 1. Open Terminal and go to your local copy of the repository (`cd ~/NightView` on Avi's Mac, until the folder is renamed)
 2. Start the local server: `npm start` (runs `tools/serve.py`, which serves dist/ and turns browser caching off so updates always load). Leave this window open; press Ctrl+C to stop it.
 3. In Chrome, open **http://localhost:4173/?fps=1**. The `?fps=1` turns the counter on straight away. Without it: Options (top right) > FPS counter > On > Apply. The setting is remembered in that browser.
-4. The counter sits under the Commencement name: frames per second (averaged over half a second), the slowest frame in that half second in ms, and the last frame's draw calls and triangles as WebGL reports them (shadow pass included). It turns orange below 55 fps.
+4. The counter sits at the top left: frames per second (averaged over half a second), the slowest frame in that half second in ms, and the last frame's draw calls and triangles as WebGL reports them (shadow pass included). It turns orange below 55 fps.
 5. Washington Square · NYU is the only location and you start on Fifth Avenue facing the Arch. Drive up to it and round it (W/S, A/D), and stop in front of it facing south into the square: that is the heaviest view.
 6. After pulling new commits, hard-reload (Cmd+Shift+R) so the browser does not keep old files.
 7. For a fair reading: laptop on mains power, other heavy tabs closed, and Chrome hardware acceleration on (chrome://gpu should list WebGL as "Hardware accelerated").

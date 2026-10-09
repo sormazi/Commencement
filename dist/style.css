@@ -25,6 +25,6 @@
 #begin.shown{opacity:.5}#title.clearing #begin{opacity:0;transition:opacity .8s ease}
 body.booting #world{filter:blur(6px)}#world{transition:filter 3.2s ease}
 body.awaiting-start header,body.awaiting-start #hud{opacity:0}header,#hud{transition:opacity 1.2s ease}
-.brand{font:400 23px 'Commencement Serif',Georgia,serif!important;letter-spacing:.04em!important}
+header #menuBtn{margin-left:auto}
 .pause-menu h2{font:400 44px 'Commencement Serif',Georgia,serif!important;letter-spacing:.02em}
 @media(prefers-reduced-motion:reduce){#title,#begin,#world{transition:none}}
