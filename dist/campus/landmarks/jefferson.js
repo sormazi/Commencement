@@ -25,18 +25,24 @@ export function jeffersonParts(b){const J=JEFFERSON,P=new Parts(),ps=pieces(mode
  const inset=r.map(p=>[c[0]+(p[0]-c[0])*.22,c[1]+(p[1]-c[1])*.22]);
  for(let i=0;i<r.length;i++){const a=r[i],q=r[(i+1)%r.length],ai=inset[i],qi=inset[(i+1)%r.length];P.quad('slate',[a[0],J.eave,-a[1]],[q[0],J.eave,-q[1]],[qi[0],J.ridge,-qi[1]],[ai[0],J.ridge,-ai[1]],[0,1,0]);}
  P.poly('slate',new Face([0,J.ridge,0],[1,0,0],[0,0,-1]),inset);
- // Tower: square shaft to 38 m with corner shafts, clock faces, an open belfry stage, then a tall
- // octagonal spirelet with lucarnes and four corner pinnacles.
- const tc=tw?centroid(tw.ring):J.tower,F=new Frame(tc,29),s=3.4;
+ // Tower (checked on Commons photographs, 2006 and 2022): a square base to the main eaves with pointed
+ // windows and stone bands, then a round brick shaft banded every metre and a half in pale stone, a ring
+ // balcony with an iron railing, the round clock stage with four dials, and a steep slate spire.
+ const tc=tw?centroid(tw.ring):J.tower,F=new Frame(tc,29),s=3.4,sq=16;
  const sides=[[[-s,s],[-s,-s]],[[-s,-s],[s,-s]],[[s,-s],[s,s]],[[s,s],[-s,s]]];
- sides.forEach(([a,q],i)=>{const f=F.face(a,q),L=2*s;wall(P,f,L,0,38,[{hole:pointed(L/2,1.2,4,8.4,{k:.8}),depth:.4},{hole:pointed(L/2,1.0,17,21.6,{k:.9}),depth:.35},{hole:pointed(L/2-.8,.8,31.6,36,{k:.9}),depth:.6,glass:'louvre'},{hole:pointed(L/2+.8,.8,31.6,36,{k:.9}),depth:.6,glass:'louvre'}],{mat:'brick'});
-  for(const y of [3,10,16,24,30.8])P.block('band',f,0,L,y,y+.35,0,.12,{skip:['left','right']});P.geo('dial',new T.CircleGeometry(1.25,24),f.matrix(L/2,27.2,.08));P.torus('band',1.3,.1,f.matrix(L/2,27.2,.08));
-  P.block('band',f,-.3,L+.3,38,38.6,0,.4);});
- for(const [u,v] of [[-s,-s],[-s,s],[s,-s],[s,s]])pinnacle(P,F,u,v,38.6,40.4,{s:1.0,h:3.0,name:'band'});
- P.geo('brick',new T.CylinderGeometry(2.6,2.9,4.4,8),F.matrix(0,0,40.8));spire(P,F,0,0,43.0,J.towerTop-43.0-1.4,{r:2.6,name:'slate',lucarnes:true});
+ sides.forEach(([a,q],i)=>{const f=F.face(a,q),L=2*s;wall(P,f,L,0,sq,[{hole:pointed(L/2,1.2,4,8.4,{k:.8}),depth:.4},{hole:pointed(L/2,1.0,10.4,14.4,{k:.9}),depth:.35}],{mat:'brick'});
+  for(const y of [3,9.6,15.2])P.block('band',f,0,L,y,y+.35,0,.12,{skip:['left','right']});P.block('band',f,-.2,L+.2,sq,sq+.5,0,.3);});
+ for(const [u,v] of [[-s,-s],[-s,s],[s,-s],[s,s]])pinnacle(P,F,u,v,sq+.5,sq+2.1,{s:.9,h:2.4,name:'band'});
+ const R=3.1,b0=sq+.5,b1=36;P.geo('brick',new T.CylinderGeometry(R,R,b1-b0,20,1,true),F.matrix(0,0,(b0+b1)/2));
+ for(let y=b0+1.2;y<b1-.4;y+=1.5)P.geo('band',new T.CylinderGeometry(R+.06,R+.06,.32,20,1,true),F.matrix(0,0,y));
+ P.geo('band',new T.CylinderGeometry(R+.9,R+.3,.45,24),F.matrix(0,0,b1));P.torus('iron',R+.85,.05,F.matrix(0,0,b1+1.05).multiply(new T.Matrix4().makeRotationX(Math.PI/2)));
+ for(let k=0;k<24;k++){const a=k/24*Math.PI*2;P.geo('iron',new T.CylinderGeometry(.03,.03,1.05,4),F.matrix(Math.cos(a)*(R+.85),Math.sin(a)*(R+.85),b1+.75));}
+ const cr=2.5,c0=b1+.2,c1=b1+6.2;P.geo('brick',new T.CylinderGeometry(cr,cr,c1-c0,16),F.matrix(0,0,(c0+c1)/2));
+ sides.forEach(([a,q])=>{const f=F.face(a,q);P.geo('dial',new T.CircleGeometry(1.0,24),f.matrix(s,c0+3.1,cr-s+.12));P.torus('band',1.05,.08,f.matrix(s,c0+3.1,cr-s+.12));});
+ P.geo('band',new T.CylinderGeometry(cr+.35,cr+.35,.4,16),F.matrix(0,0,c1));spire(P,F,0,0,c1+.2,J.towerTop-c1-1.6,{r:cr+.2,name:'slate',lucarnes:true});
  return {P};}
 export function buildJefferson(b){const {P}=jeffersonParts(b);const br=brickTextures({base:'#8f4a39',mortar:'#c9b9a3',vary:.12,seed:57});
  const m={brick:new T.MeshStandardMaterial({map:br.map,normalMap:br.normalMap,normalScale:new T.Vector2(.5,.5),roughness:.88}),band:new T.MeshStandardMaterial({color:0xd8cfba,roughness:.8}),
-  slate:new T.MeshStandardMaterial({color:0x45494d,roughness:.75}),glass:new T.MeshStandardMaterial({color:0x2a2f34,roughness:.3,metalness:.3}),louvre:new T.MeshStandardMaterial({color:0x2b2622,roughness:.8}),
-  dial:new T.MeshStandardMaterial({color:0xe8e4d8,roughness:.6}),metal:new T.MeshStandardMaterial({color:0x3d3f40,roughness:.5,metalness:.6}),trim:new T.MeshStandardMaterial({color:0xd8cfba,roughness:.8}),stone:new T.MeshStandardMaterial({color:0xd8cfba,roughness:.8})};
+  slate:new T.MeshStandardMaterial({color:0x45494d,roughness:.75}),glass:new T.MeshStandardMaterial({color:0x2a2f34,roughness:.3,metalness:.3}),louvre:new T.MeshStandardMaterial({color:0x2b2622,roughness:.8}),iron:new T.MeshStandardMaterial({color:0x22252a,roughness:.6,metalness:.4}),
+  dial:new T.MeshStandardMaterial({color:0xe8e4d8,roughness:.6}),metal:new T.MeshStandardMaterial({color:0x5f8f7a,roughness:.6,metalness:.3}),trim:new T.MeshStandardMaterial({color:0xd8cfba,roughness:.8}),stone:new T.MeshStandardMaterial({color:0xd8cfba,roughness:.8})};
  const g=P.build(m);g.name='Jefferson Market Library';g.position.y=.15;g.userData.tris=P.tris;g.userData.materials=Object.values(m);return g;}
