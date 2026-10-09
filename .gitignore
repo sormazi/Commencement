@@ -10,3 +10,6 @@ node_modules/
 RESEARCH/data/raw/
 nightview-stage.tar.gz
 Claude outputs/
+
+# Avi's private notes for personal-memory easter eggs; never committed
+private/
