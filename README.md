@@ -1,152 +1,85 @@
-NightView is a browser driving game set on NYU's Washington Square campus a hundred years from now. The campus has been abandoned for a long time. Trees have pushed through the paving, the lawns have gone to meadow and ivy has climbed the libraries. You drive through it alone: yours is the only vehicle. The place is not empty, though. People loiter everywhere, standing in the park, waiting on the library steps, facing walls, doing nobody knows what, and some of them turn to watch you go by. The billboards around the square make fun of the university, and the soundtrack is slow, brassy and out of tune.
+<h1 align="center">NightView</h1>
 
-The campus is built from real data. The streets, curbs and park paths are where they are today, and every building stands on its real footprint at its real height. The landmarks are being rebuilt one by one from photographs, city records and Landmarks Preservation Commission reports.
+<p align="center"><em>Washington Square, a hundred years after everyone left.</em></p>
 
-It is a work in progress. Some of what is described above is built, some of it is a first draft and some of it is still to come; the sections below say which. NightView is not affiliated with or endorsed by New York University.
+<p align="center"><img src="docs/readme/hero.jpg" alt="The Washington Square Arch at dusk in 2126, overgrown, with fog in the park" width="100%"></p>
 
-## What is built so far
+<p align="center"><a href="https://sormazi.github.io/NightView/"><img src="https://img.shields.io/badge/Play%20in%20your%20browser-57068c?style=for-the-badge" alt="Play in your browser"></a></p>
 
-- **The real street network.** Streets, curbs, sidewalks, medians, plazas and the paths of Washington Square Park come from OpenStreetMap and NYC Open Data, at their real widths and positions. You can drive anywhere the streets go, and onto the sidewalks and the park if you want to. Curbs, buildings, trees, the Arch and the fountain are solid.
-- **Every building's real massing.** About 4,100 buildings in the area are built from the NYC 3D Building Model, with their real footprints, roof heights, setbacks and light courts. The Paulson Center, finished after the model was made, is built from its footprint, published heights and photos.
-- **Detailed landmarks.** These have been rebuilt with real geometry for anything that projects (cornices, columns, arches, canopies, sculpture) and textures only for fine detail:
-  - the Washington Square Arch, with both Washington statues and the eagle
-  - Bobst Library
-  - the Silver Center
-  - the Kimmel Center, with its curved glass canopy
-  - Judson Memorial Church and its campanile
-  - the Row on Washington Square North
-  - Weinstein Hall
-  - the Brown Building and the Triangle Shirtwaist Factory Fire memorial
-  - Silver Towers and 505 LaGuardia Place
-  - Vanderbilt Hall
-  - Tisch Hall and the Kaufman Management Center
-  - the John A. Paulson Center
-- **The rest of NYU.** About seventy more NYU buildings (residence halls, academic buildings, the Mews, Washington Square Village, Founders Hall with the St. Ann's facade, the Puck Building, the Provincetown Playhouse front and others) have their own material, window rhythm, entrances and banners from a facade kit. Their entrance doors are separate objects, ready for a walking character.
-- **Every other building** has a material colour and window rhythm chosen from city records: brick tenements, cast-iron lofts, town houses with stoops, post-war apartment blocks, glass towers.
-- **Sidewalk sheds** where Street View showed long-standing ones in 2026.
-- **First drafts of the atmosphere around the park:** decay on the park and the buildings facing it, the surviving street lamps and fog, no traffic, about two hundred loiterers, and the soundtrack.
-- **Real New York time of day.** The light on Washington Square follows the real time in New York: the sun stands where it really is over the park right now, shadows fall off the Arch the way they really do at that hour, and the lamps come on at dusk. See below.
-- **An on-screen FPS counter** for checking performance.
+<p align="center"><img src="docs/readme/shift.gif" alt="The Arch fading from 2026 to 2126" width="80%"></p>
 
-Still to come: the park details, the billboards, and the decay and crowds beyond the park. The decay, night, crowds and soundtrack are first drafts limited to the park and the buildings facing it. See the roadmap.
+I'm a student at NYU, which means a lot of my life happens in and around Washington Square. At some point I started wondering what the place would look like if everyone just stopped showing up. Not a disaster. Nothing blows up. The university runs out of reasons to exist, the city stops mowing, and a hundred years go by.
 
-## Roadmap
+This game is my answer. You drive a Campus Safety car, which as far as anyone can tell is the last vehicle on campus that still starts, through the square and the streets around it in 2126. Trees have pushed up through the paths. Ivy has climbed most of the buildings. The street lamps mostly don't work, and the light follows the real time in New York, so if you play at two in the morning it's two in the morning in the game too.
 
-1. **Second-tier buildings.** The rest of NYU: the residence halls (Rubin, Brittany, Third North, University Hall, Palladium, Founders with the St. Ann's facade, Lipton, Hayden and others), the academic buildings (Meyer, Warren Weaver, Waverly, Goddard, Shimkin and others), the Global Center, the Card Center, the Health Center, the Washington Mews houses, Washington Square Village, the Puck Building and the Provincetown Playhouse. Each gets its real material, window rhythm, entrance and signature feature.
-2. **Third-tier buildings.** The non-NYU blocks get the right material, colour and window rhythm, so the streets stop reading as grey boxes.
-3. **Decay and reclamation.** A hundred years of neglect: meadows, huge trees, a dry green fountain, rust, stains, cracked glass, shredded banners, ivy. A "Dead of night" preset with dead and flickering lamps and drifting fog.
-4. **The crowds.** No traffic at all, just a great many people loitering: queueing at locked doors, holding lanyards up to dead card readers, sitting in lecture formations on the grass, some in faded graduation gowns. They step aside or the car passes through them. Nobody gets hurt.
-5. **Satirical billboards** grounded in Washington Square News reporting. They aim at the institution, never at individuals or at tragedies.
-6. **The soundtrack.** Original music: a slow, detuned, haunted take on the feeling of a big brassy New York standard, without copying any copyrighted song.
-7. **Later:** a walking character who can leave the car and go inside a few buildings.
+It isn't empty, though. People still stand around the park and wait in lines outside buildings that are never going to open again. Most of them ignore you. A few turn their heads as you drive past. I don't know what they're waiting for either.
 
+## The place
 
-## Running it locally
+The game keeps two versions of the neighborhood: the campus as it looks today and the same streets a century later. You can switch between them from the options menu, which is mostly how I check that I got something right.
 
-### System requirements
+| 2026 | 2126 |
+| :---: | :---: |
+| <img src="docs/readme/arch_2026.jpg" alt="The Arch from the fountain plaza in 2026"> | <img src="docs/readme/arch_2126.jpg" alt="The Arch from the fountain plaza in 2126"> |
+| The Arch from the fountain | |
+| <img src="docs/readme/bobst_2026.jpg" alt="Bobst Library from the park in 2026"> | <img src="docs/readme/bobst_2126.jpg" alt="Bobst Library from the park in 2126"> |
+| Bobst, from the park | |
+| <img src="docs/readme/weinstein_2026.jpg" alt="Weinstein Hall on University Place in 2026"> | <img src="docs/readme/weinstein_2126.jpg" alt="Weinstein Hall on University Place in 2126"> |
+| Weinstein, on University Place | |
+| <img src="docs/readme/astor_2026.jpg" alt="Astor Place looking toward Cooper Union in 2026"> | <img src="docs/readme/astor_2126.jpg" alt="Astor Place looking toward Cooper Union in 2126"> |
+| Astor Place, looking at Cooper Union | |
 
-- A computer with a reasonably recent GPU and a browser that supports WebGL 2: current Chrome, Edge, Firefox or Safari. The target is 60 fps in front of the Arch, the heaviest view.
-- Python 3, to serve the files. macOS and most Linux systems already have it; check with `python3 --version`.
-- Git, to get the code.
-- Node.js 22 or newer, only if you want to run the tests. The game itself has no build step, no `npm install` and no API keys.
+One building doesn't decay. The Brown Building, where 146 garment workers died in the Triangle Shirtwaist Factory fire in 1911, stays clean and intact, along with the memorial that names them. Everything else in the game is fair game. That isn't.
 
-### From a fresh clone
+## Around the neighborhood
 
-The current game lives on the **`nyu-campus`** branch, which is the repository's default branch, so a plain clone gets it. The `main` branch keeps the old arcade version (Times Square, SoHo, Shibuya and the sports car). Naming the branch in the clone command makes sure:
+| | |
+| :---: | :---: |
+| <img src="docs/readme/macdougal.jpg" alt="MacDougal Street at Bleecker in 2126"> | <img src="docs/readme/fountain.jpg" alt="The fountain plaza in 2126, with people in faded graduation gowns"> |
+| MacDougal and Bleecker | The fountain, and the class that never left |
+| <img src="docs/readme/car_night.jpg" alt="The Campus Safety car at night, cracked windshield, one headlight dimmer than the other"> | <img src="docs/readme/silver.jpg" alt="Silver Towers in 2126"> |
+| Unit 4, still on patrol | Silver Towers |
+| <img src="docs/readme/bobst_steps.jpg" alt="People waiting outside Bobst Library in 2126"> | |
+| Still waiting for Bobst to open | |
 
-```bash
-git clone -b nyu-campus https://github.com/sormazi/NightView.git
-cd NightView
-python3 tools/serve.py
-```
+## How close is it to the real thing?
 
-(`npm start` runs the same command if you have Node.js.) The server prints the folder it is serving and the address. Check that the folder ends in `NightView/dist`, then open **http://localhost:4173**. You should start on Fifth Avenue facing the Arch, in a white NYU Campus Safety car with a violet band. Click the page or press a driving key to turn on sound. Press **Ctrl+C** in the Terminal to stop the server.
+As close as I could get it. The streets are the real streets at their real widths, and every building sits on its real footprint at its real height, taken from New York City's public map data and OpenStreetMap. The buildings that matter most were rebuilt one at a time from photos, from Street View, and from a lot of standing on the sidewalk squinting at cornices. The shops on the main streets are being filled in with the real ones, under their real names. It's still a game, so plenty is simplified, but if you know the neighborhood you should be able to find your way around without a map.
 
-The server tells the browser not to cache anything, so a normal reload always shows the newest files.
+## Controls
 
-### If you already have a copy
-
-Bring it up to date, then start it the same way:
-
-```bash
-cd NightView
-git checkout nyu-campus
-git pull
-python3 tools/serve.py
-```
-
-### If the page sticks on the splash screen
-
-Almost always another server is still running on the same port from an older copy, so your browser is talking to that one instead.
-
-- If the server says `Port 4173 is already in use`, stop the old one with `lsof -ti:4173 | xargs kill` and start again, or run this copy on another port with `python3 tools/serve.py 4180` and open **http://localhost:4180**.
-- Check the folder the server prints. It should be this repository's `dist` folder, not an older copy somewhere else.
-- `git branch --show-current` should print `nyu-campus`.
-- Then hard-reload once (**Cmd+Shift+R** on a Mac, **Ctrl+Shift+R** elsewhere).
-
-To run the tests (needs Node.js):
-
-```bash
-npm test
-```
-
-### Controls
-
-| Action | Keyboard |
+| | |
 | :--- | :--- |
-| Accelerate / brake / reverse | **W / S** or **↑ / ↓** |
-| Steer | **A / D** or **← / →** |
-| Parking brake | **Space** |
-| Reset to the street | **R** |
-| Pause | **Esc** |
+| Drive and brake, or reverse | W / S or the arrow keys |
+| Steer | A / D or the arrow keys |
+| Parking brake | Space |
+| Put the car back on the street | R |
+| Pause | Esc |
 
-Touch buttons appear on small screens. Atmosphere, era, sound, music and the FPS counter are in **Options** (top right).
+Sound starts after you click or press a key. The options menu (top right) has the time of day, the year, sound, music and an FPS counter.
 
-### FPS counter
+## Run it yourself
 
-Open **http://localhost:4173/?fps=1**, or turn it on in **Options → FPS counter**; the browser remembers the setting. The counter sits under the NightView logo. It shows frames per second averaged over half a second, the slowest frame in that half second in milliseconds, and the draw calls and triangles of the last frame. It turns orange below 55 fps. For a fair reading, keep a laptop plugged in and close other heavy tabs.
+You need Python 3 and a browser that does WebGL 2, which is any recent one.
 
-## Real New York time of day
+```bash
+git clone https://github.com/sormazi/NightView.git
+cd NightView
+python3 tools/serve.py
+```
 
-On Washington Square the lighting matches the real time in New York, wherever you are playing from. **Real NYC time** is the default under **Options → Atmosphere**, and the note under it shows the New York time and where the sun is. The other atmosphere presets (Dead of night, Overgrown daylight, Ash storm, Dusty dawn) are still there as manual overrides.
+Then open http://localhost:4173. If something else is already using that port, run `python3 tools/serve.py 4180` and open http://localhost:4180 instead.
 
-- **Clock.** The browser's own time-zone data gives the time in America/New_York, so daylight saving time is handled automatically. Nothing is fetched from the internet; it works offline.
-- **Sun and moon.** The sun's elevation and compass direction over the park (40.7308 N, 73.9973 W) come from NOAA's solar position equations. The moon is placed with a standard low-precision formula (good to about a degree) and drawn at its real phase.
-- **Light.** The main light comes from the real sun, so shadows point the right way and grow long in the evening. Sky colour, ambient light, fog and colour grading blend continuously with the sun's height: hazy, washed-out daylight with thin fog, an amber haze when the sun is low, blue dusk, then the full Dead of night look with fog and flickering lamps. The surviving street lamps fade on as the sun drops from 2° above to 4° below the horizon, and off again at dawn. Daytime stays quiet: no birds, no city hum.
-- **Smoothness.** The sky is recalculated every five seconds and every value glides to the new target over a few seconds, so there are no visible jumps.
+## What's coming
 
-To preview another time, add it to the address:
+- The shops along MacDougal, Bleecker, West 4th, Broadway, University Place, 8th Street and Astor Place, with their real names
+- A soundtrack: one old New York jazz piece, played clean in 2026 and off a worn-out cassette in 2126
+- Billboards around the square, aimed squarely at the university
+- A slower camera, a field guide to the buildings, and small things to find
+- Getting out of the car and walking, starting with the Bobst atrium
+- Starting the game in 2026 and watching it turn into 2126 while you drive
+- A photo mode
 
-- `http://localhost:4173/?time=19:30` shows today at 7:30 pm New York time.
-- `http://localhost:4173/?date=2026-12-21&time=16:15` shows a particular day.
-- Add `&speed=600` for a time-lapse (600 times real speed). Without `speed`, a previewed time holds still.
+---
 
-**Performance.** Sun shadows are on whenever the sun is up, the same shadow pass the old daylight preset used: about 600 draw calls and 770k triangles at the start position in daylight, against about 510 calls and 570k triangles at night, when the shadow pass is off (cloud software renderer, so treat the numbers as relative). The moon adds one draw call. Switching shadows and lamp lights on or off at dusk and dawn makes the browser rebuild its shaders once, which can cause one short stutter.
-
-Sunrise and sunset times from the model are tested against published New York tables (within three minutes), on dates either side of the November clock change; see `tests/sky.test.js`.
-
-## How the project handles accuracy
-
-The campus is meant to be faithful, so every fact behind it is tagged by how it is known:
-
-- **Measured**: taken from data, such as footprints and heights from the NYC 3D Building Model and NYC Open Data, or street geometry from OpenStreetMap.
-- **Cited**: taken from a named source, such as a Landmarks Preservation Commission designation report, a Wikimedia Commons photo, or a Google Street View panorama with its capture date. Street View and Google Maps are looked at as references only; nothing from them is saved or bundled.
-- **Estimated**: a judgment made where no source settles the question, labelled as an estimate so it can be corrected later.
-
-Each detailed landmark has a checklist in [RESEARCH/checklists/](RESEARCH/checklists/) that marks every feature as modelled, approximated or open, with its source. Side-by-side comparisons of photos and renders from matching positions are in [RESEARCH/screenshots/detail/](RESEARCH/screenshots/detail/). Known limits are written down in [CAMPUS.md](CAMPUS.md).
-
-### The Brown Building and the Triangle Fire memorial
-
-On 25 March 1911, 146 garment workers, most of them young immigrant women, died in the Triangle Shirtwaist Factory fire on the top floors of what is now NYU's Brown Building. The memorial on its walls names them. In NightView the building and the memorial stay intact and clean while everything around them decays, and they are left out of every joke, billboard and banner. A game about a ruined, satirised campus should not turn a real workplace disaster into scenery. The same care applies elsewhere: the satire aims at the institution, never at individuals, student deaths, mental-health tragedies or assault cases. The Bobst atrium screens are modelled as architecture only, and the Picasso sculpture at Silver Towers is shown only as a plain placeholder because the artwork itself is protected.
-
-## Credits and data licences
-
-Full credits are in [dist/credits.html](dist/credits.html), which is also linked in the game under **Options → Credits**. Every data source, with the exact query used and its licence, is listed in [RESEARCH/data/SOURCES.md](RESEARCH/data/SOURCES.md).
-
-- **OpenStreetMap**: map data © OpenStreetMap contributors, under the [Open Database License (ODbL 1.0)](https://opendatacommons.org/licenses/odbl/). The derived dataset `dist/campus/data/campus-data.js` is a Produced Work and, as far as it contains OSM data, is offered under the ODbL.
-- **NYC Open Data**: building footprints, PLUTO, planimetric layers, street centerlines, street trees and more, under the NYC Open Data Terms of Use.
-- **NYC 3D Building Model** (NYC Office of Technology and Innovation, 2014): building volumes, under the NYC Open Data Terms of Use. The roughly 900 MB download is not in the repository; SOURCES.md explains how to fetch it again.
-- **Landmarks Preservation Commission** designation reports and Building Database: public records of the City of New York.
-- **Wikimedia Commons**: 87 reference photographs under CC0, CC BY and CC BY-SA, each credited with author, licence and source page.
-- **Three.js** is vendored under its MIT licence.
-
+Map data © OpenStreetMap contributors (ODbL) and NYC Open Data. Reference photos are from Wikimedia Commons and are credited, along with everything else, in [the credits](dist/credits.html). This is a made-up ruin and isn't affiliated with or endorsed by NYU. If you want to know how it's put together, the notes are in [CAMPUS.md](CAMPUS.md).
