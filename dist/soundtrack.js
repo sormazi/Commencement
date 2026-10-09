@@ -1,4 +1,4 @@
-// "Closed Campus Waltz": NightView's original soundtrack for Washington Square, synthesized live with
+// "Closed Campus Waltz": Commencement's original soundtrack for Washington Square, synthesized live with
 // Web Audio. It is meant to feel like a big brassy New York standard heard a century late: a slow
 // waltz on detuned, sagging horns over an oom-pah tuba, brushes and tape hiss. The melody, harmony and
 // arrangement are original; nothing is taken from "New York, New York" or any other copyrighted song.

@@ -1,6 +1,6 @@
-# NightView vehicle dynamics
+# Commencement vehicle dynamics
 
-NightView has one vehicle, the NYU Campus Safety electric crossover (unit 4), defined as `VEHICLE` in `dist/physics.js` and driven by a force-based solver. `dist/physics.js` has no DOM, Three.js, Google Maps, panorama, timer or rendering dependencies. Units are metres, seconds, kilograms, radians, newtons and newton metres. World +Z is forward, +X right and +Y up. Positive yaw turns right.
+Commencement has one vehicle, the NYU Campus Safety electric crossover (unit 4), defined as `VEHICLE` in `dist/physics.js` and driven by a force-based solver. `dist/physics.js` has no DOM, Three.js, Google Maps, panorama, timer or rendering dependencies. Units are metres, seconds, kilograms, radians, newtons and newton metres. World +Z is forward, +X right and +Y up. Positive yaw turns right.
 
 ## Simulation and rendering
 

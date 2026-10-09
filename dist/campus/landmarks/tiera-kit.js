@@ -1,7 +1,7 @@
 import * as T from '../../vendor/three.module.js';
-import {Parts,Face} from './kit.js?v=23';
-import {buildKit,volumePieces,tier2Materials} from '../tier2/kit.js?v=23';
-import data from '../data/campus-data.js?v=23';
+import {Parts,Face} from './kit.js?v=24';
+import {buildKit,volumePieces,tier2Materials} from '../tier2/kit.js?v=24';
+import data from '../data/campus-data.js?v=24';
 // Tier A neighbourhood landmarks that the facade kit can carry (Step 4B): commercial and institutional
 // buildings whose character is their wall, window rhythm, base and cornice. Volumes from the NYC 3D
 // Building Model; materials from the shared second-tier palette; each has its own extras. Entrance doors

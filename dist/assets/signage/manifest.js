@@ -7,9 +7,9 @@
 // drawing (bg, fg, lines of text, font) used until the PNG loads or if it is missing; seen (where and when
 // it was observed on Street View; imagery date); placements: p [map x, map n] of the decal's centre,
 // y = height of its bottom edge above the curb, normal = map direction the front faces, and where (words).
-import {STOREFRONTS} from '../../campus/storefronts/index.js?v=23';
-import {signDecal,resolveStorefronts} from '../../campus/storefronts.js?v=23';
-import data from '../../campus/data/campus-data.js?v=23';
+import {STOREFRONTS} from '../../campus/storefronts/index.js?v=24';
+import {signDecal,resolveStorefronts} from '../../campus/storefronts.js?v=24';
+import data from '../../campus/data/campus-data.js?v=24';
 const FIXED=[
  {id:'nyu-pole-banner-violet',file:'assets/signage/nyu-pole-banner-violet.png',kind:'pole-banner',size:[.6,1.5],bg:'#57068c',fg:'#ffffff',lines:['NYU'],font:'sans-bold',
   seen:'Washington Sq W, building side, on the second lamp post north of W 4th St (Street View at 43 MacDougal St, May 2026)',
@@ -23,5 +23,9 @@ const FIXED=[
    {p:[-32.72,53.66],y:4.4,normal:[.839,-.543],where:'Washington Sq N lamp post in front of 19 Washington Square North'}]}];
 // Shop signs: one decal per storefront record in campus/storefronts/ (placed on its sign band).
 // The car's Campus Safety livery is part of this manifest too: see livery.js (decals placed on the car).
-export {LIVERY} from './livery.js?v=23';
+export {LIVERY} from './livery.js?v=24';
+// Branding slots on screens rather than in the world. The NYU torch is not drawn by the game: drop your own
+// image at the path below and the title card shows it; if the file is missing the slot stays empty.
+export const BRANDING=[{id:'nyu-torch',file:'assets/branding/nyu-torch.png',kind:'branding',optional:true,size:[.085,.085],
+ seen:'Where the torch sits on a real NYU diploma (top centre); supplied by Avi, never drawn by the game',placements:[{screen:'title card',where:'top centre, above "Commencement"'}]}];
 export const SIGNAGE=[...FIXED,...resolveStorefronts(data,STOREFRONTS).map(signDecal).filter(Boolean)];

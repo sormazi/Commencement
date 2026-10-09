@@ -1,6 +1,6 @@
 import {Grid,closestOnSegment,pointInRing,bboxOf,rectFrame,rectRing,centroid} from './geometry.js';
-import {SHEDS} from './landmarks/sheds.js?v=23';
-import {SYLVETTE} from './landmarks/silver-towers.js?v=23';
+import {SHEDS} from './landmarks/sheds.js?v=24';
+import {SYLVETTE} from './landmarks/silver-towers.js?v=24';
 // Static collision and surface queries for the free-roam campus, in physics/map space
 // (x = east, z = north). Contacts are returned in the format physics.resolveContact expects.
 export const CAR_CIRCLES=[1.5,.5,-.5,-1.5],CAR_RADIUS=.92;// the Campus Safety car: 4.58 m long, 1.85 m wide

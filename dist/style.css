@@ -14,3 +14,33 @@
 
 #fps{position:fixed;z-index:7;left:30px;top:58px;font:500 11px ui-monospace,Menlo,monospace;color:#cfe8d2;background:#020608b0;border:1px solid #ffffff14;border-radius:3px;padding:4px 7px;pointer-events:none;letter-spacing:.2px}#fps.slow{color:#ffb38a}@media(max-width:650px){#fps{left:18px;top:50px}}
 .option-note{grid-column:1/-1;margin:-6px 0 0;color:#84929c;font-size:11px}select:disabled{opacity:.45}
+
+/* Commencement title card: an aged diploma (paper, blackletter, ruled signature lines) in a violet mat. */
+@font-face{font-family:'Commencement Blackletter';src:url(assets/fonts/unifraktur-maguntia.woff2) format('woff2');font-display:block}
+@font-face{font-family:'Commencement Fell';src:url(assets/fonts/im-fell-english-italic.woff2) format('woff2');font-style:italic;font-display:swap}
+#title{position:fixed;inset:0;z-index:99;display:grid;place-items:center;background:radial-gradient(ellipse at 50% 45%,#1d1027 0%,#0a060e 62%,#040306 100%);opacity:0;transition:opacity .9s ease}
+#title.shown{opacity:1}#title.leaving{opacity:0;transition:opacity 1.4s ease}
+.diploma{position:relative;width:min(84vw,118vh);aspect-ratio:1.29;border-radius:2px;overflow:hidden;
+ box-shadow:0 0 0 clamp(9px,1.9vw,24px) #2c1543,0 0 0 calc(clamp(9px,1.9vw,24px) + 1px) #57068c55,0 0 0 calc(clamp(9px,1.9vw,24px) + 2px) #000,0 34px 110px #000d;
+ background:radial-gradient(ellipse at 50% 46%,#efe5cd 0%,#e7dabd 58%,#d6c39d 100%)}
+.paper{position:absolute;inset:0;background:
+ linear-gradient(101deg,transparent 47.6%,#5a42201a 48%,#fff6e026 48.35%,transparent 48.8%),
+ radial-gradient(circle at 9% 86%,#8b6a3838 0,#8b6a3818 9%,transparent 17%),
+ radial-gradient(circle at 88% 12%,#7a5a2c26 0,transparent 11%),
+ radial-gradient(ellipse at 74% 92%,#6e512a1c 0,transparent 20%),
+ url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .32 0 0 0 0 .25 0 0 0 0 .16 0 0 0 .11 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:auto,auto,auto,auto,360px 360px;box-shadow:inset 0 0 clamp(30px,7vw,120px) #6b4a2470,inset 0 0 6px #4a311a80}
+.paper::after{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='700'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.018 .022' numOctaves='3' seed='11'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .36 0 0 0 0 .2 0 0 0 -5 2.05'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");background-size:100% 100%;opacity:.28;mix-blend-mode:multiply}
+.gown{position:absolute;right:13%;bottom:-2%;height:84%;fill:#6d6862;stroke:#6d6862;opacity:.065;pointer-events:none}
+.torch-slot{position:absolute;left:50%;top:8.5%;width:8.5%;aspect-ratio:1;transform:translateX(-50%);display:grid;place-items:center}
+.torch-slot img{max-width:100%;max-height:100%;object-fit:contain;opacity:.92;mix-blend-mode:multiply}
+.diploma h1{position:absolute;left:0;right:0;top:35%;margin:0;text-align:center;font:400 clamp(40px,8.6vw,124px)/1 'Commencement Blackletter','UnifrakturMaguntia','Old English Text MT',serif;color:#1e1813;letter-spacing:.01em;text-shadow:0 0 1px #1e181355,.5px .6px 0 #3a2a1a22;opacity:.93}
+.ink-line{position:absolute;left:31%;right:31%;top:57%;height:max(2px,.22vw);overflow:hidden}
+.ink-line i{display:block;height:100%;transform:scaleX(.02);transform-origin:left center;transition:transform .5s ease-out;background:linear-gradient(90deg,#57068c00,#57068cd0 6%,#4b0a78e0 50%,#57068cd0 94%,#57068c00);filter:blur(.25px)}
+.sig{position:absolute;bottom:17%;width:23%;height:1px;background:#2a2016;opacity:.32}.sig-l{left:12%}.sig-r{right:12%}
+#startPrompt{position:fixed;left:50%;bottom:15%;transform:translateX(-50%);z-index:20;border:0;background:none;padding:10px 18px;font:italic clamp(19px,2.2vw,26px) 'Commencement Fell',Georgia,serif;color:#f0e7d2;text-shadow:0 2px 14px #000,0 0 30px #000;opacity:0;transition:opacity .9s ease;letter-spacing:.3px}
+#startPrompt.shown{opacity:.92;animation:prompt-breathe 2.8s ease-in-out 1s infinite}#startPrompt:hover{background:none}
+@keyframes prompt-breathe{0%,100%{opacity:.92}50%{opacity:.55}}
+body.awaiting-start header,body.awaiting-start #hud{opacity:0}
+.brand{font:400 25px 'Commencement Blackletter','UnifrakturMaguntia',serif!important;letter-spacing:.5px!important}
+.pause-menu h2{font:400 46px 'Commencement Blackletter','UnifrakturMaguntia',serif!important}
+@media(prefers-reduced-motion:reduce){#title,#title.leaving,#startPrompt{transition:none}#startPrompt.shown{animation:none}.ink-line i{transition:none}}

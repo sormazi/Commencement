@@ -1,6 +1,6 @@
 import * as T from '../../vendor/three.module.js';
-import {Parts,stoneTextures} from './kit.js?v=23';
-import {Frame,gothicChurch} from './gothic.js?v=23';
+import {Parts,stoneTextures} from './kit.js?v=24';
+import {Frame,gothicChurch} from './gothic.js?v=24';
 // First Presbyterian Church, 48 Fifth Avenue between W 11th and W 12th Sts (Joseph C. Wells, 1844-46; LPC
 // Greenwich Village Historic District). Gothic Revival in brownstone, its tower on Fifth Avenue modelled on
 // the tower of Magdalen College, Oxford: buttressed, with tall paired belfry lights, a battlemented top and

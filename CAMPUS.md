@@ -45,7 +45,7 @@ The player drives NYU Campus Safety unit 4 (`dist/vehicle.js`, physics in `VEHIC
 
 ## Developer helpers
 
-In the browser console: `NightView.teleport(x, z, yaw)` moves the car to map metres (x east, z north, yaw 0 = north). `NightView.viewFrom({x, y, n, lx, ly, ln, fov, fog, view})` fixes the camera for review screenshots; `NightView.viewFrom(null)` returns to the chase camera. `NightView.renderInfo()` reports draw calls and triangles inside the current view. `NightView.sky()` reports the New York time, sun and moon position, lamp level and whether shadows are on; add `?time=HH:MM`, `?date=YYYY-MM-DD` and `?speed=N` to the address to preview other times.
+In the browser console: `Commencement.teleport(x, z, yaw)` moves the car to map metres (x east, z north, yaw 0 = north). `Commencement.viewFrom({x, y, n, lx, ly, ln, fov, fog, view})` fixes the camera for review screenshots; `Commencement.viewFrom(null)` returns to the chase camera. `Commencement.renderInfo()` reports draw calls and triangles inside the current view. `Commencement.sky()` reports the New York time, sun and moon position, lamp level and whether shadows are on; add `?time=HH:MM`, `?date=YYYY-MM-DD` and `?speed=N` to the address to preview other times.
 
 ## Park details (Phase 2, Step 4)
 
@@ -61,7 +61,7 @@ In the browser console: `NightView.teleport(x, z, yaw)` moves the car to map met
 
 - The clean 2026 campus (massing, facade kits, landmarks, storefronts, park furniture, signs) is never altered by decay. Everything that makes it 2126 is one layer on top, driven by a single shared level `DECAY.value` (`dist/campus/atmosphere/decay.js`): 0 is the clean campus, 1 the ruin.
 - How each part follows the level: weathering shaders compute the clean colour first and mix toward the decayed one (soot, moss, rust, broken glass, boarded panes), so materials keep their clean look at 0; torn cloth (banners, flags, awnings) only loses pieces as the level rises; grass, ivy and saplings grow from their base; trees carry both their surveyed size and their century-grown size and blend between them; the fountain fades from running water and jets to a dry basin with moss and a young tree; lamps go from all lit to a few flickering survivors; ground fog thickens; the loiterers of 2126 dissolve in (the ordinary 2026 crowd comes with Step 9). The Brown Building and the memorial are untouched at every level.
-- Controls: `world.setDecay(t)` jumps, `world.eraTo(t, seconds)` fades (about a second by default); `NightView.era(t)` from the console; `?era=2026`, `?era=2126` or a number in the address; the Era option in the menu (Washington Square only). Blending costs nothing extra: the same draw calls and triangles at 0, 0.5 and 1 (Arch at noon: 742 calls, 1.0M tris at 0.5).
+- Controls: `world.setDecay(t)` jumps, `world.eraTo(t, seconds)` fades (about a second by default); `Commencement.era(t)` from the console; `?era=2026`, `?era=2126` or a number in the address; the Era option in the menu (Washington Square only). Blending costs nothing extra: the same draw calls and triangles at 0, 0.5 and 1 (Arch at noon: 742 calls, 1.0M tris at 0.5).
 
 ## Decay and crowds across the area (Steps 5 and 6)
 
@@ -118,3 +118,8 @@ The NYU torch emblem is not drawn on banners (it is a logo). The Bobst atrium sc
 ## Data credits
 
 Map data © OpenStreetMap contributors, available under the Open Database License (ODbL 1.0). Building footprints, PLUTO, planimetric layers, street centerlines and tree data from NYC Open Data. See `dist/credits.html`.
+
+## Title card and branding slot
+
+The game opens on a title card designed after an NYU diploma: "Commencement" in blackletter on aged, foxed paper in a violet mat, blank signature rules, a faint grey gown figure, and no seal, signatures or degree wording. It doubles as the loading screen (see docs/TECHNICAL.md). The space at the top centre, where the torch sits on a real diploma, is an image slot: `dist/assets/branding/nyu-torch.png`, listed as `BRANDING` in `dist/assets/signage/manifest.js`. Avi supplies the file; until it exists the slot stays empty. The game never draws the torch or any other logo.
+

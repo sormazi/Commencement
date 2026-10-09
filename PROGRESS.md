@@ -1,4 +1,6 @@
-# NightView · Washington Square progress
+# Commencement · Washington Square progress
+
+The game was renamed from NightView to Commencement on 8 Oct 2026 (repository rename on GitHub pending, done by Avi).
 
 Read this file and `RESEARCH/campus-inventory.md` first when picking the work back up.
 
@@ -63,7 +65,7 @@ Step 10 Part 1 was pulled forward by Avi (8 Oct) and is done: one location and o
 
 ## Decisions from Avi
 - 2026-10-08 **Step 10 direction** (8 Oct): Washington Square becomes the only location with one original campus vehicle; the game opens in 2026 and shifts permanently to 2126; walking, interiors and eeriness. The 2026/2126 switch leaves normal play (photo mode only) when Step 10 lands; until then the Era option and NightView.era stay as review tools.
-- 2026-10-08 **The environment is the star, not the car** (Washington Square only; at the time the other three locations stayed as they were, superseded by Step 10). All decay, overgrowth, damage, banner weathering, crowd changes and decay lighting are one separate layer on top of the clean campus, never baked into the clean models or textures. The whole study area switches between the clean 2026 state and the decayed 2126 state at runtime and blends between them (`world.setDecay(t)`, `world.eraTo(t)`, `NightView.era(t)`, `?era=2026|2126`, the Era option). Then the plan continues through Stop point 3, and Step 9 (below) follows it.
+- 2026-10-08 **The environment is the star, not the car** (Washington Square only; at the time the other three locations stayed as they were, superseded by Step 10). All decay, overgrowth, damage, banner weathering, crowd changes and decay lighting are one separate layer on top of the clean campus, never baked into the clean models or textures. The whole study area switches between the clean 2026 state and the decayed 2126 state at runtime and blends between them (`world.setDecay(t)`, `world.eraTo(t)`, `Commencement.era(t)`, `?era=2026|2126`, the Era option). Then the plan continues through Stop point 3, and Step 9 (below) follows it.
 - Scope is the Washington Square neighbourhood, not only NYU (8 Oct 2026): non-NYU landmarks and real storefronts get the same faithfulness (Step 4B). Real businesses are never satirised.
 - Lighting on Washington Square follows the real time in New York by default (7 Oct 2026).
 - 2026-10-07 First detail batch approved; keep the same level of detail. Resolve the open questions myself from Street View and photos (record observations and capture dates; label estimates). Weinstein: street-visible only. Commit after each landmark; stop once after Brown for review.
@@ -129,10 +131,10 @@ Play Washington Square with Options > Driving > Sound and Music both On, and pre
 
 ## How to run the game locally and check the frame rate
 
-1. Open Terminal and go to the repository: `cd ~/NightView`
+1. Open Terminal and go to your local copy of the repository (`cd ~/NightView` on Avi's Mac, until the folder is renamed)
 2. Start the local server: `npm start` (runs `tools/serve.py`, which serves dist/ and turns browser caching off so updates always load). Leave this window open; press Ctrl+C to stop it.
 3. In Chrome, open **http://localhost:4173/?fps=1**. The `?fps=1` turns the counter on straight away. Without it: Options (top right) > FPS counter > On > Apply. The setting is remembered in that browser.
-4. The counter sits under the NightView logo: frames per second (averaged over half a second), the slowest frame in that half second in ms, and the last frame's draw calls and triangles as WebGL reports them (shadow pass included). It turns orange below 55 fps.
+4. The counter sits under the Commencement name: frames per second (averaged over half a second), the slowest frame in that half second in ms, and the last frame's draw calls and triangles as WebGL reports them (shadow pass included). It turns orange below 55 fps.
 5. Washington Square · NYU is the only location and you start on Fifth Avenue facing the Arch. Drive up to it and round it (W/S, A/D), and stop in front of it facing south into the square: that is the heaviest view.
 6. After pulling new commits, hard-reload (Cmd+Shift+R) so the browser does not keep old files.
 7. For a fair reading: laptop on mains power, other heavy tabs closed, and Chrome hardware acceleration on (chrome://gpu should list WebGL as "Hardware accelerated").

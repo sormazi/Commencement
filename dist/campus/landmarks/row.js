@@ -1,7 +1,7 @@
 import * as T from '../../vendor/three.module.js';
-import {Parts,Face,brickTextures,grainTextures} from './kit.js?v=23';
-import {pieces,walls,v3} from './facade.js?v=23';
-import model3d from '../data/campus-3d.js?v=23';
+import {Parts,Face,brickTextures,grainTextures} from './kit.js?v=24';
+import {pieces,walls,v3} from './facade.js?v=24';
+import model3d from '../data/campus-3d.js?v=24';
 // "The Row": Greek Revival town houses on Washington Square North (LPC Greenwich Village HD
 // report LP-0489 pp.52–57). East of Fifth Avenue, Nos. 1–13 (1832–33): red brick in Flemish bond,
 // white marble porticoes with two fluted Doric columns, marble stoops, pedimented marble lintels

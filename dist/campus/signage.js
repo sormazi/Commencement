@@ -1,5 +1,6 @@
+import {trackImage} from '../preload.js?v=24';
 import * as T from '../vendor/three.module.js';
-import {SIGNAGE} from '../assets/signage/manifest.js?v=23';
+import {SIGNAGE} from '../assets/signage/manifest.js?v=24';
 // Signage decals (see assets/signage/manifest.js). Every decal has its own texture file. Two ways to draw:
 // - Banners and flags: one material per decal and one instanced plane for all its placements.
 // - Shop signs and plaques (kinds 'sign' and 'plaque', which can run to hundreds): packed into shared
@@ -41,7 +42,7 @@ export function buildSignage(world,{base=''}={}){const group=new T.Group();group
   const tex=keep(new T.CanvasTexture(c));tex.colorSpace=T.SRGBColorSpace;tex.anisotropy=4;tex.generateMipmaps=true;
   const rects=specs.map((spec,i)=>{const cx=(i%PER_ROW)*CELL[0],cy=Math.floor(i/PER_ROW)*CELL[1],f=fitInCell(spec.size),r={x:cx+f.x,y:cy+f.y,w:f.w,h:f.h};
    const cc=document.createElement('canvas');cc.width=r.w;cc.height=r.h;drawDecal(cc.getContext('2d'),spec,r.w,r.h);g.drawImage(cc,r.x,r.y);
-   const img=new Image();img.onload=()=>{g.drawImage(img,r.x,r.y,r.w,r.h);tex.needsUpdate=true;};img.onerror=()=>{};img.src=base+spec.file;return r;});
+   const img=trackImage(new Image());img.onload=()=>{g.drawImage(img,r.x,r.y,r.w,r.h);tex.needsUpdate=true;};img.onerror=()=>{};img.src=base+spec.file;return r;});
   const list=[],uv=[];specs.forEach((spec,i)=>{const r=rects[i],inset=1;for(const pl of spec.placements){list.push([pl,spec]);uv.push((r.x+inset)/PAGE,1-(r.y+r.h-inset)/PAGE,(r.w-2*inset)/PAGE,(r.h-2*inset)/PAGE);}});
   const geo=keep(unit.clone());geo.setAttribute('aUvRect',new T.InstancedBufferAttribute(new Float32Array(uv),4));
   const mat=keep(new T.MeshStandardMaterial({map:tex,side:T.DoubleSide,roughness:.8}));mat.name='signage atlas '+pages.length;

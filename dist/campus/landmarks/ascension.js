@@ -1,8 +1,8 @@
 import * as T from '../../vendor/three.module.js';
-import {Parts,stoneTextures} from './kit.js?v=23';
-import {pieces,walls,roofs,punched} from './facade.js?v=23';
-import {Frame,gothicChurch} from './gothic.js?v=23';
-import model3d from '../data/campus-3d.js?v=23';
+import {Parts,stoneTextures} from './kit.js?v=24';
+import {pieces,walls,roofs,punched} from './facade.js?v=24';
+import {Frame,gothicChurch} from './gothic.js?v=24';
+import model3d from '../data/campus-3d.js?v=24';
 // Church of the Ascension, Fifth Avenue at W 10th St (Richard Upjohn, 1840-41; LPC Greenwich Village Historic
 // District). Gothic Revival in brownstone: a square tower on Fifth Avenue with buttresses and a battlemented
 // top with corner pinnacles, a nave running west under a steep roof with an aisle on the south side, and the

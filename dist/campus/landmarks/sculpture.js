@@ -1,5 +1,5 @@
 import * as T from '../../vendor/three.module.js';
-import {smooth,circle,xf,mirrorX} from './kit.js?v=23';
+import {smooth,circle,xf,mirrorX} from './kit.js?v=24';
 // Sculpture kit: carved figures built from revolved and extruded primitives. These are stand-ins
 // carved at the level of detail a passer-by reads from the pavement: pose, costume, attributes
 // and silhouette. Faces and fine carving are left to the stone's grain texture.

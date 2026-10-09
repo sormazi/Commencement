@@ -1,10 +1,8 @@
-<h1 align="center">NightView</h1>
+<p align="center"><img src="docs/readme/title.jpg" alt="Commencement, set in blackletter on an aged diploma in a violet mat" width="82%"></p>
 
-<p align="center"><em>Washington Square, a hundred years after everyone left.</em></p>
+<h1 align="center">Commencement</h1>
 
-<p align="center"><img src="docs/readme/hero.jpg" alt="The Washington Square Arch at dusk in 2126, overgrown, with fog in the park" width="100%"></p>
-
-<p align="center"><a href="https://sormazi.github.io/NightView/"><img src="https://img.shields.io/badge/Play%20in%20your%20browser-57068c?style=for-the-badge" alt="Play in your browser"></a></p>
+<p align="center"><a href="https://sormazi.github.io/Commencement/"><img src="https://img.shields.io/badge/Play%20in%20your%20browser-57068c?style=for-the-badge" alt="Play in your browser"></a></p>
 
 <p align="center"><img src="docs/readme/shift.gif" alt="The Arch fading from 2026 to 2126" width="80%"></p>
 
@@ -15,6 +13,8 @@ At some point I started wondering what WSQ would look like if everyone just stop
 You drive a Campus Safety car, which as far as anyone can tell is the last vehicle on campus that still starts, through the square and the streets around it in 2126. Trees have pushed up through the paths. Ivy has climbed most of the buildings. The street lamps mostly don't work, and the light follows the real time in New York, so if you play at two in the morning it's two in the morning in the game too.
 
 It isn't empty, though. People still stand around the park and wait in lines outside buildings that are never going to open again. Most of them ignore you. A few turn their heads as you drive past. I don't know what they're waiting for either.
+
+The game started life as NightView, an arcade driver I made earlier, and slowly turned into this.
 
 ## The place
 
@@ -65,8 +65,8 @@ Sound starts after you click or press a key. The options menu (top right) has th
 You need Python 3 and a browser that does WebGL 2, which is any recent one.
 
 ```bash
-git clone https://github.com/sormazi/NightView.git
-cd NightView
+git clone https://github.com/sormazi/Commencement.git
+cd Commencement
 python3 tools/serve.py
 ```
 
@@ -84,4 +84,4 @@ Then open http://localhost:4173. If something else is already using that port, r
 
 ---
 
-Map data © OpenStreetMap contributors (ODbL) and NYC Open Data. Reference photos are from Wikimedia Commons and are credited, along with everything else, in [the credits](dist/credits.html). This is a made-up ruin and isn't affiliated with or endorsed by NYU. If you want to know how it's put together, the notes are in [CAMPUS.md](CAMPUS.md).
+Map data © OpenStreetMap contributors (ODbL) and NYC Open Data. Reference photos are from Wikimedia Commons and are credited, along with everything else, in [the credits](dist/credits.html). This is a made-up ruin and isn't affiliated with or endorsed by NYU. If you want to know how it's put together, the notes are in [docs/TECHNICAL.md](docs/TECHNICAL.md) and [CAMPUS.md](CAMPUS.md).

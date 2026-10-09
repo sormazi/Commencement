@@ -1,8 +1,8 @@
 import * as T from '../../vendor/three.module.js';
-import {Parts} from '../landmarks/kit.js?v=23';
-import {centroid} from '../geometry.js?v=23';
-import {buildKit,volumePieces,FootprintIndex,tier2Materials,signMaterial} from './kit.js?v=23';
-import {TIER2} from './registry.js?v=23';
+import {Parts} from '../landmarks/kit.js?v=24';
+import {centroid} from '../geometry.js?v=24';
+import {buildKit,volumePieces,FootprintIndex,tier2Materials,signMaterial} from './kit.js?v=24';
+import {TIER2} from './registry.js?v=24';
 // Builds every second-tier building into the campus world: geometry merged per tile and material,
 // doors as one instanced mesh, door records in world.doors.
 export const TIER2_BINS=new Set(TIER2.flatMap(s=>[s.bin,...(s.also||[])]));

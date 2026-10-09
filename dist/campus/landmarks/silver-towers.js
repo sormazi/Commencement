@@ -1,8 +1,8 @@
 import * as T from '../../vendor/three.module.js';
-import {Parts,Face,stoneTextures,canvas,brickTextures} from './kit.js?v=23';
+import {Parts,Face,stoneTextures,canvas,brickTextures} from './kit.js?v=24';
 const tex=(w,h,draw)=>{const c=canvas(w,h);draw(c.getContext('2d'),w,h);const t=new T.CanvasTexture(c);t.colorSpace=T.SRGBColorSpace;t.anisotropy=4;return t;};
-import {pieces,roofs,v3,signPanel} from './facade.js?v=23';
-import model3d from '../data/campus-3d.js?v=23';
+import {pieces,roofs,v3,signPanel} from './facade.js?v=24';
+import model3d from '../data/campus-3d.js?v=24';
 // University Village: Silver Towers I and II (100 and 110 Bleecker St, NYU) and 505 LaGuardia Place
 // (co-op), I. M. Pei & Associates, 1964-67; NYC landmark 2008 (LPC report 2300). Three identical
 // 30-storey towers of cast-in-place buff concrete set in a pinwheel round a 100 x 100 ft lawn.

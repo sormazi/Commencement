@@ -1,7 +1,7 @@
 import * as T from '../../vendor/three.module.js';
-import {Parts,Face,canvas} from './kit.js?v=23';
-import {pieces,walls,roofs,curtain} from './facade.js?v=23';
-import model3d from '../data/campus-3d.js?v=23';
+import {Parts,Face,canvas} from './kit.js?v=24';
+import {pieces,walls,roofs,curtain} from './facade.js?v=24';
+import model3d from '../data/campus-3d.js?v=24';
 // 41 Cooper Square, the Cooper Union's academic building (Morphosis, Thom Mayne, 2009). A glass box wrapped
 // in a skin of perforated stainless-steel panels held off the glass on a frame, the skin torn open in a
 // tall, twisting cut on the Cooper Square (west) front that reveals the curved glass atrium wall behind.

@@ -1,7 +1,8 @@
 import * as T from './vendor/three.module.js';
-import {decayMaterial,DECAY} from './campus/atmosphere/decay.js?v=23';
-import {VEHICLE} from './physics.js?v=23';
-import {LIVERY,SIDE_PROFILE,liveryPixels} from './assets/signage/livery.js?v=23';
+import {trackImage} from './preload.js?v=24';
+import {decayMaterial,DECAY} from './campus/atmosphere/decay.js?v=24';
+import {VEHICLE} from './physics.js?v=24';
+import {LIVERY,SIDE_PROFILE,liveryPixels} from './assets/signage/livery.js?v=24';
 // NYU Campus Safety unit 4: the player's car. A compact electric crossover with the size, proportions, ride
 // height and stance of the Campus Safety car in Avi's reference photos (about 4.6 m long, 1.85 m wide,
 // 1.62 m tall, 2.8 m wheelbase, 0.72 m wheels), modelled from simple shapes as an original design: no real
@@ -90,7 +91,7 @@ export function makeVehicle(data=null){const g=new T.Group();g.name='NYU Campus 
  const seam=M({color:0x3a3a3c,roughness:.6},'paint');for(const s of [-1,1]){for(const u of [1.36,2.6,3.7])bx(.004,.72,.012,seam,s*(W/2+.012),.82,Z(u));for(const u of [2.15,3.3])bx(.01,.025,.16,gloss,s*(W/2+.014),1.06,Z(u));}
  // Livery: each part a decal from the signage manifest, drawn now and replaced by its PNG when it loads.
  const decals=[];for(const spec of LIVERY){const [pw,ph]=liveryPixels(spec.size);let tex=null;const mat=()=>{if(tex)return tex.mat;const t=canvasTex(pw,ph,(c,w,h)=>spec.draw(c,w,h,spec));
-   if(typeof Image!=='undefined'){const img=new Image();img.onload=()=>{const c=t.image.getContext('2d');c.clearRect(0,0,pw,ph);c.drawImage(img,0,0,pw,ph);t.needsUpdate=true;};img.onerror=()=>{};img.src=spec.file;}
+   if(typeof Image!=='undefined'){const img=trackImage(new Image());img.onload=()=>{const c=t.image.getContext('2d');c.clearRect(0,0,pw,ph);c.drawImage(img,0,0,pw,ph);t.needsUpdate=true;};img.onerror=()=>{};img.src=spec.file;}
    const m=peel(decayMaterial(new T.MeshStandardMaterial({map:t,transparent:true,roughness:.4,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2}),'cloth',{local:true}));keep.push(m);tex={mat:m};return m;};
   for(const p of spec.placements){const k=p.scale||1,m=add(new T.PlaneGeometry(spec.size[0]*k,spec.size[1]*k,Math.ceil(spec.size[0]*k/.12),1),mat());m.castShadow=false;m.name=spec.id;m.renderOrder=spec.id.startsWith('livery-band')?1:2;const lift=spec.id.startsWith('livery-band')?.016:.02;
    if(p.side==='right'||p.side==='left'){const s=p.side==='right'?1:-1;m.position.set(s*(W/2+lift),p.v,Z(p.u));m.rotation.set(0,s*Math.PI/2,p.rot||0,'YXZ');}

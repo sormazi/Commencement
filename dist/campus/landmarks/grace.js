@@ -1,8 +1,8 @@
 import * as T from '../../vendor/three.module.js';
-import {Parts,stoneTextures} from './kit.js?v=23';
-import {pieces,walls,roofs,punched} from './facade.js?v=23';
-import {Frame,pointed,apexOf,wall,buttress,gableRoof,leanTo,pinnacle,spire} from './gothic.js?v=23';
-import model3d from '../data/campus-3d.js?v=23';
+import {Parts,stoneTextures} from './kit.js?v=24';
+import {pieces,walls,roofs,punched} from './facade.js?v=24';
+import {Frame,pointed,apexOf,wall,buttress,gableRoof,leanTo,pinnacle,spire} from './gothic.js?v=24';
+import model3d from '../data/campus-3d.js?v=24';
 // Grace Church, 800 Broadway at E 10th St (James Renwick Jr., 1843-46; marble spire 1883; LPC 1966).
 // Gothic Revival in grey-white marble: a west tower on Broadway with corner buttresses, a belfry of paired
 // louvred lancets, corner pinnacles and an octagonal spire; nave with lean-to aisles and a clerestory,

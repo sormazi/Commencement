@@ -1,6 +1,6 @@
 import * as T from '../../vendor/three.module.js';
-import {CURB_HEIGHT} from '../collision.js?v=23';
-import {hash,inSlice,DECAY} from './decay.js?v=23';
+import {CURB_HEIGHT} from '../collision.js?v=24';
+import {hash,inSlice,DECAY} from './decay.js?v=24';
 // "Dead of night" for Washington Square: almost every lamp is dead; a few still burn, some of them
 // flickering; fog drifts in low between the trees. Cost: two instanced meshes for the live lanterns
 // and their halos, one for the fog cards, and a pool of three point lights that follow the nearest

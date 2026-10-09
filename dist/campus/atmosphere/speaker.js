@@ -1,7 +1,7 @@
 import * as T from '../../vendor/three.module.js';
-import {CURB_HEIGHT} from '../collision.js?v=23';
-import {SPEAKER} from '../../soundtrack.js?v=23';
-import {decayMaterial} from './decay.js?v=23';
+import {CURB_HEIGHT} from '../collision.js?v=24';
+import {SPEAKER} from '../../soundtrack.js?v=24';
+import {decayMaterial} from './decay.js?v=24';
 // The broken loudspeaker the soundtrack plays through: an old horn speaker on a pole just south of the
 // Arch, knocked askew, its cable hanging loose. Three meshes.
 export function buildSpeaker(world){const g=new T.Group();g.name='broken loudspeaker';const keep=x=>{world.disposables.add(x);return x;};

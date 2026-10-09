@@ -1,7 +1,7 @@
 // Washington Square · NYU free-roam location: data, collision and street graph (no rendering).
-import data from './data/campus-data.js?v=23';
-import {CampusCollision} from './collision.js?v=23';
-import {StreetGraph} from './streets.js?v=23';
+import data from './data/campus-data.js?v=24';
+import {CampusCollision} from './collision.js?v=24';
+import {StreetGraph} from './streets.js?v=24';
 export const campusLocation={id:'washington-square',name:'Washington Square · NYU',city:'New York',street:'Free roam · Greenwich Village',freeRoam:true,halfWidth:12,length:1,spawn:0};
 let cached=null;
 export function campus(){if(cached)return cached;const collision=new CampusCollision(data),streets=new StreetGraph(data);
