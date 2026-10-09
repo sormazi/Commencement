@@ -6,4 +6,5 @@
 //  w}, mullions (glass divisions), bulkhead (sill height), frame (paint colour), awning {type: none, flat,
 //  slope or barrel, color, depth}, sign {lines, bg, fg, font, size [w, h], border}, shutter (true where the
 //  roll-down grille was down), seen. Names are shown as plain lettering in the sign's colours; no logos.
-export const STOREFRONTS=[];
+import {MACDOUGAL} from './macdougal.js?v=24';
+export const STOREFRONTS=[...MACDOUGAL];
