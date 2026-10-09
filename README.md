@@ -76,7 +76,6 @@ Then open http://localhost:4173. If something else is already using that port, r
 
 - The shops along MacDougal, Bleecker, West 4th, Broadway, University Place, 8th Street and Astor Place, with their real names
 - A soundtrack: one old New York jazz piece, played clean in 2026 and off a worn-out cassette in 2126
-- Billboards around the square, aimed squarely at the university
 - A slower camera, a field guide to the buildings, and small things to find
 - Getting out of the car and walking, starting with the Bobst atrium
 - Starting the game in 2026 and watching it turn into 2126 while you drive

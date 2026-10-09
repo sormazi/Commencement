@@ -2,7 +2,7 @@
 
 A free-roam reconstruction of NYU's Washington Square campus a hundred years from now. It is the only location in the game; the old Times Square, SoHo and Shibuya corridors were removed in Step 10 and remain in git history and on the main branch.
 
-**Status:** massing for every building, detailed priority landmarks, a first-draft atmosphere slice around the park, and real New York time of day. Second- and third-tier buildings and the billboards are still to come. PROGRESS.md has the current state.
+**Status:** massing for every building, detailed priority landmarks, a first-draft atmosphere slice around the park, and real New York time of day. Second- and third-tier buildings are in; storefronts are still to come. There are no billboards. PROGRESS.md has the current state.
 
 ## World model
 
