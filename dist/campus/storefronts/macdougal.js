@@ -15,16 +15,16 @@ export const MACDOUGAL=[
  {bin:1008748,street:W,addr:'115 MacDougal St',seen,shops:[
   {id:'cafe-wha',name:'Cafe Wha?',frac:[0,.38],frame:'#8f1f22',sign:{lines:['CAFE WHA?','LIVE MUSIC'],bg:'#151413',fg:'#f2efe6',font:'sans-bold'},door:{at:.5,w:1.0}},
   {id:'players-theatre',name:'Players Theatre',frac:[.38,1],frame:'#8f1f22',sign:{lines:['PLAYERS THEATRE'],bg:'#f1eee6',fg:'#151413',font:'serif-bold'},door:{at:.4,w:1.6}}]},
- {bin:1008747,street:W,addr:'117 MacDougal St',seen,shops:[{id:'olive-tree-cafe',name:'Olive Tree Cafe & Bar (the Comedy Cellar is downstairs)',frame:'#7a1d1e',sign:{lines:['OLIVE TREE CAFE & BAR'],bg:'#1c1a19',fg:'#f2efe6',font:'sans-bold'},door:{at:.55,w:1.0}}]},
- {bin:1008745,street:W,addr:'119 MacDougal St',seen,shops:[
-  {id:'mamouns',name:'Mamoun\'s Falafel',frac:[0,.28],frame:'#5b3b22',sign:{lines:['MAMOUN\'S FALAFEL'],bg:'#efe9dc',fg:'#2a1d14',font:'serif-bold'},door:{at:.5,w:1.0}},
-  {id:'caffe-reggio',name:'Caffe Reggio',frac:[.28,.58],frame:'#1f4a32',awning:{type:'slope',color:'#1f4433',depth:1.3},sign:{lines:['CAFFE REGGIO ORIGINAL CAPPUCCINO'],bg:'#1f4433',fg:'#f2efe6',font:'serif',mount:'awning'},door:{at:.5,w:1.0}}]},
+ {bin:1008747,street:W,addr:'117 MacDougal St',seen,shops:[{id:'olive-tree-cafe',name:'Olive Tree Cafe & Bar (the Comedy Cellar is downstairs)',frame:'#7a1d1e',seating:{color:'#a3262b',planters:true,depth:1.5,from:-.6,to:1,tables:2},sign:{lines:['OLIVE TREE CAFE & BAR'],bg:'#1c1a19',fg:'#f2efe6',font:'sans-bold'},door:{at:.55,w:1.0}}]},
+ {bin:1008746,street:W,addr:'119 MacDougal St',seen,shops:[
+  {id:'mamouns',name:'Mamoun\'s Falafel',frac:[.1,.28],frame:'#5b3b22',sign:{lines:['MAMOUN\'S FALAFEL'],bg:'#efe9dc',fg:'#2a1d14',font:'serif-bold'},door:{at:.5,w:1.0}},
+  {id:'caffe-reggio',name:'Caffe Reggio',frac:[.28,.55],frame:'#1f5a38',awning:{type:'slope',color:'#1f4f36',depth:1.4},seating:{color:'#2f8a3c',depth:1.7,from:.05,to:.95,tables:3},shed:{color:'#2f8a3c',roof:'#2f8a3c',from:-.9,to:1,d0:4.6,d1:6.9},sign:{lines:['CAFFE REGGIO ORIGINAL CAPPUCCINO'],bg:'#1f4433',fg:'#f2efe6',font:'serif',mount:'awning'},door:{at:.5,w:1.0}}]},
  // East side (even numbers), south to north.
  {bin:1008689,street:W,addr:'104 MacDougal St',seen,shops:[{id:'nyc-smoke-shop',name:'NYC Smoke Shop & More',frame:'#2a2826',sign:{lines:['NYC SMOKE SHOP & MORE'],bg:'#222120',fg:'#e9e6df',font:'sans-bold'},door:{at:.5,w:1.0}}]},
  {bin:1008690,street:W,addr:'106 MacDougal St',seen,shops:[{id:'crepes-waffles',name:'Crepes & Waffles',frame:'#1b1a19',sign:{lines:['CREPES & WAFFLES'],bg:'#1a1918',fg:'#f2efe6',font:'sans-bold'},door:{at:.3,w:1.0}}]},
  {bin:1008691,street:W,addr:'108 MacDougal St',seen,shops:[{id:'butter-108',name:'butter',frame:'#24272c',sign:{lines:['butter'],bg:'#1c1d22',fg:'#f4f2ee',font:'sans-bold'},door:{at:.6,w:1.0}}]},
  {bin:1008692,street:W,addr:'112 MacDougal St',seen,shops:[{id:'thelewala',name:'Thelewala',frame:'#1d1c1b',sign:{lines:['THELEWALA'],bg:'#2a2928',fg:'#ece8de',font:'sans-bold'},door:{at:.4,w:1.0}}]},
- {bin:1008693,street:W,addr:'114 MacDougal St',seen,shops:[{id:'saigon-shack',name:'Saigon Shack',frame:'#8b8778',sign:{lines:['SAIGON ★ SHACK'],bg:'#2b2a28',fg:'#ece8de',font:'sans-bold'},door:{at:.5,w:1.0}}]},
+ {bin:1008693,street:W,addr:'114 MacDougal St',seen,shops:[{id:'saigon-shack',name:'Saigon Shack',frame:'#8b8778',shed:{color:'#8f8b7f',roof:'#8f8b7f',d0:.3,d1:2.6,from:.05,to:.95,closed:true},sign:{lines:['SAIGON ★ SHACK'],bg:'#2b2a28',fg:'#ece8de',font:'sans-bold'},door:{at:.5,w:1.0}}]},
  {bin:1008697,street:W,addr:'122 MacDougal St',seen,shops:[{id:'macdougal-ale-house',name:'MacDougal Street Ale House',frame:'#1e3a2a',awning:{type:'barrel',color:'#1f3d2c',depth:1.0},sign:{lines:['MACDOUGAL STREET','ALE HOUSE'],bg:'#1f3d2c',fg:'#e8dfc4',font:'serif-bold'},door:{at:.5,w:1.2}}]},
  {bin:1008698,street:W,addr:'124 MacDougal St',seen,shops:[{id:'meskerem',name:'Meskerem Ethiopian Restaurant',frame:'#1b1a19',sign:{lines:['MESKEREM','ETHIOPIAN RESTAURANT'],bg:'#1a1918',fg:'#f2efe6',font:'sans-bold'},door:{at:.5,w:1.0}}]},
  {bin:1008699,street:W,addr:'126 MacDougal St',seen,shops:[{id:'macdougal-126',name:'(vacant, shutter down)',frame:'#2a2826',shutter:true,door:{at:.8,w:1.0}}]},

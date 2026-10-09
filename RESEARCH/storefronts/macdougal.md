@@ -12,7 +12,7 @@ Source: Google Street View, Apr 2026 captures, opened with `maps/@?api=1&map_act
 | 113 | Minetta Tavern | |
 | 115 | Cafe Wha? and Players Theatre | Cafe Wha?'s projecting blade sign not modelled |
 | 117 | Olive Tree Cafe & Bar | the Comedy Cellar is downstairs |
-| 119 | Mamoun's Falafel, Caffe Reggio | positions within the corner lot are estimates; Reggio's awning colour also seen on a 2018 sphere |
+| 119 | Mamoun's Falafel, Caffe Reggio | on the corner building (BIN 1008746); positions along it judged from imagery; green sidewalk railing and a green dining shed in the curb lane; Reggio's awning colour also seen on a 2018 sphere |
 | 104 | NYC Smoke Shop & More | |
 | 106 | Crepes & Waffles | |
 | 108 | butter | |
