@@ -146,138 +146,140 @@ Target is 60 fps at the Arch. My own checks run in a software renderer in the cl
 ## Commit log
 | Date | Commit | Summary |
 |---|---|---|
-| 2026-10-07 | efa26be | Phase 0: Washington Square free-roam location, campus data pipeline, tests, Phase 1 inventory draft |
-| 2026-10-07 | 18718a2 | Phase 2 massing from NYC 3D model, Paulson estimate, inventory draft 2 (LPC + Street View), skyline screenshots |
-| 2026-10-07 | 13e9200 | Phase 2 detail pass: Arch, Bobst, Silver Center in full geometry; kits, checklists, Commons references, comparisons, landmark tests |
-| 2026-10-07 | 8d48dcd | Kimmel Center detail; shared facade kit |
-| 2026-10-07 | 6ddb53a | Judson Memorial Church and campanile |
-| 2026-10-07 | fd969d5 | The Row (Nos. 1-13 and 19-26 Washington Sq N) |
-| 2026-10-07 | e9658eb | Weinstein Hall (street-visible); inventory update 4 |
-| 2026-10-07 | c557397 | Brown Building and Triangle Fire Memorial (preserved) |
-| 2026-10-07 | 8c58c76 | Open questions resolved (inventory update 4); sidewalk sheds |
-| 2026-10-07 | a873e18 | Kimmel canopy: curved vault (review fix) |
-| 2026-10-07 | 496e8fc | FPS counter + how to test locally |
-| 2026-10-07 | 190f7b1 | W 4th shed realigned (review fix) + refs |
-| 2026-10-07 | 8e83ef6 | Silver Towers + Sylvette placeholder |
-| 2026-10-07 | f81d904 | Vanderbilt Hall + masonry kit |
-| 2026-10-07 | 84950cb | Tisch Hall + KMC (Stern) |
-| 2026-10-07 | 7031b08 | Paulson Center |
-| 2026-10-07 | ae1c4ea | PROGRESS review stop |
-| 2026-10-07 | e923d99 | README + credits for the nyu-campus branch |
-| 2026-10-07 | 416d350 | CONTRIBUTING Node version |
-| 2026-10-07 | 9dfcbe7 | README clone command |
-| 2026-10-07 | fcf269e | README rewrite |
-| 2026-10-07 | cf46a10 | Atmosphere: decay (park slice) |
-| 2026-10-07 | 1a21caa | Atmosphere: Dead of night preset |
-| 2026-10-07 | a080a2f | Atmosphere: no traffic on campus |
-| 2026-10-07 | ecea1cf | Atmosphere: loiterers |
-| 2026-10-07 | f0e00e5 | Atmosphere: soundtrack draft |
-| 2026-10-07 | 70d6885 | PROGRESS atmosphere review stop |
-| 2026-10-07 | f1bf788 | README/credits point at main |
-| 2026-10-07 | 09b609c | Real NYC time of day: NOAA sun, moon phase, continuous lamps and fog, ?time/?date preview, sky tests |
-| 2026-10-08 | 09266ef | Second-tier kit: spec-driven facades for NYU buildings |
-| 2026-10-08 | 7bc36a9 | Second tier: Rubin Hall |
-| 2026-10-08 | 1e4bb75 | Second tier: Lipton Hall |
-| 2026-10-08 | bfb01bf | Second tier: 37 Washington Square West |
-| 2026-10-08 | 51b9b09 | Second tier: 29 Washington Square West |
-| 2026-10-08 | 64a579d | Second tier: Hayden Hall, 240 Mercer St |
-| 2026-10-08 | 34e6123 | Second tier: Filomen D'Agostino Hall |
-| 2026-10-08 | 4b2ba26 | Second tier: Furman Hall |
-| 2026-10-08 | cbd061e | Second tier: Wilf Hall and the Provincetown Playhouse |
-| 2026-10-08 | 3122fbc | Second tier: Kevorkian Center |
-| 2026-10-08 | 94cfe9d | Second tier: Heyman Hall, 51 Washington Square South |
-| 2026-10-08 | 5d4f02b | Second tier: Global Center for Academic and Spiritual Life |
-| 2026-10-08 | d137287 | Second tier: Warren Weaver Hall |
-| 2026-10-08 | 31013c7 | Second tier: Meyer Hall |
-| 2026-10-08 | f80441a | Second tier: Department of Psychology, 707 Broadway |
-| 2026-10-08 | 82ea80b | Second tier: Center for Neural Science, 4 Washington Pl |
-| 2026-10-08 | d758221 | Second tier: Waverly Building |
-| 2026-10-08 | 9f34dfe | Second tier: Goddard Hall |
-| 2026-10-08 | 6a704a9 | Second tier: Pless Building |
-| 2026-10-08 | 7a69436 | Second tier: Pless Annex |
-| 2026-10-08 | 57db0bf | Second tier: Academic Resource Center |
-| 2026-10-08 | 1333f4a | Second tier: 35 West 4th Street (Frederick Loewe Theatre) |
-| 2026-10-08 | 543754f | Second tier: Leslie eLab, 14 Washington Pl |
-| 2026-10-08 | 87dc8e3 | Second tier: Arthur L. Carter Hall, 10 Washington Pl |
-| 2026-10-08 | 3ebd88e | Second tier: 19 West 4th Street (Politics) |
-| 2026-10-08 | bf9e248 | Second tier: Bonomi Family Admissions Center |
-| 2026-10-08 | 1d0c053 | Second tier: 31 West 4th Street |
-| 2026-10-08 | 7379914 | Second tier: Hebrew Union College, 1 W 4th St |
-| 2026-10-08 | dac9b6e | Second tier: Kimball Hall |
-| 2026-10-08 | e9cf427 | Second tier: Center for Genomics and Systems Biology, 12 Waverly Pl |
-| 2026-10-08 | 5abb54b | Second tier: 285 Mercer St / 10 Waverly Pl |
-| 2026-10-08 | a263b1d | Second tier: Department of Public Safety and Card Center, 7 Washington Pl |
-| 2026-10-08 | cbf4106 | Second tier: 15 Washington Place |
-| 2026-10-08 | 694c1f2 | Second tier: Department of English, 244 Greene St |
-| 2026-10-08 | 2eae3a3 | Second tier: Department of Philosophy, 3 Washington Pl |
-| 2026-10-08 | 689093f | Second tier: Rufus D. Smith Hall, 25 Waverly Pl |
-| 2026-10-08 | 91933b0 | Second tier: Languages and Literature, 13 University Pl |
-| 2026-10-08 | 7ad4c1f | Second tier: Cantor Film Center, 36 E 8th St |
-| 2026-10-08 | ec6a822 | Second tier: Tisch School of the Arts, 721 Broadway |
-| 2026-10-08 | 92bd011 | Second tier: Gallatin School, 1 Washington Pl (715 Broadway) |
-| 2026-10-08 | a9e5421 | Second tier: NYU Health Center, 726 Broadway |
-| 2026-10-08 | 9ca0a26 | Second tier: School of Global Public Health, 708 Broadway |
-| 2026-10-08 | b89415c | Second tier: 400 Lafayette St |
-| 2026-10-08 | fa87604 | Second tier: 383 Lafayette St (Admissions Office) |
-| 2026-10-08 | 0909000 | Second tier: 14 E 4th St (NYU Shanghai office) |
-| 2026-10-08 | 2189f23 | Second tier: 16 Cooper Square |
-| 2026-10-08 | 0867533 | Second tier: 60 Fifth Avenue |
-| 2026-10-08 | dbc0ad2 | Second tier: 7 East 12th Street |
-| 2026-10-08 | d6f1251 | Second tier: Brittany Hall, 55 E 10th St |
-| 2026-10-08 | 59a8a69 | Second tier: Bronfman Center, 7 E 10th St |
-| 2026-10-08 | 457b3fc | Second tier: Barney Building, 28 Stuyvesant St |
-| 2026-10-08 | 8aa222c | Second tier: 107 Second Avenue |
-| 2026-10-08 | 2b95669 | Second tier: 509 and 543 LaGuardia Place |
-| 2026-10-08 | 71fce20 | Second tier: 21 Washington Square North, rear parts |
-| 2026-10-08 | bf67483 | Second tier: 22 Washington Square North, rear part |
-| 2026-10-08 | aa9437d | Second tier: 27 Washington Square North |
-| 2026-10-08 | 329ae5e | Second tier: Washington Mews, north side (58, 60, 62) |
-| 2026-10-08 | 82a7b81 | Second tier: Washington Mews, south side |
-| 2026-10-08 | c874f5e | Second tier: East 8th Street houses (6-22 E 8th St) |
-| 2026-10-08 | fdc4139 | Second tier: Casa Italiana Zerilli-Marimò, 24 W 12th St |
-| 2026-10-08 | 9627a5b | Second tier: Lillian Vernon Creative Writers House, 58 W 10th St |
-| 2026-10-08 | 9897525 | Second tier: Senior House at 13th Street |
-| 2026-10-08 | 2d49503 | Second tier: University Hall |
-| 2026-10-08 | b09d1a8 | Second tier: Palladium Hall |
-| 2026-10-08 | 5594a00 | Second tier: Third North |
-| 2026-10-08 | 89b44e5 | Second tier: Alumni Hall |
-| 2026-10-08 | cc6195c | Second tier: Founders Hall and the St. Ann's facade |
-| 2026-10-08 | e14e7ff | Second tier: Seventh Street Residence |
-| 2026-10-08 | f006757 | Second tier: Sixth Street Residence |
-| 2026-10-08 | 767988b | Second tier: Second Street Residence |
-| 2026-10-08 | f1a702c | Second tier: Coral Tower |
-| 2026-10-08 | 0dc9179 | Second tier: Carlyle Court |
-| 2026-10-08 | abeed23 | Second tier: Washington Square Village |
-| 2026-10-08 | f8a1459 | Second tier: Puck Building |
-| 2026-10-08 | 5233d4f | Third-tier facades: kit and classification |
-| 2026-10-08 | 5c8b247 | Third tier: blocks 397-446 (1 Av, E 2 St, E Houston St) |
-| 2026-10-08 | 6f3efab | Third tier: blocks 447-463 (E 7 St, E 6 St, 2 Av) |
-| 2026-10-08 | 28aec12 | Third tier: blocks 464-489 (3 Av, E 10 St, Spring St) |
-| 2026-10-08 | 70027c2 | Third tier: blocks 493-509 (Prince St, Mulberry St, Spring St) |
-| 2026-10-08 | ed9d18c | Third tier: blocks 510-524 (W Houston St, Prince St, MacDougal St) |
-| 2026-10-08 | b3eb4a8 | Third tier: blocks 525-543 (MacDougal St, Sullivan St, W Houston St) |
-| 2026-10-08 | baeee57 | Third tier: blocks 544-560 (3 Av, Washington Pl, MacDougal Alley) |
-| 2026-10-08 | aa41567 | Third tier: blocks 561-575 (W 9 St, University Pl, W 12 St) |
-| 2026-10-08 | cdcd31d | Third tier: blocks 576-612 (6 Av · Av of the Americas, Bleecker St, Jones St) |
-| 2026-10-08 | 269d3a0 | Third tier: blocks 613-816 (W 15 St, Bank St, Greenwich Av) |
-| 2026-10-08 | 675476a | Third tier: blocks 817-870 (E 18 St, W 15 St, 6 Av · Av of the Americas) |
-| 2026-10-08 | 5b4d72e | Third tier: blocks 871-897 (Irving Pl, E 19 St, E 17 St) |
-| 2026-10-07 | db10350 | Night fill light dimmed; stop point 1 screenshots and numbers |
-| 2026-10-08 | f364b1d | Plan: Step 4B neighbourhood landmarks and storefronts |
-| 2026-10-08 | fc70434 | Darker night: lower ambient, night vignette, stronger headlights and lamps |
-| 2026-10-07 | 45bb08f..76c555c | Kit: real bay and storey counts; Real bay and storey counts for 16 buildings; 54 more checked on Street View and marked observed; 3 remain estimates (East 8th Street houses (6-22 E 8th St), 21 Washington Square North, rear parts, 22 Washington Square North, rear part) |
-| 2026-10-08 | 2496d61 | Step 4 park details: fountain rim and steps, 3 lamp types, 13 chess tables, banners where seen; signage decal system and manifest |
-| 2026-10-08 | 9dd8315 | Step 4B inventory: Tier A list plus candidates for review |
-| 2026-10-08 | cc592ee | Step 5: decay everywhere (facades, NYU buildings, lawns, ivy, trees) |
-| 2026-10-08 | 40b69c7 | Step 6: crowds across the area (door queues, plazas, strip), about 800 figures |
-| 2026-10-08 | d767fa6 | Docs for Steps 5 and 6 |
-| 2026-10-08 | 4603088 | Tier B tooling: storefront kit, sign atlas, blockface survey tool |
-| 2026-10-08 | 76c3829 | Decay as a separate runtime layer (2026/2126 blend) |
-| 2026-10-08 | 616e1aa | Step 10 Part 1: campus is the only location; NYU Facilities electric van replaces all cars; old locations, ads and tests removed |
-| 2026-10-08 | 343b018 | Cache-bust to v22 after Step 10 Part 1 (splash-screen hang from stale cached modules) |
-| 2026-10-08 | 532e3cd | NYU Campus Safety unit 4 replaces the van (livery decals, electric sound, physics, docs) |
-| 2026-10-08 | 87c77ab | No-cache local server (tools/serve.py) and v23 asset bump; fixes stale-module splash hang |
-| 2026-10-08 | 16355cc | Tier A: One Fifth observed (buff brick, piers); Tier A drafts wired into the world, unverified ones marked estimate |
-| 2026-10-08 | 431391a | Tier A: Grace Church observed (position, warmer marble) |
-| 2026-10-08 | 20ebfff | Tier A: Cooper Union (warmer stone) and Wanamaker observed |
-| 2026-10-08 | eca58f0 | Tier A: 826 Broadway (the Strand) observed, pale cream |
+| 2026-10-07 | e86399e | Phase 0: Washington Square free-roam location, campus data pipeline, tests, Phase 1 inventory draft |
+| 2026-10-07 | 899e198 | Phase 2 massing from NYC 3D model, Paulson estimate, inventory draft 2 (LPC + Street View), skyline screenshots |
+| 2026-10-07 | e55174f | Phase 2 detail pass: Arch, Bobst, Silver Center in full geometry; kits, checklists, Commons references, comparisons, landmark tests |
+| 2026-10-07 | 8ffc807 | Kimmel Center detail; shared facade kit |
+| 2026-10-07 | 485e3dc | Judson Memorial Church and campanile |
+| 2026-10-07 | 68b95b0 | The Row (Nos. 1-13 and 19-26 Washington Sq N) |
+| 2026-10-07 | 37c8bb3 | Weinstein Hall (street-visible); inventory update 4 |
+| 2026-10-07 | 99db1c8 | Brown Building and Triangle Fire Memorial (preserved) |
+| 2026-10-07 | ec0bfbe | Open questions resolved (inventory update 4); sidewalk sheds |
+| 2026-10-07 | 1444a97 | Kimmel canopy: curved vault (review fix) |
+| 2026-10-07 | bfcbbd7 | FPS counter + how to test locally |
+| 2026-10-07 | b26b5f9 | W 4th shed realigned (review fix) + refs |
+| 2026-10-07 | aa44d62 | Silver Towers + Sylvette placeholder |
+| 2026-10-07 | 2b2da44 | Vanderbilt Hall + masonry kit |
+| 2026-10-07 | 8a1a3ab | Tisch Hall + KMC (Stern) |
+| 2026-10-07 | dd40091 | Paulson Center |
+| 2026-10-07 | beda931 | PROGRESS review stop |
+| 2026-10-07 | 719af74 | README + credits for the nyu-campus branch |
+| 2026-10-07 | 32addb6 | CONTRIBUTING Node version |
+| 2026-10-07 | 3ff28d0 | README clone command |
+| 2026-10-07 | d628e85 | README rewrite |
+| 2026-10-07 | 2598eb6 | Atmosphere: decay (park slice) |
+| 2026-10-07 | e1b50f6 | Atmosphere: Dead of night preset |
+| 2026-10-07 | 78b3a19 | Atmosphere: no traffic on campus |
+| 2026-10-07 | 866d921 | Atmosphere: loiterers |
+| 2026-10-07 | 2e10077 | Atmosphere: soundtrack draft |
+| 2026-10-07 | c758b93 | PROGRESS atmosphere review stop |
+| 2026-10-07 | 4f6c23c | README/credits point at main |
+| 2026-10-07 | de5fcbc | Real NYC time of day: NOAA sun, moon phase, continuous lamps and fog, ?time/?date preview, sky tests |
+| 2026-10-08 | 40b6da1 | Second-tier kit: spec-driven facades for NYU buildings |
+| 2026-10-08 | 47dd814 | Second tier: Rubin Hall |
+| 2026-10-08 | 6f2c5ab | Second tier: Lipton Hall |
+| 2026-10-08 | cad9916 | Second tier: 37 Washington Square West |
+| 2026-10-08 | 0d6c0a6 | Second tier: 29 Washington Square West |
+| 2026-10-08 | 70c61ab | Second tier: Hayden Hall, 240 Mercer St |
+| 2026-10-08 | a432beb | Second tier: Filomen D'Agostino Hall |
+| 2026-10-08 | 3d2a260 | Second tier: Furman Hall |
+| 2026-10-08 | e92eb38 | Second tier: Wilf Hall and the Provincetown Playhouse |
+| 2026-10-08 | a2f4202 | Second tier: Kevorkian Center |
+| 2026-10-08 | 2198ad9 | Second tier: Heyman Hall, 51 Washington Square South |
+| 2026-10-08 | c6eb512 | Second tier: Global Center for Academic and Spiritual Life |
+| 2026-10-08 | 79a9aa2 | Second tier: Warren Weaver Hall |
+| 2026-10-08 | 6b15cd4 | Second tier: Meyer Hall |
+| 2026-10-08 | 1c04024 | Second tier: Department of Psychology, 707 Broadway |
+| 2026-10-08 | 05ce270 | Second tier: Center for Neural Science, 4 Washington Pl |
+| 2026-10-08 | 2b76486 | Second tier: Waverly Building |
+| 2026-10-08 | 08318b9 | Second tier: Goddard Hall |
+| 2026-10-08 | 7d85ac1 | Second tier: Pless Building |
+| 2026-10-08 | f958fb1 | Second tier: Pless Annex |
+| 2026-10-08 | 5706cb4 | Second tier: Academic Resource Center |
+| 2026-10-08 | 7c6ddee | Second tier: 35 West 4th Street (Frederick Loewe Theatre) |
+| 2026-10-08 | dac6562 | Second tier: Leslie eLab, 14 Washington Pl |
+| 2026-10-08 | 5caea5e | Second tier: Arthur L. Carter Hall, 10 Washington Pl |
+| 2026-10-08 | 1abb81b | Second tier: 19 West 4th Street (Politics) |
+| 2026-10-08 | 02aad22 | Second tier: Bonomi Family Admissions Center |
+| 2026-10-08 | 4c9eb45 | Second tier: 31 West 4th Street |
+| 2026-10-08 | ad980cd | Second tier: Hebrew Union College, 1 W 4th St |
+| 2026-10-08 | d5c13f1 | Second tier: Kimball Hall |
+| 2026-10-08 | 7636d09 | Second tier: Center for Genomics and Systems Biology, 12 Waverly Pl |
+| 2026-10-08 | d071b7b | Second tier: 285 Mercer St / 10 Waverly Pl |
+| 2026-10-08 | 526431d | Second tier: Department of Public Safety and Card Center, 7 Washington Pl |
+| 2026-10-08 | 7080b32 | Second tier: 15 Washington Place |
+| 2026-10-08 | 88c0fc2 | Second tier: Department of English, 244 Greene St |
+| 2026-10-08 | a15ccc8 | Second tier: Department of Philosophy, 3 Washington Pl |
+| 2026-10-08 | 2abc428 | Second tier: Rufus D. Smith Hall, 25 Waverly Pl |
+| 2026-10-08 | 841fb58 | Second tier: Languages and Literature, 13 University Pl |
+| 2026-10-08 | 9e24d73 | Second tier: Cantor Film Center, 36 E 8th St |
+| 2026-10-08 | 9dca29e | Second tier: Tisch School of the Arts, 721 Broadway |
+| 2026-10-08 | 7b7a4ce | Second tier: Gallatin School, 1 Washington Pl (715 Broadway) |
+| 2026-10-08 | 27dbc90 | Second tier: NYU Health Center, 726 Broadway |
+| 2026-10-08 | 23552a7 | Second tier: School of Global Public Health, 708 Broadway |
+| 2026-10-08 | c656f72 | Second tier: 400 Lafayette St |
+| 2026-10-08 | 2db4a48 | Second tier: 383 Lafayette St (Admissions Office) |
+| 2026-10-08 | 11bd814 | Second tier: 14 E 4th St (NYU Shanghai office) |
+| 2026-10-08 | ad47971 | Second tier: 16 Cooper Square |
+| 2026-10-08 | 7fd758f | Second tier: 60 Fifth Avenue |
+| 2026-10-08 | c7b20d4 | Second tier: 7 East 12th Street |
+| 2026-10-08 | 2420f95 | Second tier: Brittany Hall, 55 E 10th St |
+| 2026-10-08 | dcff5cd | Second tier: Bronfman Center, 7 E 10th St |
+| 2026-10-08 | 504f36c | Second tier: Barney Building, 28 Stuyvesant St |
+| 2026-10-08 | e302109 | Second tier: 107 Second Avenue |
+| 2026-10-08 | 35d06c4 | Second tier: 509 and 543 LaGuardia Place |
+| 2026-10-08 | cefb802 | Second tier: 21 Washington Square North, rear parts |
+| 2026-10-08 | 8de0be5 | Second tier: 22 Washington Square North, rear part |
+| 2026-10-08 | 7bd88c7 | Second tier: 27 Washington Square North |
+| 2026-10-08 | 4ed2165 | Second tier: Washington Mews, north side (58, 60, 62) |
+| 2026-10-08 | 2cbe10c | Second tier: Washington Mews, south side |
+| 2026-10-08 | b086e98 | Second tier: East 8th Street houses (6-22 E 8th St) |
+| 2026-10-08 | 91c7c29 | Second tier: Casa Italiana Zerilli-Marimò, 24 W 12th St |
+| 2026-10-08 | 758cc52 | Second tier: Lillian Vernon Creative Writers House, 58 W 10th St |
+| 2026-10-08 | c53acba | Second tier: Senior House at 13th Street |
+| 2026-10-08 | 7107788 | Second tier: University Hall |
+| 2026-10-08 | d7fefc1 | Second tier: Palladium Hall |
+| 2026-10-08 | caf5322 | Second tier: Third North |
+| 2026-10-08 | 61f7007 | Second tier: Alumni Hall |
+| 2026-10-08 | 71d01d2 | Second tier: Founders Hall and the St. Ann's facade |
+| 2026-10-08 | d3e417b | Second tier: Seventh Street Residence |
+| 2026-10-08 | d05f0a4 | Second tier: Sixth Street Residence |
+| 2026-10-08 | c0cbf60 | Second tier: Second Street Residence |
+| 2026-10-08 | 81566c4 | Second tier: Coral Tower |
+| 2026-10-08 | b9f5dbb | Second tier: Carlyle Court |
+| 2026-10-08 | 44b56ee | Second tier: Washington Square Village |
+| 2026-10-08 | 9021c7d | Second tier: Puck Building |
+| 2026-10-08 | 32e7162 | Third-tier facades: kit and classification |
+| 2026-10-08 | 5c4a15c | Third tier: blocks 397-446 (1 Av, E 2 St, E Houston St) |
+| 2026-10-08 | ec93250 | Third tier: blocks 447-463 (E 7 St, E 6 St, 2 Av) |
+| 2026-10-08 | 047b621 | Third tier: blocks 464-489 (3 Av, E 10 St, Spring St) |
+| 2026-10-08 | abfb456 | Third tier: blocks 493-509 (Prince St, Mulberry St, Spring St) |
+| 2026-10-08 | 5724e11 | Third tier: blocks 510-524 (W Houston St, Prince St, MacDougal St) |
+| 2026-10-08 | 5fb5377 | Third tier: blocks 525-543 (MacDougal St, Sullivan St, W Houston St) |
+| 2026-10-08 | f11d586 | Third tier: blocks 544-560 (3 Av, Washington Pl, MacDougal Alley) |
+| 2026-10-08 | 8893035 | Third tier: blocks 561-575 (W 9 St, University Pl, W 12 St) |
+| 2026-10-08 | 7834109 | Third tier: blocks 576-612 (6 Av · Av of the Americas, Bleecker St, Jones St) |
+| 2026-10-08 | 0a1f3b7 | Third tier: blocks 613-816 (W 15 St, Bank St, Greenwich Av) |
+| 2026-10-08 | 8a9c63b | Third tier: blocks 817-870 (E 18 St, W 15 St, 6 Av · Av of the Americas) |
+| 2026-10-08 | 8dea942 | Third tier: blocks 871-897 (Irving Pl, E 19 St, E 17 St) |
+| 2026-10-07 | 72ef760 | Night fill light dimmed; stop point 1 screenshots and numbers |
+| 2026-10-08 | 965b128 | Plan: Step 4B neighbourhood landmarks and storefronts |
+| 2026-10-08 | af25b0c | Darker night: lower ambient, night vignette, stronger headlights and lamps |
+| 2026-10-07 | 48d7154..e8bfc3b | Kit: real bay and storey counts; Real bay and storey counts for 16 buildings; 54 more checked on Street View and marked observed; 3 remain estimates (East 8th Street houses (6-22 E 8th St), 21 Washington Square North, rear parts, 22 Washington Square North, rear part) |
+| 2026-10-08 | 68408b6 | Step 4 park details: fountain rim and steps, 3 lamp types, 13 chess tables, banners where seen; signage decal system and manifest |
+| 2026-10-08 | 3f46a3b | Step 4B inventory: Tier A list plus candidates for review |
+| 2026-10-08 | 8315faf | Step 5: decay everywhere (facades, NYU buildings, lawns, ivy, trees) |
+| 2026-10-08 | b02aa65 | Step 6: crowds across the area (door queues, plazas, strip), about 800 figures |
+| 2026-10-08 | 73d9f3f | Docs for Steps 5 and 6 |
+| 2026-10-08 | d959fd5 | Tier B tooling: storefront kit, sign atlas, blockface survey tool |
+| 2026-10-08 | c558dd0 | Decay as a separate runtime layer (2026/2126 blend) |
+| 2026-10-08 | e436903 | Step 10 Part 1: campus is the only location; NYU Facilities electric van replaces all cars; old locations, ads and tests removed |
+| 2026-10-08 | 10b2be9 | Cache-bust to v22 after Step 10 Part 1 (splash-screen hang from stale cached modules) |
+| 2026-10-08 | a589711 | NYU Campus Safety unit 4 replaces the van (livery decals, electric sound, physics, docs) |
+| 2026-10-08 | 1feaf36 | No-cache local server (tools/serve.py) and v23 asset bump; fixes stale-module splash hang |
+| 2026-10-08 | d0fc4a1 | Tier A: One Fifth observed (buff brick, piers); Tier A drafts wired into the world, unverified ones marked estimate |
+| 2026-10-08 | abd63cd | Tier A: Grace Church observed (position, warmer marble) |
+| 2026-10-08 | b4c8a5b | Tier A: Cooper Union (warmer stone) and Wanamaker observed |
+| 2026-10-08 | d8881fc | Tier A: 826 Broadway (the Strand) observed, pale cream |
+| 2026-10-09 | 280d92f | Rename the game to Commencement |
+| 2026-10-09 | 73414cd | Smoke title: Commencement forms out of smoke as the loading screen and dissolves into the 2026 opening |
