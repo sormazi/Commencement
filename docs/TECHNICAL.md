@@ -24,16 +24,17 @@ Tests need Node.js 22 or newer: `npm test`.
 ## The opening
 
 1. The publisher splash (github/sormazi), about 2.4 seconds.
-2. The title card: "Commencement" in blackletter on an aged diploma in a violet mat, with a faint gown figure behind it. It is also the loading screen. The world renders behind it the whole time, `renderer.compileAsync` compiles every material in view, and `dist/preload.js` counts the signage and livery images still loading. The card stays at least 4 seconds and until all of that has been ready for 400 ms; the thin violet line under the title fills with progress.
-3. The card fades into the paused game and "Click or tap to start" appears. The first click, tap or key press starts the drive and unlocks audio.
+2. The smoke title, which is also the loading screen (`dist/smoke.js`). A wisp drifts in from the lower left and gathers into "Commencement" in IM Fell English, pale bone on near-black; once formed, the letters keep curling gently at the edges. It is a plain 2D canvas of about 2,600 soft sprites drawn from one pre-rendered puff texture. Behind it the game renders the 2026 opening scene, blurred, the whole time; `renderer.compileAsync` compiles every material in view and `dist/preload.js` counts the signage and livery images still loading. The smoke grows a little denser as loading completes. The title stays at least 4 seconds and until all of that has been ready for 400 ms, then "click or tap to begin" fades in.
+3. On a click, tap or key press the letters loosen back into smoke that drifts outward and thins, the dark background and the blur ease away over about 3.2 seconds, the drive starts, and the music rises slowly (its gain eases in with a 1.5 second time constant). Nothing flashes: every brightness change is a slow ease.
 
-Title card markup is in `dist/index.html` (`#title`), styles at the end of `dist/style.css`, timing in `dist/game.js` (`showTitle`, `openingTick`, `leaveTitle`, `beginPlay`).
+Timing lives in `dist/game.js` (`showTitle`, `openingTick`, `beginPlay`); markup in `dist/index.html` (`#title`); styles at the end of `dist/style.css`.
 
-## Branding and fonts
+The game starts in 2026 (`?era=2126` or the Era option shows the ruin). The permanent shift from 2026 to 2126 during play is still to come.
 
-- `dist/assets/branding/nyu-torch.png` is an empty slot for the NYU torch, listed in the signage manifest as `BRANDING` (`dist/assets/signage/manifest.js`). Drop a transparent PNG there and the title card shows it at the top centre; if it is missing the space stays empty. The game never draws the torch or any other logo.
-- Favicon and app icons (`favicon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`) are in the same folder; `dist/manifest.webmanifest` lists them.
-- Fonts are bundled in `dist/assets/fonts/`: UnifrakturMaguntia (titles) and IM Fell English (the start prompt), both SIL Open Font License 1.1, licence texts alongside.
+## Icons and fonts
+
+- Favicon and app icons (`favicon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`) are in `dist/assets/branding/`: a smoky C on near-black. `dist/manifest.webmanifest` lists them.
+- The title font, IM Fell English (roman and italic), is bundled in `dist/assets/fonts/` under the SIL Open Font License 1.1, licence text alongside.
 
 ## Saved settings
 
@@ -43,7 +44,7 @@ Everything the game keeps in browser storage lives under the `commencement.` pre
 
 - `?fps=1` shows the FPS counter (frames per second, slowest frame, draw calls, triangles).
 - `?time=19:30`, `?date=2026-12-21&time=16:15`, `&speed=600` preview another New York time, or run a time-lapse.
-- `?era=2026` or `?era=2126` (or a number between 0 and 1) sets the decay layer.
+- `?era=2026` (the default) or `?era=2126` (or a number between 0 and 1) sets the decay layer.
 
 ## Console helpers
 

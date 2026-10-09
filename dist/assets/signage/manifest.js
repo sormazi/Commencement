@@ -24,8 +24,4 @@ const FIXED=[
 // Shop signs: one decal per storefront record in campus/storefronts/ (placed on its sign band).
 // The car's Campus Safety livery is part of this manifest too: see livery.js (decals placed on the car).
 export {LIVERY} from './livery.js?v=24';
-// Branding slots on screens rather than in the world. The NYU torch is not drawn by the game: drop your own
-// image at the path below and the title card shows it; if the file is missing the slot stays empty.
-export const BRANDING=[{id:'nyu-torch',file:'assets/branding/nyu-torch.png',kind:'branding',optional:true,size:[.085,.085],
- seen:'Where the torch sits on a real NYU diploma (top centre); supplied by Avi, never drawn by the game',placements:[{screen:'title card',where:'top centre, above "Commencement"'}]}];
 export const SIGNAGE=[...FIXED,...resolveStorefronts(data,STOREFRONTS).map(signDecal).filter(Boolean)];

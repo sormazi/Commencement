@@ -119,7 +119,6 @@ The NYU torch emblem is not drawn on banners (it is a logo). The Bobst atrium sc
 
 Map data © OpenStreetMap contributors, available under the Open Database License (ODbL 1.0). Building footprints, PLUTO, planimetric layers, street centerlines and tree data from NYC Open Data. See `dist/credits.html`.
 
-## Title card and branding slot
+## Title screen
 
-The game opens on a title card designed after an NYU diploma: "Commencement" in blackletter on aged, foxed paper in a violet mat, blank signature rules, a faint grey gown figure, and no seal, signatures or degree wording. It doubles as the loading screen (see docs/TECHNICAL.md). The space at the top centre, where the torch sits on a real diploma, is an image slot: `dist/assets/branding/nyu-torch.png`, listed as `BRANDING` in `dist/assets/signage/manifest.js`. Avi supplies the file; until it exists the slot stays empty. The game never draws the torch or any other logo.
-
+After the publisher splash, the game shows "Commencement" formed out of smoke on a near-black screen, which doubles as the loading screen; on a click or tap the letters dissolve and the 2026 opening scene emerges through the haze. See docs/TECHNICAL.md for timing and loading.

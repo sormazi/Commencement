@@ -6,6 +6,7 @@ import {VEHICLE,FixedVehicleLoop,inputFromKeys,resolveContact} from './physics.j
 import {campus,snapToStreet} from './campus/campus.js?v=24';
 import {CampusMinimap} from './campus/minimap.js?v=24';
 import {assetState} from './preload.js?v=24';
+import {SmokeTitle} from './smoke.js?v=24';
 import {migrateStorage,store} from './storage.js?v=24';
 migrateStorage();
 // Commencement: one place (Washington Square) and one vehicle (NYU Campus Safety unit 4, see vehicle.js).
@@ -24,31 +25,36 @@ function openOptions(){if(introActive||optionsOpen)return;optionsReturnPaused=pa
 function closeOptions(apply=false){if(!optionsOpen)return;if(!apply){for(const [id,v] of Object.entries(optionSnapshot||{}))$(id).value=v;setFps($('fpsToggle').value==='on');}
  optionsOpen=false;$('garage').hidden=true;document.body.classList.remove('options-open');paused=optionsReturnPaused;keys={};$('pauseDialog').hidden=!paused;(paused?$('resume'):$('menuBtn')).focus();}
 $('drive').onclick=()=>closeOptions(true);$('closeOptions').onclick=$('cancelOptions').onclick=()=>closeOptions(false);$('reset').onclick=reset;$('pause').onclick=()=>pause();$('resume').onclick=()=>pause(false);$('restart').onclick=()=>{reset();pause(false);};$('back').onclick=openOptions;$('menuBtn').onclick=openOptions;$('units').onclick=()=>{mph=!mph;$('units').textContent=mph?'MPH':'KPH';};$('about').onclick=()=>$('aboutDialog').showModal();$('closeAbout').onclick=()=>$('aboutDialog').close();
-// The opening: the publisher splash, then the Commencement title card, which is also the loading screen.
-// The game renders behind the card the whole time, so geometry, textures and shaders are ready before it
-// lifts. The card stays at least MIN_TITLE ms, and longer if anything is still loading, with a thin violet
-// ink line under the title filling as it goes. Then the card fades into the (paused) game and a quiet
-// prompt asks for a click or tap, which also unlocks audio in every browser.
-const MIN_TITLE=4000;let phase='splash',titleAt=0,steady=0,readySince=0,compiled=false,compiling=false;
-function showTitle(){if(phase!=='splash')return;phase='title';titleAt=performance.now();$('boot').classList.add('fading');setTimeout(()=>{$('boot').hidden=true;},850);$('title').hidden=false;requestAnimationFrame(()=>requestAnimationFrame(()=>$('title').classList.add('shown')));}
+// The opening: the publisher splash, then the Commencement smoke title, which is also the loading screen.
+// The game renders behind it the whole time (blurred), so geometry, textures and shaders are ready before
+// it lifts; the smoke grows a little denser as loading completes. It stays at least MIN_TITLE ms and until
+// everything has been ready for 400 ms, then "click or tap to begin" fades in. On begin the letters loosen
+// into smoke, the dark clears and the blur eases off over about three seconds while the drive starts and
+// the music rises: no cut, no flash, no pause.
+const MIN_TITLE=4000;let phase='splash',titleAt=0,steady=0,readySince=0,compiled=false,compiling=false,smoke=null,smokeLast=0;
+const smokeStats={frames:0,ms:0};
+function smokeLoop(t){if(!smoke||phase==='done')return;const t0=performance.now();if(!window.__smokeOff)smoke.frame((t-(smokeLast||t))/1000);smokeStats.ms+=performance.now()-t0;smokeStats.frames++;smokeLast=t;requestAnimationFrame(smokeLoop);}
+function showTitle(){if(phase!=='splash')return;phase='title';titleAt=performance.now();$('boot').classList.add('fading');setTimeout(()=>{$('boot').hidden=true;},850);$('title').hidden=false;
+ smoke=new SmokeTitle($('smoke'));smoke.start();requestAnimationFrame(smokeLoop);requestAnimationFrame(()=>requestAnimationFrame(()=>$('title').classList.add('shown')));}
 function openingTick(now){if(phase!=='title')return;const w=city.world,r=city.renderer;
  if(w&&!compiling){compiling=true;if(r.compileAsync)r.compileAsync(city.scene,city.camera).then(()=>{compiled=true;},()=>{compiled=true;});else compiled=true;}
  const a=assetState(),assets=a.done/Math.max(1,a.done+a.pending),ready=!!w&&compiled&&a.pending===0;steady=ready?steady+1:0;if(!ready)readySince=0;else if(!readySince)readySince=now;
- const load=(w?.3:0)+(compiled?.3:0)+assets*.4,t=Math.min(1,(now-titleAt)/MIN_TITLE);$('ink').style.transform=`scaleX(${Math.max(.02,Math.min(load,t)).toFixed(3)})`;
- if(t>=1&&steady>=6&&now-readySince>=400)leaveTitle();}
-function leaveTitle(){phase='leaving';$('ink').style.transform='scaleX(1)';document.body.classList.remove('booting');document.body.classList.add('awaiting-start');$('title').classList.add('leaving');
- setTimeout(()=>{$('title').hidden=true;phase='prompt';$('startPrompt').hidden=false;requestAnimationFrame(()=>$('startPrompt').classList.add('shown'));},1500);}
-function beginPlay(){if(phase!=='prompt')return;phase='playing';unlockAudio();introActive=false;document.body.classList.remove('awaiting-start');$('startPrompt').classList.remove('shown');setTimeout(()=>{$('startPrompt').hidden=true;},600);paused=document.hidden;$('pauseDialog').hidden=!paused;}
+ smoke?.setProgress((w?.3:0)+(compiled?.3:0)+assets*.4);
+ if(now-titleAt>=MIN_TITLE&&steady>=6&&now-readySince>=400){phase='prompt';document.body.classList.add('awaiting-start');$('begin').hidden=false;requestAnimationFrame(()=>$('begin').classList.add('shown'));}}
+function beginPlay(){if(phase!=='prompt')return;phase='clearing';unlockAudio();smoke.dissolve();$('title').classList.add('clearing');document.body.classList.remove('booting');
+ introActive=false;paused=document.hidden;$('pauseDialog').hidden=!paused;setTimeout(()=>document.body.classList.remove('awaiting-start'),1800);
+ setTimeout(()=>{phase='done';$('title').hidden=true;smoke=null;},3600);}
 const dismissIntro=()=>{if(phase==='splash')showTitle();else if(phase==='prompt')beginPlay();};
 $('boot').onclick=showTitle;$('boot').onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();showTitle();}};
-$('startPrompt').onclick=beginPlay;window.addEventListener('pointerdown',()=>{if(phase==='prompt')beginPlay();});
+window.addEventListener('pointerdown',()=>{if(phase==='prompt')beginPlay();});
 window.addEventListener('keydown',e=>{unlockAudio();const k=e.key.toLowerCase();if(introActive){if(phase==='prompt'&&!['shift','control','alt','meta','tab'].includes(k)){e.preventDefault();beginPlay();}else if(phase==='splash'&&(k==='enter'||k===' ')){e.preventDefault();showTitle();}return;}
 if($('aboutDialog').open)return;
 if(optionsOpen){if(k==='escape'){e.preventDefault();closeOptions(false);}if(k==='tab'){const focus=[...$('garage').querySelectorAll('button,input,select,a')].filter(x=>!x.disabled&&x.getClientRects().length);const first=focus[0],last=focus.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}return;}
 if(!playing||/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))return;if(k==='escape'){e.preventDefault();pause();return;}if(paused)return;if([' ','arrowup','arrowdown','arrowleft','arrowright'].includes(k))e.preventDefault();if(k==='r'){reset();return;}keys[k]=true;});
 window.addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);window.addEventListener('blur',()=>pause(true));document.addEventListener('visibilitychange',()=>{if(document.hidden)pause(true);});
 document.querySelectorAll('[data-key]').forEach(b=>{b.onpointerdown=e=>{if(paused||introActive)return;audio.unlock();e.preventDefault();b.setPointerCapture(e.pointerId);keys[b.dataset.key]=true;};b.onpointerup=b.onpointercancel=()=>keys[b.dataset.key]=false;});
-function render(dt){
+let renderHold=false;// review tool: pause 3D rendering (used to capture the title sequence in a software renderer)
+function render(dt){if(renderHold)return;
  city.update(renderState,{...controls,motionActive:!paused&&!optionsOpen&&!introActive,braking:keys.s||keys.arrowdown},time,dt,playing&&!optionsOpen,$('preset').value);
  if(minimap){const s=renderState;minimap.draw(mini,180,150,s.position.x,s.position.z,s.orientation.yaw);const c=campus(),street=c.streets.streetAt(s.position.x,s.position.z),park=c.collision.surface(s.position.x,s.position.z).kind!=='road'&&Math.hypot(s.position.x+30,s.position.z+40)<170;$('checkpoint').textContent=(street||(park?'Washington Square Park':'—')).toUpperCase();}}
 function contacts(s){for(const c of campus().collision.contacts(s.position.x,s.position.z,s.orientation.yaw))resolveContact(s,VEHICLE,c);}
@@ -73,12 +79,13 @@ viewFrom:o=>{city.cameraOverride=o||null;if(!o)city.preset='';},
 // The decay layer: 0 = clean 2026, 1 = ruined 2126; fades over `seconds` (0 = jump). A review tool until Step 10's shift.
 era:(t,seconds=1)=>{const w=city.world;if(!w?.eraTo)return false;if(seconds<=0)w.setDecay(t);else w.eraTo(t,seconds);return true;},
 sky:()=>city.sky.info(),
+holdRender:b=>{renderHold=!!b;},
 renderInfo:()=>{let meshes=0,tris=0;const cam=city.camera,fr=new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse));
  city.scene.traverseVisible(o=>{if(!o.isMesh||!o.geometry)return;if(o.geometry.boundingSphere==null)o.geometry.computeBoundingSphere();const s=o.geometry.boundingSphere.clone().applyMatrix4(o.matrixWorld);if(!fr.intersectsSphere(s))return;meshes++;const g=o.geometry,n=(g.index?g.index.count:g.attributes.position.count)/3;tris+=n*(o.isInstancedMesh?o.count:1);});return {drawCalls:meshes,triangles:Math.round(tris)};},
-getState:()=>({...state,playing,paused,optionsOpen,intro:introActive})};
+getState:()=>({...state,playing,paused,optionsOpen,intro:introActive,opening:phase,smoke:{...smokeStats,avgMs:smokeStats.frames?smokeStats.ms/smokeStats.frames:0}})};
 if(document.modelContext?.registerTool){try{document.modelContext.registerTool({name:'read_driving_session',description:'Read the current vehicle state on Washington Square.',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true},execute:()=>window.Commencement.getState()});document.modelContext.registerTool({name:'start_drive',description:'Start a fresh drive on Washington Square.',inputSchema:{type:'object',properties:{},additionalProperties:false},execute:()=>{start();return window.Commencement.getState();}});}catch(e){console.warn('WebMCP unavailable',e);}}
 // Old name kept as an alias for review scripts written before the rename.
 window.NightView=window.Commencement;
 start();paused=true;document.body.classList.add('booting');setTimeout(showTitle,2400);
 // Era option: the decay layer fades between 2126 and 2026 (a review tool until Step 10).
-{const e=$('era');if(e){const q=new URLSearchParams(location.search).get('era');if(q==='2026')e.value='2026';e.addEventListener('change',()=>city.world?.eraTo?.(e.value==='2026'?0:1));}}
+{const e=$('era');if(e){const q=new URLSearchParams(location.search).get('era');if(q==='2126')e.value='2126';e.addEventListener('change',()=>city.world?.eraTo?.(e.value==='2026'?0:1));}}

@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/readme/title.jpg" alt="Commencement, set in blackletter on an aged diploma in a violet mat" width="82%"></p>
+<p align="center"><img src="docs/readme/title.jpg" alt="Commencement, written in pale smoke on a near-black screen" width="82%"></p>
 
 <h1 align="center">Commencement</h1>
 
@@ -18,7 +18,7 @@ The game started life as NightView, an arcade driver I made earlier, and slowly 
 
 ## The place
 
-The game keeps two versions of the neighborhood: the campus as it looks today and the same streets a century later. You can switch between them from the options menu, which is currently a debugging option that wouldn't exist in the final version. The final version looks to incorporate the two eras together in the narrative and the user would not typically be able to switch between the two.
+The game keeps two versions of the neighborhood: the campus as it looks today and the same streets a century later. You can switch between them from the options menu, which is currently a debugging option that wouldn't exist in the final version. The final version looks to incorporate the two eras together in the narrative and the user would not typically be able to switch between the two. For now the game opens in 2026; set the year to 2126 to see the ruin.
 
 | 2026 | 2126 |
 | :---: | :---: |
