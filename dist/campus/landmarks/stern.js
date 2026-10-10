@@ -11,7 +11,7 @@ import model3d from '../data/campus-3d.js?v=24';
 //   STERN SCHOOL OF BUSINESS, a glass drum and a shallow glass dome.
 //  Tisch Hall: red sandstone like Bobst, a regular grid of deep windows, a dark recessed top storey
 //   behind a sandstone parapet frame, a glazed entrance on the plaza flanked by pale green glass panels.
-// Gould Plaza is behind the construction shed seen on W 4th St in April 2026 (see sheds.js).
+// Gould Plaza: the April 2026 construction shed on W 4th St is gone; the new gate is a placeholder in sheds.js until Avi's photos arrive.
 export const STERN={kmc:1078952,tisch:1077346,
  rotunda:{R:9.1,col:9,colTop:8.4,win:[9.0,11.4],text:12.4,dome:17.0,top:19.1},
  kmcWin:{wall:'kmcStone',pitch:2.45,floor:3.95,first:9.6,win:[.92,2.45],pair:1,mullion:.1,parapet:1.2,reveal:.22,frames:'frameGrey',sill:.06,margin:.5},

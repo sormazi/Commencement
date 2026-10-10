@@ -81,7 +81,7 @@ test('vanderbilt: pedimented wing ends on the square, five-arch arcade with the 
 test('stern: KMC with its plaza rotunda and Tisch Hall with its plaza entrance; the Gould Plaza shed is in place',()=>{const {P,info}=sternParts();
  assert.ok(info.rotunda&&Math.abs(info.rotunda.r-9.1)<.5,'rotunda');assert.ok(info.entrance&&info.entrance.w.len>30,'tisch entrance');
  const b=bbox(verts(P));assert.ok(b[1][1]>51&&b[1][1]<53,'top '+b[1][1]);assert.ok(P.m.sternText&&P.m.drumWin&&P.m.redFrame,'rotunda lettering, window ring, red frames');
- assert.ok(SHEDS.some(s=>/w4th-south/.test(s.id)),'Gould Plaza shed');});
+ assert.ok(!SHEDS.some(s=>/w4th-south/.test(s.id)),'Gould Plaza shed removed (gone in reality, Oct 2026)');});
 test('paulson: podium over the whole site, 91 m faculty tower at Houston St, pixelated student towers at Bleecker St with cantilevered boxes',()=>{const pb=data.buildings.find(x=>x.bin===PAULSON.bin),{P,info}=paulsonParts(pb);
  const b=bbox(verts(P));assert.ok(b[1][1]>94&&b[1][1]<96.5,'top '+b[1][1]);assert.equal(info.towers,3);assert.ok(info.pixels>=10,'cantilevered boxes '+info.pixels);assert.ok(P.m.copper&&P.m.nameSign);assert.ok(near(verts(P),pb,4),'within the site');});
 console.log(`landmarks: ${passed} passed`);

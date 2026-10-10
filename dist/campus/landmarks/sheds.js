@@ -10,10 +10,16 @@ import {v3} from './facade.js?v=24';
 export const SHEDS=[
  {id:'washington-pl-south',a:[141.1,-165.8],b:[107.2,-144.5],depth:2.6,height:3.3,fence:false,
   note:'South side of Washington Pl from Washington Sq E to Greene St, along the Academic Resource Center (18 Washington Pl) and Pless Annex; Citi Bike dock along the curb.',
-  seen:'Google Street View, Greene St at Washington Pl (40.72979, -73.99531), heading 300, capture Apr 2026'},
- {id:'w4th-south-greene-mercer',a:[127.7,-250.6],b:[80.7,-220.1],depth:3.4,height:3.6,fence:true,
-  note:'South side of W 4th St facing the end of Greene St: scaffold shed over a green plywood and chain-link construction fence, from the north-east corner of the Kaufman Management Center about 56 m east towards Mercer St (the site has no footprint in the data). The building line follows the KMC front; the east end, where a low brick wall begins, is read from two panoramas and is good to about 3 m. Greene St does not continue south of W 4th, so there is no return.',
-  seen:'Google Street View, W 4th St at Greene St (40.72917, -73.99577), headings 150, 210 and 260, and W 4th St east of Greene (40.72906, -73.99555), heading 210; both capture Apr 2026. Checked again from W 4th St at Mercer St (40.72885, -73.99515), heading 285.'}];
+  seen:'Google Street View, Greene St at Washington Pl (40.72979, -73.99531), heading 300, capture Apr 2026'}];
+
+// Gould Plaza gate (W 4th St, between the Kaufman Management Center and Mercer St). The construction shed
+// that stood here in the April 2026 captures is gone (Avi, 9 Oct 2026) and the plaza has a new gate. This is a
+// placeholder, a plain black steel gate on the old building line, until Avi's photos arrive in
+// RESEARCH/my-photos/stern/; then it is modelled from them.
+export const GOULD_GATE={id:'gould-plaza-gate-placeholder',a:[115.0,-242.4],b:[103.0,-234.6],height:2.4,status:'placeholder'};
+export function gateParts(g=GOULD_GATE,P=new Parts()){const dx=g.b[0]-g.a[0],dn=g.b[1]-g.a[1],L=Math.hypot(dx,dn),f=new Face(v3(g.a),[dx,0,-dn],[0,1,0]),h=g.height;
+ for(const u of [0,L/2,L])P.block('gate',f,u-.1,u+.1,0,h+.2,.2,.4);P.block('gate',f,0,L,h-.05,h,.27,.33);P.block('gate',f,0,L,.12,.17,.27,.33);
+ for(let u=.15;u<L;u+=.15)P.block('gate',f,u-.012,u+.012,.12,h,.288,.312);return P;}
 export function shedParts(list=SHEDS){const P=new Parts();
  for(const s of list){const dx=s.b[0]-s.a[0],dn=s.b[1]-s.a[1],L=Math.hypot(dx,dn);
   // Face along the building line, normal pointing to the street (right of a → b in map space).
@@ -27,6 +33,6 @@ export function shedParts(list=SHEDS){const P=new Parts();
   for(let u=1.2;u<L;u+=4.8)P.block('lamp',f,u-.3,u+.3,h-.42,h-.37,(d0+d1)/2-.08,(d0+d1)/2+.08);
   if(s.fence)P.block('green',f,0,L,0,2.5,d0-.05,d0+.02,{skip:['top','bottom']});}
  return P;}
-export function buildSheds(){const P=shedParts();const materials={steel:new T.MeshStandardMaterial({color:0x5a5f62,roughness:.6,metalness:.5}),ply:new T.MeshStandardMaterial({color:0x2f5a3c,roughness:.9}),
+export function buildSheds(){const P=shedParts();gateParts(GOULD_GATE,P);const materials={gate:new T.MeshStandardMaterial({color:0x17191b,roughness:.5,metalness:.6}),steel:new T.MeshStandardMaterial({color:0x5a5f62,roughness:.6,metalness:.5}),ply:new T.MeshStandardMaterial({color:0x2f5a3c,roughness:.9}),
  green:new T.MeshStandardMaterial({color:0x2e5c3b,roughness:.9}),lamp:new T.MeshStandardMaterial({color:0xfff3d0,emissive:0xffe9b0,emissiveIntensity:.8})};
  const g=P.build(materials);g.name='Sidewalk sheds';g.position.y=.15;g.userData.materials=Object.values(materials);g.userData.tris=P.tris;return g;}
