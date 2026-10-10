@@ -13,7 +13,7 @@ import {buildStreetSigns} from './streetsigns.js?v=24';
 export {SIGNAGE};
 const FONTS={'sans-bold':'bold {px}px Helvetica, Arial, sans-serif','serif':'{px}px Georgia, "Times New Roman", serif','serif-bold':'bold {px}px Georgia, "Times New Roman", serif','sans':'{px}px Helvetica, Arial, sans-serif',
  'script':'italic {px}px Georgia, serif','condensed':'bold {px}px "Arial Narrow", "Helvetica Neue", Arial, sans-serif','slab':'bold {px}px Rockwell, "Courier New", serif','neon':'{px}px "Brush Script MT", "Segoe Script", cursive'};
-export const ATLAS_KINDS=new Set(['sign','plaque']);
+export const ATLAS_KINDS=new Set(['sign','plaque','logo']);
 // Pixel size for a decal: 256 px per metre on the long side, capped at 1024.
 export function decalPixels(size){const k=Math.min(256,1024/Math.max(...size));return [Math.max(8,Math.round(size[0]*k)),Math.max(8,Math.round(size[1]*k))];}
 // Draws the fallback onto a 2D context (also used by tools/make-signage.py to make the PNGs).
@@ -38,7 +38,9 @@ export function buildSignage(world,{base=''}={}){const group=new T.Group();group
   loader.load(base+spec.file,img=>{img.colorSpace=T.SRGBColorSpace;img.anisotropy=4;keep(img);mat.map=img;mat.needsUpdate=true;world.onSignage?.(spec.id,mat);},undefined,()=>{});
   const im=new T.InstancedMesh(unit,mat,spec.placements.length);placeAll(im,spec.placements.map(pl=>[pl,spec]));im.name='signage '+spec.id;im.userData.decal=spec.id;im.userData.kind=spec.kind;im.castShadow=false;im.receiveShadow=true;group.add(im);}
  // Shop signs and plaques, in atlas pages.
- const atlasSpecs=SIGNAGE.filter(s=>ATLAS_KINDS.has(s.kind)&&s.placements?.length);
+ // Lit signs (shop signs, logo slots, subway signs) and unlit ones (plaques) go on separate pages, so only
+ // the lit pages glow at night (campus-world.setSky); transparent pixels (empty logo slots) are cut out.
+ for(const lit of [true,false]){const atlasSpecs=SIGNAGE.filter(s=>ATLAS_KINDS.has(s.kind)&&s.placements?.length&&!!s.lit===lit);
  for(let p0=0;p0<atlasSpecs.length;p0+=PER_PAGE){const specs=atlasSpecs.slice(p0,p0+PER_PAGE),c=document.createElement('canvas');c.width=c.height=PAGE;const g=c.getContext('2d');
   const tex=keep(new T.CanvasTexture(c));tex.colorSpace=T.SRGBColorSpace;tex.anisotropy=4;tex.generateMipmaps=true;
   const rects=specs.map((spec,i)=>{const cx=(i%PER_ROW)*CELL[0],cy=Math.floor(i/PER_ROW)*CELL[1],f=fitInCell(spec.size),r={x:cx+f.x,y:cy+f.y,w:f.w,h:f.h};
@@ -46,8 +48,8 @@ export function buildSignage(world,{base=''}={}){const group=new T.Group();group
    const img=trackImage(new Image());img.onload=()=>{g.drawImage(img,r.x,r.y,r.w,r.h);tex.needsUpdate=true;};img.onerror=()=>{};img.src=base+spec.file;return r;});
   const list=[],uv=[];specs.forEach((spec,i)=>{const r=rects[i],inset=1;for(const pl of spec.placements){list.push([pl,spec]);uv.push((r.x+inset)/PAGE,1-(r.y+r.h-inset)/PAGE,(r.w-2*inset)/PAGE,(r.h-2*inset)/PAGE);}});
   const geo=keep(unit.clone());geo.setAttribute('aUvRect',new T.InstancedBufferAttribute(new Float32Array(uv),4));
-  const mat=keep(new T.MeshStandardMaterial({map:tex,side:T.DoubleSide,roughness:.8}));mat.name='signage atlas '+pages.length;
-  mat.onBeforeCompile=sh=>{sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nattribute vec4 aUvRect;').replace('#include <uv_vertex>','#include <uv_vertex>\n#ifdef USE_MAP\nvMapUv=aUvRect.xy+uv*aUvRect.zw;\n#endif');};mat.customProgramCacheKey=()=>'nv-sign-atlas';
-  const im=new T.InstancedMesh(geo,mat,list.length);placeAll(im,list);im.name='signage atlas '+pages.length;im.userData.kind='atlas';im.castShadow=false;im.receiveShadow=true;group.add(im);pages.push({tex,specs,rects});}
+  const mat=keep(new T.MeshStandardMaterial({map:tex,side:T.DoubleSide,roughness:.8,alphaTest:.5,emissive:lit?0xffffff:0x000000,emissiveMap:lit?tex:null,emissiveIntensity:0}));mat.name='signage atlas '+pages.length;
+  mat.onBeforeCompile=sh=>{sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nattribute vec4 aUvRect;').replace('#include <uv_vertex>','#include <uv_vertex>\n#ifdef USE_MAP\nvMapUv=aUvRect.xy+uv*aUvRect.zw;\n#endif\n#ifdef USE_EMISSIVEMAP\nvEmissiveMapUv=aUvRect.xy+uv*aUvRect.zw;\n#endif');};mat.customProgramCacheKey=()=>'nv-sign-atlas';
+  const im=new T.InstancedMesh(geo,mat,list.length);placeAll(im,list);im.name='signage atlas '+pages.length;im.userData.kind='atlas';im.userData.lit=lit;im.castShadow=false;im.receiveShadow=true;group.add(im);pages.push({tex,specs,rects});}}
  group.add(buildStreetSigns(world,SIGNAGE.filter(s=>s.kind==='street'),{drawDecal,decalPixels,trackImage}));
  world.signage={group,materials:mats,pages};return group;}

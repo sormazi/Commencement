@@ -25,11 +25,11 @@ export function entranceFrames(data){const S=data.streets;return SUBWAY_ENTRANCE
  if(kiosk)ax=[-.5,-.866];return {...e,id:'subway-'+i,axis:ax,kiosk};});}
 // Sign decals for the manifest (kind 'sign', drawn in the signage atlas): one per station, placed at each head.
 export function subwayDecals(data){const by=new Map();for(const e of entranceFrames(data)){if(e.type==='elevator')continue;const id='subway-'+e.station.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/-$/,'');
- if(!by.has(id))by.set(id,{id,file:'assets/signage/'+id+'.png',kind:'sign',size:[1.7,.34],bg:'#141414',fg:'#ffffff',lines:['Subway',e.station+'   '+e.routes],font:'sans-bold',
+ if(!by.has(id))by.set(id,{id,file:'assets/signage/'+id+'.png',kind:'sign',lit:true,size:[1.7,.34],bg:'#141414',fg:'#ffffff',lines:['Subway',e.station+'   '+e.routes],font:'sans-bold',
   seen:'Standard MTA entrance sign (white Helvetica on black, here as plain lettering without the route bullets); station and routes from the MTA entrance data',placements:[]});
  const s=by.get(id),n=[-e.axis[0],-e.axis[1]];
  if(e.type==='easement'){s.placements.push({p:[e.p[0]+n[0]*.3,e.p[1]+n[1]*.3],y:2.6,normal:n,where:e.station+' entrance in a building'});continue;}
- if(e.kiosk){if(!by.has('subway-astor-kiosk-entrance'))by.set('subway-astor-kiosk-entrance',{id:'subway-astor-kiosk-entrance',file:'assets/signage/subway-astor-kiosk-entrance.png',kind:'sign',size:[1.7,.42],bg:'#14181a',fg:'#d6b45c',lines:['ENTRANCE','UPTOWN'],font:'serif',
+ if(e.kiosk){if(!by.has('subway-astor-kiosk-entrance'))by.set('subway-astor-kiosk-entrance',{id:'subway-astor-kiosk-entrance',file:'assets/signage/subway-astor-kiosk-entrance.png',kind:'sign',lit:true,size:[1.7,.42],bg:'#14181a',fg:'#d6b45c',lines:['ENTRANCE','UPTOWN'],font:'serif',
    seen:'Astor Place uptown kiosk frieze panels, gold serif capitals on dark glass (Wikimedia Commons "Astor Place Uptown.JPG", CC BY-SA 4.0; Street View Apr 2026)',placements:[]});
   const k=by.get('subway-astor-kiosk-entrance'),ax=e.axis,c=[-ax[1],ax[0]],at=(u,d)=>[e.p[0]+ax[0]*u+c[0]*d,e.p[1]+ax[1]*u+c[1]*d];
   k.placements.push({p:at(-.02,0),y:2.82,normal:[-ax[0],-ax[1]],where:'Astor Pl uptown kiosk, entrance front'});

@@ -65,7 +65,7 @@ export class CampusWorld{
   this.stats={model:0,extruded:0,estimated:0};this.group=new T.Group();this.group.name='washington-square';this.tiles=new Map();this.disposables=new Set();this.rowBin=ROW_BINS[0];this.rowBins=ROW_BINS;this.tier2Bins=TIER2_BINS;this.build();buildStorefronts(this);this.group.add(buildSubway(this));this.group.add(buildSignage(this));this.decay=buildDecay(this);this.group.add(this.decay);this.night=buildNight(this);this.group.add(this.night.group);this.night.setNight(false);this.crowd=buildCrowd(this);this.group.add(this.crowd.group);{const q=new URLSearchParams(globalThis.location?.search||'').get('era');const t=q==='2026'||q==null?0:q==='2126'?1:Math.max(0,Math.min(1,+q||0));this.setDecay(t);}this.group.add(buildSpeaker(this));}
  // Manual atmosphere presets fix the lamps and ground fog; Real NYC time sets them continuously through setSky.
  setPreset(p){if(p!=='realtime')this.night?.setNight(p==='night');}
- setSky(lamps,cards,fog){this.night?.setLevels(lamps,cards,fog);this.lampLevel=lamps;this.materials.lamp.emissiveIntensity=1.2*lamps*(1-DECAY.value);}
+ setSky(lamps,cards,fog){this.night?.setLevels(lamps,cards,fog);this.lampLevel=lamps;if(this.shopUniforms)this.shopUniforms.uNight.value=lamps;for(const im of this.signage?.group.children||[])if(im.userData.lit&&im.material)im.material.emissiveIntensity=1.1*lamps*(1-DECAY.value);this.materials.lamp.emissiveIntensity=1.2*lamps*(1-DECAY.value);}
  // The decay layer (2026 clean <-> 2126 ruin). setDecay jumps; eraTo fades over about a second.
  setDecay(t){this.era=this.eraTarget=t;applyDecay(this,t);}
  eraTo(t,seconds=1){this.eraTarget=Math.max(0,Math.min(1,t));this.eraRate=1/Math.max(.05,seconds);}

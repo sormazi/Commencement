@@ -8,7 +8,7 @@
 // it was observed on Street View; imagery date); placements: p [map x, map n] of the decal's centre,
 // y = height of its bottom edge above the curb, normal = map direction the front faces, and where (words).
 import {STOREFRONTS} from '../../campus/storefronts/index.js?v=24';
-import {signDecal,resolveStorefronts} from '../../campus/storefronts.js?v=24';
+import {signDecal,logoDecal,resolveStorefronts} from '../../campus/storefronts.js?v=24';
 import data from '../../campus/data/campus-data.js?v=24';
 import {streetSignDecals} from '../../campus/streetsigns.js?v=24';
 import {subwayDecals} from '../../campus/subway.js?v=24';
@@ -27,4 +27,4 @@ const FIXED=[
 // The car's Campus Safety livery is part of this manifest too: see livery.js (decals placed on the car).
 export {LIVERY} from './livery.js?v=24';
 // Street name signs: one decal per name and colour (kind 'street'), drawn and weathered by campus/streetsigns.js.
-export const SIGNAGE=[...FIXED,...resolveStorefronts(data,STOREFRONTS).map(signDecal).filter(Boolean),...streetSignDecals(data),...subwayDecals(data)];
+export const SIGNAGE=[...FIXED,...resolveStorefronts(data,STOREFRONTS).map(signDecal).filter(Boolean),...resolveStorefronts(data,STOREFRONTS).map(logoDecal).filter(Boolean),...streetSignDecals(data),...subwayDecals(data)];

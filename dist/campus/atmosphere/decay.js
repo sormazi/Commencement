@@ -93,7 +93,8 @@ export function growMaterial(m){const prev=Object.prototype.hasOwnProperty.call(
 export const decayKind=name=>/awning/i.test(name)?'cloth':/glass|lobby|drum/i.test(name)?'glass':/iron|frame|rail|steel|bronze|brass|copper|mullion|fin|column|pole|lamp/i.test(name)?'metal':/sign|plaque|text|inscr|num|tablet/i.test(name)?'light':'masonry';
 // Re-material a landmark group in place (cached per original material).
 export function weatherGroup(g,cache,disposables){if(g.userData.preserve)return 0;let n=0;
- g.traverse(o=>{if(!o.isMesh)return;const name=o.name||'';const src=o.material;if(Array.isArray(src))return;let m=cache.get(src);
+ g.traverse(o=>{if(!o.isMesh||o.userData.ownDecay)return;const name=o.name||'';// ownDecay: shop interiors and the like decay in their own shaders
+  const src=o.material;if(Array.isArray(src))return;let m=cache.get(src);
   if(!m){const kind=/^(banner|flag|flags)$/.test(name)?'cloth':decayKind(name);m=decayMaterial(src,kind,{tear:kind==='cloth'});cache.set(src,m);disposables.add(m);}o.material=m;n++;});return n;}
 // ---- Textures ----------------------------------------------------------------------------------
 export function ivyTexture(){return tex(128,128,(g,w,h)=>{const r=(i=>()=>(i=(i*16807)%2147483647)/2147483647)(11);g.clearRect(0,0,w,h);
