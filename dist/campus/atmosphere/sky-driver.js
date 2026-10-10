@@ -1,5 +1,6 @@
 import * as T from '../../vendor/three.module.js';
 import {skyAt,makeClock,describe} from './sky.js?v=24';
+import {DECAY} from './decay.js?v=24';
 // Drives the renderer's lights, sky, fog and post grade from the real New York sun (sky.js).
 // The sky is recomputed every five seconds (every half second in a time-lapse preview) and every value
 // glides toward the new target with a three-second time constant, so nothing ever jumps.
@@ -30,7 +31,10 @@ export class SkyDriver{
   const c=this.cur,tg=this.target,k=1-Math.exp(-Math.min(dt,.25)/(this.speed>200?.6:3));
   for(const n of NUM)c[n]+=(tg[n]-c[n])*k;for(const n of COL)for(let i=0;i<3;i++)c[n][i]+=(tg[n][i]-c[n][i])*k;
   for(const n of ['dir','moonDir']){const v=c[n];for(let i=0;i<3;i++)v[i]+=(tg[n][i]-v[i])*k;const l=Math.hypot(...v)||1;for(let i=0;i<3;i++)v[i]/=l;}
-  const r=this.r;r.scene.background.setRGB(...c.bg);r.scene.fog.color.setRGB(...c.fog);r.scene.fog.density=c.density;
+  const r=this.r;r.scene.background.setRGB(...c.bg);r.scene.fog.color.setRGB(...c.fog);
+  // Height fog (heightfog.js): part of the old distance haze moves into a layer that lies low in the streets,
+  // thicker when the ground-fog cards are out and in 2126.
+  r.scene.fog.density=c.density*.8;if('height' in r.scene.fog)r.scene.fog.height=c.density*(.45+.25*c.cards)*(1+.6*DECAY.value);
   r.hemi.intensity=c.hemi;r.hemi.color.setRGB(...c.sky);r.hemi.groundColor.setRGB(...c.ground);
   r.sun.intensity=c.sun;r.sun.color.setRGB(...c.sunC);r.renderer.toneMappingExposure=c.exposure;r.postMat.uniforms.desat.value=c.desat;r.postMat.uniforms.vignette.value=c.vignette;r.postMat.uniforms.uNight.value=c.lamps;
   // Key light from the real sun (or moon). The shadow box stays centred on the car, so shadows fall as they

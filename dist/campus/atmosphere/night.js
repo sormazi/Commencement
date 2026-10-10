@@ -22,7 +22,7 @@ function flickerMaterial(base,uniforms,key){base.onBeforeCompile=sh=>{sh.uniform
   sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nvarying float vFl;').replace('#include <opaque_fragment>','outgoingLight*=mix(.05,1.,vFl);\n#include <opaque_fragment>');};
  base.customProgramCacheKey=()=>'nv-flicker-'+key;return base;}
 export function buildNight(world){const d=world.data,group=new T.Group();group.name='dead of night';const keep=x=>{world.disposables.add(x);return x;};
- const uniforms={uTime:{value:0},uNight:{value:0}},o3=new T.Object3D();
+ const uniforms={uTime:{value:0},uNight:{value:0},uFogGlow:{value:0}},o3=new T.Object3D();
  // Live lamps: about one in nine in the park slice, one in thirty elsewhere.
  // Each live lamp glows at its own head (park lantern, plaza globes or street-pole head; see park.js).
  const lampList=world.lamps||d.lamps.map(l=>({p:l.p,head:[l.p[0],4.45,l.p[1]]}));
@@ -31,9 +31,10 @@ export function buildNight(world){const d=world.data,group=new T.Group();group.n
  const seeds=new Float32Array(all.map(l=>l.seed)),alive=new Float32Array(all.map(l=>l.alive));
  const lg=keep(new T.BoxGeometry(.42,.55,.42));lg.setAttribute('aSeed',new T.InstancedBufferAttribute(seeds,1));lg.setAttribute('aAlive',new T.InstancedBufferAttribute(alive,1));const lm=keep(flickerMaterial(new T.MeshBasicMaterial({color:0xffd9a0}),uniforms,'lantern'));const lantern=new T.InstancedMesh(lg,lm,all.length);
  const hg=keep(new T.PlaneGeometry(1,1));hg.setAttribute('aSeed',new T.InstancedBufferAttribute(seeds,1));hg.setAttribute('aAlive',new T.InstancedBufferAttribute(alive,1));const hm=new T.MeshBasicMaterial({map:keep(haloTexture()),transparent:true,depthWrite:false,blending:T.AdditiveBlending,color:0xffc890});keep(hm);
- hm.onBeforeCompile=sh=>{sh.uniforms.uTime=uniforms.uTime;sh.uniforms.uNight=uniforms.uNight;sh.uniforms.uDecay=DECAY;
-  sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nuniform float uTime;uniform float uNight;uniform float uDecay;attribute float aSeed;attribute float aAlive;varying float vFl;\n'+FLICKER+LAMP).replace('#include <project_vertex>',`vFl=nvLamp(uTime,aSeed,aAlive)*uNight;
-vec4 mvPosition=modelViewMatrix*instanceMatrix*vec4(0.,0.,0.,1.);mvPosition.xy+=position.xy*3.2;gl_Position=projectionMatrix*mvPosition;`);
+ hm.onBeforeCompile=sh=>{sh.uniforms.uTime=uniforms.uTime;sh.uniforms.uNight=uniforms.uNight;sh.uniforms.uDecay=DECAY;sh.uniforms.uFogGlow=uniforms.uFogGlow;
+  sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nuniform float uTime;uniform float uNight;uniform float uDecay;uniform float uFogGlow;attribute float aSeed;attribute float aAlive;varying float vFl;\n'+FLICKER+LAMP).replace('#include <project_vertex>',`vFl=nvLamp(uTime,aSeed,aAlive)*uNight*(1.+.15*uFogGlow);
+// Glow in fog (Step A.4): the halo spreads wider as the low fog thickens.
+vec4 mvPosition=modelViewMatrix*instanceMatrix*vec4(0.,0.,0.,1.);mvPosition.xy+=position.xy*3.2*(1.+.55*uFogGlow);gl_Position=projectionMatrix*mvPosition;`);
   sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nvarying float vFl;').replace('#include <opaque_fragment>','outgoingLight*=vFl;diffuseColor.a*=vFl;\n#include <opaque_fragment>');};
  hm.customProgramCacheKey=()=>'nv-halo';const halo=new T.InstancedMesh(hg,hm,all.length);
  all.forEach((l,i)=>{o3.position.set(l.head[0],CURB_HEIGHT+l.head[1],-l.head[2]);o3.rotation.set(0,0,0);o3.scale.set(1.01,1.01,1.01);o3.updateMatrix();lantern.setMatrixAt(i,o3.matrix);halo.setMatrixAt(i,o3.matrix);});
@@ -47,7 +48,7 @@ vec4 mvPosition=modelViewMatrix*instanceMatrix*vec4(0.,0.,0.,1.);mvPosition.xy+=
  // Levels: lamps 0..1 (how lit the surviving lamps are), cards 0..1 (ground fog), fog colour tint for daytime haze.
  let lamps=0,cardLv=0;const nightCard=new T.Color(0x56606e),tint=new T.Color();
  // Ground fog is part of the ruin: thinner in 2026.
- const setLevels=(l,c,fogRGB)=>{lamps=l;cardLv=c;uniforms.uNight.value=l;lantern.visible=halo.visible=l>.01;for(const L of pool)L.visible=l>.01;fog.visible=c>.01;fm.opacity=.32*Math.min(1,c*1.15)*(.3+.7*DECAY.value);
+ const setLevels=(l,c,fogRGB)=>{lamps=l;cardLv=c;uniforms.uNight.value=l;uniforms.uFogGlow.value=Math.min(1,c)*(.55+.45*DECAY.value);lantern.visible=halo.visible=l>.01;for(const L of pool)L.visible=l>.01;fog.visible=c>.01;fm.opacity=.32*Math.min(1,c*1.15)*(.3+.7*DECAY.value);
   if(fogRGB){tint.setRGB(fogRGB[0]*1.08,fogRGB[1]*1.08,fogRGB[2]*1.08);fm.color.copy(tint).lerp(nightCard,Math.min(1,c));}else fm.color.copy(nightCard);};
  return {group,live,all,setLevels,setNight(v){setLevels(v?1:0,v?1:0);},
   update(time,camera){uniforms.uTime.value=time;if(lamps<=.01&&cardLv<=.01)return;const cx=camera.position.x,cz=camera.position.z;
