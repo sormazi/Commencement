@@ -6,9 +6,9 @@
 import {AO} from './campus/atmosphere/ao.js?v=24';
 import {setPBR} from './campus/atmosphere/pbr.js?v=24';
 export const PRESETS={
- low:{label:'Low',shafts:0,bloomLevels:0,grain:0,ao:.75,ssao:false,pbr:false,pixelRatio:1,shadows:false,shadowSize:512,bloom:false,far:650},
- medium:{label:'Medium',shafts:12,bloomLevels:4,grain:.016,ao:1,ssao:false,pbr:true,pixelRatio:1.25,shadows:true,shadowSize:1024,bloom:true,far:1100},
- high:{label:'High',shafts:24,bloomLevels:5,grain:.018,ao:1,ssao:true,pbr:true,pixelRatio:2,shadows:true,shadowSize:2048,bloom:true,far:1600}};
+ low:{label:'Low',ssr:0,probe:'off',shafts:0,bloomLevels:0,grain:0,ao:.75,ssao:false,pbr:false,pixelRatio:1,shadows:false,shadowSize:512,bloom:false,far:650},
+ medium:{label:'Medium',ssr:12,probe:'medium',shafts:12,bloomLevels:4,grain:.016,ao:1,ssao:false,pbr:true,pixelRatio:1.25,shadows:true,shadowSize:1024,bloom:true,far:1100},
+ high:{label:'High',ssr:24,probe:'high',shafts:24,bloomLevels:5,grain:.018,ao:1,ssao:true,pbr:true,pixelRatio:2,shadows:true,shadowSize:2048,bloom:true,far:1600}};
 export const ORDER=['low','medium','high'];
 export class Quality{
  constructor(city,store){this.city=city;this.store=store;this.choice='auto';this.level='medium';this.listeners=[];this.samples=[];this.lastStep=-1e9;
@@ -22,7 +22,7 @@ export class Quality{
   r.setPixelRatio(Math.min(window.devicePixelRatio||1,q.pixelRatio));c.resize();
   r.shadowMap.enabled=q.shadows;c.sun.castShadow=q.shadows;
   if(c.sun.shadow.mapSize.x!==q.shadowSize){c.sun.shadow.mapSize.set(q.shadowSize,q.shadowSize);c.sun.shadow.map?.dispose();c.sun.shadow.map=null;}
-  c.postMat.uniforms.bloomOn.value=q.bloom?1:0;if(c.bloom){c.bloom.on=q.bloom;c.bloom.levels=q.bloomLevels||1;}c.postMat.uniforms.grainAmt.value=q.grain;c.postMat.uniforms.shaftOn.value=q.shafts?1:0;c.postMat.uniforms.shaftN.value=q.shafts||1;AO.strength.value=q.ao;c.postMat.uniforms.ssaoOn.value=q.ssao?1:0;setPBR(q.pbr);c.camera.far=q.far;c.camera.updateProjectionMatrix();
+  c.postMat.uniforms.bloomOn.value=q.bloom?1:0;if(c.bloom){c.bloom.on=q.bloom;c.bloom.levels=q.bloomLevels||1;}c.postMat.uniforms.grainAmt.value=q.grain;c.postMat.uniforms.shaftOn.value=q.shafts?1:0;c.postMat.uniforms.ssrN.value=q.ssr;c.probe?.setMode(q.probe);c.postMat.uniforms.shaftN.value=q.shafts||1;AO.strength.value=q.ao;c.postMat.uniforms.ssaoOn.value=q.ssao?1:0;setPBR(q.pbr);c.camera.far=q.far;c.camera.updateProjectionMatrix();
   // Materials compiled with or without shadows need a rebuild when shadows switch.
   c.scene.traverse(o=>{if(o.material){for(const m of [].concat(o.material))m.needsUpdate=true;}});
   for(const f of this.listeners)f(level,q);}

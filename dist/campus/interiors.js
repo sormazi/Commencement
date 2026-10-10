@@ -25,7 +25,7 @@ void main(){vUV=aUV;vSize=aSize;vT=aT;vN=aN;vWall=aWall;vFloor=aFloor;vLight=aLi
  vec4 mvPosition=viewMatrix*wp;gl_Position=projectionMatrix*mvPosition;
 #include <fog_vertex>
 }`;
-const FS=`uniform float uNight;uniform float uDecay;uniform float uTime;
+const FS=`uniform float uNight;uniform float uDecay;uniform float uTime;uniform samplerCube uEnv;uniform float uEnvOn;
 varying vec2 vUV;varying vec3 vSize;varying vec3 vT;varying vec3 vN;varying vec3 vWall;varying vec3 vFloor;varying vec3 vLight;varying vec3 vAccent;varying vec2 vKS;varying vec3 vWorld;
 #include <common>
 #include <fog_pars_fragment>
@@ -63,6 +63,8 @@ void main(){
  vec3 deadRoom=vec3(.05,.045,.04)*(.8+.4*abs(d.y));room=dead>.99?deadRoom:mix(clamp(room,0.,4.),deadRoom,dead);
  // The pane: reflection of a pale sky by day, faint at night; grime and breaks in 2126.
  float fres=pow(1.-abs(d.z),3.)*.85+.12;vec3 refl=mix(vec3(.62,.67,.71),vec3(.05,.06,.08),uNight);
+ // With the live probe (Step A.5, Medium and High) the pane reflects the real street instead of a flat sky tone.
+ if(uEnvOn>.5){vec3 Rw=reflect(V,normalize(vN));refl=mix(refl,textureCube(uEnv,Rw).rgb*.9,.85);}
  float broken=step(.55,h21(floor(vUV*vec2(2.,1.5))+seed*13.))*dead;
  vec3 c=mix(room,refl,fres*(1.-broken)*mix(1.,.6,uNight)*(1.-.45*dead));c=mix(c,vec3(.17,.155,.13),dead*.4*(1.-broken));
  gl_FragColor=vec4(c,1.);
@@ -70,7 +72,7 @@ void main(){
 #include <colorspace_fragment>
 #include <fog_fragment>
 }`;
-export function interiorMaterial(world){if(world.shopUniforms)return world.shopMaterial;const u=world.shopUniforms={uNight:{value:0},uDecay:DECAY,uTime:{value:0}};
+export function interiorMaterial(world){if(world.shopUniforms)return world.shopMaterial;const u=world.shopUniforms={uNight:{value:0},uDecay:DECAY,uTime:{value:0},uEnv:{value:null},uEnvOn:{value:0}};
  const m=world.shopMaterial=new T.ShaderMaterial({uniforms:T.UniformsUtils.merge([T.UniformsLib.fog,{}]),vertexShader:VS,fragmentShader:FS,fog:true,polygonOffset:true,polygonOffsetFactor:-1,polygonOffsetUnits:-2});
  Object.assign(m.uniforms,u);world.disposables.add(m);return m;}
 // One quad of glass with its room; `out` collects arrays per tile.
