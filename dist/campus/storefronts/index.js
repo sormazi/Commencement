@@ -13,4 +13,5 @@ import {W4TH} from './w4th.js?v=24';
 import {BROADWAY} from './broadway.js?v=24';
 import {UNIV8TH} from './univ8th.js?v=24';
 import {ASTOR} from './astor.js?v=24';
-export const STOREFRONTS=[...MACDOUGAL,...BLEECKER,...W3RD,...W4TH,...BROADWAY,...UNIV8TH,...ASTOR];
+import {E8TH} from './e8th.js?v=24';
+export const STOREFRONTS=[...MACDOUGAL,...BLEECKER,...W3RD,...W4TH,...BROADWAY,...UNIV8TH,...ASTOR,...E8TH];

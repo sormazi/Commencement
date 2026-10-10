@@ -35,4 +35,11 @@ export const INSIDES={
  'wegmans-astor':{kind:'grocery',depth:26,wall:'#e8e4da',floor:'#b8b0a2',light:'#fff6e6',accent:'#2f5a3e'},
  'lobby-770-broadway':{kind:'vacant',wall:'#d8d4cc',light:'#fff4e2'},
  'nyu-770-windows':{kind:'vacant'},'boa-770-broadway':{kind:'bank',wall:'#e6e6e6',accent:'#012169'},
+ // E 8th St (Apr 2026).
+ 'laoma-spicy-e8':{kind:'restaurant',wall:'#3a2a24',light:'#ffd9a8',accent:'#b8202a'},'e8-orange-awning':{kind:'cafe'},
+ 'rokstar-chicken-e8':{kind:'restaurant',wall:'#f0ece6',accent:'#d22f3f'},'mr-bubbly-e8':{kind:'vacant'},'nails-e8':{kind:'shop',wall:'#f4f0ee',light:'#fff8f4'},
+ 'choji-e8':{kind:'cafe',wall:'#e6e2da',accent:'#1a1a1a'},'heavenly-market-e8':{kind:'deli'},
+ 'subway-e8':{kind:'restaurant',accent:'#1f7a3a'},'e8-coffee':{kind:'cafe'},'urgent-care-e8':{kind:'shop',wall:'#f4f6f8',light:'#f4faff'},
+ 'e8-40-vacant-a':{kind:'vacant'},'e8-40-vacant-b':{kind:'vacant'},'e8-tea-shop':{kind:'cafe'},'just-salad-e8':{kind:'restaurant',wall:'#e8e8e0',accent:'#4a8a3a'},
+ 'e8-60-vacant':{kind:'vacant'},'brooklyn-bagel-e8':{kind:'cafe',wall:'#e8e2d6',accent:'#1f7a3a'},
 };
