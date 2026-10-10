@@ -32,7 +32,7 @@ export class SkyDriver{
   for(const n of ['dir','moonDir']){const v=c[n];for(let i=0;i<3;i++)v[i]+=(tg[n][i]-v[i])*k;const l=Math.hypot(...v)||1;for(let i=0;i<3;i++)v[i]/=l;}
   const r=this.r;r.scene.background.setRGB(...c.bg);r.scene.fog.color.setRGB(...c.fog);r.scene.fog.density=c.density;
   r.hemi.intensity=c.hemi;r.hemi.color.setRGB(...c.sky);r.hemi.groundColor.setRGB(...c.ground);
-  r.sun.intensity=c.sun;r.sun.color.setRGB(...c.sunC);r.renderer.toneMappingExposure=c.exposure;r.postMat.uniforms.desat.value=c.desat;r.postMat.uniforms.vignette.value=c.vignette;
+  r.sun.intensity=c.sun;r.sun.color.setRGB(...c.sunC);r.renderer.toneMappingExposure=c.exposure;r.postMat.uniforms.desat.value=c.desat;r.postMat.uniforms.vignette.value=c.vignette;r.postMat.uniforms.uNight.value=c.lamps;
   // Key light from the real sun (or moon). The shadow box stays centred on the car, so shadows fall as they
   // really do at this hour; they switch off with a little hysteresis around the horizon.
   const [dx,dy,dn]=c.dir;r.sun.position.set(X+dx*150,dy*150,Z-dn*150);r.sun.target.position.set(X,0,Z);

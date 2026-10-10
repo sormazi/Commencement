@@ -5,6 +5,7 @@ import {makeVehicle} from './vehicle.js?v=24';
 import {DECAY} from './campus/atmosphere/decay.js?v=24';
 import {SkyDriver} from './campus/atmosphere/sky-driver.js?v=24';
 import {initPBR} from './campus/atmosphere/pbr.js?v=24';
+import {Bloom} from './post-bloom.js?v=24';
 const rand=n=>{let x=Math.sin(n*127.1+311.7)*43758.5453;return x-Math.floor(x);};
 function texture(w,h,paint){const c=document.createElement('canvas');c.width=w;c.height=h;paint(c.getContext('2d'),w,h);const tex=new T.CanvasTexture(c);tex.colorSpace=T.SRGBColorSpace;return tex;}
 const glowMap=texture(128,128,c=>{let g=c.createRadialGradient(64,64,1,64,64,64);g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(.15,'rgba(255,255,255,.4)');g.addColorStop(1,'rgba(255,255,255,0)');c.fillStyle=g;c.fillRect(0,0,128,128);});
@@ -23,7 +24,7 @@ const smokeGeo=new T.SphereGeometry(1,8,6);this.smoke=Array.from({length:35},()=
 this.skidIndex=0;this.skids=Array.from({length:100},()=>{const m=new T.Mesh(new T.PlaneGeometry(.23,1.7),new T.MeshBasicMaterial({color:0x171c16,transparent:true,opacity:.6,depthWrite:false}));m.rotation.x=-Math.PI/2;m.visible=false;this.scene.add(m);return {m,s:0,x:0,life:0};});
 this.sparks=Array.from({length:28},()=>{const m=new T.Mesh(new T.BoxGeometry(.025,.025,.17),new T.MeshBasicMaterial({color:0xffc776}));m.visible=false;this.scene.add(m);return {m,life:0,v:new T.Vector3(),p:new T.Vector3()};});this.previousImpact=0;
 
-this.target=new T.WebGLRenderTarget(1,1,{type:T.HalfFloatType,depthTexture:new T.DepthTexture(1,1)});this.postScene=new T.Scene();this.postCamera=new T.OrthographicCamera(-1,1,1,-1,0,1);this.postMat=new T.ShaderMaterial({uniforms:{image:{value:this.target.texture},resolution:{value:new T.Vector2(1,1)},amount:{value:0},motion:{value:0},clock:{value:0},desat:{value:0},vignette:{value:0},bloomOn:{value:1},tDepth:{value:null},camNear:{value:.1},camFar:{value:1600},ssaoOn:{value:0},ssaoStrength:{value:1}},vertexShader:'varying vec2 uv0;void main(){uv0=uv;gl_Position=vec4(position.xy,0.,1.);}',fragmentShader:`uniform sampler2D image;uniform vec2 resolution;uniform float amount;uniform float motion;uniform float clock;uniform float desat;uniform float vignette;uniform float bloomOn;uniform sampler2D tDepth;uniform float camNear;uniform float camFar;uniform float ssaoOn;uniform float ssaoStrength;
+this.target=new T.WebGLRenderTarget(1,1,{type:T.HalfFloatType,depthTexture:new T.DepthTexture(1,1)});this.postScene=new T.Scene();this.postCamera=new T.OrthographicCamera(-1,1,1,-1,0,1);this.postMat=new T.ShaderMaterial({uniforms:{image:{value:this.target.texture},resolution:{value:new T.Vector2(1,1)},amount:{value:0},motion:{value:0},clock:{value:0},desat:{value:0},vignette:{value:0},bloomOn:{value:1},tDepth:{value:null},camNear:{value:.1},camFar:{value:1600},ssaoOn:{value:0},ssaoStrength:{value:1},tBloom:{value:null},bloomStrength:{value:.9},uDecay:DECAY,uNight:{value:0},gradeOn:{value:1},grainAmt:{value:.018},vigAmt:{value:.22}},vertexShader:'varying vec2 uv0;void main(){uv0=uv;gl_Position=vec4(position.xy,0.,1.);}',fragmentShader:`uniform sampler2D image;uniform vec2 resolution;uniform float amount;uniform float motion;uniform float clock;uniform float desat;uniform float vignette;uniform float bloomOn;uniform sampler2D tDepth;uniform float camNear;uniform float camFar;uniform float ssaoOn;uniform float ssaoStrength;uniform sampler2D tBloom;uniform float bloomStrength;uniform float uDecay;uniform float uNight;uniform float gradeOn;uniform float grainAmt;uniform float vigAmt;
 float linDepth(vec2 uv){float z=texture2D(tDepth,uv).r*2.-1.;return 2.*camNear*camFar/(camFar+camNear-z*(camFar-camNear));}varying vec2 uv0;void main(){vec2 delta=(uv0-.5)*amount*.003;vec3 col=vec3(texture2D(image,uv0+delta).r,texture2D(image,uv0).g,texture2D(image,uv0-delta).b);
 // Screen-space ambient occlusion (High preset only): eight depth taps in a spiral around the pixel, about
 // 0.6 m across in the world, darkening creases, contact points and anything the baked AO cannot know
@@ -35,11 +36,35 @@ vec2 travel=(uv0-vec2(.5,.53))*motion*.055;
 float carShield=1.-smoothstep(.12,.25,abs(uv0.x-.5));carShield*=1.-smoothstep(.35,.49,uv0.y);
 vec3 smear=vec3(0.);for(int i=0;i<8;i++){float phase=float(i)/7.-.5;smear+=texture2D(image,clamp(uv0+travel*phase,vec2(.001),vec2(.999))).rgb/8.;}
 col=mix(col,smear,clamp(motion*.8,0.,.9)*(1.-carShield));
-vec3 bloom=vec3(0.);if(bloomOn>.5){for(int x=-2;x<=2;x++){for(int y=-2;y<=2;y++){vec3 s=texture2D(image,uv0+vec2(float(x),float(y))*3./resolution).rgb;bloom+=max(s-.7,0.)/25.;}}}col+=bloom*.8;float vig=1.-smoothstep(.25,.8,length(uv0-.5));// Night: the screen edges fall away into near-darkness so the headlights and the few live lamps carry the picture.
-float edge=length((uv0-vec2(.5,.47))*vec2(1.,.9));col*=mix(.76+.24*vig,.04+.96*(1.-smoothstep(.2,.66,edge)),vignette);float grain=fract(sin(dot(uv0*resolution+clock,vec2(12.9898,78.233)))*43758.5453);col=mix(col,vec3(dot(col,vec3(.2126,.7152,.0722))),desat);col+=(grain-.5)*.012;gl_FragColor=vec4(col,1.);
+// Soft bloom (post-bloom.js): the half-resolution glow of everything brighter than white. 2126 lamps are
+// mostly dead, so what is left glows a little less.
+if(bloomOn>.5)col+=texture2D(tBloom,uv0).rgb*bloomStrength*.16*(1.-.3*uDecay);
+// Colour grade (Step A.3), before tone mapping, in linear light: white balance and saturation. 2026 is warm
+// and rich; 2126 is drained, yellow-green and sickly. uDecay blends the two, so the grade crossfades with the
+// world during the shift. At night 2026 keeps cool shadows under warm lamps; 2126 goes cold green.
+float lum0=dot(col,vec3(.2126,.7152,.0722));
+vec3 wb26=mix(vec3(1.045,1.,.93),vec3(.97,.99,1.06),uNight),wb21=mix(vec3(1.02,1.03,.82),vec3(.9,1.04,.92),uNight);
+float sat=mix(mix(1.12,1.05,uNight),.52,uDecay);
+vec3 gc=col*mix(wb26,wb21,uDecay);gc=mix(vec3(dot(gc,vec3(.2126,.7152,.0722))),gc,sat);col=mix(col,max(gc,0.),gradeOn);
+// The sky's daytime desaturation (sky.js) is halved in 2026 so its colour stays rich; 2126 keeps all of it.
+col=mix(col,vec3(dot(col,vec3(.2126,.7152,.0722))),desat*mix(1.,.5,gradeOn*(1.-uDecay)));gl_FragColor=vec4(col,1.);
 #include <tonemapping_fragment>
+// After tone mapping (0..1): contrast and toe. 2026 gets a gentle S-curve; 2126 loses contrast and its
+// blacks lift towards a murky olive, the washed-out look of an old print. Then the vignette.
+{vec3 g=gl_FragColor.rgb;vec3 s26=g*g*(3.-2.*g);vec3 g26=mix(g,s26,.22);
+ vec3 g21=mix(vec3(.045,.05,.035)*(1.-.75*uNight),vec3(.92,.93,.86),g);g21=mix(g21,g21*g21*(3.-2.*g21),-.05);
+ vec3 gr=mix(g26,g21,uDecay);
+ // Split tone at night in 2026: shadows lean blue, lamp-lit highlights stay warm.
+ float l=dot(gr,vec3(.2126,.7152,.0722));gr*=mix(vec3(1.),mix(vec3(.93,.98,1.08),vec3(1.05,1.,.94),smoothstep(.15,.6,l)),uNight*(1.-uDecay)*.8);
+ g=mix(g,gr,gradeOn);
+ float vig=1.-smoothstep(.3,.85,length((uv0-.5)*vec2(1.,.85)));g*=mix(1.,vig,vigAmt);
+ // Night: the screen edges fall away into near-darkness so the headlights and the few live lamps carry the picture.
+ float edge=length((uv0-vec2(.5,.47))*vec2(1.,.9));g*=mix(1.,.04+.96*(1.-smoothstep(.2,.66,edge)),vignette);
+ gl_FragColor.rgb=g;}
 #include <colorspace_fragment>
-}`});this.postScene.add(new T.Mesh(new T.PlaneGeometry(2,2),this.postMat));this.resize();window.addEventListener('resize',()=>this.resize());this.preset='';this.sky=new SkyDriver(this);initPBR(this.renderer);}
+// Film grain in display space, strongest in the mid-tones, a new pattern every frame.
+{float n=fract(sin(dot(uv0*resolution+fract(clock*.37)*vec2(113.,71.),vec2(12.9898,78.233)))*43758.5453)-.5;float m=gl_FragColor.g;gl_FragColor.rgb+=n*grainAmt*(.5+2.*m*(1.-m));}
+}`});this.postScene.add(new T.Mesh(new T.PlaneGeometry(2,2),this.postMat));this.bloom=new Bloom(this.renderer);this.bloom.on=true;this.resize();window.addEventListener('resize',()=>this.resize());this.preset='';this.sky=new SkyDriver(this);initPBR(this.renderer);}
 // Free-roam rendering: the car moves through a static world in map space (three z = -north).
 updateFreeRoam(state,controls,time,dt,playing){
 const yaw=state.orientation?.yaw||0,X=state.position.x,Z=-state.position.z,fx=Math.sin(yaw),fz=-Math.cos(yaw),rx=Math.cos(yaw),rz=Math.sin(yaw);
@@ -67,11 +92,11 @@ this.camera.position.lerp(desired,1-Math.exp(-dt*7));this.camera.lookAt(X+cfx*14
 // Developer/review camera: fixed viewpoint in map metres (x east, n north), used for skyline checks.
 const o=this.cameraOverride;if(o){this.camera.fov=o.fov||55;this.camera.updateProjectionMatrix();this.camera.position.set(o.x,o.y,-o.n);this.camera.lookAt(o.lx,o.ly??o.y,-o.ln);this.scene.fog.density=o.fog??this.scene.fog.density;}
 if(this.preset==='realtime')this.sky.place(this.camera);this.world.viewDistance=o?.view;this.world.update(state,time,this.camera);
-this.postMat.uniforms.amount.value=controls.boosting?1:speed/100;this.postMat.uniforms.motion.value=controls.motionActive?Math.min(1.5,Math.max(0,(speed-9)/55)+(controls.boosting?.3:0)):0;this.postMat.uniforms.clock.value=time;this.renderer.setRenderTarget(this.target);this.renderer.render(this.scene,this.camera);this.renderer.setRenderTarget(null);{const pu=this.postMat.uniforms;pu.tDepth.value=this.target.depthTexture;pu.camNear.value=this.camera.near;pu.camFar.value=this.camera.far;}this.renderer.render(this.postScene,this.postCamera);}
-resize(){this.renderer.setSize(innerWidth,innerHeight,false);this.camera.aspect=innerWidth/innerHeight;this.camera.updateProjectionMatrix();const v=new T.Vector2();this.renderer.getDrawingBufferSize(v);this.target.setSize(v.x,v.y);this.postMat.uniforms.resolution.value.copy(v);}
+this.postMat.uniforms.amount.value=controls.boosting?1:speed/100;this.postMat.uniforms.motion.value=controls.motionActive?Math.min(1.5,Math.max(0,(speed-9)/55)+(controls.boosting?.3:0)):0;this.postMat.uniforms.clock.value=time;this.renderer.setRenderTarget(this.target);this.renderer.render(this.scene,this.camera);this.renderer.setRenderTarget(null);this.bloom.night=this.postMat.uniforms.uNight.value;this.bloom.render(this.target);{const pu=this.postMat.uniforms;pu.tBloom.value=this.bloom.texture;pu.tDepth.value=this.target.depthTexture;pu.camNear.value=this.camera.near;pu.camFar.value=this.camera.far;}this.renderer.render(this.postScene,this.postCamera);}
+resize(){this.renderer.setSize(innerWidth,innerHeight,false);this.camera.aspect=innerWidth/innerHeight;this.camera.updateProjectionMatrix();const v=new T.Vector2();this.renderer.getDrawingBufferSize(v);this.target.setSize(v.x,v.y);this.bloom?.setSize(v.x,v.y);this.postMat.uniforms.resolution.value.copy(v);}
 setLocation(id){if(this.locationId===id)return;if(this.world){this.scene.remove(this.world.group);this.world.dispose();}this.world=createWorld(id);this.locationId=id;this.scene.add(this.world.group);this.world.setPreset?.(this.preset);this.skids.forEach(k=>{k.life=0;k.m.visible=false;});}
 applyPreset(preset){// Real NYC time drives the campus every frame (SkyDriver).
- if(preset===this.preset)return;this.preset=preset;this.world?.setPreset?.(preset);this.postMat.uniforms.desat.value=0;this.postMat.uniforms.vignette.value=0;
+ if(preset===this.preset)return;this.preset=preset;this.world?.setPreset?.(preset);this.postMat.uniforms.desat.value=0;this.postMat.uniforms.vignette.value=0;this.postMat.uniforms.uNight.value=preset==='night'?1:0;
   if(preset==='realtime'){this.sky.snap();this.sky.shadows=null;return;}this.sky.hide();if(this.fill.userData.base)this.fill.intensity=this.fill.userData.base;for(const h of this.headlights)if(h.userData.base)h.intensity=h.userData.base*(preset==='night'?2.4:1);const storm=preset==='storm',dawn=preset==='dawn';
   // Dead of night: moonlight only, no sun shadows (also saves the shadow pass), dense cold fog.
   if(preset==='night'){this.scene.background.set(0x020305);this.scene.fog.color.set(0x06080c);this.scene.fog.density=.026;this.sun.intensity=.06;this.sun.color.set(0x9fb4d6);this.sun.castShadow=false;this.hemi.intensity=.07;this.hemi.color.set(0x3c4a64);this.hemi.groundColor.set(0x15130f);this.renderer.toneMappingExposure=.95;this.postMat.uniforms.vignette.value=1;if(this.fill.userData.base)this.fill.intensity=this.fill.userData.base*.25;return;}
