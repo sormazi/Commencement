@@ -53,7 +53,7 @@ void main(){
  // Things in the room, front to back: a counter, tables, aisles.
  if(kind==2||kind==3||kind==5||kind==7){float zc=-D*(kind==3?.7:.6);float tc=zc/d.z;vec3 c=p+d*tc;if(tc<t&&c.y<1.05&&c.x>W*.12&&c.x<W*.88){col=vAccent*(kind==5?1.1:.9);t=tc;}}
  if(kind==2){for(int i=1;i<3;i++){float zc=-float(i)*D*.25;float tc=zc/d.z;vec3 c=p+d*tc;if(tc<t&&abs(c.y-.75)<.04&&fract(c.x/1.4)<.55){col=vFloor*1.3;t=tc;}}}
- if(kind==4){for(int i=1;i<7;i++){float zc=-float(i)*2.2;if(-zc>D-.5)break;float tc=zc/d.z;vec3 c=p+d*tc;if(tc<t&&c.y<1.8&&fract((c.x+.4)/2.4)<.42){float sh=fract(c.y/.45);col=mix(vWall*.7,prod(floor(vec2(c.x/.25,c.y/.45)+float(i)*7.),seed),step(.15,sh)*.7);t=tc;}}}
+ if(kind==4){for(int i=1;i<13;i++){float zc=-float(i)*2.2;if(-zc>D-.5)break;float tc=zc/d.z;vec3 c=p+d*tc;if(tc<t&&c.y<1.8&&fract((c.x+.4)/2.4)<.42){float sh=fract(c.y/.45);col=mix(vWall*.7,prod(floor(vec2(c.x/.25,c.y/.45)+float(i)*7.),seed),step(.15,sh)*.7);t=tc;}}}
  if(kind==8){for(int i=1;i<3;i++){float zc=-float(i)*D*.3;float tc=zc/d.z;vec3 c=p+d*tc;if(tc<t&&c.y>.9&&c.y<1.7&&fract(c.x/1.1)<.08){col=vec3(.2);t=tc;}if(tc<t&&c.y>.5&&c.y<1.6&&fract(c.x/1.1+.3)<.2){col=prod(floor(vec2(c.x/.2,c.y/.3)),seed+float(i));t=tc;}}}
  // Light falloff with depth, the kind's light colour.
  float fall=mix(1.,.55,clamp(t/(D*1.2),0.,1.));vec3 lit=col*vLight*fall;

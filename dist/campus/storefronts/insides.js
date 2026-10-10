@@ -25,4 +25,14 @@ export const INSIDES={
  'kith-broadway':{kind:'apparel',wall:'#f2f0ec',floor:'#b8b0a2',accent:'#a88a62'},'t-mobile-broadway':{kind:'shop',wall:'#f4f2f2',accent:'#e20074'},
  'univ-20-vacant':{kind:'vacant'},'chase-university':{kind:'bank',accent:'#1a5fa8'},'reservoir-bar':{kind:'bar',wall:'#3a2a24'},
  'vitsoe':{kind:'shop',wall:'#f2f2f0',accent:'#d0d0cc'},'atelier-new-york':{kind:'apparel',wall:'#ece8e0'},
+ // Astor Place and 770 Broadway (Apr 2026). Wegmans is deep: a long run of aisles under strip lights.
+ 'pret-astor':{kind:'cafe',wall:'#d9d4cc',floor:'#5a4a3e',light:'#fff2dc',accent:'#6e2232'},
+ 'dash-mart-astor':{kind:'vacant'},'clinton-hall-pavilion':{kind:'vacant'},
+ 'raising-canes-astor':{kind:'restaurant',wall:'#e8e2d6',floor:'#6a5a4a',light:'#fff1d8',accent:'#c8102e'},
+ 'astor-740-vacant':{kind:'vacant'},
+ 'juice-generation-astor':{kind:'cafe',wall:'#e9efe0',light:'#f6fff0',accent:'#4a8a3a'},
+ 'tmpl-astor':{kind:'shop',wall:'#202020',floor:'#2a2a2a',light:'#f0f4ff',accent:'#d9b44a'},
+ 'wegmans-astor':{kind:'grocery',depth:26,wall:'#e8e4da',floor:'#b8b0a2',light:'#fff6e6',accent:'#2f5a3e'},
+ 'lobby-770-broadway':{kind:'vacant',wall:'#d8d4cc',light:'#fff4e2'},
+ 'nyu-770-windows':{kind:'vacant'},'boa-770-broadway':{kind:'bank',wall:'#e6e6e6',accent:'#012169'},
 };
