@@ -29,4 +29,6 @@ E 9th St to 14th St, east side (Apr 2026): at 772, an empty glass shop at the E 
 
 West side so far: an empty shop in a pale stone base at 787 and **StretchLab** behind scaffolding at 791.
 
-Still to do: the west side from 795 to 849 Broadway (E 11th to 13th St).
+West side, E 10th St to 14th St: an empty glass shop beside the lobby at 797; **Metropolis Vintage** in the Cast Iron Building at 801-803; an empty shop with leasing panels under scaffolding at 815; a shop with a white star on the glass at 821 and a **Smoke & Vape** convenience store on the E 12th St corner; grilles down at 827 and 831 (a painted mural along the base at 831); at 841 a blue-fronted shop, the office lobby and a shop with a WE ARE OPEN banner; at 853 a cafe with a round sign on the glass and seating upstairs. Several names were not legible and are recorded without them.
+
+Broadway is now surveyed from Houston St to 14th St on both sides, apart from NYU and office buildings without shops.

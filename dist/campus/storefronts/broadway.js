@@ -59,4 +59,15 @@ export const BROADWAY=[
  // West side, E 10th St going north.
  {bin:1009111,street:S,addr:'791 Broadway',seen,shops:[{id:'stretchlab-791',name:'StretchLab (behind scaffolding)',frame:'#2a2a2a',sign:{lines:['STRETCHLAB'],bg:'#2a2a2a',fg:'#f2f2f0',font:'sans-bold'},door:{at:.5,w:1.0}}]},
  {bin:1009112,street:S,addr:'787 Broadway',seen,shops:[{id:'bway-787-vacant',name:'(empty shop in a pale stone base with arched windows)',frac:[0,.5],frame:'#d8d2c4',bulkhead:.4}]},
+ {bin:1009108,street:S,addr:'797 Broadway',seen,shops:[{id:'bway-797-vacant',name:'(empty glass shop beside the apartment lobby)',frac:[.45,1],frame:'#3a3a3a',bulkhead:.2}]},
+ {bin:1009138,street:S,addr:'801-803 Broadway (Cast Iron Building)',seen:'Google Street View, a photo sphere inside the shop (date not shown) and Broadway, Apr 2026',shops:[{id:'metropolis-vintage',name:'Metropolis Vintage (vintage clothes)',frac:[.2,.8],frame:'#2a2a2a',door:{at:.5,w:1.2}}]},
+ {bin:1091940,street:S,addr:'815 Broadway',seen,shops:[{id:'bway-815-vacant',name:'(empty shop, BROADWAY RETAIL SPACE AVAILABLE panels, under scaffolding)',frame:'#d8d2c4',boarded:'#1f2f5a',bulkhead:.4}]},
+ {bin:1009203,street:S,addr:'821 Broadway',seen,shops:[{id:'bway-821-shop',name:'(shop with a white star on the glass; name not legible)',frac:[0,.85],frame:'#2a2a2a',door:{at:.7,w:1.2}}]},
+ {bin:1009202,street:S,addr:'49 E 12th St (Broadway corner)',seen,shops:[{id:'smoke-vape-12th',name:'Smoke & Vape convenience store',frame:'#2a2424',sign:{lines:['SMOKE & VAPE'],bg:'#1f2a5a',fg:'#ffffff',font:'sans-bold'},door:{at:.5,w:1.0}}]},
+ {bin:1009201,street:S,addr:'827 Broadway',seen,shops:[{id:'bway-827-shuttered',name:'(shop with the grille down)',frame:'#3a3e42',shutter:true}]},
+ {bin:1009200,street:S,addr:'831 Broadway',seen,shops:[{id:'bway-831-shuttered',name:'(shop with the grille down, a painted mural along the base)',frame:'#3a3e42',shutter:true}]},
+ {bin:1080132,street:S,addr:'841 Broadway',seen,shops:[
+  {id:'bway-841-blue',name:'(shop with a blue fascia; name not legible)',frac:[0,.25],frame:'#1f3a6a',door:{at:.5,w:1.0}},
+  {id:'bway-841-open',name:'(shop with a WE ARE OPEN banner; name not legible)',frac:[.65,1],frame:'#2a2a2a',door:{at:.3,w:1.0}}]},
+ {bin:1080133,street:S,addr:'853 Broadway',seen,shops:[{id:'bway-853-cafe',name:'(cafe with a round sign on the glass, seating on the floor above)',frac:[.1,.6],frame:'#e8e8e8',door:{at:.5,w:1.2}}]},
 ];
