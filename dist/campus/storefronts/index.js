@@ -8,4 +8,5 @@
 //  roll-down grille was down), seen. Names are shown as plain lettering in the sign's colours; no logos.
 import {MACDOUGAL} from './macdougal.js?v=24';
 import {BLEECKER} from './bleecker.js?v=24';
-export const STOREFRONTS=[...MACDOUGAL,...BLEECKER];
+import {W3RD} from './w3rd.js?v=24';
+export const STOREFRONTS=[...MACDOUGAL,...BLEECKER,...W3RD];
