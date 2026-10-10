@@ -23,4 +23,6 @@ East side, Houston St to E 4th St, south to north: a shoe shop behind black wind
 
 West side at Bleecker St: **Starbucks** on the corner at 661, the 665 lobby, and an empty shop with a red leasing banner.
 
-Still to do: the east side from E 4th St to E 9th St (696-740; 720 has a neon-lit shop and an empty shop for sale or lease, seen from one viewpoint), and Broadway from E 9th St to 14th St, both sides.
+East side, E 4th St to E 8th St: offices at 696 and NYU at 708 and 726 (no shops); **Bright Horizons** child care at 704; an empty shop with the grille down at 716 (for sale or lease); a neon-lit shop at 722 (name hidden by a truck); **T-Mobile** at 732 (moved here from 738, where the first pass had it; magenta lettering on a white fascia); **The Re-Shop** at 734; **Caffeina** at 736, not yet open, with coming-soon banners in the windows; the 8 St-NYU subway entrance in front of 736-738.
+
+Still to do: Broadway from E 9th St to 14th St, both sides.
