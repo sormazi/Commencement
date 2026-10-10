@@ -83,4 +83,4 @@ Then open http://localhost:4173. If something else is already using that port, r
 
 ---
 
-Map data © OpenStreetMap contributors (ODbL) and NYC Open Data. Reference photos are from Wikimedia Commons and are credited, along with everything else, in [the credits](dist/credits.html). This is a made-up ruin and isn't affiliated with or endorsed by NYU. If you want to know how it's put together, the notes are in [docs/TECHNICAL.md](docs/TECHNICAL.md) and [CAMPUS.md](CAMPUS.md).
+Map data © OpenStreetMap contributors (ODbL) and NYC Open Data. Reference photos are from Wikimedia Commons and are credited, along with everything else, in [the credits](dist/credits.html). This is a made-up ruin and isn't affiliated with or endorsed by NYU.
