@@ -45,4 +45,5 @@ export const INSIDES={
  'univ-e9-corner-restaurant':{kind:'restaurant',wall:'#5a2a24',light:'#ffcf90'},'univ-30-boutique':{kind:'apparel'},'univ-30-shop':{kind:'shop'},'univ-30-vacant':{kind:'vacant'},'univ-30-corner-vacant':{kind:'vacant'},
  'univ-40-restaurant':{kind:'restaurant'},'univ-40-shuttered-a':{kind:'vacant'},'univ-40-shuttered-b':{kind:'vacant'},'naturale-cleaners':{kind:'shop',wall:'#e8e8e4'},'whitney-chemists':{kind:'pharmacy'},'univ-40-sustainable':{kind:'restaurant'},
  'epicurean-market':{kind:'grocery',depth:9},
+ 'analogue-w8':{kind:'bar',wall:'#2a1e18',light:'#ffb860'},'w8-31-arepas':{kind:'restaurant'},'solidcore-w8':{kind:'shop',wall:'#202020',light:'#d8e0ff'},'w8-39-restaurant':{kind:'restaurant'},'w8-43-boutique':{kind:'apparel'},'w8-45-shuttered':{kind:'vacant'},'w8-49-shuttered':{kind:'vacant'},'renew-w8':{kind:'shop',wall:'#f4f0ee'},'amelie-w8':{kind:'bar',wall:'#6a2a24',light:'#ffc080'},'paragon-security-w8':{kind:'hardware'},'w8-48-shuttered':{kind:'vacant'},'w8-48-restaurant':{kind:'restaurant'},'pane-pasta-w8':{kind:'restaurant',wall:'#e8e0d0'},'w8-58-shuttered':{kind:'vacant'},
 };
