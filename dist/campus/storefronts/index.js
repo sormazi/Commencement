@@ -10,4 +10,6 @@ import {MACDOUGAL} from './macdougal.js?v=24';
 import {BLEECKER} from './bleecker.js?v=24';
 import {W3RD} from './w3rd.js?v=24';
 import {W4TH} from './w4th.js?v=24';
-export const STOREFRONTS=[...MACDOUGAL,...BLEECKER,...W3RD,...W4TH];
+import {BROADWAY} from './broadway.js?v=24';
+import {UNIV8TH} from './univ8th.js?v=24';
+export const STOREFRONTS=[...MACDOUGAL,...BLEECKER,...W3RD,...W4TH,...BROADWAY,...UNIV8TH];
