@@ -7,7 +7,9 @@ export const BLEECKER=[
   {id:'nyu-pen-stationery',name:'New University Pen & Stationery Inc',frac:[0,.48],frame:'#2d3f8f',sign:{lines:['NEW UNIVERSITY PEN','& STATIONERY INC.'],bg:'#2b3c8c',fg:'#f2efe6',font:'sans-bold'},door:{at:.5,w:1.0}},
   {id:'smacked',name:'Smacked',frac:[.48,1],frame:'#e9e6df',bulkheadStone:true,sign:{lines:['SMACKED'],bg:'#f1efe9',fg:'#1c1b1a',font:'serif-bold'},door:{at:.3,w:1.2}}]},
  {bin:1083503,street:B,addr:'156 Bleecker St (Mill House)',seen:'Google Street View, Bleecker St between Thompson and Sullivan, Sep 2024',shops:[
-  {id:'cvs-bleecker',name:'CVS Pharmacy',frac:[0,.34],frame:'#2a2726',awning:{type:'flat',color:'#c8202b',depth:1.0},sign:{lines:['CVS/pharmacy'],bg:'#ece5d6',fg:'#b01e2a',font:'serif-bold'},door:{at:.12,w:1.6}},
+  {id:'cvs-bleecker',name:'CVS Pharmacy',frac:[0,.3],frame:'#2a2726',awning:{type:'flat',color:'#c8202b',depth:1.0},sign:{lines:['CVS/pharmacy'],bg:'#ece5d6',fg:'#b01e2a',font:'serif-bold'},door:{at:.12,w:1.6}},
+  {id:'le-poisson-rouge',name:'(le) poisson rouge',frac:[.31,.43],frame:'#2a2523',bulkheadStone:true,sign:{lines:['LPR'],bg:'#c4262e',fg:'#f4f2ee',font:'sans-bold'},door:{at:.5,w:1.8}},
+  {id:'li-lac-chocolates',name:'Li-Lac Chocolates',frac:[.51,.59],frame:'#1e2a3a',sign:{lines:['CHOCOLATES'],bg:'#1d2838',fg:'#e8dcc0',font:'serif'},door:{at:.6,w:1.0}},
   {id:'cookie-dough-bleecker',name:'Cookie Dough',frac:[.6,.68],frame:'#33383d',awning:{type:'slope',color:'#1e2124',depth:.9},sign:{lines:['Cookie Dough'],bg:'#1e2124',fg:'#f2efe6',font:'serif',mount:'awning'},door:{at:.5,w:1.4}},
   {id:'mill-house-vacant',name:'(vacant, retail for lease)',frac:[.68,.78],frame:'#33383d',door:{at:.5,w:1.4}}]},
  {bin:1077804,street:B,addr:'172 Bleecker St',seen:'Google Street View, Bleecker St at Sullivan St, Sep 2024',shops:[{id:'cafe-espanol',name:'Cafe Español',frame:'#5a1e22',awning:{type:'slope',color:'#6b1f26',depth:1.1},sign:{lines:['CAFE ESPAÑOL','Authentic Spanish Restaurant'],bg:'#6b1f26',fg:'#f2efe6',font:'serif',mount:'awning'},door:{at:.75,w:1.0}}]},

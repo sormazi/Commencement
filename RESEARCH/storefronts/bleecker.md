@@ -7,7 +7,8 @@ Source: Google Street View opened with `maps/@?api=1&map_action=pano&viewpoint=.
 | 144 | New University Pen & Stationery Inc; Smacked | Sep 2024 | split of the lot judged from imagery |
 | 156 (Mill House) | CVS Pharmacy | Sep 2024 | east third of the frontage; red awnings |
 | 156 (Mill House) | Cookie Dough; a vacant shop for lease | Sep 2024 | positions along the frontage estimated |
-| 158 | Le Poisson Rouge | | not found in the views taken; the west end of the Mill House was under scaffolding (Jul 2022); still to do |
+| 158 | Le Poisson Rouge (LPR) | Sep 2024 | red sign band, angled metal fins, just east of the Mill House's stone lobby |
+| 156 (Mill House) | Li-Lac Chocolates | Sep 2024 | just west of the lobby |
 | 172 | Cafe Español | Sep 2024 | |
 | 174 | Old Tbilisi Garden | Sep 2024 | |
 | 176 | red Indian street food shop | Sep 2024 | name not legible; not modelled |
