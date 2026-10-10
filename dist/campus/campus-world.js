@@ -6,6 +6,7 @@ import {ringArea,centroid,rectFrame,rectRing,pointInRing} from './geometry.js?v=
 import {buildArch} from './landmarks/arch.js?v=24';
 import {LANDMARK_BUILDINGS} from './landmarks/index.js?v=24';
 import {buildSheds} from './landmarks/sheds.js?v=24';
+import {buildUnionSquare,UNION_SQUARE,HANDLED as UNION_STATUES} from './landmarks/union-square.js?v=24';
 import {ROW_BINS} from './landmarks/row.js?v=24';
 import {buildDecay,treeBoost,volunteerTrees,dryFountain,inSlice,cleanInstanceAttributes,blendInstances,applyDecay,DECAY} from './atmosphere/decay.js?v=24';
 import {buildNight} from './atmosphere/night.js?v=24';
@@ -113,6 +114,7 @@ export class CampusWorld{
   {const f=rectFrame(d.arch.ring),g=buildArch();g.position.set(f.c[0],CURB_HEIGHT,-f.c[1]);g.rotation.y=Math.atan2(-f.u[1],-f.u[0]);this.archGroup=g;this.tile(...f.c).group.add(g);this.trackDisposables(g);}
   // Sidewalk sheds seen on Street View (street furniture; see landmarks/sheds.js for dates).
   {const g=buildSheds();this.tile(110,-200).group.add(g);this.trackDisposables(g);}
+  {const g=buildUnionSquare(CURB_HEIGHT);this.tile(...UNION_SQUARE.washington.p).group.add(g);this.trackDisposables(g);this.unionSquare=g;}
   // Fountain: rim, basin and centre jet. Radius from the OSM outline.
   const parkRing=(d.areas.find(a=>a.kind==='park'&&pointInRing([-30,-46],a.ring))||{}).ring;
   for(const a of d.areas.filter(a=>a.kind==='fountain')){const c=centroid(a.ring),r=a.ring.reduce((s,p)=>s+Math.hypot(p[0]-c[0],p[1]-c[1]),0)/a.ring.length;if(r<2)continue;
@@ -141,7 +143,7 @@ export class CampusWorld{
   for(const b of d.benches){const t=this.tile(...b.p);this.inst(t,'bench',toV(b.p,CURB_HEIGHT+.45),[1,1,1],hash(b.p[0]*3.1)*0);}
   for(const br of d.barriers){if(br.kind==='retaining_wall')continue;const ht=br.height||(br.kind==='wall'?1.2:1.0);for(let i=1;i<br.pts.length;i++){const a=br.pts[i-1],b=br.pts[i],L=Math.hypot(b[0]-a[0],b[1]-a[1]);if(L<.05)continue;const m=[(a[0]+b[0])/2,(a[1]+b[1])/2];this.inst(this.tile(...m),br.kind==='wall'?'wallseg':'fence',toV(m,CURB_HEIGHT+ht/2),[L,ht,br.kind==='wall'?.3:.05],Math.atan2(b[1]-a[1],b[0]-a[0]));}}
   for(const c of d.crossings){if(c.pts.length<2)continue;for(let i=1;i<c.pts.length;i++){const a=c.pts[i-1],b=c.pts[i],L=Math.hypot(b[0]-a[0],b[1]-a[1]);const ang=Math.atan2(b[1]-a[1],b[0]-a[0]);for(let s=.6;s<L-.3;s+=1.2){const p=[a[0]+(b[0]-a[0])*s/L,a[1]+(b[1]-a[1])*s/L];this.inst(this.tile(...p),'stripe',toV(p,.012),[.6,1,3.0],ang);}}}
-  for(const m of d.monuments){if(/plaque/.test(m.kind)||m.kind==='memorial'&&!m.name)continue;const t=this.tile(...m.p);if(m.kind==='flagpole')this.inst(t,'flagpole',toV(m.p,CURB_HEIGHT+11),[1,1,1]);else this.inst(t,'pedestal',toV(m.p,CURB_HEIGHT+1),/Garibaldi/.test(m.name||'')?[3,2,2.4]:[1.6,2,1.6]);}
+  for(const m of d.monuments){if(/plaque/.test(m.kind)||m.kind==='memorial'&&!m.name||UNION_STATUES.test(m.name||''))continue;const t=this.tile(...m.p);if(m.kind==='flagpole')this.inst(t,'flagpole',toV(m.p,CURB_HEIGHT+11),[1,1,1]);else this.inst(t,'pedestal',toV(m.p,CURB_HEIGHT+1),/Garibaldi/.test(m.name||'')?[3,2,2.4]:[1.6,2,1.6]);}
   const geo={trunk:new T.CylinderGeometry(.7,1,1,7),crown:new T.IcosahedronGeometry(1,1),pole:new T.CylinderGeometry(.07,.11,4.4,8),lantern:new T.BoxGeometry(.42,.55,.42),bench:new T.BoxGeometry(1.8,.12,.55),fence:new T.BoxGeometry(1,1,1),wallseg:new T.BoxGeometry(1,1,1),stripe:new T.PlaneGeometry(1,1).rotateX(-Math.PI/2),flagpole:new T.CylinderGeometry(.08,.16,22,8),pedestal:new T.BoxGeometry(1,1,1)};
   const furn=furnitureGeometry();Object.assign(geo,furn);
   const instMat={trunk:'bark',crown:'leaves',pole:'iron',lantern:'lamp',bench:'iron',fence:'iron',wallseg:'marble',stripe:'stripe',flagpole:'iron',pedestal:'marble'};for(const k of Object.keys(furn))instMat[k]=furnitureMaterial(k);for(const g of Object.values(geo))this.disposables.add(g);

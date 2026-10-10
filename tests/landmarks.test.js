@@ -5,6 +5,7 @@ import {archParts,ARCH,INSCRIPTION} from '../dist/campus/landmarks/arch.js';
 import {bobstParts,BOBST} from '../dist/campus/landmarks/bobst.js';
 import {silverParts,SILVER} from '../dist/campus/landmarks/silver-center.js';
 import {footprintFrame} from '../dist/campus/landmarks/kit.js';
+import {unionSquareParts,UNION_SQUARE} from '../dist/campus/landmarks/union-square.js';
 import {kimmelParts,KIMMEL} from '../dist/campus/landmarks/kimmel.js';
 import {judsonParts,JUDSON} from '../dist/campus/landmarks/judson.js';
 import {rowParts,ROW_BINS,ROW} from '../dist/campus/landmarks/row.js';
@@ -84,4 +85,8 @@ test('stern: KMC with its plaza rotunda and Tisch Hall with its plaza entrance; 
  assert.ok(!SHEDS.some(s=>/w4th-south/.test(s.id)),'Gould Plaza shed removed (gone in reality, Oct 2026)');});
 test('paulson: podium over the whole site, 91 m faculty tower at Houston St, pixelated student towers at Bleecker St with cantilevered boxes',()=>{const pb=data.buildings.find(x=>x.bin===PAULSON.bin),{P,info}=paulsonParts(pb);
  const b=bbox(verts(P));assert.ok(b[1][1]>94&&b[1][1]<96.5,'top '+b[1][1]);assert.equal(info.towers,3);assert.ok(info.pixels>=10,'cantilevered boxes '+info.pixels);assert.ok(P.m.copper&&P.m.nameSign);assert.ok(near(verts(P),pb,4),'within the site');});
+test('union square: Washington on a 15 ft pedestal with the rider about 8 m up, all four statues at their data positions, no Gandhi figure',()=>{const P=unionSquareParts(0);const v=verts(P),b=bbox(v);
+ assert.ok(b[1][1]>7.6&&b[1][1]<8.5,'Washington overall '+b[1][1]);
+ for(const k of ['washington','lafayette','lincoln','gandhi']){const p=UNION_SQUARE[k].p,pm=data.monuments.find(m=>Math.hypot(m.p[0]-p[0],m.p[1]-p[1])<.5);assert.ok(pm,k+' at a monument point');}
+ const g=UNION_SQUARE.gandhi.p,nearG=[];for(let i=0;i<P.m.bronze.pos.length;i+=3)if(Math.hypot(P.m.bronze.pos[i]-g[0],-P.m.bronze.pos[i+2]-g[1])<3)nearG.push(i);assert.equal(nearG.length,0,'no bronze at the Gandhi plinth');});
 console.log(`landmarks: ${passed} passed`);
