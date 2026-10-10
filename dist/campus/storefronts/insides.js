@@ -42,4 +42,5 @@ export const INSIDES={
  'subway-e8':{kind:'restaurant',accent:'#1f7a3a'},'e8-coffee':{kind:'cafe'},'urgent-care-e8':{kind:'shop',wall:'#f4f6f8',light:'#f4faff'},
  'e8-40-vacant-a':{kind:'vacant'},'e8-40-vacant-b':{kind:'vacant'},'e8-tea-shop':{kind:'cafe'},'just-salad-e8':{kind:'restaurant',wall:'#e8e8e0',accent:'#4a8a3a'},
  'e8-60-vacant':{kind:'vacant'},'brooklyn-bagel-e8':{kind:'cafe',wall:'#e8e2d6',accent:'#1f7a3a'},
+ 'univ-e9-corner-restaurant':{kind:'restaurant',wall:'#5a2a24',light:'#ffcf90'},'univ-30-boutique':{kind:'apparel'},'univ-30-shop':{kind:'shop'},'univ-30-vacant':{kind:'vacant'},'univ-30-corner-vacant':{kind:'vacant'},
 };
