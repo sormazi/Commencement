@@ -4,6 +4,7 @@ import {createWorld} from './locations.js?v=24';
 import {makeVehicle} from './vehicle.js?v=24';
 import {DECAY} from './campus/atmosphere/decay.js?v=24';
 import {SkyDriver} from './campus/atmosphere/sky-driver.js?v=24';
+import {initPBR} from './campus/atmosphere/pbr.js?v=24';
 const rand=n=>{let x=Math.sin(n*127.1+311.7)*43758.5453;return x-Math.floor(x);};
 function texture(w,h,paint){const c=document.createElement('canvas');c.width=w;c.height=h;paint(c.getContext('2d'),w,h);const tex=new T.CanvasTexture(c);tex.colorSpace=T.SRGBColorSpace;return tex;}
 const glowMap=texture(128,128,c=>{let g=c.createRadialGradient(64,64,1,64,64,64);g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(.15,'rgba(255,255,255,.4)');g.addColorStop(1,'rgba(255,255,255,0)');c.fillStyle=g;c.fillRect(0,0,128,128);});
@@ -38,7 +39,7 @@ vec3 bloom=vec3(0.);if(bloomOn>.5){for(int x=-2;x<=2;x++){for(int y=-2;y<=2;y++)
 float edge=length((uv0-vec2(.5,.47))*vec2(1.,.9));col*=mix(.76+.24*vig,.04+.96*(1.-smoothstep(.2,.66,edge)),vignette);float grain=fract(sin(dot(uv0*resolution+clock,vec2(12.9898,78.233)))*43758.5453);col=mix(col,vec3(dot(col,vec3(.2126,.7152,.0722))),desat);col+=(grain-.5)*.012;gl_FragColor=vec4(col,1.);
 #include <tonemapping_fragment>
 #include <colorspace_fragment>
-}`});this.postScene.add(new T.Mesh(new T.PlaneGeometry(2,2),this.postMat));this.resize();window.addEventListener('resize',()=>this.resize());this.preset='';this.sky=new SkyDriver(this);}
+}`});this.postScene.add(new T.Mesh(new T.PlaneGeometry(2,2),this.postMat));this.resize();window.addEventListener('resize',()=>this.resize());this.preset='';this.sky=new SkyDriver(this);initPBR(this.renderer);}
 // Free-roam rendering: the car moves through a static world in map space (three z = -north).
 updateFreeRoam(state,controls,time,dt,playing){
 const yaw=state.orientation?.yaw||0,X=state.position.x,Z=-state.position.z,fx=Math.sin(yaw),fz=-Math.cos(yaw),rx=Math.cos(yaw),rz=Math.sin(yaw);

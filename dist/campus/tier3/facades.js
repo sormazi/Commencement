@@ -31,6 +31,10 @@ export function classify(b){const cls=(b.cls||'').toUpperCase(),c=cls[0]||'',yr=
 // Packed attribute: upper cell + 16 * ground cell.
 export const facadeCode=f=>CELLS[f.upper]+16*CELLS[f.ground];
 export const GENERIC_CODE=CELLS.generic+16*CELLS.generic;
+// Surface material for the physically based detail maps (Step A.2): the tile index in the wall atlas
+// (atmosphere/pbr.js WALL_TILES). Packed above the facade cells as 256 * tile.
+export const MATERIAL_TILE={brickRed:1,brickBrown:1,brickBuff:2,whiteBrick:2,brownstone:3,limestone:4,stucco:4,castIron:5,glass:6,concrete:7};
+export const materialTile=k=>MATERIAL_TILE[k]??0;
 
 // ---- Browser only ----
 // 4 x 3 atlas of 128 px cells. Walls are drawn mid-grey (the vertex colour brings the material),
@@ -58,8 +62,9 @@ export function facadeAtlas(T){const S=128,c=document.createElement('canvas');c.
 export function patchFacadeMaterial(m){m.onBeforeCompile=sh=>{
   sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nattribute float aFacade;\nvarying float vFacade;').replace('#include <begin_vertex>','#include <begin_vertex>\nvFacade=aFacade;');
   sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nvarying float vFacade;').replace('#include <map_fragment>',`
+ float nvWall=1.;
 #ifdef USE_MAP
- float code=floor(vFacade+.5),upperC=mod(code,16.),groundC=floor(code/16.);
+ float code=mod(floor(vFacade+.5),256.),upperC=mod(code,16.),groundC=floor(code/16.);
  vec2 wuv=vMapUv;float cellI=wuv.y<1.?groundC:upperC;
  // Townhouse ground: a door every third bay, windows between.
  if(cellI==10.&&mod(floor(wuv.x),3.)!=0.)cellI=9.;
@@ -67,5 +72,7 @@ export function patchFacadeMaterial(m){m.onBeforeCompile=sh=>{
  vec2 auv=(org+.015+f*.97)/vec2(4.,3.);auv.y=1.-auv.y;
  vec4 sampledDiffuseColor=textureGrad(map,auv,dFdx(wuv)/vec2(4.,3.),dFdy(wuv)/vec2(4.,3.));
  diffuseColor*=sampledDiffuseColor;
+ // Wall (not window) share of this texel, for the material detail maps (atmosphere/pbr.js).
+ nvWall=smoothstep(.15,.42,dot(sampledDiffuseColor.rgb,vec3(.299,.587,.114)));
 #endif`);};
  m.customProgramCacheKey=()=>'nv-facade-atlas';m.needsUpdate=true;return m;}

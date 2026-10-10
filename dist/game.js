@@ -9,6 +9,7 @@ import {assetState} from './preload.js?v=24';
 import {SmokeTitle} from './smoke.js?v=24';
 import {migrateStorage,store} from './storage.js?v=24';
 import {Quality,runBench,PRESETS} from './quality.js?v=24';
+import {PBR} from './campus/atmosphere/pbr.js?v=24';
 migrateStorage();
 // Commencement: one place (Washington Square) and one vehicle (NYU Campus Safety unit 4, see vehicle.js).
 const $=id=>document.getElementById(id),canvas=$('world'),city=new CityRenderer(canvas),mini=$('mini').getContext('2d');
@@ -87,7 +88,7 @@ sky:()=>city.sky.info(),
 holdRender:b=>{renderHold=!!b;},
 renderInfo:()=>{let meshes=0,tris=0;const cam=city.camera,fr=new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse));
  city.scene.traverseVisible(o=>{if(!o.isMesh||!o.geometry)return;if(o.geometry.boundingSphere==null)o.geometry.computeBoundingSphere();const s=o.geometry.boundingSphere.clone().applyMatrix4(o.matrixWorld);if(!fr.intersectsSphere(s))return;meshes++;const g=o.geometry,n=(g.index?g.index.count:g.attributes.position.count)/3;tris+=n*(o.isInstancedMesh?o.count:1);});return {drawCalls:meshes,triangles:Math.round(tris)};},
-quality:(c)=>{if(c)quality.set(c);return {choice:quality.choice,level:quality.level};},
+quality:(c)=>{if(c)quality.set(c);return {choice:quality.choice,level:quality.level,pbr:{loaded:!!PBR.loaded,on:PBR.on.value}};},
 bench:null,
 runBench:async(levels,opts)=>{const g=window.Commencement,res={};for(const l of levels||[quality.level]){quality.set(l,{save:false});res[l]=await runBench(g,opts);}quality.set($('quality').value,{save:false});g.bench=res;console.log('bench',JSON.stringify(res));return res;},
 getState:()=>({...state,playing,paused,optionsOpen,intro:introActive,opening:phase,smoke:{...smokeStats,avgMs:smokeStats.frames?smokeStats.ms/smokeStats.frames:0}})};

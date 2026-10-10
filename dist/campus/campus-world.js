@@ -16,9 +16,10 @@ import {buildSignage} from './signage.js?v=24';
 import {buildStorefronts} from './storefronts.js?v=24';
 import {buildSubway} from './subway.js?v=24';
 import {bakeGroundAO,patchGroundAO,patchWallAO,AO} from './atmosphere/ao.js?v=24';
+import {patchWallPBR,patchGroundPBR} from './atmosphere/pbr.js?v=24';
 import {buildFountain,lampLayout,lampParts,chessLayout,chessParts,furnitureGeometry,furnitureMaterial,chessTopMaterial} from './park.js?v=24';
 import {buildTier2,TIER2_BINS} from './tier2/world.js?v=24';
-import {classify,facadeCode,GENERIC_CODE,tier3Enabled,facadeAtlas,patchFacadeMaterial} from './tier3/facades.js?v=24';
+import {classify,facadeCode,materialTile,GENERIC_CODE,tier3Enabled,facadeAtlas,patchFacadeMaterial} from './tier3/facades.js?v=24';
 // Free-roam world for Washington Square · NYU. Phase 0: real street/curb/sidewalk/park layout and
 // footprint massing at surveyed roof heights, streamed in 120 m tiles. Facade detail comes in Phase 2.
 // Second-tier buildings show their kit facades within DETAIL metres and fall back to plain massing beyond.
@@ -72,7 +73,11 @@ export class CampusWorld{
   for(const k of ['paving','grass','parkFloor'])ground.add(this.materials[k]);
   this.group.traverse(o=>{if(!o.isMesh||o.isInstancedMesh||o.userData.ownDecay)return;for(const m of [].concat(o.material)){if(!m||!m.isMeshStandardMaterial||m.transparent)continue;
    if(o.userData.kind==='asphalt'||ground.has(m)){ground.add(m);continue;}if(o.userData.kind==='atlas'||/sign|lamp|glow|emissive/i.test(m.name||''))continue;walls.add(m);}});
-  for(const m of ground)patchGroundAO(m);for(const m of walls)patchWallAO(m,0);this.aoStats={ground:ground.size,walls:walls.size};}
+  for(const m of ground)patchGroundAO(m);for(const m of walls)patchWallAO(m,0);
+  // Physically based detail (atmosphere/pbr.js): wall relief and grain by facade material, asphalt on the
+  // street plane, concrete flags on slabs and the park floor.
+  patchWallPBR(this.materials.wall);patchGroundPBR(this.materials.paving,'sidewalk',2.5);patchGroundPBR(this.materials.parkFloor,'sidewalk',2.5);
+  this.group.traverse(o=>{if(o.userData.kind==='asphalt')patchGroundPBR(o.material,'asphalt',4.0);});this.aoStats={ground:ground.size,walls:walls.size};}
  setPreset(p){if(p!=='realtime')this.night?.setNight(p==='night');}
  setSky(lamps,cards,fog){this.night?.setLevels(lamps,cards,fog);this.lampLevel=lamps;if(this.shopUniforms)this.shopUniforms.uNight.value=lamps;for(const im of this.signage?.group.children||[])if(im.userData.lit&&im.material)im.material.emissiveIntensity=1.1*lamps*(1-DECAY.value);this.materials.lamp.emissiveIntensity=1.2*lamps*(1-DECAY.value);}
  // The decay layer (2026 clean <-> 2126 ruin). setDecay jumps; eraTo fades over about a second.
@@ -107,7 +112,7 @@ export class CampusWorld{
   for(const b of d.buildings){if(LANDMARK_BUILDINGS[b.bin]||covered.has(b.bin))continue;const h=Math.max(3,b.h||0),t=this.tile(...centroid(b.rings[0])),floors=b.floors&&b.floors>=1?b.floors:Math.max(1,Math.round(h/3.6)),floor=Math.min(5.5,Math.max(2.8,h/floors)),seed=b.bin||h;
    let base=b.nyu?new T.Color().setHSL(.74,.12,.6+hash(seed)*.06):new T.Color().setHSL(.08+hash(seed)*.05,.1+hash(seed+2)*.08,.55+hash(seed+4)*.12),bay=3.1,code=GENERIC_CODE;
    // Third tier (Step 3): material colour and window rhythm from the building's class, age and height.
-   if(!b.nyu&&tier3Enabled(b)){const f=classify(b);base=new T.Color(f.color).multiplyScalar(1.22+(hash(seed+9)-.5)*.12);bay=f.bay;code=facadeCode(f);}
+   if(!b.nyu&&tier3Enabled(b)){const f=classify(b);base=new T.Color(f.color).multiplyScalar(1.22+(hash(seed+9)-.5)*.12);bay=f.bay;code=facadeCode(f)+256*materialTile(f.material);}
    const lod=TIER2_BINS.has(b.bin),wallB=this.builder(t,lod?'wallLod':'wall'),roofB=this.builder(t,lod?'roofLod':'roof'),roofC=base.clone().multiplyScalar(.62),m=model3d[b.bin];
    wallB.facade=code;if(m){this.stats.model++;
     // NYC 3D Building Model (LoD2): every roof piece becomes a prism down to the ground, so setbacks,
