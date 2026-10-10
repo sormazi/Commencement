@@ -189,7 +189,8 @@ export function buildDecay(world){const d=world.data,group=new T.Group();group.n
   ivyMesh.computeBoundingSphere();ivyMesh.name='ivy';(t.props||t.group).add(ivyMesh);}
  stats.ivy=ivy.length;
  // 4. Signage decals (signage.js): grimy and sun-bleached; pole banners also torn into ragged strips.
- if(world.signage){const weathered={};for(const im of world.signage.group.children){const id=im.userData.decal,src=im.material;const m=keep(decayMaterial(src,im.userData.kind==='atlas'?'light':'cloth',{tear:im.userData.kind==='pole-banner'}));
+ if(world.signage){const weathered={};for(const im of world.signage.group.children){if(!im.isMesh)continue;// street signs weather themselves (streetsigns.js)
+  const id=im.userData.decal,src=im.material;const m=keep(decayMaterial(src,im.userData.kind==='atlas'?'light':'cloth',{tear:im.userData.kind==='pole-banner'}));
    weathered[id]=m;im.material=m;stats.banners+=im.count;}
   world.onSignage=(id,mat)=>{const m=weathered[id];if(m){m.map=mat.map;m.needsUpdate=true;}};}
  // 5. Park furniture weathers too: granite fountain and chess tables stain, steel poles rust, bench slats grey.

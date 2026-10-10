@@ -1,6 +1,7 @@
 import {trackImage} from '../preload.js?v=24';
 import * as T from '../vendor/three.module.js';
 import {SIGNAGE} from '../assets/signage/manifest.js?v=24';
+import {buildStreetSigns} from './streetsigns.js?v=24';
 // Signage decals (see assets/signage/manifest.js). Every decal has its own texture file. Two ways to draw:
 // - Banners and flags: one material per decal and one instanced plane for all its placements.
 // - Shop signs and plaques (kinds 'sign' and 'plaque', which can run to hundreds): packed into shared
@@ -31,7 +32,7 @@ export function buildSignage(world,{base=''}={}){const group=new T.Group();group
  const placeAll=(im,list)=>{list.forEach(([pl,spec],i)=>{o3.position.set(pl.p[0],y0+pl.y,-pl.p[1]);o3.rotation.set(0,Math.atan2(pl.normal[0],-pl.normal[1]),0);const s=pl.size||spec.size;o3.scale.set(s[0],s[1],1);o3.updateMatrix();im.setMatrixAt(i,o3.matrix);});im.computeBoundingSphere();};
  const unit=keep(new T.PlaneGeometry(1,1).translate(0,.5,0));
  // Banners and flags.
- for(const spec of SIGNAGE){if(ATLAS_KINDS.has(spec.kind)||!spec.placements?.length)continue;const [w,h]=decalPixels(spec.size),c=document.createElement('canvas');c.width=w;c.height=h;drawDecal(c.getContext('2d'),spec,w,h);
+ for(const spec of SIGNAGE){if(ATLAS_KINDS.has(spec.kind)||spec.kind==='street'||!spec.placements?.length)continue;const [w,h]=decalPixels(spec.size),c=document.createElement('canvas');c.width=w;c.height=h;drawDecal(c.getContext('2d'),spec,w,h);
   const tex=keep(new T.CanvasTexture(c));tex.colorSpace=T.SRGBColorSpace;tex.anisotropy=4;
   const mat=keep(new T.MeshStandardMaterial({map:tex,side:T.DoubleSide,roughness:.9,alphaTest:.5}));mat.name='signage:'+spec.id;mats[spec.id]=mat;
   loader.load(base+spec.file,img=>{img.colorSpace=T.SRGBColorSpace;img.anisotropy=4;keep(img);mat.map=img;mat.needsUpdate=true;world.onSignage?.(spec.id,mat);},undefined,()=>{});
@@ -48,4 +49,5 @@ export function buildSignage(world,{base=''}={}){const group=new T.Group();group
   const mat=keep(new T.MeshStandardMaterial({map:tex,side:T.DoubleSide,roughness:.8}));mat.name='signage atlas '+pages.length;
   mat.onBeforeCompile=sh=>{sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nattribute vec4 aUvRect;').replace('#include <uv_vertex>','#include <uv_vertex>\n#ifdef USE_MAP\nvMapUv=aUvRect.xy+uv*aUvRect.zw;\n#endif');};mat.customProgramCacheKey=()=>'nv-sign-atlas';
   const im=new T.InstancedMesh(geo,mat,list.length);placeAll(im,list);im.name='signage atlas '+pages.length;im.userData.kind='atlas';im.castShadow=false;im.receiveShadow=true;group.add(im);pages.push({tex,specs,rects});}
+ group.add(buildStreetSigns(world,SIGNAGE.filter(s=>s.kind==='street'),{drawDecal,decalPixels,trackImage}));
  world.signage={group,materials:mats,pages};return group;}

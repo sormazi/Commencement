@@ -10,6 +10,7 @@
 import {STOREFRONTS} from '../../campus/storefronts/index.js?v=24';
 import {signDecal,resolveStorefronts} from '../../campus/storefronts.js?v=24';
 import data from '../../campus/data/campus-data.js?v=24';
+import {streetSignDecals} from '../../campus/streetsigns.js?v=24';
 const FIXED=[
  {id:'nyu-pole-banner-violet',file:'assets/signage/nyu-pole-banner-violet.png',kind:'pole-banner',size:[.6,1.5],bg:'#57068c',fg:'#ffffff',lines:['NYU'],font:'sans-bold',
   seen:'Washington Sq W, building side, on the second lamp post north of W 4th St (Street View at 43 MacDougal St, May 2026)',
@@ -24,4 +25,5 @@ const FIXED=[
 // Shop signs: one decal per storefront record in campus/storefronts/ (placed on its sign band).
 // The car's Campus Safety livery is part of this manifest too: see livery.js (decals placed on the car).
 export {LIVERY} from './livery.js?v=24';
-export const SIGNAGE=[...FIXED,...resolveStorefronts(data,STOREFRONTS).map(signDecal).filter(Boolean)];
+// Street name signs: one decal per name and colour (kind 'street'), drawn and weathered by campus/streetsigns.js.
+export const SIGNAGE=[...FIXED,...resolveStorefronts(data,STOREFRONTS).map(signDecal).filter(Boolean),...streetSignDecals(data)];
