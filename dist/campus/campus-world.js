@@ -15,6 +15,7 @@ import {buildSpeaker} from './atmosphere/speaker.js?v=24';
 import {buildSignage} from './signage.js?v=24';
 import {buildStorefronts} from './storefronts.js?v=24';
 import {buildSubway} from './subway.js?v=24';
+import {bakeGroundAO,patchGroundAO,patchWallAO,AO} from './atmosphere/ao.js?v=24';
 import {buildFountain,lampLayout,lampParts,chessLayout,chessParts,furnitureGeometry,furnitureMaterial,chessTopMaterial} from './park.js?v=24';
 import {buildTier2,TIER2_BINS} from './tier2/world.js?v=24';
 import {classify,facadeCode,GENERIC_CODE,tier3Enabled,facadeAtlas,patchFacadeMaterial} from './tier3/facades.js?v=24';
@@ -63,8 +64,15 @@ export function paulsonMassing(ring){const c=centroid(ring);let sxx=0,sxy=0,syy=
  return [{ring,h:PAULSON.podium},{ring:clipHalf(ring,ax,an,hi-L*PAULSON.northShare,true),h:PAULSON.towerN},{ring:clipHalf(ring,ax,an,lo+L*PAULSON.southShare,false),h:PAULSON.towerS}].filter(m=>m.ring.length>=3);}
 export class CampusWorld{
  constructor(config){this.config=config;this.freeRoam=true;const c=campus();this.campus=c;this.data=c.data;this.collision=c.collision;this.streets=c.streets;this.spawn=c.spawn;
-  this.stats={model:0,extruded:0,estimated:0};this.group=new T.Group();this.group.name='washington-square';this.tiles=new Map();this.disposables=new Set();this.rowBin=ROW_BINS[0];this.rowBins=ROW_BINS;this.tier2Bins=TIER2_BINS;this.build();buildStorefronts(this);this.group.add(buildSubway(this));this.group.add(buildSignage(this));this.decay=buildDecay(this);this.group.add(this.decay);this.night=buildNight(this);this.group.add(this.night.group);this.night.setNight(false);this.crowd=buildCrowd(this);this.group.add(this.crowd.group);{const q=new URLSearchParams(globalThis.location?.search||'').get('era');const t=q==='2026'||q==null?0:q==='2126'?1:Math.max(0,Math.min(1,+q||0));this.setDecay(t);}this.group.add(buildSpeaker(this));}
+  this.stats={model:0,extruded:0,estimated:0};this.group=new T.Group();this.group.name='washington-square';this.tiles=new Map();this.disposables=new Set();this.rowBin=ROW_BINS[0];this.rowBins=ROW_BINS;this.tier2Bins=TIER2_BINS;this.build();buildStorefronts(this);this.group.add(buildSubway(this));this.group.add(buildSignage(this));this.applyAO();this.decay=buildDecay(this);this.group.add(this.decay);this.night=buildNight(this);this.group.add(this.night.group);this.night.setNight(false);this.crowd=buildCrowd(this);this.group.add(this.crowd.group);{const q=new URLSearchParams(globalThis.location?.search||'').get('era');const t=q==='2026'||q==null?0:q==='2126'?1:Math.max(0,Math.min(1,+q||0));this.setDecay(t);}this.group.add(buildSpeaker(this));}
  // Manual atmosphere presets fix the lamps and ground fog; Real NYC time sets them continuously through setSky.
+ // Baked ambient occlusion (atmosphere/ao.js): ground contact AO from a texture baked over the map, and
+ // wall-base AO on every static, non-instanced lit material. Runs before the decay layer, which chains it.
+ applyAO(){const d=this.data;this.aoTex=bakeGroundAO(d,{arch:d.arch?.ring});this.disposables.add(this.aoTex);const ground=new Set(),walls=new Set();
+  for(const k of ['paving','grass','parkFloor'])ground.add(this.materials[k]);
+  this.group.traverse(o=>{if(!o.isMesh||o.isInstancedMesh||o.userData.ownDecay)return;for(const m of [].concat(o.material)){if(!m||!m.isMeshStandardMaterial||m.transparent)continue;
+   if(o.userData.kind==='asphalt'||ground.has(m)){ground.add(m);continue;}if(o.userData.kind==='atlas'||/sign|lamp|glow|emissive/i.test(m.name||''))continue;walls.add(m);}});
+  for(const m of ground)patchGroundAO(m);for(const m of walls)patchWallAO(m,0);this.aoStats={ground:ground.size,walls:walls.size};}
  setPreset(p){if(p!=='realtime')this.night?.setNight(p==='night');}
  setSky(lamps,cards,fog){this.night?.setLevels(lamps,cards,fog);this.lampLevel=lamps;if(this.shopUniforms)this.shopUniforms.uNight.value=lamps;for(const im of this.signage?.group.children||[])if(im.userData.lit&&im.material)im.material.emissiveIntensity=1.1*lamps*(1-DECAY.value);this.materials.lamp.emissiveIntensity=1.2*lamps*(1-DECAY.value);}
  // The decay layer (2026 clean <-> 2126 ruin). setDecay jumps; eraTo fades over about a second.
@@ -85,7 +93,7 @@ export class CampusWorld{
   Object.assign(this.materials,{granite:new T.MeshStandardMaterial({color:0xb9b4aa,roughness:.75}),steel:new T.MeshStandardMaterial({color:0x8d9296,metalness:.5,roughness:.5}),wood:new T.MeshStandardMaterial({color:0x6b4a32,roughness:.85})});
   for(const k of ['granite','steel','wood'])this.disposables.add(this.materials[k]);this.materials.chessTop=chessTopMaterial();for(const m of new Set(this.materials.chessTop)){this.disposables.add(m);if(m.map)this.disposables.add(m.map);}
   // Asphalt everywhere at y=0; blocks and sidewalks are raised by the curb height.
-  const B=d.meta.bounds,w=B.maxX-B.minX+600,h=B.maxN-B.minN+600;asphaltTex.repeat.set(w/9,h/9);const ground=new T.Mesh(new T.PlaneGeometry(w,h),new T.MeshStandardMaterial({map:asphaltTex,color:0x8c8f92,roughness:.88}));ground.rotation.x=-Math.PI/2;ground.position.set((B.minX+B.maxX)/2,0,-(B.minN+B.maxN)/2);ground.receiveShadow=true;ground.userData.noShadow=true;this.group.add(ground);this.disposables.add(ground.geometry);this.disposables.add(ground.material);
+  const B=d.meta.bounds,w=B.maxX-B.minX+600,h=B.maxN-B.minN+600;asphaltTex.repeat.set(w/9,h/9);const ground=new T.Mesh(new T.PlaneGeometry(w,h),new T.MeshStandardMaterial({map:asphaltTex,color:0x8c8f92,roughness:.88}));ground.rotation.x=-Math.PI/2;ground.position.set((B.minX+B.maxX)/2,0,-(B.minN+B.maxN)/2);ground.receiveShadow=true;ground.userData.noShadow=true;ground.userData.kind='asphalt';this.group.add(ground);this.disposables.add(ground.geometry);this.disposables.add(ground.material);
   // Sidewalk/block slabs: outer outlines only, skipping slabs wholly inside a larger one (park walks).
   const slabs=[...d.sidewalk,...d.plazas,...d.median].map(p=>({rings:[p[0]],area:Math.abs(ringArea(p[0])),c:centroid(p[0])})).sort((a,b)=>b.area-a.area);const kept=[];
   for(const s of slabs){if(kept.some(k=>k.area>s.area&&pointInRing(s.c,k.rings[0])&&s.rings[0].every(p=>pointInRing(p,k.rings[0]))))continue;kept.push(s);const t=this.tile(...s.c);this.builder(t,'paving').prism(s.rings,0,CURB_HEIGHT,col(0xbdbab2),3,3);}

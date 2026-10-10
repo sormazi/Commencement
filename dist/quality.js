@@ -3,10 +3,11 @@
 // rate, and steps down when frames are slow or up when there is headroom, at most once each way per
 // minute so it never flickers between presets.
 //   ?quality=low|medium|high|auto in the URL overrides the saved choice (for testing, like ?time=).
+import {AO} from './campus/atmosphere/ao.js?v=24';
 export const PRESETS={
- low:{label:'Low',pixelRatio:1,shadows:false,shadowSize:512,bloom:false,far:650},
- medium:{label:'Medium',pixelRatio:1.25,shadows:true,shadowSize:1024,bloom:true,far:1100},
- high:{label:'High',pixelRatio:2,shadows:true,shadowSize:2048,bloom:true,far:1600}};
+ low:{label:'Low',ao:.75,ssao:false,pixelRatio:1,shadows:false,shadowSize:512,bloom:false,far:650},
+ medium:{label:'Medium',ao:1,ssao:false,pixelRatio:1.25,shadows:true,shadowSize:1024,bloom:true,far:1100},
+ high:{label:'High',ao:1,ssao:true,pixelRatio:2,shadows:true,shadowSize:2048,bloom:true,far:1600}};
 export const ORDER=['low','medium','high'];
 export class Quality{
  constructor(city,store){this.city=city;this.store=store;this.choice='auto';this.level='medium';this.listeners=[];this.samples=[];this.lastStep=-1e9;
@@ -20,7 +21,7 @@ export class Quality{
   r.setPixelRatio(Math.min(window.devicePixelRatio||1,q.pixelRatio));c.resize();
   r.shadowMap.enabled=q.shadows;c.sun.castShadow=q.shadows;
   if(c.sun.shadow.mapSize.x!==q.shadowSize){c.sun.shadow.mapSize.set(q.shadowSize,q.shadowSize);c.sun.shadow.map?.dispose();c.sun.shadow.map=null;}
-  c.postMat.uniforms.bloomOn.value=q.bloom?1:0;c.camera.far=q.far;c.camera.updateProjectionMatrix();
+  c.postMat.uniforms.bloomOn.value=q.bloom?1:0;AO.strength.value=q.ao;c.postMat.uniforms.ssaoOn.value=q.ssao?1:0;c.camera.far=q.far;c.camera.updateProjectionMatrix();
   // Materials compiled with or without shadows need a rebuild when shadows switch.
   c.scene.traverse(o=>{if(o.material){for(const m of [].concat(o.material))m.needsUpdate=true;}});
   for(const f of this.listeners)f(level,q);}

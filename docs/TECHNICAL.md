@@ -55,3 +55,10 @@ Everything the game keeps in browser storage lives under the `commencement.` pre
 ## Raw data
 
 `tools/build-campus-data.mjs` reads the raw extracts in `RESEARCH/data/raw/` (not in git). Their file names still start with `nightview-`; they are left as they are so existing downloads keep working. Sources and licences are listed in `RESEARCH/data/SOURCES.md`.
+
+## Graphics upgrade (Step A)
+
+- **A.0 presets.** `dist/quality.js`: Low, Medium, High and Auto (see the URL options above). Real frame rates come from `window.Commencement.runBench()` in a real browser; the cloud review renderer is software GL and runs at well under 1 fps, so its numbers only compare presets with each other.
+- **A.1 ambient occlusion.** `dist/campus/atmosphere/ao.js`. (1) Ground contact AO: one texture baked at load over the whole map (about 1.4 px per metre) from the building footprints (a wide faint layer for tall street walls and a tight contact layer), the Arch, tree canopies and trunks, benches, lamps and monuments, each layer blurred once; ground materials (asphalt, slabs, park floor, lawns) sample it by world x/z. (2) Wall-base AO: every static, non-instanced lit material darkens over its lowest 2.6 m and slightly up to 14 m. Both multiply the ambient light fully and the sun partly, so lamps and lit windows keep their strength at night; strength 0.75 on Low, 1 on Medium and High. Both are applied before the decay layer, which chains them. (3) Screen-space AO on High only: eight depth taps in the post pass (`renderer3d.js`), about 0.6 m across in the world, fading out by 180 m, for creases, contact points and moving things the bake cannot know about.
+- Before and after screenshots for each step are in `RESEARCH/screenshots/stepA/` (A0 = before Step A; A1 = after ambient occlusion), at the Arch, Bobst, the Row and Astor Place, at noon and at half past midnight, High preset.
+
