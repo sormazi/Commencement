@@ -8,6 +8,7 @@ import {CampusMinimap} from './campus/minimap.js?v=24';
 import {assetState} from './preload.js?v=24';
 import {SmokeTitle} from './smoke.js?v=24';
 import {migrateStorage,store} from './storage.js?v=24';
+import {Quality,runBench,PRESETS} from './quality.js?v=24';
 migrateStorage();
 // Commencement: one place (Washington Square) and one vehicle (NYU Campus Safety unit 4, see vehicle.js).
 const $=id=>document.getElementById(id),canvas=$('world'),city=new CityRenderer(canvas),mini=$('mini').getContext('2d');
@@ -20,9 +21,9 @@ function placeVehicle(at){const c=campus(),p=at||c.spawn,s=simulation.state;s.po
 function start(){playing=true;paused=false;optionsOpen=false;simulation=new FixedVehicleLoop(VEHICLE);state=simulation.state;renderState=state;placeVehicle();time=0;controls={};keys={};$('garage').hidden=true;$('hud').hidden=false;$('pauseDialog').hidden=true;document.body.classList.remove('options-open');document.body.classList.add('playing');}
 function reset(){const at=snapToStreet(campus(),state.position.x,state.position.z,state.orientation.yaw);simulation=new FixedVehicleLoop(VEHICLE);state=simulation.state;renderState=state;placeVehicle(at);time=0;controls={};keys={};}
 function pause(value=!paused){if(!playing||introActive||optionsOpen)return;paused=value;keys={};$('pauseDialog').hidden=!value;if(value)$('resume').focus();}
-const OPTION_IDS=['preset','sound','music','fpsToggle'];
+const OPTION_IDS=['preset','sound','music','quality','fpsToggle'];
 function openOptions(){if(introActive||optionsOpen)return;optionsReturnPaused=paused;paused=true;keys={};controls={};optionsOpen=true;optionSnapshot=Object.fromEntries(OPTION_IDS.map(id=>[id,$(id).value]));$('pauseDialog').hidden=true;$('garage').hidden=false;document.body.classList.add('options-open');$('closeOptions').focus();}
-function closeOptions(apply=false){if(!optionsOpen)return;if(!apply){for(const [id,v] of Object.entries(optionSnapshot||{}))$(id).value=v;setFps($('fpsToggle').value==='on');}
+function closeOptions(apply=false){if(!optionsOpen)return;if(!apply){for(const [id,v] of Object.entries(optionSnapshot||{}))$(id).value=v;setFps($('fpsToggle').value==='on');if(quality.choice!==$('quality').value)quality.set($('quality').value);}
  optionsOpen=false;$('garage').hidden=true;document.body.classList.remove('options-open');paused=optionsReturnPaused;keys={};$('pauseDialog').hidden=!paused;(paused?$('resume'):$('menuBtn')).focus();}
 $('drive').onclick=()=>closeOptions(true);$('closeOptions').onclick=$('cancelOptions').onclick=()=>closeOptions(false);$('reset').onclick=reset;$('pause').onclick=()=>pause();$('resume').onclick=()=>pause(false);$('restart').onclick=()=>{reset();pause(false);};$('back').onclick=openOptions;$('menuBtn').onclick=openOptions;$('units').onclick=()=>{mph=!mph;$('units').textContent=mph?'MPH':'KPH';};$('about').onclick=()=>$('aboutDialog').showModal();$('closeAbout').onclick=()=>$('aboutDialog').close();
 // The opening: the publisher splash, then the Commencement smoke title, which is also the loading screen.
@@ -63,11 +64,15 @@ function contacts(s){for(const c of campus().collision.contacts(s.position.x,s.p
 const fpsMeter={on:false,frames:0,t0:0,worst:0,el:null};
 function setFps(on){fpsMeter.on=on;city.renderer.info.autoReset=!on;fpsMeter.el=fpsMeter.el||$('fps');fpsMeter.el.hidden=!on;fpsMeter.frames=0;fpsMeter.t0=0;fpsMeter.worst=0;try{store.set('fps',on?'on':'off');}catch{}}
 {let saved=null;try{saved=store.get('fps');}catch{}const on=/[?&]fps=1/.test(location.search)||saved==='on';$('fpsToggle').value=on?'on':'off';setFps(on);$('fpsToggle').addEventListener('change',e=>setFps(e.target.value==='on'));}
+// Graphics quality (Options > Graphics, or ?quality= in the URL). In Auto the note says which preset is live.
+const quality=new Quality(city,store);$('quality').value=quality.choice;
+const qualityNote=()=>{const n=$('qualityNote');n.hidden=quality.choice!=='auto';n.textContent='Running at '+PRESETS[quality.level].label;};quality.onChange(qualityNote);
+$('quality').addEventListener('change',e=>{quality.set(e.target.value);qualityNote();});
 function fpsTick(t,dt){if(!fpsMeter.on)return;const info=city.renderer.info;info.autoReset=false;const calls=info.render.calls,tris=info.render.triangles;info.reset();if(!fpsMeter.t0){fpsMeter.t0=t;return;}fpsMeter.frames++;fpsMeter.worst=Math.max(fpsMeter.worst,dt*1000);const span=t-fpsMeter.t0;if(span<500)return;
  const fps=fpsMeter.frames*1000/span;fpsMeter.el.textContent=`${fps.toFixed(0)} fps · worst ${fpsMeter.worst.toFixed(1)} ms · ${calls} calls · ${(tris/1000).toFixed(0)}k tris`;fpsMeter.el.classList.toggle('slow',fps<55);fpsMeter.frames=0;fpsMeter.t0=t;fpsMeter.worst=0;}
 // Options note under Atmosphere: what Real NYC time is showing right now (refreshed about once a second).
 let skyNoteAt=0;function skyNote(t){if(t<skyNoteAt)return;skyNoteAt=t+1000;const on=$('preset').value==='realtime',note=$('skyNote');if(!on){note.hidden=true;return;}note.hidden=false;const i=city.sky.info();note.textContent=i?i.text+(i.preview?' (preview)':''):'';}
-function tick(t){const dt=Math.max(0,(t-last)/1000||0);last=t;fpsTick(t,dt);skyNote(t);openingTick(t);
+function tick(t){const dt=Math.max(0,(t-last)/1000||0);last=t;fpsTick(t,dt);if(playing&&!paused&&!introActive)quality.tick(t,dt);skyNote(t);openingTick(t);
  if(playing&&!paused){renderState=simulation.advance(dt,inputFromKeys(keys),(s,h,simTime)=>{time=simTime;contacts(s);});state=simulation.state;controls=simulation.controls;}else{simulation.accumulator=0;simulation.previous=structuredClone(simulation.state);renderState=simulation.state;}
  render(dt);audio.update(state,controls,paused||optionsOpen||introActive,$('sound').value==='on');soundtrack.update(!paused&&!optionsOpen&&!introActive&&$('sound').value==='on'&&$('music').value==='on',{x:state.position?.x||0,z:state.position?.z||0},state.orientation?.yaw||0);
  $('speed').textContent=String(Math.round(Math.abs(state.speed)*(mph?2.237:3.6))).padStart(2,'0');$('gear').textContent=state.speed<-.3?'R':'D';$('damageBar').style.width=state.damage*100+'%';requestAnimationFrame(tick);}
@@ -82,6 +87,9 @@ sky:()=>city.sky.info(),
 holdRender:b=>{renderHold=!!b;},
 renderInfo:()=>{let meshes=0,tris=0;const cam=city.camera,fr=new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse));
  city.scene.traverseVisible(o=>{if(!o.isMesh||!o.geometry)return;if(o.geometry.boundingSphere==null)o.geometry.computeBoundingSphere();const s=o.geometry.boundingSphere.clone().applyMatrix4(o.matrixWorld);if(!fr.intersectsSphere(s))return;meshes++;const g=o.geometry,n=(g.index?g.index.count:g.attributes.position.count)/3;tris+=n*(o.isInstancedMesh?o.count:1);});return {drawCalls:meshes,triangles:Math.round(tris)};},
+quality:(c)=>{if(c)quality.set(c);return {choice:quality.choice,level:quality.level};},
+bench:null,
+runBench:async(levels,opts)=>{const g=window.Commencement,res={};for(const l of levels||[quality.level]){quality.set(l,{save:false});res[l]=await runBench(g,opts);}quality.set($('quality').value,{save:false});g.bench=res;console.log('bench',JSON.stringify(res));return res;},
 getState:()=>({...state,playing,paused,optionsOpen,intro:introActive,opening:phase,smoke:{...smokeStats,avgMs:smokeStats.frames?smokeStats.ms/smokeStats.frames:0}})};
 if(document.modelContext?.registerTool){try{document.modelContext.registerTool({name:'read_driving_session',description:'Read the current vehicle state on Washington Square.',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true},execute:()=>window.Commencement.getState()});document.modelContext.registerTool({name:'start_drive',description:'Start a fresh drive on Washington Square.',inputSchema:{type:'object',properties:{},additionalProperties:false},execute:()=>{start();return window.Commencement.getState();}});}catch(e){console.warn('WebMCP unavailable',e);}}
 // Old name kept as an alias for review scripts written before the rename.

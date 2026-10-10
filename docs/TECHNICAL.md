@@ -43,6 +43,8 @@ Everything the game keeps in browser storage lives under the `commencement.` pre
 ## URL parameters
 
 - `?fps=1` shows the FPS counter (frames per second, slowest frame, draw calls, triangles).
+- `?quality=low|medium|high|auto` picks the graphics preset (Options > Graphics; saved in the browser). Each preset sets the pixel ratio, sun shadows and shadow map size, bloom in the post pass and the far clipping distance (`dist/quality.js`); every Step A effect reads its settings from the same preset. Auto starts at Medium, samples about four seconds of frames and steps down below 42 fps (or a 90th-percentile frame under 30 fps) or up above 58 fps, at most once a minute.
+- `window.Commencement.runBench(['low','medium','high'])` holds the camera at four fixed views (the Arch, Bobst, the Row, Astor Place) for six seconds each per preset and returns the mean frame rate and the 1% low for each; the results are also logged to the console and kept on `window.Commencement.bench`.
 - `?time=19:30`, `?date=2026-12-21&time=16:15`, `&speed=600` preview another New York time, or run a time-lapse.
 - `?era=2026` (the default) or `?era=2126` (or a number between 0 and 1) sets the decay layer.
 
