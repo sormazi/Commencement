@@ -7,4 +7,5 @@
 //  slope or barrel, color, depth}, sign {lines, bg, fg, font, size [w, h], border}, shutter (true where the
 //  roll-down grille was down), seen. Names are shown as plain lettering in the sign's colours; no logos.
 import {MACDOUGAL} from './macdougal.js?v=24';
-export const STOREFRONTS=[...MACDOUGAL];
+import {BLEECKER} from './bleecker.js?v=24';
+export const STOREFRONTS=[...MACDOUGAL,...BLEECKER];
