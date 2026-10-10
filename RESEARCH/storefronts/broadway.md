@@ -25,4 +25,8 @@ West side at Bleecker St: **Starbucks** on the corner at 661, the 665 lobby, and
 
 East side, E 4th St to E 8th St: offices at 696 and NYU at 708 and 726 (no shops); **Bright Horizons** child care at 704; an empty shop with the grille down at 716 (for sale or lease); a neon-lit shop at 722 (name hidden by a truck); **T-Mobile** at 732 (moved here from 738, where the first pass had it; magenta lettering on a white fascia); **The Re-Shop** at 734; **Caffeina** at 736, not yet open, with coming-soon banners in the windows; the 8 St-NYU subway entrance in front of 736-738.
 
-Still to do: Broadway from E 9th St to 14th St, both sides.
+E 9th St to 14th St, east side (Apr 2026): at 772, an empty glass shop at the E 9th end and **HOTWORX** further north; Grace Church; **Halloween Adventure** at 806-808 (E 11th St); a shop behind dark glass at 810; **Flight Club** at 812 (from a 2018 photo sphere, flagged as older imagery); at 60 E 12th St, a row of small salons (HAIR, SEBASTIAN) and an empty shop with blue leasing panels; **Strand Bookstore** at 826-828 on the E 12th St corner (red band, OLD RARE NEW on the corner); a book shop at 832; an empty red cast-iron front at 836; **Citibank** and **Lavazza** in the modern block at 842-850.
+
+West side so far: an empty shop in a pale stone base at 787 and **StretchLab** behind scaffolding at 791.
+
+Still to do: the west side from 795 to 849 Broadway (E 11th to 13th St).

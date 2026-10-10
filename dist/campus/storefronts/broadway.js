@@ -40,4 +40,23 @@ export const BROADWAY=[
  {bin:1008794,street:S,addr:'722 Broadway',seen,shops:[{id:'bway-722-neon',name:'(shop with neon signs in the window; name hidden by a truck on the imagery)',frame:'#1a1a1a',door:{at:.6,w:1.0}}]},
  {bin:1008798,street:S,addr:'734 Broadway',seen,shops:[{id:'re-shop-734',name:'The Re-Shop (second-hand clothes)',frame:'#2a2a2a',sign:{lines:['The Re-Shop'],bg:'#2f5a4a',fg:'#f2f2f0',font:'sans-bold'},door:{at:.6,w:1.0}}]},
  {bin:1008799,street:S,addr:'736 Broadway',seen,shops:[{id:'caffeina-736',name:'Caffeina (coming soon banners in the windows)',frame:'#ece8e0',boarded:'#7a2a3a',bulkhead:.4,door:{at:.15,w:1.0}}]},
+ // E 9th St to 14th St (second pass, Apr 2026). East side, south to north (frac 0 is the north end).
+ {bin:1008954,street:S,addr:'772 Broadway',seen,shops:[
+  {id:'hotworx-772',name:'HOTWORX (sauna gym)',frac:[.05,.5],frame:'#141414',sign:{lines:['HOTWORX'],bg:'#141414',fg:'#ffffff',font:'sans-bold'},door:{at:.1,w:1.2}},
+  {id:'bway-772-vacant',name:'(empty glass shop, retail space for lease)',frac:[.6,1],frame:'#1a1a1a',door:{at:.3,w:1.2}}]},
+ {bin:1009006,street:S,addr:'806-808 Broadway',seen,shops:[{id:'halloween-adventure',name:'Halloween Adventure (costume shop)',frac:[.3,1],frame:'#1a1414',sign:{lines:['HALLOWEEN ADVENTURE'],bg:'#1a1414',fg:'#e8b030',font:'slab'},door:{at:.85,w:1.2}}]},
+ {bin:1008999,street:S,addr:'810 Broadway',seen,shops:[{id:'bway-810-shop',name:'(shop behind dark glass; name not legible)',frame:'#141414',door:{at:.5,w:1.0}}]},
+ {bin:1080118,street:S,addr:'812 Broadway',seen:'Google Street View, a 2018 photo sphere by the shop (older imagery; a business may have changed)',shops:[{id:'flight-club-812',name:'Flight Club (sneakers)',frame:'#1d3a2c',sign:{lines:['FLIGHT CLUB'],bg:'#1d3a2c',fg:'#f2f2f0',font:'sans-bold'},door:{at:.5,w:1.2}}]},
+ {bin:1009001,street:S,addr:'60 E 12th St (Broadway front)',seen,shops:[
+  {id:'bway-60e12-salons',name:'(row of small salons and shops under one grey band: HAIR, SEBASTIAN, and others)',frac:[0,.4],frame:'#2a2a2a',sign:{lines:['HAIR  ·  SEBASTIAN'],bg:'#2a2a2a',fg:'#f2f2f0',font:'sans'},door:{at:.6,w:1.0}},
+  {id:'bway-60e12-vacant',name:'(empty glass shop with blue leasing panels)',frac:[.45,1],frame:'#2a2a2a',bulkhead:.4}]},
+ {bin:1009208,street:S,addr:'826-828 Broadway',seen,shops:[{id:'strand-bookstore',name:'Strand Bookstore',frame:'#2a1414',bulkheadStone:true,awning:{type:'flat',color:'#b8202a',depth:.5},sign:{lines:['STRAND BOOKSTORE'],bg:'#b8202a',fg:'#ffffff',font:'sans-bold',mount:'awning'},door:{at:.5,w:1.6}}]},
+ {bin:1077914,street:S,addr:'832 Broadway',seen,shops:[{id:'bway-832-books',name:'(book shop, books piled in the window)',frame:'#1a1a1a',door:{at:.85,w:1.2}}]},
+ {bin:1009209,street:S,addr:'836 Broadway',seen,shops:[{id:'bway-836-vacant',name:'(empty shop in the red cast-iron front, windows covered in blue)',frame:'#b0302a',boarded:'#2a5aa8',bulkhead:.4}]},
+ {bin:1009217,street:S,addr:'842-850 Broadway',seen,shops:[
+  {id:'lavazza-850',name:'Lavazza (cafe), at the north end',frac:[0,.2],frame:'#1a1a1a',sign:{lines:['LAVAZZA'],bg:'#1a1a1a',fg:'#f2f2f0',font:'sans-bold'},door:{at:.5,w:1.2}},
+  {id:'citibank-848',name:'Citibank',frac:[.22,.5],frame:'#3a3a3a',sign:{lines:['citibank'],bg:'#ece8e2',fg:'#0a4a8a',font:'sans-bold'},door:{at:.8,w:1.4}}]},
+ // West side, E 10th St going north.
+ {bin:1009111,street:S,addr:'791 Broadway',seen,shops:[{id:'stretchlab-791',name:'StretchLab (behind scaffolding)',frame:'#2a2a2a',sign:{lines:['STRETCHLAB'],bg:'#2a2a2a',fg:'#f2f2f0',font:'sans-bold'},door:{at:.5,w:1.0}}]},
+ {bin:1009112,street:S,addr:'787 Broadway',seen,shops:[{id:'bway-787-vacant',name:'(empty shop in a pale stone base with arched windows)',frac:[0,.5],frame:'#d8d2c4',bulkhead:.4}]},
 ];
