@@ -19,3 +19,10 @@ All 51 entrances inside the study area, from the MTA "Subway Entrances and Exits
 - Astor Place downtown entrance (west side of Lafayette St at Astor Pl): a standard stair with green railings in the Street View captures (Jul 2022, under a sidewalk shed at the time), as modelled.
 - Rules still to check on Street View: the direction each stair runs (taken along the nearest street, descending away from the nearest corner), the kiosk's exact form, and which entrances are in sidewalk bump-outs.
 - 2126: railings rust, globes go dark and about half are broken, gates are pulled shut.
+
+## Sampled checks (10 Oct 2026)
+
+- 8 St-NYU, north side of E 8 St west of Broadway (subway-30 and subway-32): two stairs in line along E 8 St, as modelled (Street View, Apr 2026); signs read "8 Street Station, Downtown & Brooklyn" with the R and W bullets, digital advertising screens on the railings, globe posts at the stair ends. Which end of each stair is open could not be read from the available car panoramas, so the descent direction stays as modelled and unchecked.
+- Astor Pl: the uptown kiosk and the downtown stair were checked earlier (above).
+- W 4 St-Wash Sq: not checked; panoramas near Sixth Ave and W 3rd St snap to user photo spheres.
+- All other entrances: unchecked; the axis and direction rule stands.

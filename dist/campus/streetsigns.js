@@ -9,6 +9,9 @@
 import * as T from '../vendor/three.module.js';
 import {pointInRing} from './geometry.js?v=24';
 const GREEN='#0b6b45',BROWN='#5b3a26',H=.24,Y0=3.05,GAP=.3;
+// Corners checked on Street View, keyed by the two street names in either order. Overrides the district rule.
+export const SIGNS_CHECKED={'Broadway & E 8 St':{color:'green',seen:'Street View Apr 2026: green E 8 St blade on the mast arm at the corner, at the NoHo district edge'}};
+const checked=(a,b)=>SIGNS_CHECKED[a+' & '+b]||SIGNS_CHECKED[b+' & '+a]||null;
 const hash=x=>{const s=Math.sin(x*12.9898)*43758.5453;return s-Math.floor(s);};
 const slug=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 // The name as lettered on the sign: the city's short form (the data already uses it), first name only.
@@ -27,7 +30,7 @@ export function streetSignAssemblies(data){const S=data.streets,brown=data.build
   const corners=[];for(const a of [1,-1])for(const b of [1,-1]){const p=[node[0]+a*d1[0]*w2+b*d2[0]*w1,node[1]+a*d1[1]*w2+b*d2[1]*w1];
    if(brown&&(pointInRing(p,brown.rings[0])||Math.min(...brown.rings[0].map(q=>Math.hypot(q[0]-p[0],q[1]-p[1])))<6))continue;corners.push({p,lamp:near(p,4)});}
   if(!corners.length)continue;const c=corners.find(k=>k.lamp)||corners[0],p=c.lamp?[c.lamp[0],c.lamp[1]]:c.p;
-  const dist=districtAt(p);out.push({p,onLamp:!!c.lamp,district:dist,color:dist?'brown':'green',boards:[{name:signName(n1),dir:d1},{name:signName(n2),dir:d2}],node:n});}
+  const dist=districtAt(p),chk=checked(signName(n1),signName(n2));out.push({p,onLamp:!!c.lamp,district:dist,checked:chk?.seen||null,color:chk?.color||(dist?'brown':'green'),boards:[{name:signName(n1),dir:d1},{name:signName(n2),dir:d2}],node:n});}
  return out;}
 const boardSize=name=>[Math.min(1.7,Math.max(.75,.22+.085*name.length)),H];
 // Decals for the manifest: one per sign name and colour, a placement on each face of each board.

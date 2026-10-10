@@ -9,3 +9,10 @@ Rules used until each corner is checked on Street View:
 - Lettering: the city's short form from the street data (W 4 St, 6 Av, Washington Sq N).
 - Not yet: block number ranges, honorary co-name signs, and which corners really carry the signs. These come with the Street View survey, block by block alongside the storefronts.
 - 2126: faded toward grey and spotted with rust; about one board in four bent, one in seven hanging by one bracket, one in eight gone.
+
+## Sampled checks (10 Oct 2026)
+
+Avi chose to sample corners along the historic-district boundaries rather than check all 290. Checked corners are listed in `SIGNS_CHECKED` in `dist/campus/streetsigns.js` and override the rule.
+
+- Broadway & E 8 St (north edge of the NoHo Historic District): green, not brown (Street View, Apr 2026, E 8 St blade on the signal mast arm). Changed to green. This suggests the district rule over-counts brown at district edges.
+- Every other corner is unchecked and still follows the rule above.
