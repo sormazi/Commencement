@@ -134,11 +134,11 @@ updateSunShafts(){const pu=this.postMat.uniforms,el=this.sky?.sky?.sun?.elevatio
  pu.sunUv.value.set(p.x*.5+.5,p.y*.5+.5);const off=Math.max(Math.abs(p.x),Math.abs(p.y));
  const low=Math.min(1,Math.max(0,el/3))*(1-Math.min(1,Math.max(0,(el-12)/18)));pu.sunVis.value=facing>0?low*(1-Math.min(1,Math.max(0,(off-1)/.6)))*(1-.5*DECAY.value):0;pu.sunCol.value.copy(this.sun.color);}
 // Wetness: ?wet= overrides; otherwise standing water in 2126 and whatever the weather says (Step B).
-updateWet(){const pu=this.postMat.uniforms,c=this.camera;pu.wetness.value=this.preset!=='realtime'?0:this.wetOverride??Math.max(this.weatherWet||0,.38*DECAY.value);
+updateWet(){const pu=this.postMat.uniforms,c=this.camera;pu.wetness.value=this.preset!=='realtime'?0:this.wetOverride??Math.max(this.weatherWet||0,.26*DECAY.value);
  pu.projInv.value.copy(c.projectionMatrixInverse);pu.projM.value.copy(c.projectionMatrix);pu.viewM.value.copy(c.matrixWorldInverse);pu.camWorld.value.copy(c.matrixWorld);
  if(this.scene.background?.isColor)pu.skyCol.value.copy(this.scene.background);}
 resize(){this.renderer.setSize(innerWidth,innerHeight,false);this.camera.aspect=innerWidth/innerHeight;this.camera.updateProjectionMatrix();const v=new T.Vector2();this.renderer.getDrawingBufferSize(v);this.target.setSize(v.x,v.y);this.bloom?.setSize(v.x,v.y);this.postMat.uniforms.resolution.value.copy(v);}
-setLocation(id){if(this.locationId===id)return;if(this.world){this.scene.remove(this.world.group);this.world.dispose();}this.world=createWorld(id);this.locationId=id;this.scene.add(this.world.group);this.world.setPreset?.(this.preset);this.skids.forEach(k=>{k.life=0;k.m.visible=false;});}
+setLocation(id){if(this.locationId===id)return;if(this.world){this.scene.remove(this.world.group);this.world.dispose();}this.world=createWorld(id);this.locationId=id;this.scene.add(this.world.group);this.world.grassLevel=this.grassLevel;this.world.grassField?.setLevel(this.grassLevel||'off');this.world.setPreset?.(this.preset);this.skids.forEach(k=>{k.life=0;k.m.visible=false;});}
 applyPreset(preset){// Real NYC time drives the campus every frame (SkyDriver).
  if(preset===this.preset)return;this.preset=preset;this.world?.setPreset?.(preset);this.postMat.uniforms.desat.value=0;this.postMat.uniforms.vignette.value=0;this.postMat.uniforms.uNight.value=preset==='night'?1:0;
   if(preset==='realtime'){this.sky.snap();this.sky.shadows=null;return;}this.sky.hide();if(this.fill.userData.base)this.fill.intensity=this.fill.userData.base;for(const h of this.headlights)if(h.userData.base)h.intensity=h.userData.base*(preset==='night'?2.4:1);const storm=preset==='storm',dawn=preset==='dawn';
