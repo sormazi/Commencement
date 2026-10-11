@@ -116,6 +116,7 @@ era:(t,seconds=1)=>{const w=city.world;if(!w?.eraTo)return false;if(seconds<=0)w
 sky:()=>city.sky.info(),
 holdRender:b=>{renderHold=!!b;},
 // Profiling (docs/TECHNICAL.md, performance): draw calls at the current view by kind, with triangles.
+music:()=>({started:soundtrack.started,on:soundtrack.on,has2026:!!soundtrack.s26,has2126:!!soundtrack.s21,time:soundtrack.ctx?((soundtrack.ctx.currentTime)%172.8):null,g26:soundtrack.g26?.gain.value,g2126:soundtrack.g21?.gain.value,master:soundtrack.master?.gain.value}),
 drawBreakdown:()=>{const cam=city.camera;cam.updateMatrixWorld();const fr=new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse));const by={};let n=0;
  city.scene.traverseVisible(o=>{if(!(o.isMesh||o.isPoints||o.isLine||o.isSprite))return;if(o.frustumCulled!==false){if(!o.geometry.boundingSphere)o.geometry.computeBoundingSphere();const s=o.geometry.boundingSphere.clone().applyMatrix4(o.matrixWorld);if(o.isInstancedMesh&&o.boundingSphere)s.copy(o.boundingSphere).applyMatrix4(o.matrixWorld);if(!fr.intersectsSphere(s))return;}
   let k=o.userData?.kind||o.name||o.parent?.name||o.material?.type||'?';k=String(k).replace(/[0-9]+/g,'#').slice(0,40);const mats=Array.isArray(o.material)?o.material.length:1;const ix=o.geometry.index?o.geometry.index.count:(o.geometry.attributes.position?.count||0);const inst=o.isInstancedMesh?o.count:(o.geometry.isInstancedBufferGeometry?o.geometry.instanceCount:1);

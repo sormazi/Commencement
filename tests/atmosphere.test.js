@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 import {inSlice,DECAY_BINS,treeBoost,decayKind,gu,gv,DECAY,applyDecay} from '../dist/campus/atmosphere/decay.js';
 import {flicker} from '../dist/campus/atmosphere/night.js';
 import {crowdPlan} from '../dist/campus/atmosphere/crowd.js';
-import {SPEAKER} from '../dist/soundtrack.js';
+import {SPEAKER,LOOP} from '../dist/soundtrack.js';
+import {statSync} from 'node:fs';
 import data from '../dist/campus/data/campus-data.js';
 import {pointInRing,centroid} from '../dist/campus/geometry.js';
 let passed=0;const test=(name,fn)=>{fn();passed++;console.log('ok - '+name);};
@@ -28,4 +29,6 @@ test('crowds: the park slice roles plus queues at NYU doors and people on the pl
 test('the broken loudspeaker stands just south of the Arch, on open ground',()=>{assert.ok(Math.hypot(SPEAKER.x,SPEAKER.z)<25);assert.ok(Math.hypot(SPEAKER.x+30,SPEAKER.z+46)>20,'clear of the fountain');});
 test('the decay layer is one shared level that hooks follow, from clean 2026 (0) to the 2126 ruin (1)',()=>{const seen=[];const w={decayHooks:[t=>seen.push(t)]};
  applyDecay(w,0);assert.equal(DECAY.value,0);applyDecay(w,.5);applyDecay(w,1);assert.deepEqual(seen,[0,.5,1]);assert.equal(DECAY.value,1);});
+test('the soundtrack loops 72 bars at 100 bpm in both arrangements, with an overrun past the loop end',()=>{assert.equal(LOOP.length,72*4*60/100);assert.ok(LOOP.start>0&&LOOP.start<1);
+ for(const y of ['2026','2126']){const st=statSync(new URL('../dist/assets/music/commencement-'+y+'.mp3',import.meta.url));assert.ok(st.size>1e6&&st.size<4e6,y+' size');}});
 console.log('atmosphere: '+passed+' passed');

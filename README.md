@@ -58,7 +58,7 @@ As close as I could get it. The streets are the real streets at their real width
 | Put the car back on the street | R |
 | Pause | Esc |
 
-Sound starts after you click or press a key. The options menu (top right) has the time of day, the year, the weather (live, or pick one), lightning (normal, soft or off), graphics quality, sound, music and an FPS counter. Live weather data comes from [Open-Meteo](https://open-meteo.com/) (CC BY 4.0), with the [National Weather Service](https://www.weather.gov/) as a backup.
+Sound starts after you click or press a key. The options menu (top right) has the time of day, the year, the weather (live, or pick one), lightning (normal, soft or off), graphics quality, sound, music and an FPS counter. Live weather data comes from [Open-Meteo](https://open-meteo.com/) (CC BY 4.0), with the [National Weather Service](https://www.weather.gov/) as a backup. The music is an original jazz ballad written for the game, "Washington Square, After Hours": a small orchestra in 2026, and the same recording off a worn-out cassette in 2126. Change the year and it crossfades without missing a beat.
 
 ## Run it yourself
 
@@ -75,7 +75,6 @@ Then open http://localhost:4173. If something else is already using that port, r
 ## What's coming
 
 - The shops along MacDougal, Bleecker, West 4th, Broadway, University Place, 8th Street and Astor Place, with their real names
-- A soundtrack: one old New York jazz piece, played clean in 2026 and off a worn-out cassette in 2126
 - A slower camera, a field guide to the buildings, and small things to find
 - Getting out of the car and walking, starting with the Bobst atrium
 - Starting the game in 2026 and watching it turn into 2126 while you drive
