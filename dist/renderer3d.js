@@ -12,6 +12,7 @@ import {EnvProbe} from './campus/atmosphere/envprobe.js?v=24';
 import {Weather} from './campus/atmosphere/weather.js?v=24';
 import {buildPrecip} from './campus/atmosphere/precip.js?v=24';
 import {SNOW_COVER} from './campus/atmosphere/snow.js?v=24';
+import {buildPoolMap} from './campus/atmosphere/puddles.js?v=24';
 const rand=n=>{let x=Math.sin(n*127.1+311.7)*43758.5453;return x-Math.floor(x);};
 function texture(w,h,paint){const c=document.createElement('canvas');c.width=w;c.height=h;paint(c.getContext('2d'),w,h);const tex=new T.CanvasTexture(c);tex.colorSpace=T.SRGBColorSpace;return tex;}
 const glowMap=texture(128,128,c=>{let g=c.createRadialGradient(64,64,1,64,64,64);g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(.15,'rgba(255,255,255,.4)');g.addColorStop(1,'rgba(255,255,255,0)');c.fillStyle=g;c.fillRect(0,0,128,128);});
@@ -39,7 +40,7 @@ const smokeGeo=new T.SphereGeometry(1,8,6);this.smoke=Array.from({length:35},()=
 this.skidIndex=0;this.skids=Array.from({length:100},()=>{const m=new T.Mesh(new T.PlaneGeometry(.23,1.7),new T.MeshBasicMaterial({color:0x171c16,transparent:true,opacity:.6,depthWrite:false}));m.rotation.x=-Math.PI/2;m.visible=false;this.scene.add(m);return {m,s:0,x:0,life:0};});
 this.sparks=Array.from({length:28},()=>{const m=new T.Mesh(new T.BoxGeometry(.025,.025,.17),new T.MeshBasicMaterial({color:0xffc776}));m.visible=false;this.scene.add(m);return {m,life:0,v:new T.Vector3(),p:new T.Vector3()};});this.previousImpact=0;
 
-this.target=new T.WebGLRenderTarget(1,1,{type:T.HalfFloatType,depthTexture:new T.DepthTexture(1,1)});this.postScene=new T.Scene();this.postCamera=new T.OrthographicCamera(-1,1,1,-1,0,1);this.postMat=new T.ShaderMaterial({uniforms:{image:{value:this.target.texture},resolution:{value:new T.Vector2(1,1)},amount:{value:0},motion:{value:0},clock:{value:0},desat:{value:0},vignette:{value:0},bloomOn:{value:1},tDepth:{value:null},camNear:{value:.1},camFar:{value:1600},ssaoOn:{value:0},tFx:{value:null},ssaoStrength:{value:1},tBloom:{value:null},bloomStrength:{value:.9},uDecay:DECAY,uNight:{value:0},gradeOn:{value:1},grainAmt:{value:.018},vigAmt:{value:.22},sunUv:{value:new T.Vector2(.5,.5)},sunVis:{value:0},sunCol:{value:new T.Color(1,.8,.6)},shaftN:{value:24},shaftOn:{value:1},wetness:{value:0},ssrN:{value:24},projInv:{value:new T.Matrix4()},projM:{value:new T.Matrix4()},viewM:{value:new T.Matrix4()},camWorld:{value:new T.Matrix4()},skyCol:{value:new T.Color()}},vertexShader:'varying vec2 uv0;void main(){uv0=uv;gl_Position=vec4(position.xy,0.,1.);}',fragmentShader:`uniform sampler2D image;uniform sampler2D tFx;uniform vec2 resolution;uniform float amount;uniform float motion;uniform float clock;uniform float desat;uniform float vignette;uniform float bloomOn;uniform sampler2D tDepth;uniform float camNear;uniform float camFar;uniform float ssaoOn;uniform float ssaoStrength;uniform sampler2D tBloom;uniform float bloomStrength;uniform float uDecay;uniform float uNight;uniform float gradeOn;uniform float grainAmt;uniform float vigAmt;uniform vec2 sunUv;uniform float sunVis;uniform vec3 sunCol;uniform float shaftN;uniform float shaftOn;uniform float wetness;uniform float ssrN;uniform mat4 projInv;uniform mat4 projM;uniform mat4 viewM;uniform mat4 camWorld;uniform vec3 skyCol;
+this.target=new T.WebGLRenderTarget(1,1,{type:T.HalfFloatType,depthTexture:new T.DepthTexture(1,1)});this.postScene=new T.Scene();this.postCamera=new T.OrthographicCamera(-1,1,1,-1,0,1);this.postMat=new T.ShaderMaterial({uniforms:{image:{value:this.target.texture},resolution:{value:new T.Vector2(1,1)},amount:{value:0},motion:{value:0},clock:{value:0},desat:{value:0},vignette:{value:0},bloomOn:{value:1},tDepth:{value:null},camNear:{value:.1},camFar:{value:1600},ssaoOn:{value:0},tFx:{value:null},tPool:{value:null},poolBox:{value:new T.Vector4(0,0,0,0)},envCube:{value:null},envOn:{value:0},rainAmt:{value:0},ssaoStrength:{value:1},tBloom:{value:null},bloomStrength:{value:.9},uDecay:DECAY,uNight:{value:0},gradeOn:{value:1},grainAmt:{value:.018},vigAmt:{value:.22},sunUv:{value:new T.Vector2(.5,.5)},sunVis:{value:0},sunCol:{value:new T.Color(1,.8,.6)},shaftN:{value:24},shaftOn:{value:1},wetness:{value:0},ssrN:{value:24},projInv:{value:new T.Matrix4()},projM:{value:new T.Matrix4()},viewM:{value:new T.Matrix4()},camWorld:{value:new T.Matrix4()},skyCol:{value:new T.Color()}},vertexShader:'varying vec2 uv0;void main(){uv0=uv;gl_Position=vec4(position.xy,0.,1.);}',fragmentShader:`uniform sampler2D image;uniform sampler2D tFx;uniform sampler2D tPool;uniform vec4 poolBox;uniform samplerCube envCube;uniform float envOn;uniform float rainAmt;uniform vec2 resolution;uniform float amount;uniform float motion;uniform float clock;uniform float desat;uniform float vignette;uniform float bloomOn;uniform sampler2D tDepth;uniform float camNear;uniform float camFar;uniform float ssaoOn;uniform float ssaoStrength;uniform sampler2D tBloom;uniform float bloomStrength;uniform float uDecay;uniform float uNight;uniform float gradeOn;uniform float grainAmt;uniform float vigAmt;uniform vec2 sunUv;uniform float sunVis;uniform vec3 sunCol;uniform float shaftN;uniform float shaftOn;uniform float wetness;uniform float ssrN;uniform mat4 projInv;uniform mat4 projM;uniform mat4 viewM;uniform mat4 camWorld;uniform vec3 skyCol;
 float vh(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}float vnoise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(vh(i),vh(i+vec2(1.,0.)),f.x),mix(vh(i+vec2(0.,1.)),vh(i+vec2(1.,1.)),f.x),f.y);}
 float linDepth(vec2 uv){float z=texture2D(tDepth,uv).r*2.-1.;return 2.*camNear*camFar/(camFar+camNear-z*(camFar-camNear));}varying vec2 uv0;void main(){vec3 col;if(amount>.02){vec2 delta=(uv0-.5)*amount*.003;col=vec3(texture2D(image,uv0+delta).r,texture2D(image,uv0).g,texture2D(image,uv0-delta).b);}else col=texture2D(image,uv0).rgb;
 // Optional effects are compiled in only for the presets that use them (POST_* defines, set by dist/quality.js).
@@ -53,28 +54,51 @@ if(ssaoOn>.5){float dc=linDepth(uv0);if(dc<180.){float ruv=.6*.85/dc;vec2 asp=ve
  for(int i=0;i<8;i++){float a=float(i)*2.39996+rot,rr=ruv*(.25+.75*fract(float(i)*.618+.13));float ds=linDepth(uv0+vec2(cos(a),sin(a))*asp*rr);float df=dc-ds;occ+=step(.06,df)*(1.-smoothstep(.4,2.,df));}
  col*=1.-occ/8.*.65*ssaoStrength*(1.-smoothstep(90.,180.,dc));}}
 #endif
-// Wet ground (Step A.5). Position and normal come from the depth buffer, so no material needs to change:
-// flat surfaces at street level get damp patches and puddles from a world-space mask that grows with
-// the wetness (standing water in 2126; later the live weather). Wet ground darkens; puddles reflect the
-// scene by marching the mirrored view ray across the depth buffer (24 steps on High, 12 on Medium; on Low
-// they reflect the sky colour only). Fresnel makes reflections strongest at grazing angles, as on a real street.
+// Wet ground (Step A.5, reworked 11 Oct). Position and normal come from the depth buffer, so no material
+// needs to change. When the ground is wet (live weather, or the standing water of 2126):
+//  - every flat surface at street level darkens (wet asphalt and paving lose about 30% of their light) and
+//    takes on a sheen of the sky and buildings, stronger the wetter it is (a water film is a rough mirror);
+//  - puddles form where water really pools, read from the pooling map (puddles.js: gutters along the curbs,
+//    the ramps at crosswalks, potholes, the edges of park paths); the wetter it is, the further they spread,
+//    and fine world-space noise ragged their edges;
+//  - a puddle is dark water that mirrors what is above it: the scene by marching the mirrored ray across the
+//    depth buffer (24 steps on High, 12 on Medium), and where that misses, the live reflection probe's cube
+//    (buildings, sky, lamps); without a probe, a sky-over-buildings gradient. Wet road outside the puddles
+//    reflects the same way but smeared vertically, so lamps and lit windows make long streaks at night. Fresnel makes the mirror
+//    strongest at grazing angles and almost black looking straight down, as on a real street;
+//  - while it rains, rings spread across the puddles from falling drops.
 if(wetness>.001){float dpt=texture2D(tDepth,uv0).r;vec4 vp=projInv*vec4(uv0*2.-1.,dpt*2.-1.,1.);vec3 P=vp.xyz/vp.w;vec3 Nv=normalize(cross(dFdx(P),dFdy(P)));
  if(dpt<.99999){vec3 Wp=(camWorld*vec4(P,1.)).xyz;vec3 upV=normalize((viewM*vec4(0.,1.,0.,0.)).xyz);
-  float flatG=smoothstep(.9,.97,abs(dot(Nv,upV)))*(1.-smoothstep(.3,.5,Wp.y))*(1.-smoothstep(120.,200.,-P.z));
+  float flatG=smoothstep(.9,.97,abs(dot(Nv,upV)))*(1.-smoothstep(.3,.5,Wp.y))*(1.-smoothstep(160.,260.,-P.z));
   vec3 c0=texture2D(image,uv0).rgb;flatG*=1.-smoothstep(.0,.06,c0.g-max(c0.r,c0.b)*1.08);// not on grass
-  float n=vnoise(Wp.xz*.21)*.62+vnoise(Wp.xz*.63+3.1)*.38;float lim=1.-.42*wetness;
-  float pud=smoothstep(lim-.025,lim+.025,n)*flatG;float damp=smoothstep(0.,.45,wetness)*(.5+.5*vnoise(Wp.xz*.06+9.))*flatG;
-  if(pud+damp>.001){col*=mix(1.,.62,damp)*mix(1.,.72,pud);
-   vec3 V=normalize(P);vec3 R=reflect(V,upV);float F=.02+.98*pow(1.-clamp(dot(-V,upV),0.,1.),5.);
-   vec3 refl=skyCol;
+  if(flatG>.001){
+   vec2 pm=vec2((Wp.x-poolBox.x)*poolBox.z,(poolBox.y+Wp.z)*poolBox.w);float pool=texture2D(tPool,pm).r;
+   float rag=vnoise(Wp.xz*1.7)*.55+vnoise(Wp.xz*4.3+7.)*.3+vnoise(Wp.xz*.35+2.)*.15;
+   float lim=mix(.62,.18,smoothstep(.15,1.,wetness));float pud=smoothstep(lim-.05,lim+.05,pool*(.55+.75*rag))*flatG;
+   float wet=smoothstep(0.,.3,wetness)*flatG;
+   // Water darkens what it covers: damp ground a little, standing water a lot (you see its dark bottom).
+   col*=mix(1.,.7,wet)*mix(1.,.45,pud);
+   // Rain rings on the puddles: two layers of drops on a 30 cm grid, each ring spreading and fading.
+   vec3 Nw=vec3(0.,1.,0.);
+   if(rainAmt>.01&&pud>.01){vec2 gsum=vec2(0.);for(int k=0;k<2;k++){vec2 q=Wp.xz*3.3+float(k)*17.31;vec2 cc=floor(q);vec2 f=fract(q)-.5;float hh=fract(sin(dot(cc,vec2(12.9898,78.233)))*43758.5453);
+     vec2 d=f-(vec2(hh,fract(hh*7.13))-.5)*.5;float r=length(d);float ph=fract(clock*(.9+.5*hh)+hh*3.7);float R0=ph*.45;float wv=exp(-pow((r-R0)*14.,2.))*(1.-ph);gsum+=d/max(r,1e-3)*wv*cos((r-R0)*55.);}
+    Nw=normalize(vec3(-gsum.x*.35*rainAmt,1.,-gsum.y*.35*rainAmt));}
+   vec3 Nr=normalize((viewM*vec4(Nw,0.)).xyz);
+   vec3 V=normalize(P);vec3 R=reflect(V,Nr);float cosv=clamp(dot(-V,Nr),0.,1.);float F=.02+.98*pow(1.-cosv,5.);
+   vec3 Rw=normalize((camWorld*vec4(R,0.)).xyz);
+   vec3 refl=envOn>.5?textureCube(envCube,Rw).rgb:mix(skyCol*.3,skyCol,smoothstep(.04,.5,Rw.y));
 #ifdef POST_SSR
-   float t=.35,tp=0.;bool hit=false;vec2 huv=uv0;
+   if(pud>.02||wet>.25){float t=.35,tp=0.;bool hit=false;vec2 huv=uv0;
    for(int i=0;i<24;i++){if(float(i)>=ssrN)break;vec3 Q=P+R*t;vec4 cq=projM*vec4(Q,1.);vec2 uq=cq.xy/cq.w*.5+.5;if(cq.w<=0.||uq.x<0.||uq.x>1.||uq.y<0.||uq.y>1.)break;
     float sz=linDepth(uq),qz=-Q.z;if(qz>sz+.03&&qz<sz+1.5+t*.15){hit=true;huv=uq;break;}tp=t;t*=1.33;}
    if(hit){float a=tp,b=t;for(int k=0;k<4;k++){float m=.5*(a+b);vec3 Q=P+R*m;vec4 cq=projM*vec4(Q,1.);vec2 uq=cq.xy/cq.w*.5+.5;if(-Q.z>linDepth(uq)+.03){b=m;huv=uq;}else a=m;}
-    vec2 e=min(huv,1.-huv);float edge=smoothstep(0.,.08,min(e.x,e.y));refl=mix(skyCol,texture2D(image,huv).rgb,edge);}
+    vec2 e=min(huv,1.-huv);float edge=smoothstep(0.,.08,min(e.x,e.y));
+    // Standing water mirrors sharply; a wet road's rough film smears each light into a vertical streak.
+    vec2 st=vec2(0.,.022+.05*(1.-pud));vec3 hc=texture2D(image,huv).rgb*.4+(texture2D(image,huv+st).rgb+texture2D(image,huv-st).rgb)*.2+(texture2D(image,huv+2.*st).rgb+texture2D(image,huv-2.*st).rgb)*.1;
+    refl=mix(refl,mix(hc,texture2D(image,huv).rgb,pud),edge);}}
 #endif
-   col=mix(col,refl,F*(pud+damp*.3));}}}
+   // A puddle is a mirror; wet ground only a faint, rough sheen.
+   float sheen=(.12+.28*smoothstep(.4,1.,wetness))*(.45+.9*vnoise(Wp.xz*.7+11.));col=mix(col,refl,clamp(F*pud+F*sheen*wet*(1.-pud),0.,1.));}}}
 // Radial shutter smear follows the road perspective; shield the player car.
 if(motion>.001){vec2 travel=(uv0-vec2(.5,.53))*motion*.055;
 float carShield=1.-smoothstep(.12,.25,abs(uv0.x-.5));carShield*=1.-smoothstep(.35,.49,uv0.y);
@@ -187,11 +211,11 @@ updateSunShafts(){const pu=this.postMat.uniforms,el=this.sky?.sky?.sun?.elevatio
  pu.sunUv.value.set(p.x*.5+.5,p.y*.5+.5);const off=Math.max(Math.abs(p.x),Math.abs(p.y));
  const low=Math.min(1,Math.max(0,el/3))*(1-Math.min(1,Math.max(0,(el-12)/18)));pu.sunVis.value=facing>0?low*(1-Math.min(1,Math.max(0,(off-1)/.6)))*(1-.5*DECAY.value):0;pu.sunCol.value.copy(this.sun.color);}
 // Wetness: ?wet= overrides; otherwise standing water in 2126 and whatever the weather says (Step B).
-updateWet(){const pu=this.postMat.uniforms,c=this.camera;pu.wetness.value=this.preset!=='realtime'?0:this.wetOverride??Math.max(this.weatherWet||0,.26*DECAY.value);
+updateWet(){const pu=this.postMat.uniforms,c=this.camera;pu.rainAmt.value=this.preset!=='realtime'?0:(this.weatherRain||0);{const ok=this.probe.on&&this.probe.ready;pu.envCube.value=ok?this.probe.target.texture:null;pu.envOn.value=ok?1:0;}pu.wetness.value=this.preset!=='realtime'?0:this.wetOverride??Math.max(this.weatherWet||0,.26*DECAY.value);
  pu.projInv.value.copy(c.projectionMatrixInverse);pu.projM.value.copy(c.projectionMatrix);pu.viewM.value.copy(c.matrixWorldInverse);pu.camWorld.value.copy(c.matrixWorld);
  if(this.scene.background?.isColor)pu.skyCol.value.copy(this.scene.background);}
 resize(){this.renderer.setSize(innerWidth,innerHeight,false);this.camera.aspect=innerWidth/innerHeight;this.camera.updateProjectionMatrix();const v=new T.Vector2();this.renderer.getDrawingBufferSize(v);this.target.setSize(v.x,v.y);this.bloom?.setSize(v.x,v.y);this.postMat.uniforms.resolution.value.copy(v);if(this.fxTarget){const fw=Math.ceil(v.x/2),fh=Math.ceil(v.y/2);this.fxTarget.setSize(fw,fh);this.fxMat.uniforms.resolution.value.set(fw,fh);}}
-setLocation(id){if(this.locationId===id)return;if(this.world){this.scene.remove(this.world.group);this.world.dispose();}this.world=createWorld(id);this.locationId=id;this.scene.add(this.world.group);this.world.grassLevel=this.grassLevel;this.world.grassField?.setLevel(this.grassLevel||'off');this.world.setPreset?.(this.preset);this.skids.forEach(k=>{k.life=0;k.m.visible=false;});}
+setLocation(id){if(this.locationId===id)return;if(this.world){this.scene.remove(this.world.group);this.world.dispose();}this.world=createWorld(id);this.locationId=id;if(this.world.data?.meta?.bounds&&perfOn('pools')){this.pool?.texture.dispose();this.pool=buildPoolMap(this.world.data);this.postMat.uniforms.tPool.value=this.pool.texture;this.postMat.uniforms.poolBox.value.copy(this.pool.box);}this.scene.add(this.world.group);this.world.grassLevel=this.grassLevel;this.world.grassField?.setLevel(this.grassLevel||'off');this.world.setPreset?.(this.preset);this.skids.forEach(k=>{k.life=0;k.m.visible=false;});}
 applyPreset(preset){// Real NYC time drives the campus every frame (SkyDriver).
  if(preset===this.preset)return;this.preset=preset;this.world?.setPreset?.(preset);this.postMat.uniforms.desat.value=0;this.postMat.uniforms.vignette.value=0;this.postMat.uniforms.uNight.value=preset==='night'?1:0;
   if(preset==='realtime'){this.sky.snap();this.sky.shadows=null;return;}this.sky.hide();if(this.fill.userData.base)this.fill.intensity=this.fill.userData.base;for(const h of this.headlights)if(h.userData.base)h.intensity=h.userData.base*(preset==='night'?2.4:1);const storm=preset==='storm',dawn=preset==='dawn';

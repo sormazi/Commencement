@@ -98,4 +98,4 @@ export class Weather{
   r.postMat.uniforms.desat.value=Math.min(1,r.postMat.uniforms.desat.value+.12*c+.1*s.rain);
   r.renderer.toneMappingExposure*=1-.1*s.rain-.05*c;
   if(this.flash>0){const f=this.flash;r.hemi.intensity+=3.2*f;r.hemi.color.lerp(new T.Color(.75,.8,1),Math.min(1,f));if(r.scene.background?.isColor)r.scene.background.lerp(new T.Color(.55,.58,.72),Math.min(.8,f*.8));r.renderer.toneMappingExposure*=1+.35*f;}
-  r.weatherWet=s.wet*(1-.7*s.snowCover);SNOW_COVER.value=s.snowCover;}}
+  r.weatherWet=s.wet*(1-.7*s.snowCover);r.weatherRain=s.rain;SNOW_COVER.value=s.snowCover;}}
