@@ -137,3 +137,43 @@ Target from Avi (10 Oct): on his M3 in Chrome at full window size, Low at least 
 8. **Minor:** the Options button's `backdrop-filter: blur` makes the compositor blur the live canvas behind it every frame.
 
 **Plan, in order of payoff:** (1) a plain, non-multisampled canvas and no backdrop blur over the canvas; (2) static objects stop recomputing their matrices; (3) skip what cannot be seen (2126-only meadow and ivy in 2026, and similar); (4) bring High's fill cost down within its look (cheaper SSAO and reflections at lower resolution, effects at reduced resolution where they cannot be told apart); (5) fewer draw calls and program switches where it pays; (6) trim per-frame allocations. Each fix is benchmarked at all three presets and committed on its own; no visual feature is removed without asking first.
+
+**After fixes 1 to 9** (Avi's own `?bench=auto` run on the live site: M3, Chrome 154, 1710 x 985, device pixel ratio 2; this replaces benchmarking in a window on a shared desktop).
+
+| Preset | View | fps | 1% low | CPU ms | GPU ms | draws | alloc KB/frame | long frames |
+| :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Low | Arch | 52.5 | 19.9 | 9.95 | 9.27 | 422 | 142 | 31 |
+| Low | Bobst | 51.5 | 19.6 | 10.88 | 10.48 | 377 | 157 | 39 |
+| Low | The Row | 60 | 56.5 | 3.75 | 9.49 | 326 | 108 | 0 |
+| Low | Astor Place | 60 | 56.5 | 3.37 | 11.22 | 286 | 93 | 0 |
+| Low | Arch, heavy rain | 60 | 56.5 | 4.41 | 13.78 | 423 | 133 | 0 |
+| Low | Arch, snow | 60 | 56.5 | 4.36 | 13.82 | 423 | 144 | 0 |
+| Low | Park loop | 59.9 | 56.5 | 4.67 | 13.72 | 418 | 156 | 2 |
+| Medium | Arch | 47.6 | 29.2 | 16.78 | 30.44 | 534 | 336 | 74 |
+| Medium | Bobst | 48 | 20.3 | 16.72 | 28.58 | 476 | 312 | 68 |
+| Medium | The Row | 47.8 | 29.2 | 14.59 | 31.9 | 436 | 140 | 73 |
+| Medium | Astor Place | 52.8 | 29.2 | 11.16 | 28.89 | 356 | 123 | 41 |
+| Medium | Arch, heavy rain | 46.8 | 29.1 | 16.77 | 29.08 | 530 | 255 | 77 |
+| Medium | Arch, snow | 48 | 29.2 | 16.33 | 30.18 | 531 | 310 | 72 |
+| Medium | Park loop | 47.4 | 29.1 | 17.24 | 27.91 | 525 | 342 | 373 |
+| High | Arch | 23.1 | 19.6 | 9.56 | 78.99 | 562 | 184 | 138 |
+| High | Bobst | 23.6 | 19.6 | 9.32 | 77.83 | 510 | 205 | 141 |
+| High | The Row | 21.9 | 19.6 | 6.62 | 86.55 | 469 | 230 | 131 |
+| High | Astor Place | 23.9 | 19.6 | 5.39 | 79.35 | 376 | 19 | 143 |
+| High | Arch, heavy rain | 23.1 | 19.6 | 10.48 | 78.25 | 560 | 247 | 138 |
+| High | Arch, snow | 22.7 | 19.6 | 13.29 | 78.65 | 565 | 264 | 136 |
+| High | Park loop | 21.9 | 15.2 | 10.59 | 86.35 | 607 | 320 | 656 |
+
+What this shows:
+- **Low meets the target** wherever the game had settled: 60 fps with 1% lows of 56.5 at the Row, Astor Place, the Arch in rain and snow, and round the park. The two misses, the Arch and Bobst at about 52 fps, were the first two views measured after the title, with CPU at 10 to 11 ms and 30 to 40 long frames; the same Arch view measured a minute later runs at 60. That is start-up loading still finishing, not the steady cost, so the benchmark now waits six seconds and 300 frames before its first view.
+- **High is still well short**: about 23 fps, 43 ms per frame, against 22 ms needed. CPU is 5 to 13 ms, so High is limited by the GPU, not by draw calls; merging draws would not move it (it stays on the list for Medium's CPU time).
+- **Frame time follows pixel count.** Medium renders 2.6 million pixels (pixel ratio 1.25) in about 21 ms; High renders 6.7 million (pixel ratio 2) in about 43 ms: roughly 6.5 to 8 ms per million pixels either way. At that rate High fits 22 ms only at about 3.4 million pixels (pixel ratio 1.4), unless the cost per pixel roughly halves. (The GPU timer figures overlap from frame to frame on this machine, so the frame time is the reliable number.)
+
+**Fixes 10 to 12** go after the cost per pixel without changing the picture (cloud renders before and after differ only by film grain):
+- **Fix 10, front-to-back sorting** (`?perf-off=sort`). three.js sorts opaque objects by material first and distance second, so a far facade often drew before the near building in front of it, and each hidden pixel still ran the full lit, shadowed, physically based shader. Distance now comes first, so the depth test rejects hidden pixels before shading.
+- **Fix 11, half-resolution AO and light shafts** (`?perf-off=halfres`). SSAO (8 depth taps) and the light shafts (up to 24) are soft effects but ran on every pixel of the post pass. They now run at half width and height in a small pass that the post pass reads with linear filtering: a quarter of the work.
+- **Fix 12, two probe cubes** (`?perf-off=probe2`). While the reflection probe drew a cube face, glass and shop windows in view sampled that same cube, a feedback loop that WebGL rejects (`GL_INVALID_OPERATION`), so those draws were silently dropped from the reflections. The probe now draws into a second cube and swaps when it is complete.
+
+**`?bench=gpu`** measures where High's time goes on the machine itself: at the Arch on High, 4 s with everything on, then 4 s each with one change (pixel ratio 1.5, 1.25 and 1.0; no shadows; PCF instead of soft PCF shadows; a 1024 shadow map; no PBR textures; no SSAO; no bloom; no shafts; no probe; no grass field; material-first sorting; no post effects), then the baseline again. Each line's difference from the baseline is roughly that feature's cost.
+
+**If High is still short after fixes 10 to 12**, the remaining choices change the look, so they wait for Avi: render High's 3D scene at a pixel ratio of about 1.5 instead of 2 (still sharper than Medium; the interface stays crisp), or let High scale its resolution between 1.5 and 2 to hold 45 fps; and, if `?bench=gpu` shows the soft shadows are a large share, the plain PCF filter, whose shadow edges are slightly harder.
