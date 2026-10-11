@@ -12,10 +12,17 @@ import {perfOn} from '../../perf.js?v=24';
 // whole cube about three times a second, Medium about once every two seconds; Low keeps the static panels.
 export class EnvProbe{
  constructor(renderer,scene,{size=128}={}){this.renderer=renderer;this.scene=scene;this.on=false;this.every=3;this.frame=0;this.face=0;
-  this.target=new T.WebGLCubeRenderTarget(size,{type:T.HalfFloatType,generateMipmaps:false});this.target.texture.mapping=T.CubeReflectionMapping;
-  this.cam=new T.CubeCamera(.5,260,this.target);this.cam.layers.enableAll();this.ready=false;this.shiny=new Set();this.lastScan=0;}
+  // Two cubes, swapped when one is complete (fix 12): the shiny materials read the finished cube while the next
+  // one is drawn into the other. With one cube, glass in view of the probe sampled the very texture being drawn
+  // into, a feedback loop that WebGL rejects (GL_INVALID_OPERATION), so those draws were dropped from the probe.
+  const mk=()=>{const t=new T.WebGLCubeRenderTarget(size,{type:T.HalfFloatType,generateMipmaps:false});t.texture.mapping=T.CubeReflectionMapping;return t;};
+  this.front=mk();this.back=perfOn('probe2')?mk():this.front;
+  this.cam=new T.CubeCamera(.5,260,this.back);this.bound=new Set();this.cam.layers.enableAll();this.ready=false;this.shiny=new Set();this.lastScan=0;}
+ get target(){return this.front;}
+ // Uniforms outside three's materials that hold the cube (the shop windows' uEnv) follow each swap too.
+ bind(u){this.bound.add(u);}
  shinyTest(m){return m&&m.isMeshStandardMaterial&&!m.envMap&&((m.roughness<.35&&m.metalness>=.2)||m.transmission>0);}
- scan(){this.scene.traverse(o=>{if(!o.isMesh)return;for(const m of [].concat(o.material)){if(this.shiny.has(m)||!this.shinyTest(m))continue;m.envMap=this.target.texture;m.needsUpdate=true;this.shiny.add(m);}});}
+ scan(){this.scene.traverse(o=>{if(!o.isMesh)return;for(const m of [].concat(o.material)){if(this.shiny.has(m)||!this.shinyTest(m))continue;m.envMap=this.front.texture;m.needsUpdate=true;this.shiny.add(m);}});}
  setMode(mode){// 'off' | 'medium' | 'high'
   this.on=mode!=='off';this.every=mode==='high'?3:20;if(!this.on){for(const m of this.shiny){m.envMap=null;m.needsUpdate=true;}this.shiny.clear();this.ready=false;this.face=0;}}
  // A new cube starts only when the view has moved about 4 m or after a few seconds (2 s on High, 6 s on
@@ -28,8 +35,9 @@ export class EnvProbe{
   // CubeCamera's children are the six face cameras, in the order of the cube's faces.
   const c=cam.children[this.face];const prevT=r.getRenderTarget(),prevShadow=r.shadowMap.autoUpdate,prevXR=r.xr.enabled,prevTone=r.toneMapping;
   r.shadowMap.autoUpdate=false;r.xr.enabled=false;r.toneMapping=T.NoToneMapping;
-  r.setRenderTarget(this.target,this.face);r.clear();r.render(this.scene,c);
+  r.setRenderTarget(this.back,this.face);r.clear();r.render(this.scene,c);
   r.setRenderTarget(prevT);r.shadowMap.autoUpdate=prevShadow;r.xr.enabled=prevXR;r.toneMapping=prevTone;
-  if(++this.face===6){this.face=0;this.target.texture.needsPMREMUpdate=true;this.ready=true;
+  if(++this.face===6){this.face=0;this.back.texture.needsPMREMUpdate=true;this.ready=true;
+   if(this.back!==this.front){const f=this.front;this.front=this.back;this.back=f;cam.renderTarget=f;for(const m of this.shiny)m.envMap=this.front.texture;for(const u of this.bound)if(u.value===f.texture)u.value=this.front.texture;}
    // New tiles stream in as the car moves, so look for new shiny materials every few seconds.
    const now=performance.now();if(now-this.lastScan>3000){this.lastScan=now;this.scan();}}}}
