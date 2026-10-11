@@ -27,8 +27,10 @@ export class Quality{
   // Post shader variants: compile only the effects this preset uses (fewer registers, faster on every pixel).
   {const d={};if(perfOn('post')){if(q.ssao)d.POST_SSAO='';if(q.ssr)d.POST_SSR='';if(q.shafts)d.POST_SHAFTS='';if(q.bloom)d.POST_BLOOM='';}else Object.assign(d,{POST_SSAO:'',POST_SSR:'',POST_SHAFTS:'',POST_BLOOM:''});
    const key=Object.keys(d).join();if(c.postMat.userData.defKey!==key){c.postMat.defines=d;c.postMat.userData.defKey=key;c.postMat.needsUpdate=true;}}if(c.bloom){c.bloom.on=q.bloom;c.bloom.levels=q.bloomLevels||1;}c.postMat.uniforms.grainAmt.value=q.grain;c.postMat.uniforms.shaftOn.value=q.shafts?1:0;c.postMat.uniforms.ssrN.value=q.ssr;c.probe?.setMode(q.probe);c.precip?.setLevel(level);c.grassLevel=q.grass;if(c.world){c.world.grassLevel=q.grass;c.world.grassField?.setLevel(q.grass);}c.postMat.uniforms.shaftN.value=q.shafts||1;AO.strength.value=q.ao;c.postMat.uniforms.ssaoOn.value=q.ssao?1:0;setPBR(q.pbr);c.camera.far=q.far;c.camera.updateProjectionMatrix();
-  // Materials compiled with or without shadows need a rebuild when shadows switch.
-  c.scene.traverse(o=>{if(o.material){for(const m of [].concat(o.material))m.needsUpdate=true;}});
+  // Materials compiled with or without shadows need a rebuild when shadows switch, and only then: marking every
+  // material on every preset change recompiled the whole scene, a freeze of several seconds each time Auto
+  // stepped (performance fix 8).
+  if(!perfOn('recompile')||this.shadowsOn!==q.shadows){this.shadowsOn=q.shadows;c.scene.traverse(o=>{if(o.material){for(const m of [].concat(o.material))m.needsUpdate=true;}});}
   for(const f of this.listeners)f(level,q);}
  onChange(f){this.listeners.push(f);f(this.level,this.preset);}
  // Called every frame with the frame time in seconds; only acts in Auto.

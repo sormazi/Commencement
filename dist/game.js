@@ -2,6 +2,7 @@ import {DriveAudio} from './audio.js?v=24';
 import {Soundtrack} from './soundtrack.js?v=24';
 import {CityRenderer} from './renderer3d.js?v=24';
 import * as THREE from './vendor/three.module.js';
+import {perfOn} from './perf.js?v=24';
 import {VEHICLE,FixedVehicleLoop,inputFromKeys,resolveContact} from './physics.js?v=24';
 import {campus,snapToStreet} from './campus/campus.js?v=24';
 import {CampusMinimap} from './campus/minimap.js?v=24';
@@ -38,8 +39,25 @@ const smokeStats={frames:0,ms:0};
 function smokeLoop(t){if(!smoke||phase==='done')return;const t0=performance.now();if(!window.__smokeOff)smoke.frame((t-(smokeLast||t))/1000);smokeStats.ms+=performance.now()-t0;smokeStats.frames++;smokeLast=t;requestAnimationFrame(smokeLoop);}
 function showTitle(){if(phase!=='splash')return;phase='title';titleAt=performance.now();$('boot').classList.add('fading');setTimeout(()=>{$('boot').hidden=true;},850);$('title').hidden=false;
  smoke=new SmokeTitle($('smoke'));smoke.start();requestAnimationFrame(smokeLoop);requestAnimationFrame(()=>requestAnimationFrame(()=>$('title').classList.add('shown')));}
+// Shader warm-up during the title (performance fix 8). Compiling only what the opening view shows left
+// dozens of shaders to compile mid-game: the first switch to another preset (Auto steps between them), the
+// first rain or snow, the shift to 2126 (meadow, ivy, grass), the reflection probe's glass variants. Here
+// every object is shown for one compile pass, then each preset renders one hidden frame with its shadows,
+// post pass, bloom and probe, and the starting state is restored. The title waits for this anyway.
+async function warmShaders(){const r=city.renderer,sc=city.scene,cam=city.camera,hidden=[];
+ sc.traverse(o=>{if(!o.visible){hidden.push(o);o.visible=true;}});
+ const pc=city.precip?.mesh?.geometry;const pcN=pc?.instanceCount;if(pc)pc.instanceCount=64;
+ try{await r.compileAsync(sc,cam);
+  const keepChoice=quality.choice,keepLevel=quality.level;
+  for(const lv of ['high','medium','low']){quality.apply(lv);
+   if(city.probe?.on){for(let i=0;i<6*city.probe.every+1;i++)city.probe.update(cam.position);city.probe.scan?.();}
+   await r.compileAsync(sc,cam);
+   r.setRenderTarget(city.target);r.render(sc,cam);r.setRenderTarget(null);city.bloom?.render(city.target);r.render(city.postScene,city.postCamera);
+   await new Promise(res=>setTimeout(res,0));}
+  quality.level=keepLevel;quality.set(keepChoice,{save:false});}
+ finally{for(const o of hidden)o.visible=false;if(pc)pc.instanceCount=pcN;}}
 function openingTick(now){if(phase!=='title')return;const w=city.world,r=city.renderer;
- if(w&&!compiling){compiling=true;if(r.compileAsync)r.compileAsync(city.scene,city.camera).then(()=>{compiled=true;},()=>{compiled=true;});else compiled=true;}
+ if(w&&!compiling){compiling=true;if(r.compileAsync)(perfOn('warm')?warmShaders():r.compileAsync(city.scene,city.camera)).then(()=>{compiled=true;},()=>{compiled=true;});else compiled=true;}
  const a=assetState(),assets=a.done/Math.max(1,a.done+a.pending),ready=!!w&&compiled&&a.pending===0;steady=ready?steady+1:0;if(!ready)readySince=0;else if(!readySince)readySince=now;
  smoke?.setProgress((w?.3:0)+(compiled?.3:0)+assets*.4);
  if(now-titleAt>=MIN_TITLE&&steady>=6&&now-readySince>=400){phase='prompt';document.body.classList.add('awaiting-start');$('begin').hidden=false;requestAnimationFrame(()=>$('begin').classList.add('shown'));}}
