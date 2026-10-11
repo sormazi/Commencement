@@ -4,6 +4,22 @@ The game was renamed from NightView to Commencement on 8 Oct 2026 (repository re
 
 Read this file and `RESEARCH/campus-inventory.md` first when picking the work back up.
 
+## NEXT (Avi, 11 Oct 2026; supersedes every older order below)
+
+Stop point 3 reviewed: dossier samples approved in depth and tone; the dossier is paused until just before the narrative. Standing rule: a one-to-one recreation, everything as true to life as possible. Usage is limited: commit after every small piece and keep this section saying exactly what is next.
+
+**Order of work:**
+1. **Fixes**, in this order:
+   1. **High preset:** cap High's render resolution or use dynamic resolution so it meets the targets (45 fps average, 1% lows above 30); text and UI stay sharp. ← **NEXT**
+   2. **Rain and puddles:** puddles are pale, opaque "milk stains". Make them dark and glossy, mirroring sky, buildings and lamps, with soft irregular edges, collecting where water really pools (gutters, along curbs, low spots at crosswalks, potholes, park path edges), rippling in rain; the whole road darkens and turns slightly shiny when wet. Before/after at the Arch and on W 4th St, noon and night, in rain.
+   3. **Roads surveyed and rebuilt:** remove every sidewalk strip running down a roadway (e.g. Fifth Avenue approaching the Arch) and similar map-data artifacts; survey every street (NYC planimetrics for curbs, roadbeds, medians, sidewalks; NYC DOT for bike routes, bus lanes, signalized intersections; OSM for the rest; aerials and Street View to check); rebuild lanes and widths, markings, protected and painted bike lanes (green where real), red bus lanes, crosswalk styles, stop lines, curb ramps, medians, plazas, traffic and pedestrian signals on their real poles, hydrants, manholes, Citi Bike docks, bus stops and parking signs; record sources and Street View dates per block.
+   4. **Vegetation surveyed and rebuilt:** every street tree from the NYC Street Tree Census / NYC Parks forestry data (position, species, size from trunk diameter), each species modelled distinctly (London plane, honey locust, pin oak, ginkgo, linden, Callery pear, elm, and whatever else), no two identical; a full survey of Washington Square Park (every tree, hedge, shrub bed, lawn, planting, the Hangman's Elm); 2026 matches reality exactly (remove the tree under the Arch and anything like it; extra overgrowth only in the 2126 decay layer); shrubs, hedges, tree pits, planters and window boxes where they really are.
+2. **Finish the Step 4B second pass:** remaining storefronts with real names, colours and signs; the Astor Place kiosk; the Stern gate when Avi's photos arrive; street signs and subway stairs checked.
+3. **Population:** bustling ordinary 2026 crowds wherever people really gather and walk, and the eerie 2126 loiterers, across the whole study area (check what is already complete).
+4. **Step 9** (camera, patrol terminal, field guide, discoveries, photo mode), then **Step 10** (walking, the shift, interiors, eerie touches), then the **soundtrack** (finishing pass; the first version is in, Step 7).
+5. **Avi's personal memory locations**, once he sends notes and photos (notes only in git-ignored private/memories.md).
+6. **Last:** finish the history dossier (RESEARCH/nyu-history.md), then the narrative, which Avi designs himself.
+
 ## Current phase
 Avi's plan of 7 Oct 2026, steps 1 to 8 with three stop points. Step 0 (README rewrite, atmosphere slice) is done. Steps 1 to 3 done; Stop point 1 approved 8 Oct. Since then (8 Oct): night pushed darker with screen-edge falloff; real bay and storey counts on 16 NYU buildings and 70 of 73 specs observed on Street View; Step 4 (park details and the signage decal system) done; Step 5 first pass (decay across the area) and Step 6 (crowds across the area) done, built while the Street View pane was unavailable. Decay is now a separate runtime layer (2026 clean / 2126 ruin, blendable), per Avi's 8 Oct direction. In progress: Step 4B (inventory written; storefront kit and sign atlas built; Grace Church and Jefferson Market first passes; the rest of Tier A and Tier B need Street View). Then Stop point 2.
 
