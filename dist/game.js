@@ -105,6 +105,8 @@ function tick(t){const dt=Math.max(0,(t-last)/1000||0);last=t;fpsTick(t,dt);if(p
 requestAnimationFrame(tick);
 // Developer: ?bench=auto runs the performance benchmark and profiler (dist/dev/bench.js).
 if(/[?&]bench=auto/.test(location.search))import('./dev/bench.js?v=24').then(m=>m.runBench(window.Commencement));
+if(/[?&]bench=/.test(location.search))window.__city=city;
+if(/[?&]bench=gpu/.test(location.search))import('./dev/bench.js?v=24').then(m=>m.runGpuBreakdown(window.Commencement));// developer: the renderer, for profiling tools only
 window.Commencement={start,pause,reset,openOptions,closeOptions,
 // Developer helpers for review screenshots (map metres: x east, z north; yaw 0 = north).
 teleport:(x,z,yaw=0)=>{simulation=new FixedVehicleLoop(VEHICLE);state=simulation.state;placeVehicle({x,z,yaw});return true;},
