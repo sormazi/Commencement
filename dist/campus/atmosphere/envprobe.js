@@ -1,4 +1,5 @@
 import * as T from '../../vendor/three.module.js';
+import {perfOn} from '../../perf.js?v=24';
 // Live reflection probe (Step A.5). The scene's environment map was a fixed set of generic city panels;
 // now a small cube camera follows the view and renders the real surroundings, one face at a time, so the
 // glass on Kimmel, the Paulson Center, storefront vestibules and the car's paint reflect the actual square,
@@ -17,7 +18,12 @@ export class EnvProbe{
  scan(){this.scene.traverse(o=>{if(!o.isMesh)return;for(const m of [].concat(o.material)){if(this.shiny.has(m)||!this.shinyTest(m))continue;m.envMap=this.target.texture;m.needsUpdate=true;this.shiny.add(m);}});}
  setMode(mode){// 'off' | 'medium' | 'high'
   this.on=mode!=='off';this.every=mode==='high'?3:20;if(!this.on){for(const m of this.shiny){m.envMap=null;m.needsUpdate=true;}this.shiny.clear();this.ready=false;this.face=0;}}
+ // A new cube starts only when the view has moved about 4 m or after a few seconds (2 s on High, 6 s on
+ // Medium) so slow changes of light still show; while parked or creeping the probe costs nothing
+ // (performance fix 9). Each cube still renders one face every few frames.
  update(position){if(!this.on)return;if(++this.frame%this.every)return;const r=this.renderer,cam=this.cam;
+  if(this.face===0&&perfOn('probe')&&this.ready){const now=performance.now(),moved=this.lastPos?this.lastPos.distanceTo(position):1e9;
+   if(moved<4&&now-(this.lastCube||0)<(this.every<=3?2000:6000))return;(this.lastPos||(this.lastPos=new T.Vector3())).copy(position);this.lastCube=now;}
   if(this.face===0){cam.position.copy(position);cam.position.y=Math.max(cam.position.y,1.8);cam.updateMatrixWorld(true);}
   // CubeCamera's children are the six face cameras, in the order of the cube's faces.
   const c=cam.children[this.face];const prevT=r.getRenderTarget(),prevShadow=r.shadowMap.autoUpdate,prevXR=r.xr.enabled,prevTone=r.toneMapping;
