@@ -90,3 +90,50 @@ Everything the game keeps in browser storage lives under the `commencement.` pre
 - **Manhole steam,** `steam.js`: on cold days (strength grows below about 6 C, more when the street is wet, fainter in 2126) plumes rise from 44 manholes near about one intersection in six. There is no open dataset of the real vents, so these positions are an approximation and are recorded as unchecked.
 - **Options.** Options > Weather: Live NYC weather (default), Clear, Overcast, Rain, Heavy rain, Snow, Fog, Thunderstorm; the note under it says what the live sky is showing and from which source. `?weather=live|clear|overcast|rain|heavyrain|snow|fog|storm` overrides, like `?time=`. `window.Commencement.weather()` returns the current state.
 - **Screenshots** in `RESEARCH/screenshots/stepB/`: rain at night, snow, fog, a thunderstorm at night and a live sky. In the cloud review renderer the headless browser cannot reach Open-Meteo, so the live shot shows the National Weather Service fallback; a real browser gets Open-Meteo first.
+
+## Performance (after Step B)
+
+Target from Avi (10 Oct): on his M3 in Chrome at full window size, Low at least 60 fps average with 1% lows above 45, High at least 45 with 1% lows above 30, and no visible hitches while driving round the park.
+
+**Measuring.** `?bench=auto` (dist/dev/bench.js) starts real play, then for each preset measures the four review views, heavy rain and snow at the Arch, and a 30 s camera loop round the park. Per frame it records CPU time in the frame callback, GPU time (EXT_disjoint_timer_query_webgl2, sampled), draw calls, program switches, texture binds, uploads, shader compiles and JS heap growth. It measures only while the page is visible (a covered window draws nothing) and redoes interrupted views. Results go to the console, `window.__Q.results` and a panel on screen. `window.Commencement.drawBreakdown()` lists the draw calls at the current view by kind.
+
+**A correction first.** The earlier Step A numbers (Low 32.8 fps at the Arch) were taken while the game was still on its title screen: the smoke title animates over the world and `body.booting` blurs the whole WebGL canvas with a CSS filter. In real play the same view runs faster, but still far short of the target.
+
+**Baseline in real play** (M3, Chrome 154, 1710 x 985 window, device pixel ratio 2, build da39a55; Avi was working on the same machine, so expect some noise). CPU = time in the frame callback; GPU = timer-query time per frame.
+
+| Preset | View | fps | 1% low | CPU ms | GPU ms | draws | alloc KB/frame |
+| :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Low | Arch | 48.6 | 19.6 | 16.7 | 14.1 | 452 | 229 |
+| Low | Bobst | 40.0 | 12.0 | 16.5 | 11.6 | 346 | 178 |
+| Low | The Row | 47.1 | 19.5 | 13.7 | 10.3 | 331 | 188 |
+| Low | Astor Place | 57.3 | 29.2 | 5.4 | 9.7 | 257 | 66 |
+| Low | Arch, heavy rain | 59.0 | 30.3 | 6.9 | 12.2 | 401 | 122 |
+| Low | Arch, snow | 56.7 | 29.2 | 13.5 | 10.3 | 404 | 148 |
+| Low | Park loop (30 s) | 54.9 | 29.2 | 12.4 | 11.4 | 392 | 206 |
+| Medium | Arch | 44.1 | 20.4 | 19.8 | 22.4 | 518 | 377 |
+| Medium | Bobst | 45.2 | 29.1 | 19.1 | 24.9 | 455 | 364 |
+| Medium | The Row | 45.1 | 20.0 | 18.5 | 27.3 | 449 | 328 |
+| Medium | Astor Place | 50.3 | 29.2 | 15.0 | 20.7 | 336 | 196 |
+| Medium | Arch, heavy rain | 44.3 | 20.0 | 19.8 | 22.6 | 518 | 379 |
+| Medium | Arch, snow | 43.2 | 29.2 | 20.3 | 20.0 | 518 | 384 |
+| Medium | Park loop | 43.9 | 29.0 | 19.3 | 22.1 | 490 | 393 |
+| High | Arch | 22.5 | 19.6 | 14.3 | 79.7 | 610 | 363 |
+| High | Bobst | 22.3 | 15.0 | 14.3 | 80.7 | 555 | 357 |
+| High | The Row | 21.8 | 19.6 | 12.0 | 83.7 | 543 | 311 |
+| High | Astor Place | 24.6 | 19.6 | 10.6 | 73.7 | 396 | 181 |
+| High | Arch, heavy rain | 21.7 | 19.6 | 18.7 | 79.9 | 611 | 347 |
+| High | Arch, snow | 22.3 | 14.9 | 21.3 | 75.6 | 624 | 383 |
+| High | Park loop | 21.8 | 15.0 | 16.5 | 81.2 | 592 | 364 |
+
+**Where the frame time goes** (profiled live on the M3 at the Arch on Low, then by switching things off one at a time and timing each pass with GPU timer queries; window 1200 x 886 at that point):
+
+1. **The canvas is multisampled for nothing (GPU, the biggest single cost).** The renderer asks for a 4x MSAA canvas, but the 3D scene renders into its own non-multisampled target, so the only thing drawn into the multisampled canvas is the final full-screen post quad. That quad costs 11.5 ms of GPU time into the canvas against 3.4 ms into a plain target; even an empty clear of the canvas costs 2.5 ms. The waste grows with pixel count, so High (pixel ratio 2, four times the pixels) pays the most. Turning it off changes nothing visible.
+2. **High is fill-bound.** About 80 ms of GPU per frame: pixel ratio 2 (about 6.7 million pixels at full window), the multisampled canvas above, SSAO, puddle reflections, light shafts, bloom, physically based detail, a 2048 shadow map and the reflection probe.
+3. **Every object's matrix is recomputed every frame (CPU).** The scene holds 3,977 objects (3,381 meshes, 1,477 of them instanced, 211,984 instances) and 3,933 of them have automatic matrix updates, though almost all never move. The walk costs 2 to 4 ms per frame.
+4. **Draw submission is reasonable (CPU).** About 450 draws on Low, 520 on Medium and 610 on High (shadow pass and probe included), 211 shader programs with about 94 program switches per frame: about 3.3 ms of CPU to submit the main scene when the matrix walk is excluded. The game's own per-frame logic is small: minimap 0.6 ms, world update 0.4, lamps 0.15, crowd 0.06, sky and weather under 0.1.
+5. **"CPU time" was mostly waiting on the GPU.** The frame callback took 14 to 20 ms, but most of that was the CPU blocked behind a GPU queue that was already full; the real CPU work is about 7 to 9 ms. Fixing the GPU side brings the CPU number down with it.
+6. **Scene GPU cost on Low** is about 8 ms at 1200 x 886: walls and roofs about 3.5 ms, instanced props (trees, lamps, fences, people) about 3.5 ms, ground about 1 ms. 2026 still draws the 2126 meadow tufts and ivy at zero size (32 draws and about 90,000 triangles at the Arch).
+7. **Not the cause:** shader compilation (none during play: the title screen already compiles shaders up front), map tile loading (all tiles are built at load, nothing streams while driving; the park loop shows no upload or compile spikes, 1 to 1.6 uploads per frame), and garbage collection (0.1 to 0.7 collections per second; allocation of 180 to 390 KB per frame is worth trimming but no long frame lined up with a collection). The long frames in the logs line up with GPU time.
+8. **Minor:** the Options button's `backdrop-filter: blur` makes the compositor blur the live canvas behind it every frame.
+
+**Plan, in order of payoff:** (1) a plain, non-multisampled canvas and no backdrop blur over the canvas; (2) static objects stop recomputing their matrices; (3) skip what cannot be seen (2126-only meadow and ivy in 2026, and similar); (4) bring High's fill cost down within its look (cheaper SSAO and reflections at lower resolution, effects at reduced resolution where they cannot be told apart); (5) fewer draw calls and program switches where it pays; (6) trim per-frame allocations. Each fix is benchmarked at all three presets and committed on its own; no visual feature is removed without asking first.

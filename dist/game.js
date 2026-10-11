@@ -85,6 +85,8 @@ function tick(t){const dt=Math.max(0,(t-last)/1000||0);last=t;fpsTick(t,dt);if(p
  render(dt);audio.update(state,controls,paused||optionsOpen||introActive,$('sound').value==='on');soundtrack.update(!paused&&!optionsOpen&&!introActive&&$('sound').value==='on'&&$('music').value==='on',{x:state.position?.x||0,z:state.position?.z||0},state.orientation?.yaw||0);
  $('speed').textContent=String(Math.round(Math.abs(state.speed)*(mph?2.237:3.6))).padStart(2,'0');$('gear').textContent=state.speed<-.3?'R':'D';$('damageBar').style.width=state.damage*100+'%';requestAnimationFrame(tick);}
 requestAnimationFrame(tick);
+// Developer: ?bench=auto runs the performance benchmark and profiler (dist/dev/bench.js).
+if(/[?&]bench=auto/.test(location.search))import('./dev/bench.js?v=24').then(m=>m.runBench(window.Commencement));
 window.Commencement={start,pause,reset,openOptions,closeOptions,
 // Developer helpers for review screenshots (map metres: x east, z north; yaw 0 = north).
 teleport:(x,z,yaw=0)=>{simulation=new FixedVehicleLoop(VEHICLE);state=simulation.state;placeVehicle({x,z,yaw});return true;},
@@ -93,6 +95,12 @@ viewFrom:o=>{city.cameraOverride=o||null;if(!o)city.preset='';},
 era:(t,seconds=1)=>{const w=city.world;if(!w?.eraTo)return false;if(seconds<=0)w.setDecay(t);else w.eraTo(t,seconds);return true;},
 sky:()=>city.sky.info(),
 holdRender:b=>{renderHold=!!b;},
+// Profiling (docs/TECHNICAL.md, performance): draw calls at the current view by kind, with triangles.
+drawBreakdown:()=>{const cam=city.camera;cam.updateMatrixWorld();const fr=new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse));const by={};let n=0;
+ city.scene.traverseVisible(o=>{if(!(o.isMesh||o.isPoints||o.isLine||o.isSprite))return;if(o.frustumCulled!==false){if(!o.geometry.boundingSphere)o.geometry.computeBoundingSphere();const s=o.geometry.boundingSphere.clone().applyMatrix4(o.matrixWorld);if(o.isInstancedMesh&&o.boundingSphere)s.copy(o.boundingSphere).applyMatrix4(o.matrixWorld);if(!fr.intersectsSphere(s))return;}
+  let k=o.userData?.kind||o.name||o.parent?.name||o.material?.type||'?';k=String(k).replace(/[0-9]+/g,'#').slice(0,40);const mats=Array.isArray(o.material)?o.material.length:1;const ix=o.geometry.index?o.geometry.index.count:(o.geometry.attributes.position?.count||0);const inst=o.isInstancedMesh?o.count:(o.geometry.isInstancedBufferGeometry?o.geometry.instanceCount:1);
+  const e=by[k]||(by[k]={calls:0,tris:0,inst:0});e.calls+=mats;e.tris+=ix/3*inst;e.inst+=o.isInstancedMesh?1:0;n+=mats;});
+ return {calls:n,shadowCaster:city.renderer.shadowMap.enabled,by:Object.entries(by).sort((a,b)=>b[1].calls-a[1].calls).slice(0,40)};},
 renderInfo:()=>{let meshes=0,tris=0;const cam=city.camera,fr=new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse));
  city.scene.traverseVisible(o=>{if(!o.isMesh||!o.geometry)return;if(o.geometry.boundingSphere==null)o.geometry.computeBoundingSphere();const s=o.geometry.boundingSphere.clone().applyMatrix4(o.matrixWorld);if(!fr.intersectsSphere(s))return;meshes++;const g=o.geometry,n=(g.index?g.index.count:g.attributes.position.count)/3;tris+=n*(o.isInstancedMesh?o.count:1);});return {drawCalls:meshes,triangles:Math.round(tris)};},
 weather:(c)=>{if(c)city.weather.set(c);return city.weather.info();},
