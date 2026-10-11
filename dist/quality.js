@@ -5,6 +5,7 @@
 //   ?quality=low|medium|high|auto in the URL overrides the saved choice (for testing, like ?time=).
 import {AO} from './campus/atmosphere/ao.js?v=24';
 import {setPBR} from './campus/atmosphere/pbr.js?v=24';
+import {perfOn} from './perf.js?v=24';
 export const PRESETS={
  low:{label:'Low',grass:'off',ssr:0,probe:'off',shafts:0,bloomLevels:0,grain:0,ao:.75,ssao:false,pbr:false,pixelRatio:1,shadows:false,shadowSize:512,bloom:false,far:650},
  medium:{label:'Medium',grass:'medium',ssr:12,probe:'medium',shafts:12,bloomLevels:4,grain:.016,ao:1,ssao:false,pbr:true,pixelRatio:1.25,shadows:true,shadowSize:1024,bloom:true,far:1100},
@@ -22,7 +23,10 @@ export class Quality{
   r.setPixelRatio(Math.min(window.devicePixelRatio||1,q.pixelRatio));c.resize();
   r.shadowMap.enabled=q.shadows;c.sun.castShadow=q.shadows;
   if(c.sun.shadow.mapSize.x!==q.shadowSize){c.sun.shadow.mapSize.set(q.shadowSize,q.shadowSize);c.sun.shadow.map?.dispose();c.sun.shadow.map=null;}
-  c.postMat.uniforms.bloomOn.value=q.bloom?1:0;if(c.bloom){c.bloom.on=q.bloom;c.bloom.levels=q.bloomLevels||1;}c.postMat.uniforms.grainAmt.value=q.grain;c.postMat.uniforms.shaftOn.value=q.shafts?1:0;c.postMat.uniforms.ssrN.value=q.ssr;c.probe?.setMode(q.probe);c.precip?.setLevel(level);c.grassLevel=q.grass;if(c.world){c.world.grassLevel=q.grass;c.world.grassField?.setLevel(q.grass);}c.postMat.uniforms.shaftN.value=q.shafts||1;AO.strength.value=q.ao;c.postMat.uniforms.ssaoOn.value=q.ssao?1:0;setPBR(q.pbr);c.camera.far=q.far;c.camera.updateProjectionMatrix();
+  c.postMat.uniforms.bloomOn.value=q.bloom?1:0;
+  // Post shader variants: compile only the effects this preset uses (fewer registers, faster on every pixel).
+  {const d={};if(perfOn('post')){if(q.ssao)d.POST_SSAO='';if(q.ssr)d.POST_SSR='';if(q.shafts)d.POST_SHAFTS='';if(q.bloom)d.POST_BLOOM='';}else Object.assign(d,{POST_SSAO:'',POST_SSR:'',POST_SHAFTS:'',POST_BLOOM:''});
+   const key=Object.keys(d).join();if(c.postMat.userData.defKey!==key){c.postMat.defines=d;c.postMat.userData.defKey=key;c.postMat.needsUpdate=true;}}if(c.bloom){c.bloom.on=q.bloom;c.bloom.levels=q.bloomLevels||1;}c.postMat.uniforms.grainAmt.value=q.grain;c.postMat.uniforms.shaftOn.value=q.shafts?1:0;c.postMat.uniforms.ssrN.value=q.ssr;c.probe?.setMode(q.probe);c.precip?.setLevel(level);c.grassLevel=q.grass;if(c.world){c.world.grassLevel=q.grass;c.world.grassField?.setLevel(q.grass);}c.postMat.uniforms.shaftN.value=q.shafts||1;AO.strength.value=q.ao;c.postMat.uniforms.ssaoOn.value=q.ssao?1:0;setPBR(q.pbr);c.camera.far=q.far;c.camera.updateProjectionMatrix();
   // Materials compiled with or without shadows need a rebuild when shadows switch.
   c.scene.traverse(o=>{if(o.material){for(const m of [].concat(o.material))m.needsUpdate=true;}});
   for(const f of this.listeners)f(level,q);}

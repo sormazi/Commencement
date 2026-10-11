@@ -35,40 +35,48 @@ this.sparks=Array.from({length:28},()=>{const m=new T.Mesh(new T.BoxGeometry(.02
 
 this.target=new T.WebGLRenderTarget(1,1,{type:T.HalfFloatType,depthTexture:new T.DepthTexture(1,1)});this.postScene=new T.Scene();this.postCamera=new T.OrthographicCamera(-1,1,1,-1,0,1);this.postMat=new T.ShaderMaterial({uniforms:{image:{value:this.target.texture},resolution:{value:new T.Vector2(1,1)},amount:{value:0},motion:{value:0},clock:{value:0},desat:{value:0},vignette:{value:0},bloomOn:{value:1},tDepth:{value:null},camNear:{value:.1},camFar:{value:1600},ssaoOn:{value:0},ssaoStrength:{value:1},tBloom:{value:null},bloomStrength:{value:.9},uDecay:DECAY,uNight:{value:0},gradeOn:{value:1},grainAmt:{value:.018},vigAmt:{value:.22},sunUv:{value:new T.Vector2(.5,.5)},sunVis:{value:0},sunCol:{value:new T.Color(1,.8,.6)},shaftN:{value:24},shaftOn:{value:1},wetness:{value:0},ssrN:{value:24},projInv:{value:new T.Matrix4()},projM:{value:new T.Matrix4()},viewM:{value:new T.Matrix4()},camWorld:{value:new T.Matrix4()},skyCol:{value:new T.Color()}},vertexShader:'varying vec2 uv0;void main(){uv0=uv;gl_Position=vec4(position.xy,0.,1.);}',fragmentShader:`uniform sampler2D image;uniform vec2 resolution;uniform float amount;uniform float motion;uniform float clock;uniform float desat;uniform float vignette;uniform float bloomOn;uniform sampler2D tDepth;uniform float camNear;uniform float camFar;uniform float ssaoOn;uniform float ssaoStrength;uniform sampler2D tBloom;uniform float bloomStrength;uniform float uDecay;uniform float uNight;uniform float gradeOn;uniform float grainAmt;uniform float vigAmt;uniform vec2 sunUv;uniform float sunVis;uniform vec3 sunCol;uniform float shaftN;uniform float shaftOn;uniform float wetness;uniform float ssrN;uniform mat4 projInv;uniform mat4 projM;uniform mat4 viewM;uniform mat4 camWorld;uniform vec3 skyCol;
 float vh(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}float vnoise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(vh(i),vh(i+vec2(1.,0.)),f.x),mix(vh(i+vec2(0.,1.)),vh(i+vec2(1.,1.)),f.x),f.y);}
-float linDepth(vec2 uv){float z=texture2D(tDepth,uv).r*2.-1.;return 2.*camNear*camFar/(camFar+camNear-z*(camFar-camNear));}varying vec2 uv0;void main(){vec2 delta=(uv0-.5)*amount*.003;vec3 col=vec3(texture2D(image,uv0+delta).r,texture2D(image,uv0).g,texture2D(image,uv0-delta).b);
+float linDepth(vec2 uv){float z=texture2D(tDepth,uv).r*2.-1.;return 2.*camNear*camFar/(camFar+camNear-z*(camFar-camNear));}varying vec2 uv0;void main(){vec3 col;if(amount>.02){vec2 delta=(uv0-.5)*amount*.003;col=vec3(texture2D(image,uv0+delta).r,texture2D(image,uv0).g,texture2D(image,uv0-delta).b);}else col=texture2D(image,uv0).rgb;
+// Optional effects are compiled in only for the presets that use them (POST_* defines, set by dist/quality.js).
 // Screen-space ambient occlusion (High preset only): eight depth taps in a spiral around the pixel, about
 // 0.6 m across in the world, darkening creases, contact points and anything the baked AO cannot know
 // about (cars, people, moving things). Range-limited so distant edges do not halo.
+#ifdef POST_SSAO
 if(ssaoOn>.5){float dc=linDepth(uv0);if(dc<180.){float ruv=.6*.85/dc;vec2 asp=vec2(resolution.y/resolution.x,1.);float occ=0.;float rot=fract(sin(dot(uv0*resolution,vec2(12.9898,78.233)))*43758.5453)*6.2832;
  for(int i=0;i<8;i++){float a=float(i)*2.39996+rot,rr=ruv*(.25+.75*fract(float(i)*.618+.13));float ds=linDepth(uv0+vec2(cos(a),sin(a))*asp*rr);float df=dc-ds;occ+=step(.06,df)*(1.-smoothstep(.4,2.,df));}
- col*=1.-occ/8.*.65*ssaoStrength*(1.-smoothstep(90.,180.,dc));}}// Wet ground (Step A.5). Position and normal come from the depth buffer, so no material needs to change:
+ col*=1.-occ/8.*.65*ssaoStrength*(1.-smoothstep(90.,180.,dc));}}
+#endif
+// Wet ground (Step A.5). Position and normal come from the depth buffer, so no material needs to change:
 // flat surfaces at street level get damp patches and puddles from a world-space mask that grows with
 // the wetness (standing water in 2126; later the live weather). Wet ground darkens; puddles reflect the
 // scene by marching the mirrored view ray across the depth buffer (24 steps on High, 12 on Medium; on Low
 // they reflect the sky colour only). Fresnel makes reflections strongest at grazing angles, as on a real street.
-{float dpt=texture2D(tDepth,uv0).r;vec4 vp=projInv*vec4(uv0*2.-1.,dpt*2.-1.,1.);vec3 P=vp.xyz/vp.w;vec3 Nv=normalize(cross(dFdx(P),dFdy(P)));
- if(wetness>.001&&dpt<.99999){vec3 Wp=(camWorld*vec4(P,1.)).xyz;vec3 upV=normalize((viewM*vec4(0.,1.,0.,0.)).xyz);
+if(wetness>.001){float dpt=texture2D(tDepth,uv0).r;vec4 vp=projInv*vec4(uv0*2.-1.,dpt*2.-1.,1.);vec3 P=vp.xyz/vp.w;vec3 Nv=normalize(cross(dFdx(P),dFdy(P)));
+ if(dpt<.99999){vec3 Wp=(camWorld*vec4(P,1.)).xyz;vec3 upV=normalize((viewM*vec4(0.,1.,0.,0.)).xyz);
   float flatG=smoothstep(.9,.97,abs(dot(Nv,upV)))*(1.-smoothstep(.3,.5,Wp.y))*(1.-smoothstep(120.,200.,-P.z));
   vec3 c0=texture2D(image,uv0).rgb;flatG*=1.-smoothstep(.0,.06,c0.g-max(c0.r,c0.b)*1.08);// not on grass
   float n=vnoise(Wp.xz*.21)*.62+vnoise(Wp.xz*.63+3.1)*.38;float lim=1.-.42*wetness;
   float pud=smoothstep(lim-.025,lim+.025,n)*flatG;float damp=smoothstep(0.,.45,wetness)*(.5+.5*vnoise(Wp.xz*.06+9.))*flatG;
   if(pud+damp>.001){col*=mix(1.,.62,damp)*mix(1.,.72,pud);
    vec3 V=normalize(P);vec3 R=reflect(V,upV);float F=.02+.98*pow(1.-clamp(dot(-V,upV),0.,1.),5.);
-   vec3 refl=skyCol;float t=.35,tp=0.;bool hit=false;vec2 huv=uv0;
+   vec3 refl=skyCol;
+#ifdef POST_SSR
+   float t=.35,tp=0.;bool hit=false;vec2 huv=uv0;
    for(int i=0;i<24;i++){if(float(i)>=ssrN)break;vec3 Q=P+R*t;vec4 cq=projM*vec4(Q,1.);vec2 uq=cq.xy/cq.w*.5+.5;if(cq.w<=0.||uq.x<0.||uq.x>1.||uq.y<0.||uq.y>1.)break;
     float sz=linDepth(uq),qz=-Q.z;if(qz>sz+.03&&qz<sz+1.5+t*.15){hit=true;huv=uq;break;}tp=t;t*=1.33;}
    if(hit){float a=tp,b=t;for(int k=0;k<4;k++){float m=.5*(a+b);vec3 Q=P+R*m;vec4 cq=projM*vec4(Q,1.);vec2 uq=cq.xy/cq.w*.5+.5;if(-Q.z>linDepth(uq)+.03){b=m;huv=uq;}else a=m;}
     vec2 e=min(huv,1.-huv);float edge=smoothstep(0.,.08,min(e.x,e.y));refl=mix(skyCol,texture2D(image,huv).rgb,edge);}
+#endif
    col=mix(col,refl,F*(pud+damp*.3));}}}
 // Radial shutter smear follows the road perspective; shield the player car.
-vec2 travel=(uv0-vec2(.5,.53))*motion*.055;
+if(motion>.001){vec2 travel=(uv0-vec2(.5,.53))*motion*.055;
 float carShield=1.-smoothstep(.12,.25,abs(uv0.x-.5));carShield*=1.-smoothstep(.35,.49,uv0.y);
 vec3 smear=vec3(0.);for(int i=0;i<8;i++){float phase=float(i)/7.-.5;smear+=texture2D(image,clamp(uv0+travel*phase,vec2(.001),vec2(.999))).rgb/8.;}
-col=mix(col,smear,clamp(motion*.8,0.,.9)*(1.-carShield));
+col=mix(col,smear,clamp(motion*.8,0.,.9)*(1.-carShield));}
 // Light shafts (Step A.4): when the sun is low, march from each pixel towards the sun across the depth
 // buffer and count open sky (or anything past about 300 m, which the haze has already turned to sky);
 // trees, the Arch and near buildings block it, so beams fan out through the gaps.
 // Jittered start per pixel hides the banding; 24 steps on High, 12 on Medium, off on Low.
+#ifdef POST_SHAFTS
 if(shaftOn>.5&&sunVis>.001){vec2 asp2=vec2(resolution.x/resolution.y,1.);vec2 d=(sunUv-uv0);float len=length(d*asp2);
  if(len<1.1){float N=shaftN;vec2 st=d/N;float j=fract(sin(dot(uv0*resolution,vec2(41.3,289.1)))*43758.5453);vec2 p=uv0+st*j;float acc=0.,w=1.,wsum=0.;
   for(int i=0;i<24;i++){if(float(i)>=N)break;p+=st;vec2 q=clamp(p,vec2(.001),vec2(.999));acc+=smoothstep(220.,420.,linDepth(q))*w;wsum+=w;w*=.94;}
@@ -76,9 +84,12 @@ if(shaftOn>.5&&sunVis>.001){vec2 asp2=vec2(resolution.x/resolution.y,1.);vec2 d=
   // Only where the pixel itself is not open sky (the beams show against the scene, not the sky behind).
   float self=1.-smoothstep(220.,420.,linDepth(uv0))*.8;
   col+=sunCol*open*fall*sunVis*self*1.1;}}
+#endif
 // Soft bloom (post-bloom.js): the half-resolution glow of everything brighter than white. 2126 lamps are
 // mostly dead, so what is left glows a little less.
+#ifdef POST_BLOOM
 if(bloomOn>.5)col+=texture2D(tBloom,uv0).rgb*bloomStrength*.16*(1.-.3*uDecay);
+#endif
 // Colour grade (Step A.3), before tone mapping, in linear light: white balance and saturation. 2026 is warm
 // and rich; 2126 is drained, yellow-green and sickly. uDecay blends the two, so the grade crossfades with the
 // world during the shift. At night 2026 keeps cool shadows under warm lamps; 2126 goes cold green.
