@@ -122,7 +122,11 @@ export class CampusWorld{
   // Asphalt everywhere at y=0; blocks and sidewalks are raised by the curb height.
   const B=d.meta.bounds,w=B.maxX-B.minX+600,h=B.maxN-B.minN+600;asphaltTex.repeat.set(w/9,h/9);const ground=new T.Mesh(new T.PlaneGeometry(w,h),new T.MeshStandardMaterial({map:asphaltTex,color:0x8c8f92,roughness:.88}));ground.rotation.x=-Math.PI/2;ground.position.set((B.minX+B.maxX)/2,0,-(B.minN+B.maxN)/2);ground.receiveShadow=true;ground.userData.noShadow=true;ground.userData.kind='asphalt';this.group.add(ground);this.disposables.add(ground.geometry);this.disposables.add(ground.material);
   // Sidewalk/block slabs: outer outlines only, skipping slabs wholly inside a larger one (park walks).
-  const slabs=[...d.sidewalk,...d.plazas,...d.median].map(p=>({rings:[p[0]],area:Math.abs(ringArea(p[0])),c:centroid(p[0])})).sort((a,b)=>b.area-a.area);const kept=[];
+  // Painted medians (planimetric subtype 360010) are white hatching on the asphalt, not raised islands: they
+  // were extruded as sidewalk slabs, which put strips of paving down the middle of Fifth Avenue and other
+  // roads. They are drawn as road markings below; only curb medians and traffic islands are raised.
+  const raisedMedians=d.median.filter((m,i)=>(d.medianKind?.[i]||'raised')!=='painted');
+  const slabs=[...d.sidewalk,...d.plazas,...raisedMedians].map(p=>({rings:[p[0]],area:Math.abs(ringArea(p[0])),c:centroid(p[0])})).sort((a,b)=>b.area-a.area);const kept=[];
   for(const s of slabs){if(kept.some(k=>k.area>s.area&&pointInRing(s.c,k.rings[0])&&s.rings[0].every(p=>pointInRing(p,k.rings[0]))))continue;kept.push(s);const t=this.tile(...s.c);this.builder(t,'paving').prism(s.rings,0,CURB_HEIGHT,col(0xbdbab2),3,3);}
   // Park surfaces: paved park floor, lawns, dog runs and playgrounds (OSM areas), slightly above the slab.
   const tint={park:0xc9c3b6,grass:0xa8b48c,dogrun:0x9b8a6c,playground:0x8c6f62,pitch:0x8b9a7a,plaza:0xcfc9bd,courtyard:0xb7a596};
@@ -177,6 +181,8 @@ export class CampusWorld{
   if(!this.collision._chess){for(const c of this.chessTables)this.collision.addCircle(c.p,.6,'chess table');this.collision._chess=true;}
   for(const b of d.benches){const t=this.tile(...b.p);this.inst(t,'bench',toV(b.p,CURB_HEIGHT+.45),[1,1,1],hash(b.p[0]*3.1)*0);}
   for(const br of d.barriers){if(br.kind==='retaining_wall')continue;const ht=br.height||(br.kind==='wall'?1.2:1.0);for(let i=1;i<br.pts.length;i++){const a=br.pts[i-1],b=br.pts[i],L=Math.hypot(b[0]-a[0],b[1]-a[1]);if(L<.05)continue;const m=[(a[0]+b[0])/2,(a[1]+b[1])/2];this.inst(this.tile(...m),br.kind==='wall'?'wallseg':'fence',toV(m,CURB_HEIGHT+ht/2),[L,ht,br.kind==='wall'?.3:.05],Math.atan2(b[1]-a[1],b[0]-a[0]));}}
+  // Painted medians: a white outline and diagonal hatching at 45 degrees to the median's long axis, 2.4 m apart.
+  d.median.forEach((m,mi)=>{if(d.medianKind?.[mi]!=='painted')return;const r=m[0];for(const [a,b,w] of paintedMedianStripes(r)){const L=Math.hypot(b[0]-a[0],b[1]-a[1]);if(L<.15)continue;const p=[(a[0]+b[0])/2,(a[1]+b[1])/2];this.inst(this.tile(...p),'stripe',toV(p,.013),[L,1,w],Math.atan2(b[1]-a[1],b[0]-a[0]));}});
   for(const c of d.crossings){if(c.pts.length<2)continue;for(let i=1;i<c.pts.length;i++){const a=c.pts[i-1],b=c.pts[i],L=Math.hypot(b[0]-a[0],b[1]-a[1]);const ang=Math.atan2(b[1]-a[1],b[0]-a[0]);for(let s=.6;s<L-.3;s+=1.2){const p=[a[0]+(b[0]-a[0])*s/L,a[1]+(b[1]-a[1])*s/L];this.inst(this.tile(...p),'stripe',toV(p,.012),[.6,1,3.0],ang);}}}
   for(const m of d.monuments){if(/plaque/.test(m.kind)||m.kind==='memorial'&&!m.name||UNION_STATUES.test(m.name||''))continue;const t=this.tile(...m.p);if(m.kind==='flagpole')this.inst(t,'flagpole',toV(m.p,CURB_HEIGHT+11),[1,1,1]);else this.inst(t,'pedestal',toV(m.p,CURB_HEIGHT+1),/Garibaldi/.test(m.name||'')?[3,2,2.4]:[1.6,2,1.6]);}
   const geo={trunk:new T.CylinderGeometry(.7,1,1,7),crown:crownGeometry(),pole:new T.CylinderGeometry(.07,.11,4.4,8),lantern:new T.BoxGeometry(.42,.55,.42),bench:new T.BoxGeometry(1.8,.12,.55),fence:new T.BoxGeometry(1,1,1),wallseg:new T.BoxGeometry(1,1,1),stripe:new T.PlaneGeometry(1,1).rotateX(-Math.PI/2),flagpole:new T.CylinderGeometry(.08,.16,22,8),pedestal:new T.BoxGeometry(1,1,1)};
@@ -193,3 +199,12 @@ export class CampusWorld{
  trackDisposables(g){g.traverse(o=>{if(o.geometry)this.disposables.add(o.geometry);});for(const m of g.userData.materials||[]){this.disposables.add(m);for(const k of ['map','normalMap'])if(m[k])this.disposables.add(m[k]);}}
  dispose(){for(const d of this.disposables)d.dispose?.();this.disposables.clear();}
 }
+
+// Road marking lines for one painted median ring: its outline (15 cm) and 30 cm hatch lines across it.
+export function paintedMedianStripes(r){const out=[];const n=r.length;for(let i=0;i<n;i++){const a=r[i],b=r[(i+1)%n];out.push([a,b,.15]);}
+ let cx=0,cn=0;for(const p of r){cx+=p[0];cn+=p[1];}cx/=n;cn/=n;let sxx=0,sxy=0,syy=0;for(const p of r){const x=p[0]-cx,y=p[1]-cn;sxx+=x*x;sxy+=x*y;syy+=y*y;}
+ const th=.5*Math.atan2(2*sxy,sxx-syy)+Math.PI/4,ux=Math.cos(th),un=Math.sin(th),vx=-un,vn=ux;// hatch lines run along u, stepped along v
+ let vmin=1e9,vmax=-1e9;for(const p of r){const v=(p[0]-cx)*vx+(p[1]-cn)*vn;vmin=Math.min(vmin,v);vmax=Math.max(vmax,v);}
+ for(let v=vmin+1.2;v<vmax;v+=2.4){const hits=[];for(let i=0;i<n;i++){const a=r[i],b=r[(i+1)%n];const va=(a[0]-cx)*vx+(a[1]-cn)*vn,vb=(b[0]-cx)*vx+(b[1]-cn)*vn;if((va<v)===(vb<v))continue;const t=(v-va)/(vb-va);hits.push([a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t]);}
+  hits.sort((p,q)=>((p[0]-cx)*ux+(p[1]-cn)*un)-((q[0]-cx)*ux+(q[1]-cn)*un));for(let k=0;k+1<hits.length;k+=2)out.push([hits[k],hits[k+1],.3]);}
+ return out;}
