@@ -52,7 +52,7 @@ async function warmShaders(){const r=city.renderer,sc=city.scene,cam=city.camera
   for(const lv of ['high','medium','low']){quality.apply(lv);
    if(city.probe?.on){for(let i=0;i<6*city.probe.every+1;i++)city.probe.update(cam.position);city.probe.scan?.();}
    await r.compileAsync(sc,cam);
-   r.setRenderTarget(city.target);r.render(sc,cam);r.setRenderTarget(null);city.bloom?.render(city.target);r.render(city.postScene,city.postCamera);
+   r.setRenderTarget(city.target);r.render(sc,cam);r.setRenderTarget(null);city.bloom?.render(city.target);if(city.fxOn){r.setRenderTarget(city.fxTarget);r.render(city.fxScene,city.postCamera);r.setRenderTarget(null);}r.render(city.postScene,city.postCamera);
    await new Promise(res=>setTimeout(res,0));}
   quality.level=keepLevel;quality.set(keepChoice,{save:false});}
  finally{for(const o of hidden)o.visible=false;if(pc)pc.instanceCount=pcN;}}

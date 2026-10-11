@@ -39,14 +39,16 @@ const smokeGeo=new T.SphereGeometry(1,8,6);this.smoke=Array.from({length:35},()=
 this.skidIndex=0;this.skids=Array.from({length:100},()=>{const m=new T.Mesh(new T.PlaneGeometry(.23,1.7),new T.MeshBasicMaterial({color:0x171c16,transparent:true,opacity:.6,depthWrite:false}));m.rotation.x=-Math.PI/2;m.visible=false;this.scene.add(m);return {m,s:0,x:0,life:0};});
 this.sparks=Array.from({length:28},()=>{const m=new T.Mesh(new T.BoxGeometry(.025,.025,.17),new T.MeshBasicMaterial({color:0xffc776}));m.visible=false;this.scene.add(m);return {m,life:0,v:new T.Vector3(),p:new T.Vector3()};});this.previousImpact=0;
 
-this.target=new T.WebGLRenderTarget(1,1,{type:T.HalfFloatType,depthTexture:new T.DepthTexture(1,1)});this.postScene=new T.Scene();this.postCamera=new T.OrthographicCamera(-1,1,1,-1,0,1);this.postMat=new T.ShaderMaterial({uniforms:{image:{value:this.target.texture},resolution:{value:new T.Vector2(1,1)},amount:{value:0},motion:{value:0},clock:{value:0},desat:{value:0},vignette:{value:0},bloomOn:{value:1},tDepth:{value:null},camNear:{value:.1},camFar:{value:1600},ssaoOn:{value:0},ssaoStrength:{value:1},tBloom:{value:null},bloomStrength:{value:.9},uDecay:DECAY,uNight:{value:0},gradeOn:{value:1},grainAmt:{value:.018},vigAmt:{value:.22},sunUv:{value:new T.Vector2(.5,.5)},sunVis:{value:0},sunCol:{value:new T.Color(1,.8,.6)},shaftN:{value:24},shaftOn:{value:1},wetness:{value:0},ssrN:{value:24},projInv:{value:new T.Matrix4()},projM:{value:new T.Matrix4()},viewM:{value:new T.Matrix4()},camWorld:{value:new T.Matrix4()},skyCol:{value:new T.Color()}},vertexShader:'varying vec2 uv0;void main(){uv0=uv;gl_Position=vec4(position.xy,0.,1.);}',fragmentShader:`uniform sampler2D image;uniform vec2 resolution;uniform float amount;uniform float motion;uniform float clock;uniform float desat;uniform float vignette;uniform float bloomOn;uniform sampler2D tDepth;uniform float camNear;uniform float camFar;uniform float ssaoOn;uniform float ssaoStrength;uniform sampler2D tBloom;uniform float bloomStrength;uniform float uDecay;uniform float uNight;uniform float gradeOn;uniform float grainAmt;uniform float vigAmt;uniform vec2 sunUv;uniform float sunVis;uniform vec3 sunCol;uniform float shaftN;uniform float shaftOn;uniform float wetness;uniform float ssrN;uniform mat4 projInv;uniform mat4 projM;uniform mat4 viewM;uniform mat4 camWorld;uniform vec3 skyCol;
+this.target=new T.WebGLRenderTarget(1,1,{type:T.HalfFloatType,depthTexture:new T.DepthTexture(1,1)});this.postScene=new T.Scene();this.postCamera=new T.OrthographicCamera(-1,1,1,-1,0,1);this.postMat=new T.ShaderMaterial({uniforms:{image:{value:this.target.texture},resolution:{value:new T.Vector2(1,1)},amount:{value:0},motion:{value:0},clock:{value:0},desat:{value:0},vignette:{value:0},bloomOn:{value:1},tDepth:{value:null},camNear:{value:.1},camFar:{value:1600},ssaoOn:{value:0},tFx:{value:null},ssaoStrength:{value:1},tBloom:{value:null},bloomStrength:{value:.9},uDecay:DECAY,uNight:{value:0},gradeOn:{value:1},grainAmt:{value:.018},vigAmt:{value:.22},sunUv:{value:new T.Vector2(.5,.5)},sunVis:{value:0},sunCol:{value:new T.Color(1,.8,.6)},shaftN:{value:24},shaftOn:{value:1},wetness:{value:0},ssrN:{value:24},projInv:{value:new T.Matrix4()},projM:{value:new T.Matrix4()},viewM:{value:new T.Matrix4()},camWorld:{value:new T.Matrix4()},skyCol:{value:new T.Color()}},vertexShader:'varying vec2 uv0;void main(){uv0=uv;gl_Position=vec4(position.xy,0.,1.);}',fragmentShader:`uniform sampler2D image;uniform sampler2D tFx;uniform vec2 resolution;uniform float amount;uniform float motion;uniform float clock;uniform float desat;uniform float vignette;uniform float bloomOn;uniform sampler2D tDepth;uniform float camNear;uniform float camFar;uniform float ssaoOn;uniform float ssaoStrength;uniform sampler2D tBloom;uniform float bloomStrength;uniform float uDecay;uniform float uNight;uniform float gradeOn;uniform float grainAmt;uniform float vigAmt;uniform vec2 sunUv;uniform float sunVis;uniform vec3 sunCol;uniform float shaftN;uniform float shaftOn;uniform float wetness;uniform float ssrN;uniform mat4 projInv;uniform mat4 projM;uniform mat4 viewM;uniform mat4 camWorld;uniform vec3 skyCol;
 float vh(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}float vnoise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(vh(i),vh(i+vec2(1.,0.)),f.x),mix(vh(i+vec2(0.,1.)),vh(i+vec2(1.,1.)),f.x),f.y);}
 float linDepth(vec2 uv){float z=texture2D(tDepth,uv).r*2.-1.;return 2.*camNear*camFar/(camFar+camNear-z*(camFar-camNear));}varying vec2 uv0;void main(){vec3 col;if(amount>.02){vec2 delta=(uv0-.5)*amount*.003;col=vec3(texture2D(image,uv0+delta).r,texture2D(image,uv0).g,texture2D(image,uv0-delta).b);}else col=texture2D(image,uv0).rgb;
 // Optional effects are compiled in only for the presets that use them (POST_* defines, set by dist/quality.js).
 // Screen-space ambient occlusion (High preset only): eight depth taps in a spiral around the pixel, about
 // 0.6 m across in the world, darkening creases, contact points and anything the baked AO cannot know
 // about (cars, people, moving things). Range-limited so distant edges do not halo.
-#ifdef POST_SSAO
+#ifdef POST_FX
+col*=texture2D(tFx,uv0).r;
+#elif defined(POST_SSAO)
 if(ssaoOn>.5){float dc=linDepth(uv0);if(dc<180.){float ruv=.6*.85/dc;vec2 asp=vec2(resolution.y/resolution.x,1.);float occ=0.;float rot=fract(sin(dot(uv0*resolution,vec2(12.9898,78.233)))*43758.5453)*6.2832;
  for(int i=0;i<8;i++){float a=float(i)*2.39996+rot,rr=ruv*(.25+.75*fract(float(i)*.618+.13));float ds=linDepth(uv0+vec2(cos(a),sin(a))*asp*rr);float df=dc-ds;occ+=step(.06,df)*(1.-smoothstep(.4,2.,df));}
  col*=1.-occ/8.*.65*ssaoStrength*(1.-smoothstep(90.,180.,dc));}}
@@ -82,7 +84,9 @@ col=mix(col,smear,clamp(motion*.8,0.,.9)*(1.-carShield));}
 // buffer and count open sky (or anything past about 300 m, which the haze has already turned to sky);
 // trees, the Arch and near buildings block it, so beams fan out through the gaps.
 // Jittered start per pixel hides the banding; 24 steps on High, 12 on Medium, off on Low.
-#ifdef POST_SHAFTS
+#ifdef POST_FX
+if(shaftOn>.5&&sunVis>.001)col+=sunCol*texture2D(tFx,uv0).g*sunVis*1.1;
+#elif defined(POST_SHAFTS)
 if(shaftOn>.5&&sunVis>.001){vec2 asp2=vec2(resolution.x/resolution.y,1.);vec2 d=(sunUv-uv0);float len=length(d*asp2);
  if(len<1.1){float N=shaftN;vec2 st=d/N;float j=fract(sin(dot(uv0*resolution,vec2(41.3,289.1)))*43758.5453);vec2 p=uv0+st*j;float acc=0.,w=1.,wsum=0.;
   for(int i=0;i<24;i++){if(float(i)>=N)break;p+=st;vec2 q=clamp(p,vec2(.001),vec2(.999));acc+=smoothstep(220.,420.,linDepth(q))*w;wsum+=w;w*=.94;}
@@ -121,7 +125,32 @@ col=mix(col,vec3(dot(col,vec3(.2126,.7152,.0722))),desat*mix(1.,.5,gradeOn*(1.-u
 #include <colorspace_fragment>
 // Film grain in display space, strongest in the mid-tones, a new pattern every frame.
 {float n=fract(sin(dot(uv0*resolution+fract(clock*.37)*vec2(113.,71.),vec2(12.9898,78.233)))*43758.5453)-.5;float m=gl_FragColor.g;gl_FragColor.rgb+=n*grainAmt*(.5+2.*m*(1.-m));}
-}`});this.postScene.add(new T.Mesh(new T.PlaneGeometry(2,2),this.postMat));this.bloom=new Bloom(this.renderer);this.bloom.on=true;this.probe=new EnvProbe(this.renderer,this.scene);this.weather=new Weather();this.precip=buildPrecip();this.scene.add(this.precip.mesh);{const w=(location.search.match(/[?&]wet=([0-9.]+)/)||[])[1];this.wetOverride=w!=null?Math.min(1,+w):null;}this.weatherWet=0;this.resize();window.addEventListener('resize',()=>this.resize());this.preset='';this.sky=new SkyDriver(this);initPBR(this.renderer);}
+}`});this.postScene.add(new T.Mesh(new T.PlaneGeometry(2,2),this.postMat));
+// Half-resolution effects (performance fix 11). Ambient occlusion and light shafts are soft, low-frequency
+// effects, but in the post pass they ran their depth taps (8 for SSAO, up to 24 for the shafts) on every
+// pixel: on High at a 2x pixel ratio that is about 6.7 million pixels. They now run at half width and half
+// height into a small target (red: AO factor, green: shaft strength) that the post pass reads with linear
+// filtering, a quarter of the work for the same picture. Switch off with ?perf-off=halfres.
+this.fxOn=false;this.fxTarget=new T.WebGLRenderTarget(1,1,{type:T.HalfFloatType,depthBuffer:false,minFilter:T.LinearFilter,magFilter:T.LinearFilter});this.postMat.uniforms.tFx.value=this.fxTarget.texture;
+{const pu=this.postMat.uniforms;this.fxMat=new T.ShaderMaterial({uniforms:{tDepth:pu.tDepth,camNear:pu.camNear,camFar:pu.camFar,ssaoOn:pu.ssaoOn,ssaoStrength:pu.ssaoStrength,shaftOn:pu.shaftOn,shaftN:pu.shaftN,sunVis:pu.sunVis,sunUv:pu.sunUv,resolution:{value:new T.Vector2(1,1)}},depthTest:false,depthWrite:false,
+ vertexShader:'varying vec2 uv0;void main(){uv0=uv;gl_Position=vec4(position.xy,0.,1.);}',
+ fragmentShader:`uniform sampler2D tDepth;uniform float camNear;uniform float camFar;uniform float ssaoOn;uniform float ssaoStrength;uniform float shaftOn;uniform float shaftN;uniform float sunVis;uniform vec2 sunUv;uniform vec2 resolution;varying vec2 uv0;
+float linDepth(vec2 uv){float z=texture2D(tDepth,uv).r*2.-1.;return 2.*camNear*camFar/(camFar+camNear-z*(camFar-camNear));}
+void main(){float ao=1.,sh=0.;
+#ifdef POST_SSAO
+if(ssaoOn>.5){float dc=linDepth(uv0);if(dc<180.){float ruv=.6*.85/dc;vec2 asp=vec2(resolution.y/resolution.x,1.);float occ=0.;float rot=fract(sin(dot(uv0*resolution,vec2(12.9898,78.233)))*43758.5453)*6.2832;
+ for(int i=0;i<8;i++){float a=float(i)*2.39996+rot,rr=ruv*(.25+.75*fract(float(i)*.618+.13));float ds=linDepth(uv0+vec2(cos(a),sin(a))*asp*rr);float df=dc-ds;occ+=step(.06,df)*(1.-smoothstep(.4,2.,df));}
+ ao=1.-occ/8.*.65*ssaoStrength*(1.-smoothstep(90.,180.,dc));}}
+#endif
+#ifdef POST_SHAFTS
+if(shaftOn>.5&&sunVis>.001){vec2 asp2=vec2(resolution.x/resolution.y,1.);vec2 d=(sunUv-uv0);float len=length(d*asp2);
+ if(len<1.1){float N=shaftN;vec2 st=d/N;float j=fract(sin(dot(uv0*resolution,vec2(41.3,289.1)))*43758.5453);vec2 p=uv0+st*j;float acc=0.,w=1.,wsum=0.;
+  for(int i=0;i<24;i++){if(float(i)>=N)break;p+=st;vec2 q=clamp(p,vec2(.001),vec2(.999));acc+=smoothstep(220.,420.,linDepth(q))*w;wsum+=w;w*=.94;}
+  float open=acc/wsum;float fall=pow(1.-clamp(len/1.1,0.,1.),2.2);float self=1.-smoothstep(220.,420.,linDepth(uv0))*.8;sh=open*fall*self;}}
+#endif
+gl_FragColor=vec4(ao,sh,0.,1.);}`});
+ this.fxScene=new T.Scene();const fq=new T.Mesh(new T.PlaneGeometry(2,2),this.fxMat);fq.frustumCulled=false;this.fxScene.add(fq);}
+this.bloom=new Bloom(this.renderer);this.bloom.on=true;this.probe=new EnvProbe(this.renderer,this.scene);this.weather=new Weather();this.precip=buildPrecip();this.scene.add(this.precip.mesh);{const w=(location.search.match(/[?&]wet=([0-9.]+)/)||[])[1];this.wetOverride=w!=null?Math.min(1,+w):null;}this.weatherWet=0;this.resize();window.addEventListener('resize',()=>this.resize());this.preset='';this.sky=new SkyDriver(this);initPBR(this.renderer);}
 // Free-roam rendering: the car moves through a static world in map space (three z = -north).
 updateFreeRoam(state,controls,time,dt,playing){
 const yaw=state.orientation?.yaw||0,X=state.position.x,Z=-state.position.z,fx=Math.sin(yaw),fz=-Math.cos(yaw),rx=Math.cos(yaw),rz=Math.sin(yaw);
@@ -149,7 +178,7 @@ this.camera.position.lerp(desired,1-Math.exp(-dt*7));this.camera.lookAt(X+cfx*14
 // Developer/review camera: fixed viewpoint in map metres (x east, n north), used for skyline checks.
 const o=this.cameraOverride;if(o){this.camera.fov=o.fov||55;this.camera.updateProjectionMatrix();this.camera.position.set(o.x,o.y,-o.n);this.camera.lookAt(o.lx,o.ly??o.y,-o.ln);this.scene.fog.density=o.fog??this.scene.fog.density;}
 if(this.preset==='realtime')this.sky.place(this.camera);this.world.viewDistance=o?.view;this.world.update(state,time,this.camera);
-this.postMat.uniforms.amount.value=controls.boosting?1:speed/100;this.postMat.uniforms.motion.value=controls.motionActive?Math.min(1.5,Math.max(0,(speed-9)/55)+(controls.boosting?.3:0)):0;this.postMat.uniforms.clock.value=time;this.probe.update(this.camera.position);{const su=this.world?.shopUniforms;if(su?.uEnv){const ok=this.probe.on&&this.probe.ready;su.uEnv.value=ok?this.probe.target.texture:null;su.uEnvOn.value=ok?1:0;}}this.renderer.setRenderTarget(this.target);this.renderer.render(this.scene,this.camera);this.renderer.setRenderTarget(null);this.updateSunShafts();this.updateWet();this.bloom.night=this.postMat.uniforms.uNight.value;this.bloom.render(this.target);{const pu=this.postMat.uniforms;pu.tBloom.value=this.bloom.texture;pu.tDepth.value=this.target.depthTexture;pu.camNear.value=this.camera.near;pu.camFar.value=this.camera.far;}this.renderer.render(this.postScene,this.postCamera);}
+this.postMat.uniforms.amount.value=controls.boosting?1:speed/100;this.postMat.uniforms.motion.value=controls.motionActive?Math.min(1.5,Math.max(0,(speed-9)/55)+(controls.boosting?.3:0)):0;this.postMat.uniforms.clock.value=time;this.probe.update(this.camera.position);{const su=this.world?.shopUniforms;if(su?.uEnv){const ok=this.probe.on&&this.probe.ready;su.uEnv.value=ok?this.probe.target.texture:null;su.uEnvOn.value=ok?1:0;}}this.renderer.setRenderTarget(this.target);this.renderer.render(this.scene,this.camera);this.renderer.setRenderTarget(null);this.updateSunShafts();this.updateWet();this.bloom.night=this.postMat.uniforms.uNight.value;this.bloom.render(this.target);{const pu=this.postMat.uniforms;pu.tBloom.value=this.bloom.texture;pu.tDepth.value=this.target.depthTexture;pu.camNear.value=this.camera.near;pu.camFar.value=this.camera.far;}if(this.fxOn){this.renderer.setRenderTarget(this.fxTarget);this.renderer.render(this.fxScene,this.postCamera);this.renderer.setRenderTarget(null);}this.renderer.render(this.postScene,this.postCamera);}
 // Sun position on screen and how strongly the shafts show: only a low sun (below about 30 degrees), fading in
 // above the horizon, and fading as the sun leaves the frame.
 updateSunShafts(){const pu=this.postMat.uniforms,el=this.sky?.sky?.sun?.elevation;if(el==null||!(this.sky.cur)||this.preset!=='realtime'){pu.sunVis.value=0;return;}
@@ -161,7 +190,7 @@ updateSunShafts(){const pu=this.postMat.uniforms,el=this.sky?.sky?.sun?.elevatio
 updateWet(){const pu=this.postMat.uniforms,c=this.camera;pu.wetness.value=this.preset!=='realtime'?0:this.wetOverride??Math.max(this.weatherWet||0,.26*DECAY.value);
  pu.projInv.value.copy(c.projectionMatrixInverse);pu.projM.value.copy(c.projectionMatrix);pu.viewM.value.copy(c.matrixWorldInverse);pu.camWorld.value.copy(c.matrixWorld);
  if(this.scene.background?.isColor)pu.skyCol.value.copy(this.scene.background);}
-resize(){this.renderer.setSize(innerWidth,innerHeight,false);this.camera.aspect=innerWidth/innerHeight;this.camera.updateProjectionMatrix();const v=new T.Vector2();this.renderer.getDrawingBufferSize(v);this.target.setSize(v.x,v.y);this.bloom?.setSize(v.x,v.y);this.postMat.uniforms.resolution.value.copy(v);}
+resize(){this.renderer.setSize(innerWidth,innerHeight,false);this.camera.aspect=innerWidth/innerHeight;this.camera.updateProjectionMatrix();const v=new T.Vector2();this.renderer.getDrawingBufferSize(v);this.target.setSize(v.x,v.y);this.bloom?.setSize(v.x,v.y);this.postMat.uniforms.resolution.value.copy(v);if(this.fxTarget){const fw=Math.ceil(v.x/2),fh=Math.ceil(v.y/2);this.fxTarget.setSize(fw,fh);this.fxMat.uniforms.resolution.value.set(fw,fh);}}
 setLocation(id){if(this.locationId===id)return;if(this.world){this.scene.remove(this.world.group);this.world.dispose();}this.world=createWorld(id);this.locationId=id;this.scene.add(this.world.group);this.world.grassLevel=this.grassLevel;this.world.grassField?.setLevel(this.grassLevel||'off');this.world.setPreset?.(this.preset);this.skids.forEach(k=>{k.life=0;k.m.visible=false;});}
 applyPreset(preset){// Real NYC time drives the campus every frame (SkyDriver).
  if(preset===this.preset)return;this.preset=preset;this.world?.setPreset?.(preset);this.postMat.uniforms.desat.value=0;this.postMat.uniforms.vignette.value=0;this.postMat.uniforms.uNight.value=preset==='night'?1:0;

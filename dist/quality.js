@@ -26,6 +26,8 @@ export class Quality{
   c.postMat.uniforms.bloomOn.value=q.bloom?1:0;
   // Post shader variants: compile only the effects this preset uses (fewer registers, faster on every pixel).
   {const d={};if(perfOn('post')){if(q.ssao)d.POST_SSAO='';if(q.ssr)d.POST_SSR='';if(q.shafts)d.POST_SHAFTS='';if(q.bloom)d.POST_BLOOM='';}else Object.assign(d,{POST_SSAO:'',POST_SSR:'',POST_SHAFTS:'',POST_BLOOM:''});
+   // Half-resolution AO and shafts (performance fix 11): the post pass reads them from the small FX target.
+   const fx=perfOn('halfres')&&perfOn('post')&&(q.ssao||q.shafts);c.fxOn=fx;if(c.fxMat){const fd={};if(q.ssao)fd.POST_SSAO='';if(q.shafts)fd.POST_SHAFTS='';const fk=Object.keys(fd).join();if(c.fxMat.userData.defKey!==fk){c.fxMat.defines=fd;c.fxMat.userData.defKey=fk;c.fxMat.needsUpdate=true;}}if(fx)d.POST_FX='';
    const key=Object.keys(d).join();if(c.postMat.userData.defKey!==key){c.postMat.defines=d;c.postMat.userData.defKey=key;c.postMat.needsUpdate=true;}}if(c.bloom){c.bloom.on=q.bloom;c.bloom.levels=q.bloomLevels||1;}c.postMat.uniforms.grainAmt.value=q.grain;c.postMat.uniforms.shaftOn.value=q.shafts?1:0;c.postMat.uniforms.ssrN.value=q.ssr;c.probe?.setMode(q.probe);c.precip?.setLevel(level);c.grassLevel=q.grass;if(c.world){c.world.grassLevel=q.grass;c.world.grassField?.setLevel(q.grass);}c.postMat.uniforms.shaftN.value=q.shafts||1;AO.strength.value=q.ao;c.postMat.uniforms.ssaoOn.value=q.ssao?1:0;setPBR(q.pbr);c.camera.far=q.far;c.camera.updateProjectionMatrix();
   // Materials compiled with or without shadows need a rebuild when shadows switch, and only then: marking every
   // material on every preset change recompiled the whole scene, a freeze of several seconds each time Auto
