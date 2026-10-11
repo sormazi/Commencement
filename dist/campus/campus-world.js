@@ -21,6 +21,7 @@ import {crownGeometry,patchLeaves,FOLIAGE_TIME} from './atmosphere/foliage.js?v=
 import {buildGrassField} from './atmosphere/grassfield.js?v=24';
 import {patchSnow} from './atmosphere/snow.js?v=24';
 import {buildSteam} from './atmosphere/steam.js?v=24';
+import {perfOn} from '../perf.js?v=24';
 import {buildFountain,lampLayout,lampParts,chessLayout,chessParts,furnitureGeometry,furnitureMaterial,chessTopMaterial} from './park.js?v=24';
 import {buildTier2,TIER2_BINS} from './tier2/world.js?v=24';
 import {classify,facadeCode,materialTile,GENERIC_CODE,tier3Enabled,facadeAtlas,patchFacadeMaterial} from './tier3/facades.js?v=24';
@@ -69,7 +70,14 @@ export function paulsonMassing(ring){const c=centroid(ring);let sxx=0,sxy=0,syy=
  return [{ring,h:PAULSON.podium},{ring:clipHalf(ring,ax,an,hi-L*PAULSON.northShare,true),h:PAULSON.towerN},{ring:clipHalf(ring,ax,an,lo+L*PAULSON.southShare,false),h:PAULSON.towerS}].filter(m=>m.ring.length>=3);}
 export class CampusWorld{
  constructor(config){this.config=config;this.freeRoam=true;const c=campus();this.campus=c;this.data=c.data;this.collision=c.collision;this.streets=c.streets;this.spawn=c.spawn;
-  this.stats={model:0,extruded:0,estimated:0};this.group=new T.Group();this.group.name='washington-square';this.tiles=new Map();this.disposables=new Set();this.rowBin=ROW_BINS[0];this.rowBins=ROW_BINS;this.tier2Bins=TIER2_BINS;this.build();buildStorefronts(this);this.group.add(buildSubway(this));this.group.add(buildSignage(this));this.applyAO();this.decay=buildDecay(this);this.group.add(this.decay);this.night=buildNight(this);this.group.add(this.night.group);this.night.setNight(false);this.crowd=buildCrowd(this);this.group.add(this.crowd.group);{const q=new URLSearchParams(globalThis.location?.search||'').get('era');const t=q==='2026'||q==null?0:q==='2126'?1:Math.max(0,Math.min(1,+q||0));this.setDecay(t);}this.group.add(buildSpeaker(this));}
+  this.stats={model:0,extruded:0,estimated:0};this.group=new T.Group();this.group.name='washington-square';this.tiles=new Map();this.disposables=new Set();this.rowBin=ROW_BINS[0];this.rowBins=ROW_BINS;this.tier2Bins=TIER2_BINS;this.build();buildStorefronts(this);this.group.add(buildSubway(this));this.group.add(buildSignage(this));this.applyAO();this.decay=buildDecay(this);this.group.add(this.decay);this.night=buildNight(this);this.group.add(this.night.group);this.night.setNight(false);this.crowd=buildCrowd(this);this.group.add(this.crowd.group);{const q=new URLSearchParams(globalThis.location?.search||'').get('era');const t=q==='2026'||q==null?0:q==='2126'?1:Math.max(0,Math.min(1,+q||0));this.setDecay(t);}this.group.add(buildSpeaker(this));
+  // Performance: almost nothing in the world moves, so stop three.js recomputing ~4,000 local matrices every
+  // frame (2 to 4 ms of CPU on an M3). The night lamps' lights move, so their group stays live; anything added
+  // later keeps automatic updates; the decay layer re-syncs the frozen matrices when the era changes.
+  if(perfOn('matrix'))this.freezeMatrices();}
+ freezeMatrices(){const live=this.night?.group,frozen=this.frozen=[];const walk=(o)=>{if(o===live)return;if(o.matrixAutoUpdate){o.updateMatrix();o.matrixAutoUpdate=false;frozen.push(o);}for(const c of o.children)walk(c);};
+  for(const c of this.group.children)walk(c);this.group.updateMatrixWorld(true);(this.decayHooks||(this.decayHooks=[])).push(()=>this.touchMatrices());}
+ touchMatrices(){for(const o of this.frozen||[]){o.updateMatrix();o.matrixWorldNeedsUpdate=true;}}
  // Manual atmosphere presets fix the lamps and ground fog; Real NYC time sets them continuously through setSky.
  // Baked ambient occlusion (atmosphere/ao.js): ground contact AO from a texture baked over the map, and
  // wall-base AO on every static, non-instanced lit material. Runs before the decay layer, which chains it.
