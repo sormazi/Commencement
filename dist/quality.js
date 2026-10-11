@@ -9,10 +9,33 @@ import {perfOn} from './perf.js?v=24';
 export const PRESETS={
  low:{label:'Low',grass:'off',ssr:0,probe:'off',shafts:0,bloomLevels:0,grain:0,ao:.75,ssao:false,pbr:false,pixelRatio:1,shadows:false,shadowSize:512,bloom:false,far:650},
  medium:{label:'Medium',grass:'medium',ssr:12,probe:'medium',shafts:12,bloomLevels:4,grain:.016,ao:1,ssao:false,pbr:true,pixelRatio:1.25,shadows:true,shadowSize:1024,bloom:true,far:1100},
- high:{label:'High',grass:'high',ssr:24,probe:'high',shafts:24,bloomLevels:5,grain:.018,ao:1,ssao:true,pbr:true,pixelRatio:2,shadows:true,shadowSize:2048,bloom:true,far:1600}};
+ high:{label:'High',grass:'high',ssr:24,probe:'high',shafts:24,bloomLevels:5,grain:.018,ao:1,ssao:true,pbr:true,pixelRatio:2,dynamic:{start:1.5,min:1},shadows:true,shadowSize:2048,bloom:true,far:1600}};
 export const ORDER=['low','medium','high'];
+// Dynamic resolution for High (performance fix 13). High was GPU-bound by pixel count: about 43 ms per frame at
+// a 2x pixel ratio on an M3, where frame time followed the number of pixels drawn. Instead of one fixed ratio,
+// High picks the 3D render's pixel ratio from a ladder (2, 1.75, 1.5, 1.35, 1.2, 1.1, 1.0, never above the
+// screen's) once a second: a step down when the last second averaged slower than 52 fps or its slow frames
+// (95th percentile) were slower than 38 fps; a step up only after three seconds in a row comfortably at 60, and
+// a ratio that failed waits 20 s before it is tried again, then 40, 80 and so on up to 5 minutes, so it settles
+// instead of see-sawing. It starts at 1.5.
+// Only the 3D canvas changes: the interface is HTML and text stays at full sharpness. ?perf-off=dynres pins
+// High at its old fixed 2x; ?dynres=1.5 (or any ratio) pins it at that ratio for testing.
+const LADDER=[2,1.75,1.5,1.35,1.2,1.1,1];
+export class DynamicResolution{
+ constructor(city){this.city=city;this.on=false;this.ratio=1;this.samples=[];this.good=0;this.lastChange=0;this.failed=new Map();
+  const pin=(globalThis.location?.search||'').match(/[?&]dynres=([0-9.]+)/);this.pin=pin?Math.max(.5,Math.min(3,+pin[1])):0;}
+ get ladder(){const max=globalThis.devicePixelRatio||1;const l=LADDER.filter(x=>x<=max+1e-6);return l.length?l:[max];}
+ reset(spec){this.on=!!spec;if(!this.on)return;this.spec=spec;this.samples=[];this.good=0;this.failed.clear();this.lastChange=performance.now();
+  const L=this.ladder;this.ratio=this.pin||L.reduce((b,x)=>Math.abs(x-spec.start)<Math.abs(b-spec.start)?x:b,L[0]);}
+ set(ratio,now){if(ratio===this.ratio)return;this.ratio=ratio;this.lastChange=now;this.samples=[];this.good=0;const c=this.city;c.renderer.setPixelRatio(ratio);c.resize();}
+ tick(t,dt){if(!this.on||this.pin||this.city.dynPaused||!(dt>0)||dt>.5)return;this.samples.push(dt);const now=performance.now();
+  if(now-this.lastChange<1500||this.samples.length<30)return;const n=this.samples.length,span=this.samples.reduce((a,b)=>a+b,0);if(span<1)return;
+  const mean=span/n,p95=[...this.samples].sort((a,b)=>a-b)[Math.floor(n*.95)];this.samples=[];
+  const L=this.ladder,i=Math.max(0,L.indexOf(this.ratio)),floor=this.spec.min||1;
+  if((1/mean<52||1/p95<38)&&i<L.length-1&&L[i+1]>=floor-1e-6){{const f=this.failed.get(this.ratio);this.failed.set(this.ratio,{at:now,wait:f?Math.min(300000,f.wait*2):20000});}const k=1/mean<36&&i+2<L.length&&L[i+2]>=floor-1e-6?2:1;this.good=0;this.set(L[i+k],now);return;}
+  if(1/mean>59&&1/p95>50){this.good++;if(this.good>=3&&i>0){const up=L[i-1];const f=this.failed.get(up);if(!f||now-f.at>f.wait)this.set(up,now);else this.good=0;}}else this.good=0;}}
 export class Quality{
- constructor(city,store){this.city=city;this.store=store;this.choice='auto';this.level='medium';this.listeners=[];this.samples=[];this.lastStep=-1e9;
+ constructor(city,store){this.city=city;this.store=store;this.dyn=new DynamicResolution(city);this.choice='auto';this.level='medium';this.listeners=[];this.samples=[];this.lastStep=-1e9;
   let saved=null;try{saved=store.get('quality');}catch{}const url=(location.search.match(/[?&]quality=(low|medium|high|auto)/)||[])[1];
   this.set(url||saved||'auto',{save:false});}
  // choice: 'low' | 'medium' | 'high' | 'auto'.
@@ -20,7 +43,8 @@ export class Quality{
   this.apply(this.choice==='auto'?(this.level||'medium'):this.choice);}
  get preset(){return PRESETS[this.level];}
  apply(level){this.level=level;const q=PRESETS[level],c=this.city,r=c.renderer;
-  r.setPixelRatio(Math.min(window.devicePixelRatio||1,q.pixelRatio));c.resize();
+  // High uses dynamic resolution (below); every other preset a fixed pixel ratio.
+  this.dyn.reset(q.dynamic&&perfOn('dynres')?q.dynamic:null);r.setPixelRatio(Math.min(window.devicePixelRatio||1,this.dyn.on?this.dyn.ratio:q.pixelRatio));c.resize();
   r.shadowMap.enabled=q.shadows;c.sun.castShadow=q.shadows;
   if(c.sun.shadow.mapSize.x!==q.shadowSize){c.sun.shadow.mapSize.set(q.shadowSize,q.shadowSize);c.sun.shadow.map?.dispose();c.sun.shadow.map=null;}
   c.postMat.uniforms.bloomOn.value=q.bloom?1:0;
@@ -36,7 +60,7 @@ export class Quality{
   for(const f of this.listeners)f(level,q);}
  onChange(f){this.listeners.push(f);f(this.level,this.preset);}
  // Called every frame with the frame time in seconds; only acts in Auto.
- tick(t,dt){if(this.choice!=='auto'||!(dt>0)||dt>.5)return;this.samples.push(dt);if(this.samples.length<240)return;
+ tick(t,dt){this.dyn.tick(t,dt);if(this.choice!=='auto'||!(dt>0)||dt>.5)return;this.samples.push(dt);if(this.samples.length<240)return;
   const s=this.samples.sort((a,b)=>a-b),mean=this.samples.reduce((a,b)=>a+b,0)/this.samples.length,p90=s[Math.floor(s.length*.9)];this.samples=[];
   if(t-this.lastStep<60000)return;const i=ORDER.indexOf(this.level);
   if((1/mean<42||1/p90<30)&&i>0){this.lastStep=t;this.apply(ORDER[i-1]);}

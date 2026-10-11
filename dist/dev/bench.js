@@ -49,14 +49,14 @@ Q.run=(async()=>{Q.status='waiting for visible window';await vis();
  Q.measure=measure;Q.frame=frame;
  Q.levels=levels||['low','medium','high'];for(const level of Q.levels){Q.status='switching to '+level;G.quality(level);G.weather('clear');await vis();for(let i=0;i<150;i++)await frame();
   const R=Q.results[level]={};
-  for(const [name,cam] of VIEWS){Q.status=`${level}: ${name}`;G.viewFrom(cam);R[name]=await measure(6000);}
-  G.viewFrom(VIEWS[0][1]);for(const w of ['heavyrain','snow']){Q.status=`${level}: Arch ${w}`;G.weather(w);for(let i=0;i<60;i++)await frame();R['Arch '+w]=await measure(6000);}
+  for(const [name,cam] of VIEWS){Q.status=`${level}: ${name}`;G.viewFrom(cam);R[name]=await measure(6000);if(R[name])R[name].ratio=window.__city?.renderer.getPixelRatio();}
+  G.viewFrom(VIEWS[0][1]);for(const w of ['heavyrain','snow']){Q.status=`${level}: Arch ${w}`;G.weather(w);for(let i=0;i<60;i++)await frame();R['Arch '+w]=await measure(6000);if(R['Arch '+w])R['Arch '+w].ratio=window.__city?.renderer.getPixelRatio();}
   G.weather('clear');Q.status=`${level}: park loop`;
-  R['Park loop']=await measure(30000,(s)=>{const T=s<0?0:s;const a=T*12/95,cn=-110;const x=110*Math.cos(a),n=cn+70*Math.sin(a);const tx=-Math.sin(a)*110,tn=Math.cos(a)*70,l=Math.hypot(tx,tn);G.viewFrom({x,y:1.7,n,lx:x+tx/l*30,ly:2,ln:n+tn/l*30,fov:63});});}
+  R['Park loop']=await measure(30000,(s)=>{const T=s<0?0:s;const a=T*12/95,cn=-110;const x=110*Math.cos(a),n=cn+70*Math.sin(a);const tx=-Math.sin(a)*110,tn=Math.cos(a)*70,l=Math.hypot(tx,tn);G.viewFrom({x,y:1.7,n,lx:x+tx/l*30,ly:2,ln:n+tn/l*30,fov:63});});if(R['Park loop'])R['Park loop'].ratio=window.__city?.renderer.getPixelRatio();}
  G.viewFrom(null);G.weather('live');G.quality('auto');Q.status='done';if(Q.levels.length){console.log('bench',JSON.stringify({meta:Q.meta,results:Q.results}));showResults(Q);}})().catch(e=>{Q.status='error '+e.message;});
 return Q;}
 function showResults(Q){const el=document.createElement('pre');Object.assign(el.style,{position:'fixed',left:'8px',top:'8px',zIndex:99,background:'#000c',color:'#cfe',font:'11px/1.35 monospace',padding:'10px',maxHeight:'90vh',overflow:'auto',pointerEvents:'auto'});
- const rows=[];for(const [lv,R] of Object.entries(Q.results))for(const [k,v] of Object.entries(R))if(v)rows.push(`${lv.padEnd(7)}${k.padEnd(15)}${String(v.fps).padStart(6)} fps  1%low ${String(v.low1).padStart(5)}  cpu ${v.cpuMean}ms  gpu ${v.gpuMean}ms  draws ${v.draws}  alloc ${v.allocKBperFrame}KB/f  long ${v.longFrames}`);
+ const rows=[];for(const [lv,R] of Object.entries(Q.results))for(const [k,v] of Object.entries(R))if(v)rows.push(`${lv.padEnd(7)}${k.padEnd(15)}${v.ratio?('x'+v.ratio+' ').padStart(6):''}${String(v.fps).padStart(6)} fps  1%low ${String(v.low1).padStart(5)}  cpu ${v.cpuMean}ms  gpu ${v.gpuMean}ms  draws ${v.draws}  alloc ${v.allocKBperFrame}KB/f  long ${v.longFrames}`);
  el.textContent=`${Q.meta.w}x${Q.meta.h} dpr ${Q.meta.dpr} ${Q.meta.chrome}\n`+rows.join('\n');document.body.appendChild(el);}
 
 // GPU breakdown (?bench=gpu): where High's frame time goes, on the machine that runs it. At the Arch on High it
@@ -80,9 +80,9 @@ export async function runGpuBreakdown(G){const Q=runBench(G,{levels:[]});await Q
   ['material-first sort',()=>r.setOpaqueSort(null),()=>r.setOpaqueSort((a,b)=>a.groupOrder-b.groupOrder||a.renderOrder-b.renderOrder||a.z-b.z||a.id-b.id)],
   ['no post effects',()=>{keep={...c.postMat.defines};post(d=>{for(const k of Object.keys(d))delete d[k];});c.fxOn=false;},()=>{c.postMat.defines=keep;c.postMat.needsUpdate=true;G.quality('high');}],
   ['baseline again',()=>{},()=>{}]];
- G.quality('high');G.weather('clear');G.viewFrom({x:0,y:1.7,n:-48,lx:0,ly:9,ln:0,fov:63});await settle(240);
+ G.quality('high');c.dynPaused=true;r.setPixelRatio(Math.min(2,devicePixelRatio));c.resize();G.weather('clear');G.viewFrom({x:0,y:1.7,n:-48,lx:0,ly:9,ln:0,fov:63});await settle(240);
  const out=Q.gpu=[];for(const [name,on,off] of LINES){Q.status='gpu: '+name;on();await settle(120);const m=await Q.measure(4000);off();await settle(30);
   out.push({name,fps:m.fps,ms:+(1000/m.fps).toFixed(1),low1:m.low1,gpu:m.gpuMean,cpu:m.cpuMean,draws:m.draws});}
- G.viewFrom(null);G.quality('auto');G.weather('live');Q.status='gpu done';console.log('gpu',JSON.stringify({meta:Q.meta,gpu:out}));
+ c.dynPaused=false;G.viewFrom(null);G.quality('auto');G.weather('live');Q.status='gpu done';console.log('gpu',JSON.stringify({meta:Q.meta,gpu:out}));
  const base=out[0].ms,el=document.createElement('pre');Object.assign(el.style,{position:'fixed',left:'8px',top:'8px',zIndex:99,background:'#000c',color:'#cfe',font:'11px/1.35 monospace',padding:'10px',maxHeight:'90vh',overflow:'auto'});
  el.textContent=`${Q.meta.w}x${Q.meta.h} dpr ${Q.meta.dpr} ${Q.meta.chrome}  (High, Arch)\n`+out.map(o=>`${o.name.padEnd(24)}${String(o.fps).padStart(6)} fps ${String(o.ms).padStart(6)} ms (${(o.ms-base>=0?'+':'')+(o.ms-base).toFixed(1)})  gpu ${o.gpu}  cpu ${o.cpu}  draws ${o.draws}`).join('\n');document.body.appendChild(el);return out;}
