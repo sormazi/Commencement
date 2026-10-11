@@ -1,4 +1,5 @@
 import * as T from '../../vendor/three.module.js';
+import {perfOn} from '../../perf.js?v=24';
 // Foliage (Step A.6). Better tree crowns and wind.
 // Crown: a lumpy icosphere (320 triangles, displaced by smooth noise so each crown reads as clumps of leaves
 // rather than a faceted ball), with soft normals. Leaf shader: clump-scale colour variation, a darker,
@@ -26,12 +27,25 @@ const SWAY=`vec3 fSway(vec3 o,vec2 base){float ph=base.x*.071+base.y*.053;float 
  return vec3(fWindDir.x*g*k,0.,fWindDir.y*g*k);}`;
 const base=`#ifdef USE_INSTANCING\n vec2 fBase=vec2(nvIM[3].x,nvIM[3].z);\n#else\n vec2 fBase=vec2(0.);\n#endif`;// nvIM: the era-blended instance matrix (decay.js blendInstances)
 // Leaves: patch an (already instance-blended) MeshStandardMaterial. Chains any earlier onBeforeCompile.
-export function patchLeaves(m){const prev=Object.prototype.hasOwnProperty.call(m,'onBeforeCompile')?m.onBeforeCompile:null,prevKey=prev&&m.customProgramCacheKey?m.customProgramCacheKey():'';
+// Baked noise for the leaf shader (performance fix 7): a 32^3 tile of random values, read with linear filtering,
+// is value noise; four channels give a clump value and a random vector field for the leaf grain in the normal.
+// Five texture reads per pixel replace fifteen procedural noise evaluations.
+let NOISE_TEX=null;function leafNoise(){if(NOISE_TEX)return NOISE_TEX;const N=32,d=new Uint8Array(N*N*N*4);let x=2463534242;const r=()=>{x^=x<<13;x^=x>>>17;x^=x<<5;return (x>>>0)&255;};
+ for(let i=0;i<d.length;i++)d[i]=r();const t=new T.Data3DTexture(d,N,N,N);t.format=T.RGBAFormat;t.minFilter=t.magFilter=T.LinearFilter;t.wrapS=t.wrapT=t.wrapR=T.RepeatWrapping;t.unpackAlignment=1;t.needsUpdate=true;return NOISE_TEX=t;}
+export function patchLeaves(m){const baked=perfOn('leaves');const prev=Object.prototype.hasOwnProperty.call(m,'onBeforeCompile')?m.onBeforeCompile:null,prevKey=prev&&m.customProgramCacheKey?m.customProgramCacheKey():'';
  m.flatShading=false;
- m.onBeforeCompile=(sh,r)=>{if(prev)prev(sh,r);Object.assign(sh.uniforms,{fWind:WIND,fWindDir:WIND_DIR,fTime:FOLIAGE_TIME});
+ m.onBeforeCompile=(sh,r)=>{if(prev)prev(sh,r);Object.assign(sh.uniforms,{fWind:WIND,fWindDir:WIND_DIR,fTime:FOLIAGE_TIME});if(baked)sh.uniforms.fNoiseTex={value:leafNoise()};
   sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nuniform float fWind;uniform vec2 fWindDir;uniform float fTime;varying vec3 vLeaf;\n'+SWAY)
    .replace('#include <begin_vertex>','#include <begin_vertex>\nvLeaf=position;\n'+base+'\ntransformed+=fSway(position,fBase);');
-  sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nvarying vec3 vLeaf;\n'+NOISE)
+  if(baked)sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nvarying vec3 vLeaf;uniform highp sampler3D fNoiseTex;\nvec4 tN(vec3 p){return texture(fNoiseTex,p*.03125);}')
+   .replace('#include <color_fragment>',`#include <color_fragment>
+ {float clump=tN(vLeaf*3.1+7.).r*.6+tN(vLeaf*7.3).r*.4;float grain=tN(vLeaf*23.).r;
+  float up=clamp(vLeaf.y*.75+.5,0.,1.);
+  diffuseColor.rgb*=mix(.62,1.12,up)*(.82+.36*clump)*(.9+.2*grain);
+  diffuseColor.rgb=mix(diffuseColor.rgb,diffuseColor.rgb*vec3(.86,.95,1.05),(1.-up)*.5);}`)
+   .replace('#include <normal_fragment_maps>',`#include <normal_fragment_maps>
+ {vec3 gq=(tN(vLeaf*13.).gba-.5)*.9+(tN(vLeaf*31.).gba-.5)*.45;normal=normalize(normal+(viewMatrix*vec4(gq,0.)).xyz*.9);}`);
+  else sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nvarying vec3 vLeaf;\n'+NOISE)
    .replace('#include <color_fragment>',`#include <color_fragment>
  {float clump=fnoise(vLeaf*3.1+7.)*.6+fnoise(vLeaf*7.3)*.4;float grain=fnoise(vLeaf*23.);
   float up=clamp(vLeaf.y*.75+.5,0.,1.);
@@ -41,4 +55,4 @@ export function patchLeaves(m){const prev=Object.prototype.hasOwnProperty.call(m
  {vec3 q=vLeaf*13.;vec3 gq=vec3(fnoise(q+vec3(.5,0.,0.))-fnoise(q-vec3(.5,0.,0.)),fnoise(q+vec3(0.,.5,0.))-fnoise(q-vec3(0.,.5,0.)),fnoise(q+vec3(0.,0.,.5))-fnoise(q-vec3(0.,0.,.5)));
   vec3 q2=vLeaf*31.;gq+=.5*vec3(fnoise(q2+vec3(.5,0.,0.))-fnoise(q2-vec3(.5,0.,0.)),fnoise(q2+vec3(0.,.5,0.))-fnoise(q2-vec3(0.,.5,0.)),fnoise(q2+vec3(0.,0.,.5))-fnoise(q2-vec3(0.,0.,.5)));
   normal=normalize(normal+(viewMatrix*vec4(gq,0.)).xyz*.9);}`);};
- m.customProgramCacheKey=()=>prevKey+'|leaves2';m.needsUpdate=true;return m;}
+ m.customProgramCacheKey=()=>prevKey+(baked?'|leaves3':'|leaves2');m.needsUpdate=true;return m;}
