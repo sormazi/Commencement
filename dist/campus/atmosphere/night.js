@@ -40,6 +40,7 @@ vec4 mvPosition=modelViewMatrix*instanceMatrix*vec4(0.,0.,0.,1.);mvPosition.xy+=
  all.forEach((l,i)=>{o3.position.set(l.head[0],CURB_HEIGHT+l.head[1],-l.head[2]);o3.rotation.set(0,0,0);o3.scale.set(1.01,1.01,1.01);o3.updateMatrix();lantern.setMatrixAt(i,o3.matrix);halo.setMatrixAt(i,o3.matrix);});
  for(const m of [lantern,halo]){m.computeBoundingSphere();m.frustumCulled=false;group.add(m);}halo.renderOrder=3;
  // Pool of real lights on the nearest live lamps.
+ const nearD=new Float64Array(3),nearL=[null,null,null];
  const pool=[0,1,2].map(()=>{const L=new T.PointLight(0xffc98a,0,26,1.6);group.add(L);return L;});
  // Fog: soft vertical cards drifting low around the camera.
  const N=26,fg=keep(new T.PlaneGeometry(1,1)),fm=new T.MeshBasicMaterial({map:keep(fogTexture()),transparent:true,depthWrite:false,color:0x56606e,opacity:.32,fog:true});keep(fm);
@@ -53,8 +54,11 @@ vec4 mvPosition=modelViewMatrix*instanceMatrix*vec4(0.,0.,0.,1.);mvPosition.xy+=
  return {group,live,all,setLevels,setNight(v){setLevels(v?1:0,v?1:0);},
   update(time,camera){uniforms.uTime.value=time;if(lamps<=.01&&cardLv<=.01)return;const cx=camera.position.x,cz=camera.position.z;
    // Nearest live lamps get the real lights.
-   const t=DECAY.value,near=(t>.5?live:all).map(l=>({l,d:(l.p[0]-cx)**2+(-l.p[1]-cz)**2})).sort((a,b)=>a.d-b.d).slice(0,pool.length);
-   pool.forEach((L,i)=>{const e=near[i];if(!e||e.d>90*90||lamps<=.01){L.intensity=0;return;}L.position.set(e.l.head[0],CURB_HEIGHT+e.l.head[1]-.25,-e.l.head[2]);L.intensity=55*lamps*(1+(e.l.alive*flicker(time,e.l.seed)-1)*t);});
+   // (One pass, no allocation: the three nearest, kept in a fixed array; this ran a map and sort over every
+   // lamp in the map each frame.)
+   const t=DECAY.value,list=t>.5?live:all;nearD.fill(Infinity);nearL.fill(null);
+   for(const l of list){const d=(l.p[0]-cx)**2+(-l.p[1]-cz)**2;if(d>=nearD[2])continue;let k=2;while(k>0&&d<nearD[k-1]){nearD[k]=nearD[k-1];nearL[k]=nearL[k-1];k--;}nearD[k]=d;nearL[k]=l;}
+   for(let i=0;i<pool.length;i++){const L=pool[i],l=nearL[i];if(!l||nearD[i]>90*90||lamps<=.01){L.intensity=0;continue;}L.position.set(l.head[0],CURB_HEIGHT+l.head[1]-.25,-l.head[2]);L.intensity=55*lamps*(1+(l.alive*flicker(time,l.seed)-1)*t);}
    // Fog cards wrap round the camera and drift slowly east.
    cards.forEach(c=>{let dx=c.x-cx,dz=c.z-cz;if(!c.init||Math.hypot(dx,dz)>75){const a=hash(c.i*7.1+Math.floor(time))*6.28,r=18+hash(c.i*3.3+time)*55;c.x=cx+Math.cos(a)*r;c.z=cz+Math.sin(a)*r;c.y=.8+hash(c.i)*2.5;c.w=14+hash(c.i*2)*18;c.h=3+hash(c.i*5)*3;c.init=true;}
     c.x+=.012;c.z+=.004;o3.position.set(c.x,c.y,c.z);o3.rotation.set(0,0,0);o3.scale.set(c.w,c.h,1);o3.updateMatrix();fog.setMatrixAt(c.i,o3.matrix);});fog.instanceMatrix.needsUpdate=true;}};}
