@@ -74,6 +74,9 @@ export class CampusWorld{
   // Performance: almost nothing in the world moves, so stop three.js recomputing ~4,000 local matrices every
   // frame (2 to 4 ms of CPU on an M3). The night lamps' lights move, so their group stays live; anything added
   // later keeps automatic updates; the decay layer re-syncs the frozen matrices when the era changes.
+  // Performance: 2126-only growth (meadow tufts, ivy) is drawn at zero size in 2026; hide it until the decay
+  // layer starts to grow it (32 draws and about 90,000 triangles at the Arch).
+  if(perfOn('grow')){const grow=[];this.group.traverse(o=>{if(o.isMesh&&(o.name==='meadow'||o.name==='ivy'))grow.push(o);});const vis=t=>{for(const m of grow)m.visible=t>.002;};vis(DECAY.value);this.decayHooks.push(vis);}
   if(perfOn('matrix'))this.freezeMatrices();}
  freezeMatrices(){const live=this.night?.group,frozen=this.frozen=[];const walk=(o)=>{if(o===live)return;if(o.matrixAutoUpdate){o.updateMatrix();o.matrixAutoUpdate=false;frozen.push(o);}for(const c of o.children)walk(c);};
   for(const c of this.group.children)walk(c);this.group.updateMatrixWorld(true);(this.decayHooks||(this.decayHooks=[])).push(()=>this.touchMatrices());}
