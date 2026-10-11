@@ -22,7 +22,7 @@ export class Quality{
   r.setPixelRatio(Math.min(window.devicePixelRatio||1,q.pixelRatio));c.resize();
   r.shadowMap.enabled=q.shadows;c.sun.castShadow=q.shadows;
   if(c.sun.shadow.mapSize.x!==q.shadowSize){c.sun.shadow.mapSize.set(q.shadowSize,q.shadowSize);c.sun.shadow.map?.dispose();c.sun.shadow.map=null;}
-  c.postMat.uniforms.bloomOn.value=q.bloom?1:0;if(c.bloom){c.bloom.on=q.bloom;c.bloom.levels=q.bloomLevels||1;}c.postMat.uniforms.grainAmt.value=q.grain;c.postMat.uniforms.shaftOn.value=q.shafts?1:0;c.postMat.uniforms.ssrN.value=q.ssr;c.probe?.setMode(q.probe);c.grassLevel=q.grass;if(c.world){c.world.grassLevel=q.grass;c.world.grassField?.setLevel(q.grass);}c.postMat.uniforms.shaftN.value=q.shafts||1;AO.strength.value=q.ao;c.postMat.uniforms.ssaoOn.value=q.ssao?1:0;setPBR(q.pbr);c.camera.far=q.far;c.camera.updateProjectionMatrix();
+  c.postMat.uniforms.bloomOn.value=q.bloom?1:0;if(c.bloom){c.bloom.on=q.bloom;c.bloom.levels=q.bloomLevels||1;}c.postMat.uniforms.grainAmt.value=q.grain;c.postMat.uniforms.shaftOn.value=q.shafts?1:0;c.postMat.uniforms.ssrN.value=q.ssr;c.probe?.setMode(q.probe);c.precip?.setLevel(level);c.grassLevel=q.grass;if(c.world){c.world.grassLevel=q.grass;c.world.grassField?.setLevel(q.grass);}c.postMat.uniforms.shaftN.value=q.shafts||1;AO.strength.value=q.ao;c.postMat.uniforms.ssaoOn.value=q.ssao?1:0;setPBR(q.pbr);c.camera.far=q.far;c.camera.updateProjectionMatrix();
   // Materials compiled with or without shadows need a rebuild when shadows switch.
   c.scene.traverse(o=>{if(o.material){for(const m of [].concat(o.material))m.needsUpdate=true;}});
   for(const f of this.listeners)f(level,q);}

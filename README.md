@@ -10,7 +10,7 @@ At some point I started wondering what WSQ would look like if everyone just stop
 
 
 
-You drive a Campus Safety car, which as far as anyone can tell is the last vehicle on campus that still starts, through the square and the streets around it in 2126. Trees have pushed up through the paths. Ivy has climbed most of the buildings. The street lamps mostly don't work, and the light follows the real time in New York, so if you play at two in the morning it's two in the morning in the game too.
+You drive a Campus Safety car, which as far as anyone can tell is the last vehicle on campus that still starts, through the square and the streets around it in 2126. Trees have pushed up through the paths. Ivy has climbed most of the buildings. The street lamps mostly don't work, and the light follows the real time in New York, so if you play at two in the morning it's two in the morning in the game too. The weather is live as well: if it's raining in Manhattan, it's raining in the square.
 
 It isn't empty, though. People still stand around the park and wait in lines outside buildings that are never going to open again. Most of them ignore you. A few turn their heads as you drive past. I don't know what they're waiting for either.
 
@@ -58,7 +58,7 @@ As close as I could get it. The streets are the real streets at their real width
 | Put the car back on the street | R |
 | Pause | Esc |
 
-Sound starts after you click or press a key. The options menu (top right) has the time of day, the year, sound, music and an FPS counter.
+Sound starts after you click or press a key. The options menu (top right) has the time of day, the year, the weather (live, or pick one), lightning (normal, soft or off), graphics quality, sound, music and an FPS counter. Live weather data comes from [Open-Meteo](https://open-meteo.com/) (CC BY 4.0), with the [National Weather Service](https://www.weather.gov/) as a backup.
 
 ## Run it yourself
 

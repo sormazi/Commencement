@@ -22,9 +22,9 @@ function placeVehicle(at){const c=campus(),p=at||c.spawn,s=simulation.state;s.po
 function start(){playing=true;paused=false;optionsOpen=false;simulation=new FixedVehicleLoop(VEHICLE);state=simulation.state;renderState=state;placeVehicle();time=0;controls={};keys={};$('garage').hidden=true;$('hud').hidden=false;$('pauseDialog').hidden=true;document.body.classList.remove('options-open');document.body.classList.add('playing');}
 function reset(){const at=snapToStreet(campus(),state.position.x,state.position.z,state.orientation.yaw);simulation=new FixedVehicleLoop(VEHICLE);state=simulation.state;renderState=state;placeVehicle(at);time=0;controls={};keys={};}
 function pause(value=!paused){if(!playing||introActive||optionsOpen)return;paused=value;keys={};$('pauseDialog').hidden=!value;if(value)$('resume').focus();}
-const OPTION_IDS=['preset','sound','music','quality','fpsToggle'];
+const OPTION_IDS=['preset','sound','music','quality','fpsToggle','weather','lightning'];
 function openOptions(){if(introActive||optionsOpen)return;optionsReturnPaused=paused;paused=true;keys={};controls={};optionsOpen=true;optionSnapshot=Object.fromEntries(OPTION_IDS.map(id=>[id,$(id).value]));$('pauseDialog').hidden=true;$('garage').hidden=false;document.body.classList.add('options-open');$('closeOptions').focus();}
-function closeOptions(apply=false){if(!optionsOpen)return;if(!apply){for(const [id,v] of Object.entries(optionSnapshot||{}))$(id).value=v;setFps($('fpsToggle').value==='on');if(quality.choice!==$('quality').value)quality.set($('quality').value);}
+function closeOptions(apply=false){if(!optionsOpen)return;if(!apply){for(const [id,v] of Object.entries(optionSnapshot||{}))$(id).value=v;setFps($('fpsToggle').value==='on');if(quality.choice!==$('quality').value)quality.set($('quality').value);if(city.weather.choice!==$('weather').value)city.weather.set($('weather').value);city.weather.lightning=$('lightning').value;}
  optionsOpen=false;$('garage').hidden=true;document.body.classList.remove('options-open');paused=optionsReturnPaused;keys={};$('pauseDialog').hidden=!paused;(paused?$('resume'):$('menuBtn')).focus();}
 $('drive').onclick=()=>closeOptions(true);$('closeOptions').onclick=$('cancelOptions').onclick=()=>closeOptions(false);$('reset').onclick=reset;$('pause').onclick=()=>pause();$('resume').onclick=()=>pause(false);$('restart').onclick=()=>{reset();pause(false);};$('back').onclick=openOptions;$('menuBtn').onclick=openOptions;$('units').onclick=()=>{mph=!mph;$('units').textContent=mph?'MPH':'KPH';};$('about').onclick=()=>$('aboutDialog').showModal();$('closeAbout').onclick=()=>$('aboutDialog').close();
 // The opening: the publisher splash, then the Commencement smoke title, which is also the loading screen.
@@ -69,10 +69,17 @@ function setFps(on){fpsMeter.on=on;city.renderer.info.autoReset=!on;fpsMeter.el=
 const quality=new Quality(city,store);$('quality').value=quality.choice;
 const qualityNote=()=>{const n=$('qualityNote');n.hidden=quality.choice!=='auto';n.textContent='Running at '+PRESETS[quality.level].label;};quality.onChange(qualityNote);
 $('quality').addEventListener('change',e=>{quality.set(e.target.value);qualityNote();});
+// Weather (Options > Weather, or ?weather= in the URL) and how lightning shows (Normal, Soft, Off).
+{const W=city.weather;let w=null,l=null;try{w=store.get('weather');l=store.get('lightning');}catch{}
+ if(!W.urlChoice&&w)W.set(w,{snap:true});$('weather').value=W.choice;W.lightning=l==='soft'||l==='off'?l:'normal';$('lightning').value=W.lightning;
+ $('weather').addEventListener('change',e=>{W.set(e.target.value);try{store.set('weather',W.choice);}catch{}});
+ $('lightning').addEventListener('change',e=>{W.lightning=e.target.value;try{store.set('lightning',W.lightning);}catch{}});}
 function fpsTick(t,dt){if(!fpsMeter.on)return;const info=city.renderer.info;info.autoReset=false;const calls=info.render.calls,tris=info.render.triangles;info.reset();if(!fpsMeter.t0){fpsMeter.t0=t;return;}fpsMeter.frames++;fpsMeter.worst=Math.max(fpsMeter.worst,dt*1000);const span=t-fpsMeter.t0;if(span<500)return;
  const fps=fpsMeter.frames*1000/span;fpsMeter.el.textContent=`${fps.toFixed(0)} fps · worst ${fpsMeter.worst.toFixed(1)} ms · ${calls} calls · ${(tris/1000).toFixed(0)}k tris`;fpsMeter.el.classList.toggle('slow',fps<55);fpsMeter.frames=0;fpsMeter.t0=t;fpsMeter.worst=0;}
 // Options note under Atmosphere: what Real NYC time is showing right now (refreshed about once a second).
-let skyNoteAt=0;function skyNote(t){if(t<skyNoteAt)return;skyNoteAt=t+1000;const on=$('preset').value==='realtime',note=$('skyNote');if(!on){note.hidden=true;return;}note.hidden=false;const i=city.sky.info();note.textContent=i?i.text+(i.preview?' (preview)':''):'';}
+let skyNoteAt=0;function skyNote(t){if(t<skyNoteAt)return;skyNoteAt=t+1000;const on=$('preset').value==='realtime',note=$('skyNote');{const wn=$('weatherNote'),wi=city.weather.info();wn.hidden=!on;
+  if(on)wn.textContent=wi.choice!=='live'?'Fixed: '+wi.text:wi.source?`Live: ${wi.text} (${wi.source}, ${Math.max(0,Math.round((Date.now()-wi.fetchedAt)/60000))} min ago)`:wi.failed?'Live weather unavailable right now: showing overcast':'Fetching live weather';}
+ if(!on){note.hidden=true;return;}note.hidden=false;const i=city.sky.info();note.textContent=i?i.text+(i.preview?' (preview)':''):'';}
 function tick(t){const dt=Math.max(0,(t-last)/1000||0);last=t;fpsTick(t,dt);if(playing&&!paused&&!introActive)quality.tick(t,dt);skyNote(t);openingTick(t);
  if(playing&&!paused){renderState=simulation.advance(dt,inputFromKeys(keys),(s,h,simTime)=>{time=simTime;contacts(s);});state=simulation.state;controls=simulation.controls;}else{simulation.accumulator=0;simulation.previous=structuredClone(simulation.state);renderState=simulation.state;}
  render(dt);audio.update(state,controls,paused||optionsOpen||introActive,$('sound').value==='on');soundtrack.update(!paused&&!optionsOpen&&!introActive&&$('sound').value==='on'&&$('music').value==='on',{x:state.position?.x||0,z:state.position?.z||0},state.orientation?.yaw||0);
@@ -88,6 +95,7 @@ sky:()=>city.sky.info(),
 holdRender:b=>{renderHold=!!b;},
 renderInfo:()=>{let meshes=0,tris=0;const cam=city.camera,fr=new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse));
  city.scene.traverseVisible(o=>{if(!o.isMesh||!o.geometry)return;if(o.geometry.boundingSphere==null)o.geometry.computeBoundingSphere();const s=o.geometry.boundingSphere.clone().applyMatrix4(o.matrixWorld);if(!fr.intersectsSphere(s))return;meshes++;const g=o.geometry,n=(g.index?g.index.count:g.attributes.position.count)/3;tris+=n*(o.isInstancedMesh?o.count:1);});return {drawCalls:meshes,triangles:Math.round(tris)};},
+weather:(c)=>{if(c)city.weather.set(c);return city.weather.info();},
 quality:(c)=>{if(c)quality.set(c);return {choice:quality.choice,level:quality.level,pbr:{loaded:!!PBR.loaded,on:PBR.on.value}};},
 bench:null,
 runBench:async(levels,opts)=>{const g=window.Commencement,res={};for(const l of levels||[quality.level]){quality.set(l,{save:false});res[l]=await runBench(g,opts);}quality.set($('quality').value,{save:false});g.bench=res;console.log('bench',JSON.stringify(res));return res;},

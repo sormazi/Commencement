@@ -19,6 +19,8 @@ import {bakeGroundAO,patchGroundAO,patchWallAO,AO} from './atmosphere/ao.js?v=24
 import {patchWallPBR,patchGroundPBR} from './atmosphere/pbr.js?v=24';
 import {crownGeometry,patchLeaves,FOLIAGE_TIME} from './atmosphere/foliage.js?v=24';
 import {buildGrassField} from './atmosphere/grassfield.js?v=24';
+import {patchSnow} from './atmosphere/snow.js?v=24';
+import {buildSteam} from './atmosphere/steam.js?v=24';
 import {buildFountain,lampLayout,lampParts,chessLayout,chessParts,furnitureGeometry,furnitureMaterial,chessTopMaterial} from './park.js?v=24';
 import {buildTier2,TIER2_BINS} from './tier2/world.js?v=24';
 import {classify,facadeCode,materialTile,GENERIC_CODE,tier3Enabled,facadeAtlas,patchFacadeMaterial} from './tier3/facades.js?v=24';
@@ -80,6 +82,11 @@ export class CampusWorld{
   // street plane, concrete flags on slabs and the park floor.
   patchWallPBR(this.materials.wall);patchGroundPBR(this.materials.paving,'sidewalk',2.5);patchGroundPBR(this.materials.parkFloor,'sidewalk',2.5);
   this.group.traverse(o=>{if(o.userData.kind==='asphalt')patchGroundPBR(o.material,'asphalt',4.0);});this.aoStats={ground:ground.size,walls:walls.size};
+  // Settling snow (atmosphere/snow.js): pavements, the park floor, lawns and roofs whiten; streets turn to slush; crowns get caps.
+  patchSnow(this.materials.paving,'ground',.95);patchSnow(this.materials.parkFloor,'ground',.95);patchSnow(this.materials.grass,'ground',1);patchSnow(this.materials.roof,'roof',1);patchSnow(this.materials.leaves,'leaves',.75);
+  {const done=new Set();this.group.traverse(o=>{if(o.userData.kind==='asphalt'&&!done.has(o.material)){done.add(o.material);patchSnow(o.material,'ground',.55,[.55,.56,.57]);}});}
+  // Manhole steam on cold days (atmosphere/steam.js), driven by the weather.
+  {const st=this.steam=buildSteam(this.data,{groundY:.03});this.group.add(st.mesh);this.disposables.add({dispose:()=>st.dispose()});}
   // Dense grass on the overgrown lawns (atmosphere/grassfield.js); its density comes from the graphics preset.
   {const gf=this.grassField=buildGrassField(this.data,{groundY:CURB_HEIGHT+.01});this.group.add(gf.mesh);this.disposables.add({dispose:()=>gf.dispose()});gf.setLevel(this.grassLevel||'off');}}
  setPreset(p){if(p!=='realtime')this.night?.setNight(p==='night');}

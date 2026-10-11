@@ -8,6 +8,9 @@ import {initPBR} from './campus/atmosphere/pbr.js?v=24';
 import {Bloom} from './post-bloom.js?v=24';
 import {HeightFog} from './campus/atmosphere/heightfog.js?v=24';
 import {EnvProbe} from './campus/atmosphere/envprobe.js?v=24';
+import {Weather} from './campus/atmosphere/weather.js?v=24';
+import {buildPrecip} from './campus/atmosphere/precip.js?v=24';
+import {SNOW_COVER} from './campus/atmosphere/snow.js?v=24';
 const rand=n=>{let x=Math.sin(n*127.1+311.7)*43758.5453;return x-Math.floor(x);};
 function texture(w,h,paint){const c=document.createElement('canvas');c.width=w;c.height=h;paint(c.getContext('2d'),w,h);const tex=new T.CanvasTexture(c);tex.colorSpace=T.SRGBColorSpace;return tex;}
 const glowMap=texture(128,128,c=>{let g=c.createRadialGradient(64,64,1,64,64,64);g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(.15,'rgba(255,255,255,.4)');g.addColorStop(1,'rgba(255,255,255,0)');c.fillStyle=g;c.fillRect(0,0,128,128);});
@@ -97,7 +100,7 @@ col=mix(col,vec3(dot(col,vec3(.2126,.7152,.0722))),desat*mix(1.,.5,gradeOn*(1.-u
 #include <colorspace_fragment>
 // Film grain in display space, strongest in the mid-tones, a new pattern every frame.
 {float n=fract(sin(dot(uv0*resolution+fract(clock*.37)*vec2(113.,71.),vec2(12.9898,78.233)))*43758.5453)-.5;float m=gl_FragColor.g;gl_FragColor.rgb+=n*grainAmt*(.5+2.*m*(1.-m));}
-}`});this.postScene.add(new T.Mesh(new T.PlaneGeometry(2,2),this.postMat));this.bloom=new Bloom(this.renderer);this.bloom.on=true;this.probe=new EnvProbe(this.renderer,this.scene);{const w=(location.search.match(/[?&]wet=([0-9.]+)/)||[])[1];this.wetOverride=w!=null?Math.min(1,+w):null;}this.weatherWet=0;this.resize();window.addEventListener('resize',()=>this.resize());this.preset='';this.sky=new SkyDriver(this);initPBR(this.renderer);}
+}`});this.postScene.add(new T.Mesh(new T.PlaneGeometry(2,2),this.postMat));this.bloom=new Bloom(this.renderer);this.bloom.on=true;this.probe=new EnvProbe(this.renderer,this.scene);this.weather=new Weather();this.precip=buildPrecip();this.scene.add(this.precip.mesh);{const w=(location.search.match(/[?&]wet=([0-9.]+)/)||[])[1];this.wetOverride=w!=null?Math.min(1,+w):null;}this.weatherWet=0;this.resize();window.addEventListener('resize',()=>this.resize());this.preset='';this.sky=new SkyDriver(this);initPBR(this.renderer);}
 // Free-roam rendering: the car moves through a static world in map space (three z = -north).
 updateFreeRoam(state,controls,time,dt,playing){
 const yaw=state.orientation?.yaw||0,X=state.position.x,Z=-state.position.z,fx=Math.sin(yaw),fz=-Math.cos(yaw),rx=Math.cos(yaw),rz=Math.sin(yaw);
@@ -110,7 +113,7 @@ this.player.userData.updateDecay?.();
 this.contact.visible=true;this.contact.position.set(X,ground+.04,Z);this.contact.rotation.z=-yaw;
 for(let i=0;i<2;i++){const side=i?.6:-.6,hx=X+rx*side+fx*2.25,hz=Z+rz*side+fz*2.25;this.headlights[i].position.set(hx,ground+.9,hz);this.headlights[i].target.position.set(hx+fx*30,ground,hz+fz*30);}
 this.fill.position.set(X-rx*4-fx*4,ground+3,Z-rz*4-fz*4);
-if(!this.sun.target.parent)this.scene.add(this.sun.target);if(this.preset==='realtime')this.sky.update(dt,X,Z,this.world);else{this.sun.position.set(X-40,80,Z-80);this.sun.target.position.set(X,0,Z);}
+if(!this.sun.target.parent)this.scene.add(this.sun.target);if(this.preset==='realtime')this.sky.update(dt,X,Z,this.world);else{this.sun.position.set(X-40,80,Z-80);this.sun.target.position.set(X,0,Z);}this.weather.update(dt);if(this.preset==='realtime')this.weather.apply(this);else{this.weatherWet=0;SNOW_COVER.value=0;}{const rt=this.preset==='realtime',wc=this.weather.cur;this.precip.update(performance.now()/1000,this.camera,rt?wc.rain:0,rt?wc.snow:0,this.scene.fog.color,this.postMat.uniforms.uNight.value);if(this.world?.steam){if(rt)this.world.steam.update(performance.now()/1000,wc,this.scene.fog.color,this.postMat.uniforms.uNight.value);else this.world.steam.mesh.visible=false;}}
 // The car's left headlamp burns dimmer as the decay layer comes in.
 this.headlights[0].intensity=this.headlights[1].intensity*(1-.65*DECAY.value);
 if((controls.drifting||controls.burnout||state.damage>.6)&&playing){let p=this.smoke[this.smokeIndex++%this.smoke.length];p.life=1;const side=this.smokeIndex%2?1:-1;p.x=X+rx*side-fx*1.8;p.z=Z+rz*side-fz*1.8;p.y=ground;}
