@@ -1,4 +1,5 @@
 import * as T from '../../vendor/three.module.js';
+import {perfOn} from '../../perf.js?v=24';
 import {pointInRing,centroid,ringArea} from '../geometry.js?v=24';
 import {archPiers,CURB_HEIGHT} from '../collision.js?v=24';
 // Phase 3 first slice: a hundred years of reclamation on Washington Square Park and the buildings
@@ -28,11 +29,13 @@ function tex(w,h,draw,{repeat=false}={}){const c=document.createElement('canvas'
 // 'metal' (rust), 'light' (lighter grime for signs and plaques).
 const NOISE=`float dkHash(vec3 p){return fract(sin(dot(p,vec3(12.71,39.17,71.93)))*43758.5453);}
 float dkNoise(vec3 p){vec3 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(mix(dkHash(i),dkHash(i+vec3(1,0,0)),f.x),mix(dkHash(i+vec3(0,1,0)),dkHash(i+vec3(1,1,0)),f.x),f.y),mix(mix(dkHash(i+vec3(0,0,1)),dkHash(i+vec3(1,0,1)),f.x),mix(dkHash(i+vec3(0,1,1)),dkHash(i+vec3(1,1,1)),f.x),f.y),f.z);}`;
+// Weathering bodies. In 2026 (uDecay 0) none of this runs: the whole block sits behind a branch on the
+// decay value, which is the same for every pixel, so the GPU skips it (performance fix 6).
 const BODY={
  masonry:`float broad=dkNoise(dp*.31),fine=dkNoise(dp*13.),damp=1.-smoothstep(0.,9.,dp.y);
 float streak=pow(dkNoise(vec3(dp.x*2.3,dp.y*.04,dp.z*2.3)),4.);
 float crust=smoothstep(.45,.75,dkNoise(dp*.9+3.))*(.4+.6*smoothstep(4.,30.,dp.y));
-float moss=smoothstep(.45,.75,broad+damp*.45)*damp;
+moss=smoothstep(.45,.75,broad+damp*.45)*damp;
 float crack=(1.-smoothstep(.012,.035,abs(dkNoise(dp*1.7)-.5)))*smoothstep(.4,.7,broad);
 diffuseColor.rgb*=mix(.7,.98,fine)*.86;diffuseColor.rgb*=1.-streak*.7-crack*.6;
 diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.08,.075,.065),crust*.72);
@@ -40,11 +43,11 @@ diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.36,.33,.22),smoothstep(.62,.9,broad)
 diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.12,.17,.07),moss*.75);`,
  glass:`float pane=dkHash(floor(dp*vec3(.9,.42,.9))+7.);float broad=dkNoise(dp*.5);
 float web=1.-smoothstep(.006,.03,abs(dkNoise(dp*3.1)-.5));float web2=1.-smoothstep(.006,.025,abs(dkNoise(dp*7.3+5.)-.5));
-float grime=smoothstep(.3,.9,broad);
+grime=smoothstep(.3,.9,broad);
 diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.16,.17,.15),grime*.55);
 diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.42,.44,.42),max(web,web2*.7)*step(.45,pane)*.7);
 diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.01),step(.82,pane));diffuseColor.a=mix(diffuseColor.a,1.,max(step(.82,pane),grime*.6));`,
- metal:`float broad=dkNoise(dp*.8),fine=dkNoise(dp*21.);float rust=smoothstep(.25,.75,broad+fine*.25);
+ metal:`float broad=dkNoise(dp*.8),fine=dkNoise(dp*21.);rust=smoothstep(.25,.75,broad+fine*.25);
 diffuseColor.rgb=mix(diffuseColor.rgb,mix(vec3(.33,.15,.06),vec3(.48,.25,.1),fine),rust*.85);`,
  paving:`float broad=dkNoise(dp*.22),fine=dkNoise(dp*7.);
 float crack=1.-smoothstep(.004,.014,abs(dkNoise(dp*1.3)-.5)),crack2=1.-smoothstep(.003,.01,abs(dkNoise(dp*3.9+9.)-.5));
@@ -52,12 +55,12 @@ diffuseColor.rgb*=mix(.72,1.,fine)*mix(.78,1.,smoothstep(.3,.7,broad));
 diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.07,.09,.05),max(crack,crack2*.6)*.85*smoothstep(.42,.62,dkNoise(dp*.11+4.)));
 diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.2,.23,.12),smoothstep(.72,.88,broad)*.55);`,
  facade:`float broad=dkNoise(dp*.31),fine=dkNoise(dp*13.),damp=1.-smoothstep(0.,9.,dp.y);
-float streak=pow(dkNoise(vec3(dp.x*2.3,dp.y*.04,dp.z*2.3)),4.);float moss=smoothstep(.45,.75,broad+damp*.45)*damp;
+float streak=pow(dkNoise(vec3(dp.x*2.3,dp.y*.04,dp.z*2.3)),4.);moss=smoothstep(.45,.75,broad+damp*.45)*damp;
 float isGlass=1.-step(.34,dot(sampledDiffuseColor.rgb,vec3(.333)));vec2 cell=floor(vMapUv);float pane=dkHash(vec3(cell,floor(dp.x*.05)+floor(dp.z*.05)*7.));
 diffuseColor.rgb*=mix(.72,.98,fine)*.88*(1.-streak*.6);diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.12,.17,.07),moss*.7);
 diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.008),isGlass*step(.72,pane));diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.42,.34,.24),isGlass*step(.62,pane)*(1.-step(.72,pane)));`,
  paint:`float broad=dkNoise(dp*1.1),fine=dkNoise(dp*17.);float streak=pow(dkNoise(vec3(dp.x*7.,dp.y*.7,dp.z*7.)),3.);
-float rust=smoothstep(.46,.78,broad+streak*.6);float lum=dot(diffuseColor.rgb,vec3(.3,.59,.11));
+rust=smoothstep(.46,.78,broad+streak*.6);float lum=dot(diffuseColor.rgb,vec3(.3,.59,.11));
 diffuseColor.rgb=mix(diffuseColor.rgb,vec3(lum)*.85+vec3(.1,.09,.09),.4);diffuseColor.rgb=mix(diffuseColor.rgb,mix(vec3(.31,.15,.07),vec3(.48,.26,.11),fine),rust*.85);
 diffuseColor.rgb*=1.-streak*.45;diffuseColor.rgb*=mix(.55,1.,smoothstep(-.4,.5,dp.y+fine*.3));`,
  cloth:`float broad=dkNoise(dp*.6),fine=dkNoise(dp*11.);float lum=dot(diffuseColor.rgb,vec3(.3,.59,.11));
@@ -71,8 +74,8 @@ export function decayMaterial(material,kind='masonry',{tear=false,dissolve=false
  if(tear){m.alphaMap=rag();m.alphaTest=Math.max(m.alphaTest||0,.5);}
  if(dissolve)m.alphaTest=Math.max(m.alphaTest||0,.01);
  m.onBeforeCompile=(sh,r)=>{if(prev)prev(sh,r);sh.uniforms.uDecay=DECAY;sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nvarying vec3 dp;').replace('#include <begin_vertex>',local?'#include <begin_vertex>\ndp=(modelMatrix*vec4(position,1.)).xyz-modelMatrix[3].xyz;dp=vec3(dot(dp,normalize(modelMatrix[0].xyz)),dot(dp,normalize(modelMatrix[1].xyz)),dot(dp,normalize(modelMatrix[2].xyz)));':'#include <begin_vertex>\n#ifdef USE_INSTANCING\ndp=(modelMatrix*instanceMatrix*vec4(position,1.)).xyz;\n#else\ndp=(modelMatrix*vec4(position,1.)).xyz;\n#endif\n');
-  sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nvarying vec3 dp;\nuniform float uDecay;\n'+NOISE).replace('#include <color_fragment>','#include <color_fragment>\nvec4 nvClean=diffuseColor;\n'+BODY[kind]+'\ndiffuseColor=mix(nvClean,diffuseColor,uDecay);'+(dissolve?'\nif(dkHash(vec3(floor(gl_FragCoord.xy),3.))>uDecay)discard;':''));
-  if(ROUGH[kind])sh.fragmentShader=sh.fragmentShader.replace('#include <metalnessmap_fragment>','#include <metalnessmap_fragment>\nfloat nvR0=roughnessFactor,nvM0=metalnessFactor;\n'+ROUGH[kind]+'\nroughnessFactor=mix(nvR0,roughnessFactor,uDecay);metalnessFactor=mix(nvM0,metalnessFactor,uDecay);');
+  sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nvarying vec3 dp;\nuniform float uDecay;\n'+NOISE).replace('#include <color_fragment>','#include <color_fragment>\nvec4 nvClean=diffuseColor;float moss=0.,rust=0.,grime=0.;\n'+(perfOn('decay2026')?'if(uDecay>.001){':'{')+BODY[kind]+'\ndiffuseColor=mix(nvClean,diffuseColor,uDecay);}'+(dissolve?'\nif(dkHash(vec3(floor(gl_FragCoord.xy),3.))>uDecay)discard;':''));
+  if(ROUGH[kind])sh.fragmentShader=sh.fragmentShader.replace('#include <metalnessmap_fragment>','#include <metalnessmap_fragment>\nif(uDecay>.001){float nvR0=roughnessFactor,nvM0=metalnessFactor;\n'+ROUGH[kind]+'\nroughnessFactor=mix(nvR0,roughnessFactor,uDecay);metalnessFactor=mix(nvM0,metalnessFactor,uDecay);}');
   // Lit signs and lamps go dark as the layer comes in (plaques keep their glow, if any).
   if(kind!=='light')sh.fragmentShader=sh.fragmentShader.replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\ntotalEmissiveRadiance*=1.-.98*uDecay;');
   // Torn cloth: the rag mask only bites as the layer comes in.
