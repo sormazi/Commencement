@@ -134,8 +134,18 @@ export class CampusWorld{
   const slabs=[...d.sidewalk,...d.plazas,...raisedMedians].map(p=>({rings:[p[0]],area:Math.abs(ringArea(p[0])),c:centroid(p[0])})).sort((a,b)=>b.area-a.area);const kept=[];
   for(const s of slabs){if(kept.some(k=>k.area>s.area&&pointInRing(s.c,k.rings[0])&&s.rings[0].every(p=>pointInRing(p,k.rings[0]))))continue;kept.push(s);const t=this.tile(...s.c);this.builder(t,'paving').prism(s.rings,0,CURB_HEIGHT,col(0xbdbab2),3,3);}
   // Park surfaces: paved park floor, lawns, dog runs and playgrounds (OSM areas), slightly above the slab.
-  const tint={park:0xc9c3b6,grass:0xa8b48c,dogrun:0x9b8a6c,playground:0x8c6f62,pitch:0x8b9a7a,plaza:0xcfc9bd,courtyard:0xb7a596};
+  const tint={bed:0x4a3b2c,pit:0x463829,flowerbed:0x4f3c2b,shrubbery:0x45382a,park:0xc9c3b6,grass:0xa8b48c,dogrun:0x9b8a6c,playground:0x8c6f62,pitch:0x8b9a7a,plaza:0xcfc9bd,courtyard:0xb7a596};
   for(const a of d.areas){if(a.kind==='fountain')continue;const y=CURB_HEIGHT+(a.kind==='park'?.004:.01),t=this.tile(...centroid(a.ring)),mat=a.kind==='grass'||a.kind==='pitch'?'grass':'parkFloor';this.builder(t,mat).cap([a.ring],y,col(tint[a.kind]||0xc9c3b6),.18);}
+  // Planting beds (OSM gardens, flower beds, shrubberies): mulch with shrubs scattered through them, about one
+  // every 3 square metres, and in flower beds, from May to October, a low mass of flowers. Tree pits stay bare soil.
+  {const qd=(globalThis.location?.search||'').match(/[?&]date=(\d{4}-\d\d-\d\d)/),dy=dayOfYear(qd?new Date(qd[1]+'T12:00:00'):new Date()),bloom=dy>=121&&dy<=300;
+   const FLOWERS=[0xd8423a,0xe8b42a,0xd65a9a,0xf0ece0,0x8a5ac8].map(c=>new T.Color(c));
+   for(const a of d.areas){if(a.kind!=='bed'&&a.kind!=='shrubbery'&&a.kind!=='flowerbed')continue;const r=a.ring;let x0=1e9,x1=-1e9,n0=1e9,n1=-1e9;for(const p of r){x0=Math.min(x0,p[0]);x1=Math.max(x1,p[0]);n0=Math.min(n0,p[1]);n1=Math.max(n1,p[1]);}
+    const A=Math.abs(ringArea(r)),count=Math.min(400,Math.round(A/(a.kind==='shrubbery'?1.6:3)));let k=0,tries=0;
+    while(k<count&&tries<count*6){tries++;const sd=a.id*.001+tries*1.618,p=[x0+hash(sd)*(x1-x0),n0+hash(sd+.5)*(n1-n0)];if(!pointInRing(p,r))continue;k++;
+     const w=.7+hash(sd+1)*1.1,ht=.45+hash(sd+2)*.8,c=new T.Color().setHSL(.27+hash(sd+3)*.06,.38,.17+hash(sd+4)*.08);
+     this.inst(this.tile(...p),'crown_oval',toV(p,CURB_HEIGHT+.04+ht/2),[w,ht,w*(.8+hash(sd+5)*.4)],hash(sd+6)*6.3,c);
+     if(a.kind==='flowerbed'&&bloom)this.inst(this.tile(...p),'crown_oval',toV(p,CURB_HEIGHT+.18),[.6,.3,.6],hash(sd+7)*6.3,FLOWERS[Math.floor(hash(sd+8)*FLOWERS.length)]);}}}
   // Buildings: NYC footprints extruded to their surveyed roof height (Phase 0 massing, no setbacks yet).
   // Detailed landmarks (Phase 2 detail pass) replace the massing of their footprint.
   this.landmarks=[];const covered=new Set(Object.values(LANDMARK_BUILDINGS).flatMap(L=>L.also||[]));for(const b of d.buildings){const L=LANDMARK_BUILDINGS[b.bin];if(!L)continue;const g=L.build(b,{campus:this.campus});this.landmarks.push({bin:b.bin,name:L.name,group:g});this.tile(...centroid(b.rings[0])).group.add(g);this.trackDisposables(g);}
@@ -179,7 +189,7 @@ export class CampusWorld{
      const seed=tr.p[0]*3.7+tr.p[1]*1.3,rot=hash(seed)*6.283,sx=.88+hash(seed+1)*.24,sz=.88+hash(seed+2)*.24,sy=.9+hash(seed+5)*.2;
      const tint=leafColour(pr,day,seed),bark=new T.Color(pr.bark).multiplyScalar(.9+hash(seed+7)*.2),name='crown_'+pr.shape;
      this.inst(t,'trunk',toV(tr.p,y+D.cy/2),[D.r,D.cy,D.r],0,bark,C?{p:toV(tr.p,y+C.cy/2),s:[C.r,C.cy,C.r]}:{p:toV(tr.p,y),s:[0,0,0]});
-     const bare=leafless(day)&&!tr.volunteer,lf=bare?0:1;
+     const bare=leafless(day,pr)&&!tr.volunteer,lf=bare?0:1;
      this.inst(t,name,toV(tr.p,y+D.cy),[D.w*sx*lf,D.hgt*sy*lf,D.w*sz*lf],rot,tint,C?{p:toV(tr.p,y+C.cy),s:[C.w*sx*lf,C.hgt*sy*lf,C.w*sz*lf]}:{p:toV(tr.p,y),s:[0,0,0]});
      // Main limbs from the top of the clear trunk into the crown; in winter a second, higher tier as well.
      const base=D.cy-D.hgt/2,cb=C?C.cy-C.hgt/2:0,tiers=bare?2:1;for(let k=0;k<4*tiers;k++){const tier=k>>2,a=rot+k*1.571+tier*.785+(hash(seed+k)-.5)*.6,Lm=D.w*(.42-.1*tier)*(.85+hash(seed+k*3)*.3),Lc=C?C.w*(.42-.1*tier)*(.85+hash(seed+k*3)*.3):0,yb=base+tier*D.hgt*.3,yc=cb+tier*(C?C.hgt*.3:0);

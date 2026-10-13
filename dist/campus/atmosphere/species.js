@@ -7,16 +7,23 @@ import * as T from '../../vendor/three.module.js';
 //   pyramid  pin oak: broad skirt of drooping lower limbs, tapering to a point
 //   oval     lindens, Callery pear, hornbeam, cherries, magnolias, basswood: dense egg shape
 //   airy     thornless honeylocust, Japanese pagoda tree, goldenrain tree: open, umbrella-like clumps
-//   columnar ginkgo (narrow and upright while young), dawn redwood (a narrow cone)
+//   columnar ginkgo (narrow and upright while young), dawn redwood, holly (evergreen)
+//   conical  Deodar cedar, Serbian spruce and other conifers (evergreen: no autumn colour, never bare)
 // Size: height and crown width grow with DBH along rough curves for each shape (my estimates from typical New York
 // street trees, to be checked against the USDA Urban Tree Database, Northeast region); street trees are limbed up
 // to a clear trunk of 2.2 to 3.2 m, and the crown fills the height above it. Colour: a summer green for each species, and autumn colour by date (honeylocust
 // and linden turn yellow from early October, ginkgo bright yellow in early November, pin oak russet, Callery pear
 // red, zelkova orange-brown, London plane a dull yellow-brown, all in November). Bare winter crowns are still to come.
-const P=(shape,hsl,fall,fallStart,bark,sz)=>({shape,hsl,fall,fallStart,bark,sz});
+const P=(shape,hsl,fall,fallStart,bark,sz,evergreen=false)=>({shape,hsl,fall,fallStart,bark,sz,evergreen});
 // sz: [height base m, height per inch DBH, crown width base m, width per inch, crown height / width]
-const SZ={broad:[5,.42,2,.4,.8],vase:[5,.45,1.8,.42,.85],pyramid:[5,.46,1.6,.3,1.25],oval:[4,.38,1.4,.28,1.15],airy:[4.5,.4,1.8,.4,.65],columnar:[4.5,.42,1,.16,1.9]};
+const SZ={conical:[4.5,.5,1.6,.26,2.0],broad:[5,.42,2,.4,.8],vase:[5,.45,1.8,.42,.85],pyramid:[5,.46,1.6,.3,1.25],oval:[4,.38,1.4,.28,1.15],airy:[4.5,.4,1.8,.4,.65],columnar:[4.5,.42,1,.16,1.9]};
 const SPECIES=[
+ [/cedar|deodar/i,P('conical',[.43,.22,.3],[.43,.22,.3],999,0x5b4c40,SZ.conical,true)],
+ [/spruce|fir\b|pine/i,P('conical',[.38,.3,.2],[.38,.3,.2],999,0x4a3e34,[4,.5,1.2,.2,2.4],true)],
+ [/holly/i,P('columnar',[.33,.45,.16],[.33,.45,.16],999,0x6a665e,[2.5,.35,1.4,.3,1.6],true)],
+ [/sycamore/i,P('broad',[.22,.38,.27],[.11,.45,.36],300,0xd2cdbc,SZ.broad)],
+ [/crabapple|dogwood|redbud|serviceberry/i,P('oval',[.25,.38,.28],[.03,.5,.34],295,0x4e3f36,[3,.3,2,.32,.8])],
+ [/english elm/i,P('vase',[.24,.4,.26],[.13,.55,.42],300,0x4a4038,SZ.vase)],
  [/plane/i,P('broad',[.22,.38,.26],[.11,.45,.36],305,0xb3ab92,SZ.broad)],
  [/honeylocust|honey locust/i,P('airy',[.2,.48,.34],[.14,.75,.5],285,0x3b3029,SZ.airy)],
  [/pagoda/i,P('airy',[.24,.42,.28],[.15,.6,.42],300,0x5a5248,SZ.airy)],
@@ -44,7 +51,7 @@ export function treeSize(tr,boost){const p=profile(tr.sp),[h0,hk,w0,wk,ratio]=p.
  return {w:W,hgt:Hc,cy,r:Math.max(.07,dbh*.0254/2)*b.trunk,p};}
 // Leaf colour for a tree on a given day of the year (0..365): summer green, turning to the species' autumn colour
 // over about three weeks from its start, with a little spread between trees; per-tree variation of lightness.
-export function leafColour(p,day,seed){const t=Math.min(1,Math.max(0,(day-p.fallStart-(h(seed)-.5)*12)/22));const c=new T.Color().setHSL(...p.hsl);
+export function leafColour(p,day,seed){const t=p.evergreen?0:Math.min(1,Math.max(0,(day-p.fallStart-(h(seed)-.5)*12)/22));const c=new T.Color().setHSL(...p.hsl);
  if(t>0)c.lerp(new T.Color().setHSL(...p.fall),t);const v=.88+h(seed+3)*.24;c.multiplyScalar(v);return c;}
 // Crown meshes, unit size (about 1 across, centred), lumpy and soft-normalled like foliage.crownGeometry.
 function vnoise(x,y,z){const ix=Math.floor(x),iy=Math.floor(y),iz=Math.floor(z),fx=x-ix,fy=y-iy,fz=z-iz,s=t=>t*t*(3-2*t),u=s(fx),v=s(fy),w=s(fz);
@@ -58,6 +65,7 @@ const RADIUS={
  oval:d=>(1+.1*(vnoise(d.x*3,d.y*3,d.z*3+7)-.5)*2)*(.88+.12*d.y),
  airy:d=>(1+.38*(vnoise(d.x*1.7+9,d.y*1.7,d.z*1.7)-.5)*2)*(d.y<0?.55+.45*(d.y+1):1),
  columnar:d=>(1+.12*(vnoise(d.x*3.2,d.y*3.2+1,d.z*3.2)-.5)*2)*(1-.55*sm(.1,1,d.y)),
+ conical:d=>(1+.1*(vnoise(d.x*4,d.y*4,d.z*4+4)-.5)*2)*Math.max(.04,.98-.92*sm(-.8,1,d.y)),
 };
 export function crownShapeGeometry(shape){const g=new T.IcosahedronGeometry(.5,3),p=g.attributes.position,v=new T.Vector3(),d=new T.Vector3(),n=new Float32Array(p.count*3);
  for(let i=0;i<p.count;i++){d.fromBufferAttribute(p,i).normalize();v.copy(d).multiplyScalar(.5*RADIUS[shape](d));p.setXYZ(i,v.x,v.y,v.z);n[i*3]=d.x;n[i*3+1]=d.y;n[i*3+2]=d.z;}
@@ -69,4 +77,4 @@ export const dayOfYear=(date)=>{const d=date||new Date();return Math.floor((d-ne
 // carry the crown in winter).
 export function limbGeometry(){const g=new T.CylinderGeometry(.018,.045,1,6,1,true);g.translate(0,.5,0);g.rotateZ(-.7);return g;}
 // Deciduous trees are bare from early December to early April (all the common species here are deciduous).
-export const leafless=day=>day>=338||day<=95;
+export const leafless=(day,p)=>!(p&&p.evergreen)&&(day>=338||day<=95);
