@@ -15,6 +15,7 @@ import {buildSpeaker} from './atmosphere/speaker.js?v=24';
 import {buildSignage} from './signage.js?v=24';
 import {buildStorefronts} from './storefronts.js?v=24';
 import {buildSubway} from './subway.js?v=24';
+import {laneMarks,LANE_COLORS} from './lanes.js?v=24';
 import {bakeGroundAO,patchGroundAO,patchWallAO,AO} from './atmosphere/ao.js?v=24';
 import {patchWallPBR,patchGroundPBR} from './atmosphere/pbr.js?v=24';
 import {crownGeometry,patchLeaves,FOLIAGE_TIME} from './atmosphere/foliage.js?v=24';
@@ -183,6 +184,8 @@ export class CampusWorld{
   for(const br of d.barriers){if(br.kind==='retaining_wall')continue;const ht=br.height||(br.kind==='wall'?1.2:1.0);for(let i=1;i<br.pts.length;i++){const a=br.pts[i-1],b=br.pts[i],L=Math.hypot(b[0]-a[0],b[1]-a[1]);if(L<.05)continue;const m=[(a[0]+b[0])/2,(a[1]+b[1])/2];this.inst(this.tile(...m),br.kind==='wall'?'wallseg':'fence',toV(m,CURB_HEIGHT+ht/2),[L,ht,br.kind==='wall'?.3:.05],Math.atan2(b[1]-a[1],b[0]-a[0]));}}
   // Painted medians: a white outline and diagonal hatching at 45 degrees to the median's long axis, 2.4 m apart.
   d.median.forEach((m,mi)=>{if(d.medianKind?.[mi]!=='painted')return;const r=m[0];for(const [a,b,w] of paintedMedianStripes(r)){const L=Math.hypot(b[0]-a[0],b[1]-a[1]);if(L<.15)continue;const p=[(a[0]+b[0])/2,(a[1]+b[1])/2];this.inst(this.tile(...p),'stripe',toV(p,.013),[L,1,w],Math.atan2(b[1]-a[1],b[0]-a[0]));}});
+  // Bike and bus lanes (roads survey (b)): green protected lanes, white-lined painted lanes, red bus lanes.
+  {const cols={green:new T.Color().setRGB(...LANE_COLORS.green,T.SRGBColorSpace),red:new T.Color().setRGB(...LANE_COLORS.red,T.SRGBColorSpace)};for(const [a,b,w,c] of laneMarks()){const L=Math.hypot(b[0]-a[0],b[1]-a[1]);if(L<.1)continue;const p=[(a[0]+b[0])/2,(a[1]+b[1])/2];this.inst(this.tile(...p),'stripe',toV(p,c?.011:.013),[L+(c?.05:0),1,w],Math.atan2(b[1]-a[1],b[0]-a[0]),c?cols[c]:null);}}
   for(const c of d.crossings){if(c.pts.length<2)continue;for(let i=1;i<c.pts.length;i++){const a=c.pts[i-1],b=c.pts[i],L=Math.hypot(b[0]-a[0],b[1]-a[1]);const ang=Math.atan2(b[1]-a[1],b[0]-a[0]);for(let s=.6;s<L-.3;s+=1.2){const p=[a[0]+(b[0]-a[0])*s/L,a[1]+(b[1]-a[1])*s/L];this.inst(this.tile(...p),'stripe',toV(p,.012),[.6,1,3.0],ang);}}}
   for(const m of d.monuments){if(/plaque/.test(m.kind)||m.kind==='memorial'&&!m.name||UNION_STATUES.test(m.name||''))continue;const t=this.tile(...m.p);if(m.kind==='flagpole')this.inst(t,'flagpole',toV(m.p,CURB_HEIGHT+11),[1,1,1]);else this.inst(t,'pedestal',toV(m.p,CURB_HEIGHT+1),/Garibaldi/.test(m.name||'')?[3,2,2.4]:[1.6,2,1.6]);}
   const geo={trunk:new T.CylinderGeometry(.7,1,1,7),crown:crownGeometry(),pole:new T.CylinderGeometry(.07,.11,4.4,8),lantern:new T.BoxGeometry(.42,.55,.42),bench:new T.BoxGeometry(1.8,.12,.55),fence:new T.BoxGeometry(1,1,1),wallseg:new T.BoxGeometry(1,1,1),stripe:new T.PlaneGeometry(1,1).rotateX(-Math.PI/2),flagpole:new T.CylinderGeometry(.08,.16,22,8),pedestal:new T.BoxGeometry(1,1,1)};

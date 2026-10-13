@@ -39,7 +39,7 @@ The player drives NYU Campus Safety unit 4 (`dist/vehicle.js`, physics in `VEHIC
 - The world is flat. Real ground elevation varies by a few metres across the area; it is ignored.
 - Walls use a generic window texture until the facade pass. Roof forms come from 2014, so buildings altered since then may differ.
 - Benches have no orientation yet; fences use one generic style.
-- Crosswalks come from OSM and are incomplete; there are no lane markings yet.
+- Crosswalks come from OSM and are incomplete; there are no travel-lane lines yet. Bike and bus lanes are drawn (roads survey (b), `tools/build-street-lanes.mjs`): the side and kind of each bike lane come from OSM `cycleway:left/right`, bus lanes from NYC DOT; each is offset to the real curb traced through the planimetric roadbed, but widths are NYC DOT typical values (protected 1.8 m with a 0.9 m buffer, painted 1.5 m outside a 2.4 m parking lane, bus 3.3 m) and protected lanes are green along their whole length by rule, not checked street by street.
 - The fountain plaza is flush with the paths (seen on Street View); the OSM retaining walls round it are not drawn as walls.
 - Performance has only been checked in software WebGL in a headless browser (not representative). It has not been profiled on a real mid-range laptop yet.
 
