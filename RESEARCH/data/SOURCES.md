@@ -38,3 +38,4 @@ Web sources consulted (not saved):
 - Wikipedia, "Silver Center": https://en.wikipedia.org/wiki/Silver_Center
 - campus-maps.com NYU building pages (29WSW, 37 WSW, SHIMK): https://www.campus-maps.com/nyu/
 - Architect magazine, "Student Safety: First Priority in NYU Library Renovation" (27 Aug 2012): https://www.architectmagazine.com/design/student-safety-first-priority-in-nyu-library-renovation_o/
+- NYC DOT Bus Lanes (ycrg-ses3) and OSM cycleway:left/right tags feed tools/build-street-lanes.mjs (bike and bus lanes, 13 Oct 2026); both raw files are already listed above.
