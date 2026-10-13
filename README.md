@@ -73,12 +73,8 @@ python3 tools/serve.py
 Then open http://localhost:4173. If something else is already using that port, run `python3 tools/serve.py 4180` and open http://localhost:4180 instead.
 
 ## What's coming
-
-- The shops along MacDougal, Bleecker, West 4th, Broadway, University Place, 8th Street and Astor Place, with their real names
-- A slower camera, a field guide to the buildings, and small things to find
-- Getting out of the car and walking, starting with the Bobst atrium
-- Starting the game in 2026 and watching it turn into 2126 while you drive
-- A photo mode
+- MMORPG Mechanics
+- A Single Player storY
 
 ---
 
