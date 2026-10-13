@@ -64,3 +64,9 @@ export function crownShapeGeometry(shape){const g=new T.IcosahedronGeometry(.5,3
  g.computeVertexNormals();const fn=g.attributes.normal,a=new T.Vector3();for(let i=0;i<p.count;i++){a.set(n[i*3],n[i*3+1],n[i*3+2]).multiplyScalar(.7).add(new T.Vector3().fromBufferAttribute(fn,i).multiplyScalar(.3)).normalize();fn.setXYZ(i,a.x,a.y,a.z);}
  return g;}
 export const dayOfYear=(date)=>{const d=date||new Date();return Math.floor((d-new Date(d.getFullYear(),0,0))/864e5);};
+// Limbs: a tapered branch leaning 40 degrees out from vertical, its base at the origin, 1 m long. Instanced per
+// tree, turned round the trunk and scaled to the crown, they show between the clear trunk and the leaves (and
+// carry the crown in winter).
+export function limbGeometry(){const g=new T.CylinderGeometry(.018,.045,1,6,1,true);g.translate(0,.5,0);g.rotateZ(-.7);return g;}
+// Deciduous trees are bare from early December to early April (all the common species here are deciduous).
+export const leafless=day=>day>=338||day<=95;
