@@ -19,7 +19,8 @@ import {makeProjection} from '../dist/campus/projection.js';
 const root=new URL('../',import.meta.url),raw=f=>JSON.parse(fs.readFileSync(new URL('RESEARCH/data/raw/'+f,root)));
 const streets=raw('nightview-nyc-streets.json'),osm=raw('nightview-osm-washington-square.json');
 // Green paint is drawn only where the orthoimagery shows it (RESEARCH/roads/green-paint.json, written by
-// tools/check-green-paint.py: the share of each bike lane's samples that read as green). Unmeasured lanes keep it.
+// a by-eye check on orthoimagery: 1 green, 0 not). Lanes not in the file get no paint until checked.
+const blocksFile=new URL('RESEARCH/roads/blocks.json',root),BLOCKS=fs.existsSync(blocksFile)?JSON.parse(fs.readFileSync(blocksFile)):{};
 const greenFile=new URL('RESEARCH/roads/green-paint.json',root),GREEN=fs.existsSync(greenFile)?JSON.parse(fs.readFileSync(greenFile)):{};
 const P=makeProjection(data.meta.origin),pt=(lon,lat)=>P.toLocal(lat,lon);
 const q=v=>Math.round(v*100)/100;
@@ -89,14 +90,17 @@ for(const s of S.segments){const pts=s.pts;for(let i=1;i<pts.length;i++){let a=p
   const cycSide=s0=>cyc[s0==='left'?(o?.same?'left':'right'):(o?.same?'right':'left')];// cycleway tag on our left/right
   const anyBike=protectedBike||/Curbside|Buffered|Protected/.test(facility);
   // A bike lane between the curb and a painted buffer (protected or curbside-buffered): green where it is green.
-  const bikePaint=(x0,x1)=>{const before=out.length;rect(A,B,(x0+x1)/2,(x1-x0)-.3,'g');const st=out[before];if(!st)return;const key=st[0]+','+st[1];const f=GREEN[key];if(f!=null&&f<.2)out.pop();stats.bike++;};
+  const bikePaint=(x0,x1)=>{const before=out.length;rect(A,B,(x0+x1)/2,(x1-x0)-.3,'g');const st=out[before];if(!st)return;const key=st[0]+','+st[1];const f=GREEN[key];if(!(f>=.2))out.pop();stats.bike++;};
   if(bufL&&(anyBike||/track|lane/.test(cycSide('left')||''))){const x0=-Lw,x1=bufL[0];if(x1-x0>1.0)bikePaint(x0,x1);}
   if(bufR&&(anyBike||/track|lane/.test(cycSide('right')||''))){const x0=bufR[1],x1=Rw;if(x1-x0>1.0)bikePaint(x0,x1);}
   // The carriageway [lo, hi]: parking, conventional bike lane, bus lane, travel lanes.
   let parkL=0,parkR=0,np=s.park||0;if(np>=2){parkL=parkR=1;}else if(np===1){if(bufL)parkL=1;else if(bufR)parkR=1;else{const pl=tg['parking:left']||tg['parking:lane:left'],pr=tg['parking:right']||tg['parking:lane:right'];if(o&&/no/.test((o.same?pl:pr)||''))parkR=1;else if(o&&/no/.test((o.same?pr:pl)||''))parkL=1;else parkR=1;}}
+  const ov=BLOCKS[s.id];if(ov){if(ov.parkL!=null)parkL=ov.parkL;if(ov.parkR!=null)parkR=ov.parkR;stats.checked=(stats.checked||0)+1;}
   let x0=lo+parkL*2.4,x1=hi-parkR*2.4;
+  if(ov?.parkLine){if(parkL)rect(A,B,x0,.1,'w');if(parkR)rect(A,B,x1,.1,'w');}
   const laneLine=(x)=>rect(A,B,x,.15,'w');
-  if(conventional&&!bufL&&!bufR&&!protectedBike){const sideL=/lane/.test(cycSide('left')||''),sideR=/lane/.test(cycSide('right')||'');const sd=sideL&&!sideR?'L':sideR?'R':(s.dir==='TW'?null:'R');
+  if(ov?.bike&&!bufL&&!bufR){const L2=ov.bike==='L';if(L2){bikePaint(x0,x0+1.5);laneLine(x0+1.5);x0+=1.5;}else{bikePaint(x1-1.5,x1);laneLine(x1-1.5);x1-=1.5;}stats.bike++;}
+  else if(conventional&&!bufL&&!bufR&&!protectedBike){const sideL=/lane/.test(cycSide('left')||''),sideR=/lane/.test(cycSide('right')||'');const sd=sideL&&!sideR?'L':sideR?'R':(s.dir==='TW'?null:'R');
    const curbside=/Curbside/.test(facility);
    if(sd&&x1-x0>5.5){// curbside lanes run along the curb with parking outside them; conventional ones between parking and traffic
     if(curbside){if(sd==='L'){if(parkL){x0-=2.4;}bikePaint(x0,x0+1.5);laneLine(x0+1.5);x0+=1.5;if(parkL)x0+=2.4;}else{if(parkR){x1+=2.4;}bikePaint(x1-1.5,x1);laneLine(x1-1.5);x1-=1.5;if(parkR)x1-=2.4;}}

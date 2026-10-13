@@ -3,7 +3,7 @@ import * as T from '../vendor/three.module.js';
 // curb-ramp warning pads, Citi Bike docks, bus stop poles, parking sign poles and fire hydrants. Looks follow
 // Street View (University Pl and E 9th St, Sep 2024): pale galvanized poles, a black hydrant body with a silver
 // bonnet. Detectable warning pads are the NYC Street Design Manual's red (FED-STD 31350) on concrete sidewalks,
-// 0.6 m deep and as wide as the ramp. Citi Bike bikes are generic blue bicycles; no logos or lettering.
+// 0.6 m deep and as wide as the ramp. Citi Bike docks are pale grey (Street View, University Pl, Apr 2026); bikes are generic blue bicycles, no logos or lettering.
 // In 2126 the docks stand empty.
 export function buildFurniture(F,{groundY=.15}={}){const g=new T.Group();g.name='street-furniture';const o=new T.Object3D(),mats=[],geos=[];
  const mat=(c,r=.7,m=0)=>{const x=new T.MeshStandardMaterial({color:c,roughness:r,metalness:m});mats.push(x);return x;};
@@ -29,7 +29,7 @@ export function buildFurniture(F,{groundY=.15}={}){const g=new T.Group();g.name=
   for(let i=0;i<cap;i++){const s=-L/2+.36+i*.72,px=x+ux*s,pn=n+un*s;docks.push([px,pn,a]);const h=Math.sin((x+i*7.3)*12.9898+n*78.233)*43758.5453;if(h-Math.floor(h)<.66)bikes.push([px,pn,a]);}}
  const dockY=groundY;// docks in the parking lane sit at road level; the small offset is invisible either way
  inst(new T.BoxGeometry(1,.05,.7),galv,bases,([x,n,a,L],O)=>{at(x,n,dockY+.025,a);O.scale.set(L,1,1);});
- inst(new T.BoxGeometry(.12,.85,.22),dark,docks,([x,n,a])=>at(x,n,dockY+.45,a));
+ inst(new T.BoxGeometry(.12,.85,.22),mat(0xd5d8da,.5,.3),docks,([x,n,a])=>at(x,n,dockY+.45,a));
  inst(new T.BoxGeometry(.5,2.1,.35),blue,kiosks,([x,n,a])=>at(x,n,dockY+1.05,a));
  // A bike stands across the row (perpendicular to the curb): frame, and two wheels.
  const frame=inst(new T.BoxGeometry(.06,.5,1.15),blue,bikes,([x,n,a])=>at(x,n,dockY+.62,a));

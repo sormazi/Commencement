@@ -1,0 +1,96 @@
+{
+ "_about": "Per-block corrections from Street View (look-only), applied by tools/build-markings.mjs over what the open data gives. Keys are NYC Centerline physical ids. parkL/parkR: parking lanes on the left/right of the segment's drawing direction; parkLine: a solid white line along each parking lane; bike: 'L' or 'R' forces a curbside bike lane on that side; sv: Street View capture month checked.",
+ "91629": {
+  "name": "Washington Sq N, Fifth Av to Washington Sq W",
+  "parkL": 0,
+  "parkR": 1,
+  "parkLine": 1,
+  "sv": "2026-05",
+  "note": "From the park: green curbside bike lane, hatched buffer, one travel lane, parking on the building side with a solid white line. The centreline data says two parking lanes."
+ },
+ "91622": {
+  "name": "Washington Sq S, Washington Sq W to Thompson St",
+  "parkL": 0,
+  "parkR": 1,
+  "parkLine": 1,
+  "sv": "2026-05",
+  "note": "Bike lane and buffer on the park side, one travel lane, parking on the building side only."
+ },
+ "172075": {
+  "name": "Washington Sq S",
+  "parkL": 0,
+  "parkR": 1,
+  "parkLine": 1,
+  "sv": "2026-05",
+  "note": "As 91622."
+ },
+ "91624": {
+  "name": "Washington Sq S",
+  "parkL": 0,
+  "parkR": 1,
+  "parkLine": 1,
+  "sv": "2026-05",
+  "note": "As 91622."
+ },
+ "91625": {
+  "name": "Washington Sq S, to Washington Sq E",
+  "parkL": 0,
+  "parkR": 1,
+  "parkLine": 1,
+  "sv": "2026-05",
+  "note": "As 91622."
+ },
+ "1853": {
+  "name": "Washington Sq E",
+  "parkL": 0,
+  "parkR": 0,
+  "bike": "L",
+  "sv": "2026-05",
+  "note": "Curbside bike lane along the park, one travel lane, no parking on either side."
+ },
+ "1852": {
+  "name": "Washington Sq E",
+  "parkL": 0,
+  "parkR": 0,
+  "bike": "L",
+  "sv": "2026-05",
+  "note": "As 1853."
+ },
+ "101325": {
+  "name": "Washington Sq W (MacDougal St at the park)",
+  "parkL": 0,
+  "parkR": 0,
+  "bike": "L",
+  "sv": "2022-07",
+  "note": "Bike lane along the park curb, one travel lane, no parking."
+ },
+ "191151": {
+  "name": "Washington Sq W",
+  "parkL": 0,
+  "parkR": 0,
+  "bike": "L",
+  "sv": "2022-07",
+  "note": "As 101325."
+ },
+ "1450": {
+  "name": "LaGuardia Pl, W 3rd St to Washington Sq S",
+  "parkLine": 1,
+  "sv": "2026-04",
+  "note": "Two-way, double yellow, one lane each way, parking both sides with solid white parking lines. Matches the data otherwise."
+ },
+ "2021": {
+  "name": "Fifth Av, Washington Sq N to E 8th St",
+  "sv": "2026-04",
+  "note": "Southbound; parking on the west side, hatched buffer and parking on the east side; matches the generated layout."
+ },
+ "80061": {
+  "name": "University Pl, Washington Sq N to E 8th St",
+  "sv": "2026-04",
+  "note": "Northbound; parking on the west side; a Citi Bike station fills the east parking lane (in the GBFS data). Matches."
+ },
+ "16746": {
+  "name": "W 4th St, Washington Sq E to Greene St",
+  "sv": "2026-04",
+  "note": "Construction barriers along the Stern frontage took the south lane in Apr 2026; the permanent layout (one lane, bike lane, parking) is kept."
+ }
+}
