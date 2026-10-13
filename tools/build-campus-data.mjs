@@ -64,8 +64,14 @@ const monuments=pointsOf(t=>t.historic||t.tourism==='artwork'||t.man_made==='fla
 const misc=pointsOf(t=>['drinking_water','bicycle_rental','waste_basket','post_box','bicycle_parking'].includes(t.amenity)||t.highway==='bus_stop'||t.highway==='traffic_signals'||t.man_made==='surveillance').map(o=>({p:o.p,kind:o.t.amenity||o.t.highway||o.t.man_made,name:o.t.name||null}));
 const crossings=[...ways.values()].filter(w=>w.tags?.footway==='crossing').map(w=>({pts:wayPts(w),marking:w.tags['crossing:markings']||w.tags.crossing||null})).filter(c=>c.pts.some(v=>inside(v,5)));
 // ---- Trees: NYC Parks Forestry Tree Points (living "Full" structures) + OSM trees not already present.
-const trees=[];for(const r of plan.forestry_trees){if(r.tpstructure!=='Full')continue;const m=/POINT\(([-\d.]+) ([-\d.]+)\)/.exec(r.geometry||'');if(!m)continue;const p=pt(+m[1],+m[2]);if(!inside(p,5))continue;trees.push({p,dbh:+r.dbh||6,sp:(r.genusspecies||'').split(' - ').at(-1)||null,src:'forestry'});}
+const trees=[];for(const r of plan.forestry_trees){if(r.tpstructure!=='Full')continue;const m=/POINT\(([-\d.]+) ([-\d.]+)\)/.exec(r.geometry||'');if(!m)continue;const p=pt(+m[1],+m[2]);if(!inside(p,5))continue;trees.push({p,dbh:+r.dbh||6,sp:(r.genusspecies||'').split(' - ').at(-1)||null,src:'forestry',dead:r.tpcondition==='Dead'||undefined});}
 for(const o of pointsOf(t=>t.natural==='tree')){if(trees.some(t=>Math.hypot(t.p[0]-o.p[0],t.p[1]-o.p[1])<2.5))continue;trees.push({p:o.p,dbh:o.t.circumference?+o.t.circumference/.0254/Math.PI:14,sp:o.t['species:en']||o.t.species||o.t.genus||null,src:'osm',name:o.t.name||null,height:o.t.height?+o.t.height:null});}
+// 2026 must match reality: drop records that cannot be living trees in the open. Forestry points that fall inside
+// a building footprint (the Arch included: there is no tree under it) are data errors, and trees the city's
+// inventory records as dead are taken as removed. Counts are kept for the vegetation survey record.
+{const before=trees.length;const deadIds=new Set();
+ for(let i=trees.length-1;i>=0;i--){const t=trees[i];if(t.dead||buildings.some(b=>b.rings[0].length>2&&pip(t.p,b.rings[0]))){trees.splice(i,1);}}
+ globalThis.treeDrops={before,after:trees.length};}
 const hangman=trees.find(t=>t.name==="Hangman's Elm");if(hangman){hangman.dbh=56;hangman.landmark=true;}
 const hydrants=plan.hydrants.map(r=>pt(+r.longitude,+r.latitude)).filter(p=>inside(p,2));
 const shelters=plan.shelters.map(r=>({p:pt(+r.longitude,+r.latitude),on:r.on_street,cross:r.cross_stre,corner:r.corner})).filter(s=>inside(s.p,2));
