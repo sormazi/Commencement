@@ -24,6 +24,8 @@ import {buildSteam} from './atmosphere/steam.js?v=24';
 import {perfOn} from '../perf.js?v=24';
 import MARKINGS from './data/street-markings.js?v=24';
 import {buildSignals} from './signals.js?v=24';
+import {buildFurniture} from './furniture.js?v=24';
+import FURNITURE from './data/street-furniture.js?v=24';
 import {buildFountain,lampLayout,lampParts,chessLayout,chessParts,furnitureGeometry,furnitureMaterial,chessTopMaterial} from './park.js?v=24';
 import {buildTier2,TIER2_BINS} from './tier2/world.js?v=24';
 import {classify,facadeCode,materialTile,GENERIC_CODE,tier3Enabled,facadeAtlas,patchFacadeMaterial} from './tier3/facades.js?v=24';
@@ -187,6 +189,8 @@ export class CampusWorld{
   d.median.forEach((m,mi)=>{if(d.medianKind?.[mi]!=='painted')return;const r=m[0];for(const [a,b,w] of paintedMedianStripes(r)){const L=Math.hypot(b[0]-a[0],b[1]-a[1]);if(L<.15)continue;const p=[(a[0]+b[0])/2,(a[1]+b[1])/2];this.inst(this.tile(...p),'stripe',toV(p,.013),[L,1,w],Math.atan2(b[1]-a[1],b[0]-a[0]));}});
   // Traffic and pedestrian signals on their corner poles (signals.js).
   {const sg=this.signals=buildSignals(MARKINGS.poles||[],{groundY:CURB_HEIGHT,steel:this.materials.steel});this.group.add(sg.group);if(!this.collision._signals){for(const p of MARKINGS.poles||[])this.collision.addCircle([p[0],p[1]],.15,'signal pole');this.collision._signals=true;}}
+  // Street furniture at surveyed positions: curb ramps, hydrants, parking signs, bus stops, Citi Bike (furniture.js).
+  {const fu=this.furniture=buildFurniture(FURNITURE,{groundY:CURB_HEIGHT});this.group.add(fu.group);this.disposables.add({dispose:()=>fu.dispose()});(this.decayHooks||(this.decayHooks=[])).push(t=>fu.setDecay(t));}
   // Lane markings (tools/build-markings.mjs): centre lines, lane lines, bike and bus lanes, stop lines.
   {const COL=[null,new T.Color(1,.74,.16),new T.Color(.26,.62,.34),new T.Color(.62,.12,.1)];for(const [x,n,L,W,a,c] of MARKINGS.stripes){const p=[x,n];this.inst(this.tile(...p),'stripe',toV(p,c>=2?.011:.013),[L,1,W],a,COL[c]);}}
   // Crosswalks by their OSM marking (crossing:markings): bars across the walk for 'zebra' and the city's usual

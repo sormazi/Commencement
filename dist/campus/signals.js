@@ -4,7 +4,7 @@ import * as T from '../vendor/three.module.js';
 // the curb. Each pole carries, for each of its two streets, a vehicle signal facing back along that street (for
 // traffic coming through the intersection towards it) and a pedestrian signal facing across the other street.
 // What they look like follows Street View (Broadway at E 8th St, Apr 2026): yellow three-lamp heads on grey
-// poles; pedestrian heads are black boxes with the orange hand and white walking figure.
+// poles; pedestrian heads are yellow boxes too (University Pl and E 9th St, Sep 2024), with the orange hand and white walking figure.
 // Timing: a 90 s cycle per intersection with its own offset: one axis green 42 s, amber 3 s, then red while the
 // other axis runs; walk for the first 30 s of the parallel green, then a flashing hand for 12 s. In 2126 the
 // signals are dead.
@@ -15,7 +15,7 @@ export function buildSignals(poles,{groundY=.15,steel}={}){const g=new T.Group()
  const o=new T.Object3D(),M=(geo,mat,count)=>{const m=new T.InstancedMesh(geo,mat,count);m.frustumCulled=false;g.add(m);return m;};
  const poleM=M(new T.CylinderGeometry(.075,.09,4.6,8),steel||new T.MeshStandardMaterial({color:0x8d9296,metalness:.5,roughness:.5}),n);
  const headM=M(new T.BoxGeometry(.3,1.02,.36),new T.MeshStandardMaterial({color:0xd9a91c,roughness:.6}),n*2);
- const pedM=M(new T.BoxGeometry(.22,.42,.42),new T.MeshStandardMaterial({color:0x151515,roughness:.7}),n*2);
+ const pedM=M(new T.BoxGeometry(.22,.42,.42),new T.MeshStandardMaterial({color:0xd9a91c,roughness:.6}),n*2);
  const lensGeo=new T.CircleGeometry(.1,14).rotateY(Math.PI/2),lensMat=new T.MeshBasicMaterial({color:0xffffff}),lens={r:M(lensGeo,lensMat,n*2),y:M(lensGeo,lensMat,n*2),g:M(lensGeo,lensMat,n*2)};
  const pedLensGeo=new T.PlaneGeometry(.32,.32).rotateY(Math.PI/2),pedLens=M(pedLensGeo,lensMat,n*2);
  const heads=[];// {pole, axis, offset}
