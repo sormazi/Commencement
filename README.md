@@ -2,51 +2,46 @@
 
 <h1 align="center">Commencement</h1>
 
+<p align="center"><em>Real places, made playable. Starting with Washington Square.</em></p>
+
 <p align="center"><a href="https://sormazi.github.io/Commencement/"><img src="https://img.shields.io/badge/Play%20in%20your%20browser-57068c?style=for-the-badge" alt="Play in your browser"></a></p>
 
-<p align="center"><img src="docs/readme/shift.gif" alt="The Arch fading from 2026 to 2126" width="80%"></p>
+<p align="center"><img src="docs/readme/arch_dusk.jpg" alt="The Washington Square Arch from Fifth Avenue at dusk" width="80%"></p>
 
-At some point I started wondering what WSQ would look like if everyone just stopped showing up. Not a disaster. Nothing blows up. The university runs out of reasons to exist, the city stops mowing, and a hundred years go by.
+Commencement is Washington Square and the streets around NYU, rebuilt one to one, as a place you can actually be in. Same streets, same buildings, same corner where you always wait too long for the light. Right now there's one way into it. A second one is on the way.
 
+## The haunted one
 
+You start on an ordinary evening in 2026. The square is busy, the shops are lit, the fountain's going. You're driving Campus Safety's unit 4 on a normal patrol.
 
-You drive a Campus Safety car, which as far as anyone can tell is the last vehicle on campus that still starts, through the square and the streets around it in 2126. Trees have pushed up through the paths. Ivy has climbed most of the buildings. The street lamps mostly don't work, and the light follows the real time in New York, so if you play at two in the morning it's two in the morning in the game too. The weather is live as well: if it's raining in Manhattan, it's raining in the square.
+Then, partway through, the world tears, and it's 2126. Nobody's left. Trees have come up through the paths and ivy has taken most of the buildings. The car still starts, which makes you the last patrol on campus. I'll leave the rest for you to find.
 
-It isn't empty, though. People still stand around the park and wait in lines outside buildings that are never going to open again. Most of them ignore you. A few turn their heads as you drive past. I don't know what they're waiting for either.
+<table>
+<tr>
+<td width="50%"><img src="docs/readme/rain_night.jpg" alt="Bleecker Street on a rainy night, shop windows reflected in the wet road"></td>
+<td width="50%"><img src="docs/readme/car_2026.jpg" alt="The Campus Safety car parked by the park at night"></td>
+</tr>
+<tr>
+<td align="center">Bleecker Street, raining</td>
+<td align="center">Unit 4</td>
+</tr>
+</table>
 
-The game started life as NightView, an arcade driver I made earlier, and slowly turned into this.
+## Campus (coming, not playable yet)
 
-## The place
+The other way in is Campus, a shared version of the same 2026 neighborhood. The idea is that you can walk around it with other people: find your friends, run into people you don't know yet, study together in Bobst, meet up with your club, and leave notes and recommendations at real places for whoever comes by next. It should show up for the same moments the real campus does, like move-in week, finals, the tree going up at the Arch, the Halloween parade, and Commencement itself. A few characters around campus won't be real people, and they'll be clearly marked as such.
 
-The game keeps two versions of the neighborhood: the campus as it looks today and the same streets a century later. You can switch between them from the options menu, which is currently a debugging option that wouldn't exist in the final version. The final version looks to incorporate the two eras together in the narrative and the user would not typically be able to switch between the two. For now the game opens in 2026; set the year to 2126 to see the ruin.
+I'm building it now. It isn't available yet, and I'll update this when it is.
 
-| 2026 | 2126 |
-| :---: | :---: |
-| <img src="docs/readme/arch_2026.jpg" alt="The Arch from the fountain plaza in 2026"> | <img src="docs/readme/arch_2126.jpg" alt="The Arch from the fountain plaza in 2126"> |
-| The Arch from the fountain | |
-| <img src="docs/readme/bobst_2026.jpg" alt="Bobst Library from the park in 2026"> | <img src="docs/readme/bobst_2126.jpg" alt="Bobst Library from the park in 2126"> |
-| Bobst, from the park | |
-| <img src="docs/readme/weinstein_2026.jpg" alt="Weinstein Hall on University Place in 2026"> | <img src="docs/readme/weinstein_2126.jpg" alt="Weinstein Hall on University Place in 2126"> |
-| Weinstein, on University Place | |
-| <img src="docs/readme/astor_2026.jpg" alt="Astor Place looking toward Cooper Union in 2026"> | <img src="docs/readme/astor_2126.jpg" alt="Astor Place looking toward Cooper Union in 2126"> |
-| Astor Place, looking at Cooper Union | |
+## Why I'm making this
 
-One building doesn't decay. The Brown Building, where 146 garment workers died in the Triangle Shirtwaist Factory fire in 1911, stays clean and intact, along with the memorial that names them.
-
-## Around the neighborhood
-
-| | |
-| :---: | :---: |
-| <img src="docs/readme/macdougal.jpg" alt="MacDougal Street at Bleecker in 2126"> | <img src="docs/readme/fountain.jpg" alt="The fountain plaza in 2126, with people in faded graduation gowns"> |
-| MacDougal and Bleecker | The fountain, and the class that never left |
-| <img src="docs/readme/car_night.jpg" alt="The Campus Safety car at night, cracked windshield, one headlight dimmer than the other"> | <img src="docs/readme/silver.jpg" alt="Silver Towers in 2126"> |
-| Unit 4, still on patrol | Silver Towers |
-| <img src="docs/readme/bobst_steps.jpg" alt="People waiting outside Bobst Library in 2126"> | |
-| Still waiting for Bobst to open | |
+NYU doesn't have a quad. The campus is spread through the city, and it's easy to go a whole semester feeling like you're on your own in it, even surrounded by people. I wanted a version of this place where people can actually find each other.
 
 ## How close is it to the real thing?
 
-As close as I could get it. The streets are the real streets at their real widths, and every building sits on its real footprint at its real height, taken from New York City's public map data and OpenStreetMap. The buildings that matter most were rebuilt one at a time from photos, from Street View, and from a lot of standing on the sidewalk squinting at cornices. The shops on the main streets are being filled in with the real ones, under their real names. It's still a game, so plenty is simplified, but if you know the neighborhood you should be able to find your way around without a map.
+As close as I can get it. The streets are the real streets at their real widths, every building sits on its real footprint at its real height, and the street trees are the real ones, species and all, from the city's own tree records. The shops are the real shops under their real names, filled in block by block. The light follows the actual time in New York, so if you play at two in the morning it's two in the morning in the square, and the weather is live: if it's raining in Manhattan, it's raining here.
+
+<p align="center"><img src="docs/readme/shops_night.jpg" alt="MacDougal Street at night, storefronts lit" width="80%"></p>
 
 ## Controls
 
@@ -58,7 +53,7 @@ As close as I could get it. The streets are the real streets at their real width
 | Put the car back on the street | R |
 | Pause | Esc |
 
-Sound starts after you click or press a key. The options menu (top right) has the time of day, the year, the weather (live, or pick one), lightning (normal, soft or off), graphics quality, sound, music and an FPS counter. Live weather data comes from [Open-Meteo](https://open-meteo.com/) (CC BY 4.0), with the [National Weather Service](https://www.weather.gov/) as a backup. The music is an original jazz ballad written for the game, "Washington Square, After Hours": a small orchestra in 2026, and the same recording off a worn-out cassette in 2126. Change the year and it crossfades without missing a beat.
+Sound starts after you click or press a key. The options menu (top right) has the time of day, the year, the weather (live, or pick one), graphics quality, sound and music. The music is an original jazz ballad written for the game, "Washington Square, After Hours".
 
 ## Run it yourself
 
@@ -73,9 +68,14 @@ python3 tools/serve.py
 Then open http://localhost:4173. If something else is already using that port, run `python3 tools/serve.py 4180` and open http://localhost:4180 instead.
 
 ## What's coming
-- MMORPG Mechanics
-- A Single Player storY
+
+- Getting out of the car and walking around
+- Campus, the shared version of the neighborhood
+- Going inside buildings, starting with Bobst
+- A story
 
 ---
 
-Map data © OpenStreetMap contributors (ODbL) and NYC Open Data. Reference photos are from Wikimedia Commons and are credited, along with everything else, in [the credits](dist/credits.html). This is a made-up ruin and isn't affiliated with or endorsed by NYU.
+Map data © OpenStreetMap contributors (ODbL) and NYC Open Data. Weather from [Open-Meteo](https://open-meteo.com/) (CC BY 4.0), with the [National Weather Service](https://www.weather.gov/) as a backup. Trees are grown with [EZ-Tree](https://github.com/dgreenheck/ez-tree) by Daniel Greenheck (MIT). Instrument sounds from FluidR3_GM (MIT). Reference photos are from Wikimedia Commons. Everything is credited in full in [the credits](dist/credits.html).
+
+Commencement is an unofficial fan project. It isn't affiliated with or endorsed by NYU.
