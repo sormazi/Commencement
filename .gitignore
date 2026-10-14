@@ -15,3 +15,6 @@ Claude outputs/
 private/
 tools/.pbr-cache/
 build/
+
+# Storefront reference images (Street View / photos): reference only, never committed
+/shop-*.png

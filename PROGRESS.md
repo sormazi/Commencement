@@ -4,7 +4,34 @@ The game was renamed from NightView to Commencement on 8 Oct 2026 (repository re
 
 Read this file and `RESEARCH/campus-inventory.md` first when picking the work back up.
 
-## NEXT (Avi, 11 Oct 2026; supersedes every older order below)
+## NEXT (Avi, 13 Oct 2026: multiplayer demo for fundraising; supersedes every older order below)
+
+Goal: a working demo of two or more people in separate browsers in Washington Square Park, seeing each other and talking. Standing rules unchanged (one-to-one recreation; no keys or passwords in the repo or typed by Claude; Avi creates every account). Usage is limited: commit after every small piece and keep this section saying exactly what is next.
+
+**Order of work:**
+a. **Current fixes** (High preset, rain and puddles, roads, vegetation): first passes done 11 to 13 Oct (details in the 11 Oct section below). Avi to run ?bench=auto and review RESEARCH/screenshots/rain-before-after-2026-10-13.png.
+b. **Step 4B second pass, park first:** Washington Square Park and the blocks directly facing it, with the accuracy fixes:
+   1. ← **NEXT: park furniture survey.** The park has no benches. Survey against orthoimagery, Street View and openly licensed photos; place every bench at its real position, style and orientation (sittable objects for the demo), plus chess tables, lamp posts, trash cans, drinking fountains, fences and railings, planters and signs. Check against RESEARCH/my-photos/ if Avi's photos arrive. Record in RESEARCH/park-furniture/README.md.
+   2. Warren Weaver Hall (251 Mercer) and 20 Cooper Square rebuilt to the priority-landmark standard (expanded checklist, real geometry, measured proportions, side-by-side comparisons with Street View and Commons photos).
+   3. Audit every NYU building still marked "estimate" in RESEARCH/campus-inventory.md, park-facing first, one commit per building; list which are now verified.
+   4. Then the rest of 4B on the park-facing blocks (storefronts, street signs, subway stairs, planters and window boxes), then elsewhere.
+c. **Walking** (pulled forward from Step 10): getting out of the car, first-person and third-person views, collisions, stairs, footsteps. The shift, interiors and eerie touches stay for later.
+d. **Multiplayer prototype, "Campus" mode** (2026 only, the park and the blocks facing it, on foot only; the car stays single-player):
+   - Server: Colyseus or PartyKit on an inexpensive host; recommendation with monthly cost at 20, 100 and 1,000 concurrent players, cheap while idle. Keys only in environment variables. Stop and tell Avi exactly which accounts to create and where the keys go.
+   - Access: invite codes Avi can generate; 18+ confirmation; email magic-link sign-in; chosen display name; real names never shown.
+   - Avatars: body, skin tone, hair, a few clothes including an NYU violet hoodie with plain lettering; interpolated movement, no jitter or teleporting.
+   - Presence: who is online; friends list (add by display name, mutual accept); which friends are in the park.
+   - Communication: chat bubbles and a chat log, nearby only; basic profanity filter; emotes (wave, sit, dance); sitting on park benches.
+   - Safety: mute, block (blocked players vanish entirely), report with chat history attached, admin view for reports and bans, chat rate limit. No real-world location sharing of any kind.
+   - Performance: 20 simulated players walking and chatting; measure frame rate and server load.
+   - Privacy page (what is stored: email, display name, friends, reports; how to delete an account) and working account deletion.
+   - Docs: architecture in docs/TECHNICAL.md, setup in docs/MULTIPLAYER.md.
+   - Demo checklist: two browsers side by side in the park seeing each other, a chat exchange, a friend request, a block, a report arriving in the admin view; then a test session with Avi's friends.
+e. **Then the rest of the plan:** population, Step 9, the rest of Step 10, the soundtrack, Avi's memory locations, then the dossier and the narrative last.
+
+Housekeeping done 13 Oct: the ten shop-*.png storefront references are git-ignored (reference only). Avi deletes the stray nested NightView/ folder himself.
+
+## Previous order (Avi, 11 Oct 2026)
 
 Stop point 3 reviewed: dossier samples approved in depth and tone; the dossier is paused until just before the narrative. Standing rule: a one-to-one recreation, everything as true to life as possible. Usage is limited: commit after every small piece and keep this section saying exactly what is next.
 
