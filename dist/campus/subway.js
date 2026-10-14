@@ -11,18 +11,26 @@
 import * as T from '../vendor/three.module.js';
 import {Parts,Face} from './landmarks/kit.js?v=24';
 import {SUBWAY_ENTRANCES} from './data/subway-entrances.js?v=24';
+import {curbIndex} from './curbs.js?v=24';
 export {SUBWAY_ENTRANCES};
 const L=4.6,W=1.85,RAIL=1.0,KW=2.9;
 const hash=x=>{const s=Math.sin(x*12.9898)*43758.5453;return s-Math.floor(s);};
 // Axis along the nearest street, pointing away from that street's nearest end node (the corner).
-export function entranceFrames(data){const S=data.streets;return SUBWAY_ENTRANCES.map((e,i)=>{let best=null;
+// Pole audit (15 Oct 2026): two MTA points fall in the roadway (on 14th St at Fifth Avenue and at x 234 n -608); an
+// entrance there moves to the sidewalk, 1.6 m in from the curb, so its stair sits on the pavement as the real ones do.
+export function entranceFrames(data){const S=data.streets,CI=curbIndex(data);return SUBWAY_ENTRANCES.map(e0=>{if(!CI.inRoad(e0.p))return e0;const q=CI.snap(e0.p,1.6,12);return q&&!CI.inRoad(q)?{...e0,p:q,moved:true}:e0;}).map((e,i)=>{let best=null;
  for(const s of S.segments)for(let k=1;k<s.pts.length;k++){const a=s.pts[k-1],b=s.pts[k],dx=b[0]-a[0],dn=b[1]-a[1],LL=dx*dx+dn*dn||1;let t=((e.p[0]-a[0])*dx+(e.p[1]-a[1])*dn)/LL;t=Math.max(0,Math.min(1,t));
   const q=[a[0]+dx*t,a[1]+dn*t],d=Math.hypot(q[0]-e.p[0],q[1]-e.p[1]);if(!best||d<best.d)best={d,a:s.pts[0],b:s.pts[s.pts.length-1],q};}
  const da=Math.hypot(best.q[0]-best.a[0],best.q[1]-best.a[1]),db=Math.hypot(best.q[0]-best.b[0],best.q[1]-best.b[1]),from=da<db?best.a:best.b,to=da<db?best.b:best.a;
  let ax=[to[0]-from[0],to[1]-from[1]];const l=Math.hypot(...ax)||1;ax=[ax[0]/l,ax[1]/l];
  const kiosk=e.station==='Astor Pl'&&e.p[0]>500;
  // The kiosk's entrance faces north-north-east and the stair runs south-south-west under its glass enclosure (Street View, Apr 2026).
- if(kiosk)ax=[-.5,-.866];return {...e,id:'subway-'+i,axis:ax,kiosk};});}
+ if(kiosk)ax=[-.5,-.866];
+ // The whole stair (L along the axis, W across, plus its curb) must stand on the pavement: where a corner reaches into
+ // the roadway, the entrance slides sideways, away from the road, in 0.25 m steps up to 3 m.
+ let p=e.p;if(e.type==='stair'&&!kiosk){const pr=[-ax[1],ax[0]],corners=q=>[0,L+.2].flatMap(u=>[-1,1].map(s=>[q[0]+ax[0]*u+pr[0]*s*(W/2+.24),q[1]+ax[1]*u+pr[1]*s*(W/2+.24)]));
+  const bad=q=>corners(q).filter(c=>CI.inRoad(c)).length;if(bad(p)){let best=null;for(let k=1;k<=12&&!best;k++)for(const s of [1,-1]){const q=[p[0]+pr[0]*s*.25*k,p[1]+pr[1]*s*.25*k];if(!bad(q)){best=q;break;}}if(best)p=best;}}
+ return {...e,p,id:'subway-'+i,axis:ax,kiosk};});}
 // Sign decals for the manifest (kind 'sign', drawn in the signage atlas): one per station, placed at each head.
 export function subwayDecals(data){const by=new Map();for(const e of entranceFrames(data)){if(e.type==='elevator')continue;const id='subway-'+e.station.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/-$/,'');
  if(!by.has(id))by.set(id,{id,file:'assets/signage/'+id+'.png',kind:'sign',lit:true,size:[1.7,.34],bg:'#141414',fg:'#ffffff',lines:['Subway',e.station+'   '+e.routes],font:'sans-bold',

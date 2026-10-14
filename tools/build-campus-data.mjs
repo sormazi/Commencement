@@ -71,6 +71,10 @@ const crossings=[...ways.values()].filter(w=>w.tags?.footway==='crossing').map(w
 // ---- Trees: NYC Parks Forestry Tree Points (living "Full" structures) + OSM trees not already present.
 const trees=[];for(const r of plan.forestry_trees){if(r.tpstructure!=='Full')continue;const m=/POINT\(([-\d.]+) ([-\d.]+)\)/.exec(r.geometry||'');if(!m)continue;const p=pt(+m[1],+m[2]);if(!inside(p,5))continue;trees.push({p,dbh:+r.dbh||6,sp:(r.genusspecies||'').split(' - ').at(-1)||null,src:'forestry',dead:r.tpcondition==='Dead'||undefined});}
 for(const o of pointsOf(t=>t.natural==='tree')){if(trees.some(t=>Math.hypot(t.p[0]-o.p[0],t.p[1]-o.p[1])<2.5))continue;trees.push({p:o.p,dbh:o.t.circumference?+o.t.circumference/.0254/Math.PI:14,sp:o.t['species:en']||o.t.species||o.t.genus||null,src:'osm',name:o.t.name||null,height:o.t.height?+o.t.height:null});}
+// Pole audit (15 Oct 2026): street trees whose recorded point falls just over the curb line (tree pits sit at the curb,
+// and the survey points are a few tens of centimetres off) go to the sidewalk, 0.9 m in from the curb, the middle of a
+// New York tree pit. Points more than 3 m into a roadbed polygon are left for the surface sweep (see RESEARCH/roads).
+{const CI=curbIndex({roadbed,sidewalk,plazas,median,medianKind});let moved=0;for(const t of trees){if(!CI.inRoad(t.p))continue;const c=CI.curb(t.p,3);if(!c)continue;const s=[c.c[0]-c.out[0]*.9,c.c[1]-c.out[1]*.9];if(CI.inRoad(s))continue;t.p=s.map(v=>Math.round(v*100)/100);moved++;}console.log('street trees moved off the curb line',moved);}
 // 2026 must match reality: drop records that cannot be living trees in the open. Forestry points that fall inside
 // a building footprint (the Arch included: there is no tree under it) are data errors, and trees the city's
 // inventory records as dead are taken as removed. Counts are kept for the vegetation survey record.

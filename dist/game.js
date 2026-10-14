@@ -108,6 +108,8 @@ requestAnimationFrame(tick);
 // Developer: ?bench=auto runs the performance benchmark and profiler (dist/dev/bench.js).
 if(/[?&]bench=auto/.test(location.search))import('./dev/bench.js?v=24').then(m=>m.runBench(window.Commencement));
 if(/[?&]bench=/.test(location.search))window.__city=city;
+// Developer: ?audit=poles lists every upright object standing in the roadway (dist/dev/audit.js, tools/audit-scene.py).
+if(/[?&]audit=poles/.test(location.search))window.__auditPoles=()=>import('./dev/audit.js?v=24').then(m=>{const r=m.auditPoles(city.scene);window.__audit=r;console.log('AUDIT '+JSON.stringify(r));return r;});
 if(/[?&]bench=gpu/.test(location.search))import('./dev/bench.js?v=24').then(m=>m.runGpuBreakdown(window.Commencement));// developer: the renderer, for profiling tools only
 window.Commencement={start,pause,reset,openOptions,closeOptions,
 // Developer helpers for review screenshots (map metres: x east, z north; yaw 0 = north).

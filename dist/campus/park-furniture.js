@@ -1,4 +1,5 @@
 import * as T from '../vendor/three.module.js';
+import {curbIndex} from './curbs.js?v=24';
 // Park furniture (Step 4B second pass, park first; 13 Oct 2026): benches, the granite benches round the
 // fountain plaza, litter baskets and drinking fountains, at their OpenStreetMap positions (Washington Square
 // Park is mapped bench by bench: 394 wooden benches with backs, 8 granite benches without, 55 litter baskets,
@@ -62,7 +63,11 @@ function benchFrame(){const p=[seg([.2,0],[.23,.42]),seg([-.18,0],[-.22,.44]),se
 function canGeometry(){const g=new T.LatheGeometry([[.0,0],[.3,0],[.3,.06],[.24,.14],[.27,.92],[.29,.95],[.0,.95]].map(([x,y])=>new T.Vector2(x,y)),18);return g;}
 function fountainGeometry(){return merge([new T.CylinderGeometry(.16,.22,.9,10).translate(0,.45,0),new T.CylinderGeometry(.27,.12,.14,14).translate(0,.97,0),
  new T.CylinderGeometry(.11,.15,.42,8).translate(.42,.21,0),new T.CylinderGeometry(.2,.1,.1,12).translate(.42,.47,0),box(.4,.08,.1,.22,.3,0)]);}
-export function buildParkFurniture(data,{groundY=.15,materials}={}){const g=new T.Group();g.name='park-furniture';const own=[],geos=[];
+// Pole audit (15 Oct 2026): a mapped bench, basket or drinking fountain whose point falls in the roadway (two do)
+// moves to the nearest sidewalk, 0.6 m in, when a curb is within 4 m; benches closer than 1 m to a curb (whose ends
+// would reach over it) move back to 1 m.
+function offRoad(list,CI,get=x=>x.p,clear=.6){return list.map(x=>{const p=get(x);if(!CI.inRoad(p)){const c=CI.curb(p,clear);if(c&&c.d<clear){const q=[c.c[0]-c.out[0]*clear,c.c[1]-c.out[1]*clear];if(!CI.inRoad(q))return {...x,p:q};}return x;}const q=CI.snap(p,clear,4);return q&&!CI.inRoad(q)?{...x,p:q}:x;});}
+export function buildParkFurniture(data,{groundY=.15,materials}={}){const CI=curbIndex(data);data={...data,benches:offRoad(data.benches,CI,x=>x.p,1.0),misc:offRoad(data.misc||[],CI)};const g=new T.Group();g.name='park-furniture';const own=[],geos=[];
  const mat=(c,r=.7,m=0)=>{const x=new T.MeshStandardMaterial({color:c,roughness:r,metalness:m});own.push(x);return x;};
  const wood=mat(0xa39580,.85),iron=materials?.iron||mat(0x1d2124,.5,.6),granite=mat(0x5e5c58,.7),can=mat(0x18191a,.6,.3),castIron=mat(0x2a2c2c,.55,.5);
  const benches=benchLayout(data.benches,data.paths),granites=graniteLayout(data.benchLines||[]);

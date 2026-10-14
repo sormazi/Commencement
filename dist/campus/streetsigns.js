@@ -8,6 +8,7 @@
 // faded and rusted, some bent, some hanging by one bracket, some gone.
 import * as T from '../vendor/three.module.js';
 import {pointInRing} from './geometry.js?v=24';
+import {curbIndex} from './curbs.js?v=24';
 const GREEN='#0b6b45',BROWN='#5b3a26',H=.24,Y0=3.05,GAP=.3;
 // Corners checked on Street View, keyed by the two street names in either order. Overrides the district rule.
 export const SIGNS_CHECKED={'Broadway & E 8 St':{color:'green',seen:'Street View Apr 2026: green E 8 St blade on the mast arm at the corner, at the NoHo district edge'}};
@@ -19,7 +20,7 @@ export const signName=n=>n.split('·')[0].trim();
 function dirAt(seg,node){const p=seg.pts,a=p[0],z=p[p.length-1];const fromStart=Math.hypot(a[0]-node[0],a[1]-node[1])<Math.hypot(z[0]-node[0],z[1]-node[1]);
  const q=fromStart?p[1]:p[p.length-2],o=fromStart?a:z,d=[q[0]-o[0],q[1]-o[1]],L=Math.hypot(...d)||1;return [d[0]/L,d[1]/L];}
 // Intersections: graph nodes where two or more named streets meet; one sign assembly per intersection.
-export function streetSignAssemblies(data){const S=data.streets,brown=data.buildings.find(b=>b.bin===1008823),out=[];
+export function streetSignAssemblies(data){const CI=curbIndex(data),S=data.streets,brown=data.buildings.find(b=>b.bin===1008823),out=[];
  const lamps=data.lamps.map(l=>l.p),near=(p,r)=>{let best=null,bd=r;for(const q of lamps){const d=Math.hypot(q[0]-p[0],q[1]-p[1]);if(d<bd){bd=d;best=q;}}return best;};
  const byNode=new Map();for(const [a,b,si] of S.edges){const seg=S.segments[si];if(!seg)continue;for(const n of [a,b]){if(!byNode.has(n))byNode.set(n,[]);byNode.get(n).push(seg);}}
  const districtAt=p=>{let best=null,bd=40;for(const b of data.buildings){if(!b.district||!/historic district/i.test(b.district))continue;const r=b.rings[0],c=r[0];const d=Math.hypot(c[0]-p[0],c[1]-p[1]);if(d<bd){bd=d;best=b.district;}}return best;};
@@ -28,7 +29,10 @@ export function streetSignAssemblies(data){const S=data.streets,brown=data.build
   const w1=(s1.width||8)/2+1.1,w2=(s2.width||8)/2+1.1;
   // The four corners; prefer one with a lamp post, never one by the Brown Building.
   const corners=[];for(const a of [1,-1])for(const b of [1,-1]){const p=[node[0]+a*d1[0]*w2+b*d2[0]*w1,node[1]+a*d1[1]*w2+b*d2[1]*w1];
-   if(brown&&(pointInRing(p,brown.rings[0])||Math.min(...brown.rings[0].map(q=>Math.hypot(q[0]-p[0],q[1]-p[1])))<6))continue;corners.push({p,lamp:near(p,4)});}
+   // Pole audit (15 Oct 2026): a corner worked out from the centre lines can land in the roadway where streets meet at
+   // an angle or end at a park (Fifth Avenue at the Arch); such a corner goes to the nearest curb, 0.6 m in, or is dropped.
+   let q=p;if(CI.inRoad(q)){q=CI.snap(q,.6,10);if(!q||CI.inRoad(q))continue;}
+   if(brown&&(pointInRing(q,brown.rings[0])||Math.min(...brown.rings[0].map(r=>Math.hypot(r[0]-q[0],r[1]-q[1])))<6))continue;corners.push({p:q,lamp:near(q,4)});}
   if(!corners.length)continue;const c=corners.find(k=>k.lamp)||corners[0],p=c.lamp?[c.lamp[0],c.lamp[1]]:c.p;
   const dist=districtAt(p),chk=checked(signName(n1),signName(n2));out.push({p,onLamp:!!c.lamp,district:dist,checked:chk?.seen||null,color:chk?.color||(dist?'brown':'green'),boards:[{name:signName(n1),dir:d1},{name:signName(n2),dir:d2}],node:n});}
  return out;}
