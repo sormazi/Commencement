@@ -26,7 +26,7 @@ import {perfOn} from '../perf.js?v=24';
 import MARKINGS from './data/street-markings.js?v=24';
 import {buildSignals} from './signals.js?v=24';
 import {buildFurniture} from './furniture.js?v=24';
-import {buildParkFurniture} from './park-furniture.js?v=24';
+import {buildParkFurniture,buildFences} from './park-furniture.js?v=24';
 import FURNITURE from './data/street-furniture.js?v=24';
 import {buildFountain,lampLayout,lampParts,chessLayout,chessParts,furnitureGeometry,furnitureMaterial,chessTopMaterial} from './park.js?v=24';
 import {buildTier2,TIER2_BINS} from './tier2/world.js?v=24';
@@ -205,7 +205,9 @@ export class CampusWorld{
    if(!this.collision._parkFurniture){for(const b of pf.benches){const h=b.len/2,c=[b.p[0]-b.f[0]*.05,b.p[1]-b.f[1]*.05];this.collision.addSegment([c[0]-b.u[0]*h,c[1]-b.u[1]*h],[c[0]+b.u[0]*h,c[1]+b.u[1]*h],'bench',.25);}
     for(const g of pf.granites){const h=g.len/2;this.collision.addSegment([g.p[0]-g.u[0]*h,g.p[1]-g.u[1]*h],[g.p[0]+g.u[0]*h,g.p[1]+g.u[1]*h],'bench',.27);}
     for(const m of pf.baskets)this.collision.addCircle(m.p,.3,'litter basket');for(const m of pf.fountains)this.collision.addCircle(m.p,.3,'drinking fountain');this.collision._parkFurniture=true;}}
-  for(const br of d.barriers){if(br.kind==='retaining_wall')continue;const ht=br.height||(br.kind==='wall'?1.2:1.0);for(let i=1;i<br.pts.length;i++){const a=br.pts[i-1],b=br.pts[i],L=Math.hypot(b[0]-a[0],b[1]-a[1]);if(L<.05)continue;const m=[(a[0]+b[0])/2,(a[1]+b[1])/2];this.inst(this.tile(...m),br.kind==='wall'?'wallseg':'fence',toV(m,CURB_HEIGHT+ht/2),[L,ht,br.kind==='wall'?.3:.05],Math.atan2(b[1]-a[1],b[0]-a[0]));}}
+  // Fences, railings and hedges in their real styles (park-furniture.js); walls stay marble segments below.
+  {const fe=this.fences=buildFences(d.barriers,{groundY:CURB_HEIGHT,inPark:p=>!!parkRing&&pointInRing(p,parkRing),materials:this.materials});this.group.add(fe.group);this.disposables.add({dispose:()=>fe.dispose()});}
+  for(const br of d.barriers){if(br.kind!=='wall')continue;const ht=br.height||(br.kind==='wall'?1.2:1.0);for(let i=1;i<br.pts.length;i++){const a=br.pts[i-1],b=br.pts[i],L=Math.hypot(b[0]-a[0],b[1]-a[1]);if(L<.05)continue;const m=[(a[0]+b[0])/2,(a[1]+b[1])/2];this.inst(this.tile(...m),br.kind==='wall'?'wallseg':'fence',toV(m,CURB_HEIGHT+ht/2),[L,ht,br.kind==='wall'?.3:.05],Math.atan2(b[1]-a[1],b[0]-a[0]));}}
   // Painted medians: a white outline and diagonal hatching at 45 degrees to the median's long axis, 2.4 m apart.
   d.median.forEach((m,mi)=>{if(d.medianKind?.[mi]!=='painted')return;const r=m[0];for(const [a,b,w] of paintedMedianStripes(r)){const L=Math.hypot(b[0]-a[0],b[1]-a[1]);if(L<.15)continue;const p=[(a[0]+b[0])/2,(a[1]+b[1])/2];this.inst(this.tile(...p),'stripe',toV(p,.013),[L,1,w],Math.atan2(b[1]-a[1],b[0]-a[0]));}});
   // Traffic and pedestrian signals on their corner poles (signals.js).

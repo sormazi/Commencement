@@ -71,3 +71,35 @@ export function buildParkFurniture(data,{groundY=.15,materials}={}){const g=new 
  inst(fountainGeometry(),castIron,fountains,(m,O)=>{O.position.set(m.p[0],groundY,-m.p[1]);const w=nearestWalk(m.p,data.paths);if(w)O.rotation.y=yawOf([w.q[0]-m.p[0],w.q[1]-m.p[1]].map(v=>v/Math.max(w.d,.01)));});
  const seats=seatsOf(benches,granites,groundY);
  return {group:g,benches,granites,seats,baskets,fountains,dispose(){for(const m of own)m.dispose();for(const x of geos)x.dispose();}};}
+// ---- Fences, railings and hedges (OSM barrier ways; 13 Oct 2026) --------------------------------------
+// Looks (Street View user photospheres, Jul 2017, Washington Square Park): the lawns are edged with low black
+// posts carrying drooping chains; the playgrounds and dog runs have tall black picket fences. Elsewhere the
+// railings are black iron pickets (the usual New York areaway and churchyard railing). So: inside the park,
+// fences 1 m or lower are post-and-chain; every other fence is a picket railing at its OSM height (1.2 m when
+// untagged); hedges are clipped privet boxes.
+export function fenceStyle(b,inPark){if(b.kind==='hedge')return 'hedge';if(b.kind!=='fence')return null;const h=b.height||1.2;return inPark&&h<=1.05?'chain':'picket';}
+function picketTexture(){const c=document.createElement('canvas');c.width=64;c.height=128;const g=c.getContext('2d');g.clearRect(0,0,64,128);g.fillStyle='#fff';
+ for(let i=0;i<4;i++){g.fillRect(i*16+6,6,4,122);g.beginPath();g.moveTo(i*16+4,10);g.lineTo(i*16+8,0);g.lineTo(i*16+12,10);g.fill();}g.fillRect(0,16,64,5);g.fillRect(0,116,64,6);
+ const t=new T.CanvasTexture(c);t.wrapS=T.RepeatWrapping;t.colorSpace=T.SRGBColorSpace;return t;}
+export function buildFences(barriers,{groundY=.15,inPark=()=>false,materials}={}){const g=new T.Group();g.name='fences';const own=[],geos=[];
+ const pos=[],nor=[],uv=[],hed=[],posts=[],chains=[];
+ const quad=(a,b,y0,y1,u1)=>{const dx=b[0]-a[0],dn=b[1]-a[1],L=Math.hypot(dx,dn),nx=-dn/L,nz=-dx/L;// normal in three coords (map normal (dn,-dx) -> three (dn, dx)), any sign: double-sided
+  const A=[a[0],y0,-a[1]],B=[b[0],y0,-b[1]],C=[b[0],y1,-b[1]],D=[a[0],y1,-a[1]];for(const v of [A,B,C,A,C,D])pos.push(...v);for(let i=0;i<6;i++)nor.push(dn/L,0,dx/L);
+  for(const t of [[0,0],[u1,0],[u1,1],[0,0],[u1,1],[0,1]])uv.push(...t);};
+ for(const b of barriers){const st=fenceStyle(b,inPark(b.pts[Math.floor(b.pts.length/2)]));if(!st)continue;const h=b.height||(st==='hedge'?1:1.2);
+  for(let i=1;i<b.pts.length;i++){const a=b.pts[i-1],c=b.pts[i],L=Math.hypot(c[0]-a[0],c[1]-a[1]);if(L<.05)continue;
+   if(st==='picket')quad(a,c,groundY,groundY+h,L/.64*(1.2/h));
+   else if(st==='hedge')hed.push({p:[(a[0]+c[0])/2,(a[1]+c[1])/2],a:Math.atan2(c[1]-a[1],c[0]-a[0]),L,h});
+   else{const n=Math.max(1,Math.round(L/2.2));for(let k=0;k<=n;k++){if(k===0&&i>1)continue;posts.push([a[0]+(c[0]-a[0])*k/n,a[1]+(c[1]-a[1])*k/n]);}
+    for(let k=0;k<n;k++){const p0=[a[0]+(c[0]-a[0])*k/n,a[1]+(c[1]-a[1])*k/n],p1=[a[0]+(c[0]-a[0])*(k+1)/n,a[1]+(c[1]-a[1])*(k+1)/n];// three straight links approximating the sag
+     const sag=[0,.12,.12,0];for(let s=0;s<3;s++){const q0=[p0[0]+(p1[0]-p0[0])*s/3,p0[1]+(p1[1]-p0[1])*s/3],q1=[p0[0]+(p1[0]-p0[0])*(s+1)/3,p0[1]+(p1[1]-p0[1])*(s+1)/3];chains.push({q0,q1,y0:groundY+.58-sag[s],y1:groundY+.58-sag[s+1]});}}}}}
+ if(pos.length){const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(pos,3));geo.setAttribute('normal',new T.Float32BufferAttribute(nor,3));geo.setAttribute('uv',new T.Float32BufferAttribute(uv,2));
+  const tex=picketTexture(),m=new T.MeshStandardMaterial({color:0x1b1d1f,map:tex,alphaTest:.5,side:T.DoubleSide,metalness:.5,roughness:.5});own.push(m,tex);geos.push(geo);const mesh=new T.Mesh(geo,m);mesh.name='picket railings';mesh.castShadow=true;g.add(mesh);}
+ const o=new T.Object3D(),inst=(geo,material,list,place)=>{geos.push(geo);const im=new T.InstancedMesh(geo,material,Math.max(1,list.length));im.count=list.length;im.frustumCulled=false;im.castShadow=true;list.forEach((it,k)=>{o.rotation.set(0,0,0);o.scale.set(1,1,1);place(it,o);o.updateMatrix();im.setMatrixAt(k,o.matrix);});g.add(im);return im;};
+ const iron=materials?.iron||(()=>{const m=new T.MeshStandardMaterial({color:0x1d2124,metalness:.6,roughness:.5});own.push(m);return m;})();
+ inst(new T.CylinderGeometry(.035,.04,.66,8).translate(0,.33,0),iron,posts,(p,O)=>O.position.set(p[0],groundY,-p[1]));
+ inst(new T.SphereGeometry(.045,8,6).translate(0,.68,0),iron,posts,(p,O)=>O.position.set(p[0],groundY,-p[1]));
+ inst(new T.CylinderGeometry(.012,.012,1,4).rotateZ(Math.PI/2),iron,chains,(c,O)=>{const dx=c.q1[0]-c.q0[0],dn=c.q1[1]-c.q0[1],L=Math.hypot(dx,dn),dy=c.y1-c.y0;O.position.set((c.q0[0]+c.q1[0])/2,(c.y0+c.y1)/2,-(c.q0[1]+c.q1[1])/2);O.rotation.set(0,Math.atan2(dn,dx),Math.atan2(dy,L),'YXZ');O.scale.set(Math.hypot(L,dy),1,1);});
+ const hm=new T.MeshStandardMaterial({color:0x3f5a2c,roughness:.95});own.push(hm);
+ inst(new T.BoxGeometry(1,1,.8).translate(0,.5,0),hm,hed,(e,O)=>{O.position.set(e.p[0],groundY,-e.p[1]);O.rotation.y=e.a;O.scale.set(e.L+.3,e.h,1);});
+ return {group:g,counts:{picketM:pos.length/18,posts:posts.length,links:chains.length,hedges:hed.length},dispose(){for(const m of own)m.dispose();for(const x of geos)x.dispose();}};}

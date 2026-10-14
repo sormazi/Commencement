@@ -11,8 +11,8 @@ Started 13 Oct 2026 for the multiplayer demo (Avi's order of 13 Oct, step b1). P
 | Litter baskets | 55 | amenity=waste_basket | placed |
 | Drinking fountains | 7 | amenity=drinking_water, fountain=bubbler | placed |
 | Lamp posts | 145 | highway=street_lamp | already placed (park.js, three kinds) |
-| Fences and railings | 22 ways | barrier=fence, height 1 or 2 m, metal | present as plain panels; styles still to do |
-| Hedge | 1 | barrier=hedge | still to do |
+| Fences and railings | 22 ways | barrier=fence, height 1 or 2 m, metal | done: post-and-chain (1 m and lower), black pickets (taller) |
+| Hedge | 1 | barrier=hedge | done: clipped green box |
 | Chess tables | 13 | counted on photospheres | already placed (park.js) |
 | Planters, park signs | not in OSM | | still to do, from Street View |
 
@@ -32,4 +32,8 @@ OSM gives each bench as a point. Each bench runs along the nearest footway and f
 
 ## Still to do
 
-Fence styles (chain-and-post lawn edges, picket fences), the hedge, planters and park signs, a pass on bench rows that OSM maps with odd spacing, and a check of every row against the orthoimagery.
+Open question for Avi's photos: OSM maps only about 18 fences in the park, but the Jul 2017 photospheres show chains along lawn edges in several places, so many lawn chains are probably unmapped. They are not added until checked, lawn by lawn. Also still to do: planters and park signs, a pass on bench rows that OSM maps with odd spacing, and a check of every row against the orthoimagery.
+
+## Fences (done 13 Oct)
+
+Inside the park, fences tagged 1 m or lower are low black posts (about 0.7 m, every 2.2 m, ball tops) with drooping chains; every other fence in the study area is a black picket railing at its OSM height (1.2 m where untagged), drawn as one cut-out panel mesh. Hedges are clipped privet boxes. Walls are unchanged.
