@@ -7,9 +7,9 @@ import {AO} from './campus/atmosphere/ao.js?v=24';
 import {setPBR} from './campus/atmosphere/pbr.js?v=24';
 import {perfOn} from './perf.js?v=24';
 export const PRESETS={
- low:{label:'Low',grass:'off',ssr:0,probe:'off',shafts:0,bloomLevels:0,grain:0,ao:.75,ssao:false,pbr:false,pixelRatio:1,shadows:false,shadowSize:512,bloom:false,far:650},
- medium:{label:'Medium',grass:'medium',ssr:12,probe:'medium',shafts:12,bloomLevels:4,grain:.016,ao:1,ssao:false,pbr:true,pixelRatio:1.25,shadows:true,shadowSize:1024,bloom:true,far:1100},
- high:{label:'High',grass:'high',ssr:24,probe:'high',shafts:24,bloomLevels:5,grain:.018,ao:1,ssao:true,pbr:true,pixelRatio:2,dynamic:{start:1.5,min:1},shadows:true,shadowSize:2048,bloom:true,far:1600}};
+ low:{label:'Low',grass:'off',ssr:0,probe:'off',shafts:0,bloomLevels:0,grain:0,ao:.75,ssao:false,pbr:false,pixelRatio:1,shadows:false,shadowSize:512,bloom:false,far:650,trees:{near:35,mid:150}},
+ medium:{label:'Medium',grass:'medium',ssr:12,probe:'medium',shafts:12,bloomLevels:4,grain:.016,ao:1,ssao:false,pbr:true,pixelRatio:1.25,shadows:true,shadowSize:1024,bloom:true,far:1100,trees:{near:55,mid:220}},
+ high:{label:'High',grass:'high',ssr:24,probe:'high',shafts:24,bloomLevels:5,grain:.018,ao:1,ssao:true,pbr:true,pixelRatio:2,dynamic:{start:1.5,min:1},shadows:true,shadowSize:2048,bloom:true,far:1600,trees:{near:80,mid:280}}};
 export const ORDER=['low','medium','high'];
 // Dynamic resolution for High (performance fix 13). High was GPU-bound by pixel count: about 43 ms per frame at
 // a 2x pixel ratio on an M3, where frame time followed the number of pixels drawn. Instead of one fixed ratio,
@@ -45,6 +45,8 @@ export class Quality{
  apply(level){this.level=level;const q=PRESETS[level],c=this.city,r=c.renderer;
   // High uses dynamic resolution (below); every other preset a fixed pixel ratio.
   this.dyn.reset(q.dynamic&&perfOn('dynres')?q.dynamic:null);r.setPixelRatio(Math.min(window.devicePixelRatio||1,this.dyn.on?this.dyn.ratio:q.pixelRatio));c.resize();
+  // Tree detail distances (campus-world TREE_LOD): full models near, lighter ones in the middle, billboards beyond.
+  if(c.world&&q.trees)c.world.treeLod=q.trees;
   r.shadowMap.enabled=q.shadows;c.sun.castShadow=q.shadows;
   if(c.sun.shadow.mapSize.x!==q.shadowSize){c.sun.shadow.mapSize.set(q.shadowSize,q.shadowSize);c.sun.shadow.map?.dispose();c.sun.shadow.map=null;}
   c.postMat.uniforms.bloomOn.value=q.bloom?1:0;

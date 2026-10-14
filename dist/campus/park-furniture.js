@@ -113,7 +113,7 @@ export function buildFences(barriers,{groundY=.15,inPark=()=>false,materials}={}
  inst(new T.CylinderGeometry(.035,.04,.66,8).translate(0,.33,0),iron,posts,(p,O)=>O.position.set(p[0],groundY,-p[1]));
  inst(new T.SphereGeometry(.045,8,6).translate(0,.68,0),iron,posts,(p,O)=>O.position.set(p[0],groundY,-p[1]));
  inst(new T.CylinderGeometry(.012,.012,1,4).rotateZ(Math.PI/2),iron,chains,(c,O)=>{const dx=c.q1[0]-c.q0[0],dn=c.q1[1]-c.q0[1],L=Math.hypot(dx,dn),dy=c.y1-c.y0;O.position.set((c.q0[0]+c.q1[0])/2,(c.y0+c.y1)/2,-(c.q0[1]+c.q1[1])/2);O.rotation.set(0,Math.atan2(dn,dx),Math.atan2(dy,L),'YXZ');O.scale.set(Math.hypot(L,dy),1,1);});
- const hm=new T.MeshStandardMaterial({color:0x3f5a2c,roughness:.95});own.push(hm);
+ const hm=materials?.shrubLeaf||(()=>{const m=new T.MeshStandardMaterial({color:0x3f5a2c,roughness:.95});own.push(m);return m;})();
  inst(new T.BoxGeometry(1,1,.8).translate(0,.5,0),hm,hed,(e,O)=>{O.position.set(e.p[0],groundY,-e.p[1]);O.rotation.y=e.a;O.scale.set(e.L+.3,e.h,1);});
  return {group:g,counts:{picketM:pos.length/18,posts:posts.length,links:chains.length,hedges:hed.length},dispose(){for(const m of own)m.dispose();for(const x of geos)x.dispose();}};}
 // ---- Lawn and bed edges (Avi, 14 Oct 2026, from his photo of the park): the beds and lawns are edged with low
