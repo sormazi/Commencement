@@ -68,6 +68,29 @@ const near=(list,p,r)=>list.some(s=>Math.hypot(s[0]-p[0],s[1]-p[1])<r);
 const out=[],stats={pieces:0,lanes:0,bike:0,bus:0,stop:0,osm:0},C={w:0,y:1,g:2,r:3};
 const rect=(a,b,off,w,c,dir)=>{const dx=b[0]-a[0],dn=b[1]-a[1],L=Math.hypot(dx,dn);if(L<.2)return;const nx=dn/L,nn=-dx/L;/* offsets are measured to the right of the direction a->b */out.push([q((a[0]+b[0])/2+nx*off),q((a[1]+b[1])/2+nn*off),q(L),q(w),Math.round(Math.atan2(dn,dx)*1000)/1000,C[c]]);};
 const dashes=(a,b,off,w,c,on=3,gap=9)=>{const L=Math.hypot(b[0]-a[0],b[1]-a[1]);for(let s=(L%(on+gap))/2;s<L;s+=on+gap){const e=Math.min(L,s+on);if(e-s<.6)continue;const A=[a[0]+(b[0]-a[0])*s/L,a[1]+(b[1]-a[1])*s/L],B=[a[0]+(b[0]-a[0])*e/L,a[1]+(b[1]-a[1])*e/L];rect(A,B,off,w,c);}};
+// ---- Bike lanes as New York paints them (Avi, 14 Oct 2026). Per lane piece:
+//  green: 'full' (solid green the whole block), 'ends' (green only where cars cross: green skip bars through the
+//  intersection and a solid green start box of 6 m), or none. From RESEARCH/roads/bike-paint.json (a by-eye check of
+//  each lane piece on orthoimagery and Street View, keyed segment:piece:side), else the older mid-block check in
+//  green-paint.json (full green where it found green), else no green.
+//  symbols: a white bicycle and arrow 5 m into each block in the direction of travel, and every 60 m on long blocks.
+//  posts: white flexible delineators every 6 m down the middle of a painted buffer that has no parking lane beyond it.
+const bikeFile=new URL('RESEARCH/roads/bike-paint.json',root),BIKE=fs.existsSync(bikeFile)?JSON.parse(fs.readFileSync(bikeFile)):{};
+const symbols=[],posts=[],bikeLanes=[];
+function paintBikeLane({s,i,A,B,a,b,ux,un,L,tA,tB,ln,parkL,parkR,facility,dir}){const {x0,x1,buffer}=ln,off=(x0+x1)/2,w=(x1-x0)-.3;const side=off<0?'L':'R',key=s.id+':'+i+':'+side;
+ const mx=q((A[0]+B[0])/2+un*off),mn=q((A[1]+B[1])/2-ux*off),oldKey=mx+','+mn;const rec=BIKE[key];
+ const mode=rec?.green||(GREEN[oldKey]>=.2?'full':'none');stats.bike++;stats['green_'+mode]=(stats['green_'+mode]||0)+1;if(rec)stats.bikeChecked=(stats.bikeChecked||0)+1;
+ // Direction of travel: one-way streets follow the street; on two-way streets, lanes ride on the right.
+ const fwd=dir==='TF'?false:dir==='FT'?true:side==='R';
+ bikeLanes.push({key,x:mx,n:mn,ax:q(A[0]),an:q(A[1]),bx:q(B[0]),bn:q(B[1]),off:q(off),w:q(w),fwd,mode,street:s.street,facility:facility.trim()});
+ if(mode==='full')rect(A,B,off,w,'g');
+ if(mode==='ends'){const start=fwd?A:B,dir2=fwd?[ux,un]:[-ux,-un],box=Math.min(6,L/3);const E=[start[0]+dir2[0]*box,start[1]+dir2[1]*box];fwd?rect(start,E,off,w,'g'):rect(E,start,off,w,'g');
+  // Skip bars through the intersection behind the block's entry, as far as the street's trimmed end.
+  const t=fwd?tA:tB;if(t>2){const node=fwd?a:b;const P1=[start[0]-dir2[0]*.4,start[1]-dir2[1]*.4],P0=[node[0]+dir2[0]*1.5,node[1]+dir2[1]*1.5];if(fwd)dashes(P0,P1,off,w,'g',1.8,1.8);else dashes(P1,P0,off,w,'g',1.8,1.8);}}
+ // Bicycle symbols with arrows.
+ const ang=Math.atan2(fwd?un:-un,fwd?ux:-ux);for(let d=5;d<L-4;d+=60){const t=fwd?d:L-d;symbols.push([q(A[0]+ux*t+un*off),q(A[1]+un*t-ux*off),Math.round(ang*1000)/1000]);if(L<90)break;}
+ // Flexible delineators down a buffer with no parking beyond it.
+ if(buffer){const bo=(buffer[0]+buffer[1])/2,parked=bo<0?parkL:parkR;if(!parked&&Math.abs(buffer[1]-buffer[0])>.5)for(let d=3;d<L-2;d+=6)posts.push([q(A[0]+ux*d+un*bo),q(A[1]+un*d-ux*bo)]);}}
 for(const s of S.segments){const pts=s.pts;for(let i=1;i<pts.length;i++){let a=pts[i-1],b=pts[i];let L=Math.hypot(b[0]-a[0],b[1]-a[1]);if(L<4)continue;
   const ux=(b[0]-a[0])/L,un=(b[1]-a[1])/L,left=[-un,ux],right=[un,-ux];
   // Trim at intersections (only at the segment's true ends).
@@ -91,9 +114,10 @@ for(const s of S.segments){const pts=s.pts;for(let i=1;i<pts.length;i++){let a=p
   const cycSide=s0=>cyc[s0==='left'?(o?.same?'left':'right'):(o?.same?'right':'left')];// cycleway tag on our left/right
   const anyBike=protectedBike||/Curbside|Buffered|Protected/.test(facility);
   // A bike lane between the curb and a painted buffer (protected or curbside-buffered): green where it is green.
-  const bikePaint=(x0,x1)=>{const before=out.length;rect(A,B,(x0+x1)/2,(x1-x0)-.3,'g');const st=out[before];if(!st)return;const key=st[0]+','+st[1];const f=GREEN[key];if(!(f>=.2))out.pop();stats.bike++;};
-  if(bufL&&(anyBike||/track|lane/.test(cycSide('left')||''))){const x0=-Lw,x1=bufL[0];if(x1-x0>1.0)bikePaint(x0,x1);}
-  if(bufR&&(anyBike||/track|lane/.test(cycSide('right')||''))){const x0=bufR[1],x1=Rw;if(x1-x0>1.0)bikePaint(x0,x1);}
+  // Bike lanes are collected here and painted after the block's cross-section is known (paintBikeLane below).
+  const lanesHere=[];const bikePaint=(x0,x1,buffer)=>{lanesHere.push({x0,x1,buffer});};
+  if(bufL&&(anyBike||/track|lane/.test(cycSide('left')||''))){const x0=-Lw,x1=bufL[0];if(x1-x0>1.0)bikePaint(x0,x1,bufL);}
+  if(bufR&&(anyBike||/track|lane/.test(cycSide('right')||''))){const x0=bufR[1],x1=Rw;if(x1-x0>1.0)bikePaint(x0,x1,bufR);}
   // The carriageway [lo, hi]: parking, conventional bike lane, bus lane, travel lanes.
   let parkL=0,parkR=0,np=s.park||0;if(np>=2){parkL=parkR=1;}else if(np===1){if(bufL)parkL=1;else if(bufR)parkR=1;else{const pl=tg['parking:left']||tg['parking:lane:left'],pr=tg['parking:right']||tg['parking:lane:right'];if(o&&/no/.test((o.same?pl:pr)||''))parkR=1;else if(o&&/no/.test((o.same?pr:pl)||''))parkL=1;else parkR=1;}}
   const ov=BLOCKS[s.id];if(ov){if(ov.parkL!=null)parkL=ov.parkL;if(ov.parkR!=null)parkR=ov.parkR;stats.checked=(stats.checked||0)+1;}
@@ -106,6 +130,7 @@ for(const s of S.segments){const pts=s.pts;for(let i=1;i<pts.length;i++){let a=p
    if(sd&&x1-x0>5.5){// curbside lanes run along the curb with parking outside them; conventional ones between parking and traffic
     if(curbside){if(sd==='L'){if(parkL){x0-=2.4;}bikePaint(x0,x0+1.5);laneLine(x0+1.5);x0+=1.5;if(parkL)x0+=2.4;}else{if(parkR){x1+=2.4;}bikePaint(x1-1.5,x1);laneLine(x1-1.5);x1-=1.5;if(parkR)x1-=2.4;}}
     else if(sd==='L'){laneLine(x0);bikePaint(x0,x0+1.5);laneLine(x0+1.5);x0+=1.5;}else{laneLine(x1);bikePaint(x1-1.5,x1);laneLine(x1-1.5);x1-=1.5;}}}
+  for(const ln of lanesHere)paintBikeLane({s,i,A,B,a,b,ux,un,L,tA,tB,ln,parkL,parkR,facility,dir:s.dir});
   if(busRows.length&&x1-x0>6){const typ=busRows[0].lane_type||'';const w=3.3;// NYC bus lanes: 11 ft
    rect(A,B,x1-w/2,w-.15,'r');laneLine(x1-w);x1-=w;stats.bus++;}
   const n=Math.max(1,Math.min(s.lanes||1,Math.floor((x1-x0)/2.7)));const lw=(x1-x0)/n;stats.lanes+=n;
@@ -143,5 +168,6 @@ const header=`// Lane markings for every street in the study area, generated by 
 // Sources: NYC Planimetric Database and Centerline (NYC Open Data), NYC DOT Bike Routes and Bus Lanes (NYC Open Data),
 // OpenStreetMap (ODbL 1.0). Each stripe: [x, n, length, width, angle, colour 0 white 1 yellow 2 green 3 red].\n// Each signal pole: [x, n, street angle 1, street angle 2, axis of street 1, axis of street 2, cycle offset s].
 `;
-fs.writeFileSync(new URL('dist/campus/data/street-markings.js',root),header+'export default '+JSON.stringify({stats,stripes:out,poles})+';\n');
+fs.writeFileSync(new URL('RESEARCH/roads/bike-lanes.json',root),JSON.stringify(bikeLanes,null,0).replace(/},{/g,'},\n{'));
+fs.writeFileSync(new URL('dist/campus/data/street-markings.js',root),header+'export default '+JSON.stringify({stats,stripes:out,poles,symbols,posts})+';\n');
 console.log(stats,out.length);

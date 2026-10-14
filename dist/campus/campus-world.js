@@ -24,6 +24,7 @@ import {patchSnow} from './atmosphere/snow.js?v=24';
 import {buildSteam} from './atmosphere/steam.js?v=24';
 import {perfOn} from '../perf.js?v=24';
 import MARKINGS from './data/street-markings.js?v=24';
+import {buildBikeMarkings} from './bike-markings.js?v=24';
 import {buildSignals} from './signals.js?v=24';
 import {buildFurniture} from './furniture.js?v=24';
 import {buildParkFurniture,buildFences} from './park-furniture.js?v=24';
@@ -215,6 +216,8 @@ export class CampusWorld{
   // Street furniture at surveyed positions: curb ramps, hydrants, parking signs, bus stops, Citi Bike (furniture.js).
   {const fu=this.furniture=buildFurniture(FURNITURE,{groundY:CURB_HEIGHT});this.group.add(fu.group);this.disposables.add({dispose:()=>fu.dispose()});(this.decayHooks||(this.decayHooks=[])).push(t=>fu.setDecay(t));}
   // Lane markings (tools/build-markings.mjs): centre lines, lane lines, bike and bus lanes, stop lines.
+  // Bike stencils and delineators (bike-markings.js).
+  {const bm=buildBikeMarkings(MARKINGS,{groundY:0});this.group.add(bm.group);this.disposables.add({dispose:()=>bm.dispose()});if(!this.collision._delineators){for(const p of MARKINGS.posts||[])this.collision.addCircle(p,.1,'delineator');this.collision._delineators=true;}}
   {const COL=[null,new T.Color(1,.74,.16),new T.Color(.26,.62,.34),new T.Color(.62,.12,.1)];for(const [x,n,L,W,a,c] of MARKINGS.stripes){const p=[x,n];this.inst(this.tile(...p),'stripe',toV(p,c>=2?.011:.013),[L,1,W],a,COL[c]);}}
   // Crosswalks by their OSM marking (crossing:markings): bars across the walk for 'zebra' and the city's usual
   // high-visibility pattern; bars between two edge lines for 'ladder'; two lines only for 'lines'; nothing where
