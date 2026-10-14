@@ -133,8 +133,14 @@ export class CampusWorld{
   // were extruded as sidewalk slabs, which put strips of paving down the middle of Fifth Avenue and other
   // roads. They are drawn as road markings below; only curb medians and traffic islands are raised.
   const raisedMedians=d.median.filter((m,i)=>(d.medianKind?.[i]||'raised')!=='painted');
-  const slabs=[...d.sidewalk,...d.plazas,...raisedMedians].map(p=>({rings:[p[0]],area:Math.abs(ringArea(p[0])),c:centroid(p[0])})).sort((a,b)=>b.area-a.area);const kept=[];
-  for(const s of slabs){if(kept.some(k=>k.area>s.area&&pointInRing(s.c,k.rings[0])&&s.rings[0].every(p=>pointInRing(p,k.rings[0]))))continue;kept.push(s);const t=this.tile(...s.c);this.builder(t,'paving').prism(s.rings,0,CURB_HEIGHT,col(0xbdbab2),3,3);}
+  // Where a sidewalk and a median or island overlap (59 places in the planimetric data, RESEARCH/roads/sweep.md), their
+  // tops z-fought; plazas sit 3 mm and medians 6 mm above the sidewalk so the higher one always wins.
+  const slabs=[...d.sidewalk.map(p=>[p,0]),...d.plazas.map(p=>[p,.003]),...raisedMedians.map(p=>[p,.006])].map(([p,dy])=>({rings:[p[0]],dy,area:Math.abs(ringArea(p[0])),c:centroid(p[0])})).sort((a,b)=>b.area-a.area);const kept=[];
+  for(const s of slabs){if(kept.some(k=>k.area>s.area&&pointInRing(s.c,k.rings[0])&&s.rings[0].every(p=>pointInRing(p,k.rings[0]))))continue;kept.push(s);const t=this.tile(...s.c);this.builder(t,'paving').prism(s.rings,0,CURB_HEIGHT+s.dy,col(0xbdbab2),3,3);}
+  // OSM pedestrian areas (plazas such as Gould Plaza and Astor Place, 31 of them) were never drawn, so they showed as
+  // bare asphalt where the planimetric data has no plaza (surface sweep, 14 Oct 2026). Paved to the sidewalk, 2 mm
+  // above it where the two overlap; asphalt-surfaced ones in a darker grey.
+  for(const a of d.paths){if(!a.area||a.pts.length<3)continue;const r=a.pts,A=Math.abs(ringArea(r));if(A<20)continue;const t=this.tile(...centroid(r));this.builder(t,'paving').prism([r],0,CURB_HEIGHT+.002,col(a.surface==='asphalt'?0x8d8c88:a.surface==='paving_stones'?0xb0a796:0xbdbab2),3,3);}
   // Park surfaces: paved park floor, lawns, dog runs and playgrounds (OSM areas), slightly above the slab.
   const tint={bed:0x4a3b2c,pit:0x463829,flowerbed:0x4f3c2b,shrubbery:0x45382a,park:0xc9c3b6,grass:0xa8b48c,dogrun:0x9b8a6c,playground:0x8c6f62,pitch:0x8b9a7a,plaza:0xcfc9bd,courtyard:0xb7a596};
   for(const a of d.areas){if(a.kind==='fountain')continue;const y=CURB_HEIGHT+(a.kind==='park'?.004:.01),t=this.tile(...centroid(a.ring)),mat=a.kind==='grass'||a.kind==='pitch'?'grass':'parkFloor';this.builder(t,mat).cap([a.ring],y,col(tint[a.kind]||0xc9c3b6),.18);}

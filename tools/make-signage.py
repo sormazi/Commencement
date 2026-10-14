@@ -10,7 +10,7 @@ JS="""async (only)=>{const m=await import('/campus/signage.js');const out=[];for
 async def main():
     only=set(sys.argv[1:])
     async with async_playwright() as p:
-        b=await p.chromium.launch();pg=await b.new_page();await pg.goto('http://localhost:4173/index.html')
+        b=await p.chromium.launch();pg=await b.new_page();await pg.goto('http://localhost:4173/credits.html')
         for id_,f,url in await pg.evaluate(JS,list(only)):
             path=os.path.join(ROOT,f)
             if os.path.exists(path) and id_ not in only: continue
