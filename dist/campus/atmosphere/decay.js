@@ -1,4 +1,5 @@
 import * as T from '../../vendor/three.module.js';
+import {buildFountainWater} from './fountain-water.js?v=24';
 import {perfOn} from '../../perf.js?v=24';
 import {pointInRing,centroid,ringArea} from '../geometry.js?v=24';
 import {archPiers,CURB_HEIGHT} from '../collision.js?v=24';
@@ -229,11 +230,10 @@ export function dryFountain(g,r,keep){// The fountain in both eras: water and je
  const basinMat=keep(new T.MeshStandardMaterial({map:keep(basinTexture()),roughness:.95}));basinMat.map.repeat.set(r/4,r/4);let water=null;
  for(const m of [...g.children]){if(m.material&&m.material.color&&m.geometry.type==='CircleGeometry'){water=m;water.material=keep(water.material.clone());water.material.transparent=true;const dry=new T.Mesh(m.geometry,basinMat);dry.rotation.copy(m.rotation);dry.position.copy(m.position);dry.position.y=.07;water.position.y=.14;g.add(dry);}
   else if(m.material&&m.material.color)m.material=keep(decayMaterial(m.material,'masonry'));}
- const jetMat=keep(new T.MeshStandardMaterial({color:0xe8f0f2,roughness:.2,transparent:true,opacity:.55,depthWrite:false})),jets=new T.Group();
- const cj=new T.Mesh(keep(new T.CylinderGeometry(.12,.35,3.4,10,1,true)),jetMat);cj.position.y=.82+1.7;jets.add(cj);
- for(let i=0;i<8;i++){const a=i*Math.PI/4+Math.PI/8,j=new T.Mesh(keep(new T.CylinderGeometry(.04,.08,2.2,6,1,true)),jetMat);j.position.set(Math.sin(a)*(r-1.4),1.25,Math.cos(a)*(r-1.4));j.rotation.set(Math.cos(a)*-.9,0,Math.sin(a)*.9);jets.add(j);}g.add(jets);
+ // Running water (fountain-water.js): jets, falling water, ripples; on by the real schedule in 2026, never in 2126.
+ const run=buildFountainWater(r,keep);g.add(run.group);g.userData.water=run;
  const ring=new T.Mesh(keep(new T.TorusGeometry(r-1.95,.2,6,64)),keep(new T.MeshStandardMaterial({color:0x3f4a26,roughness:1})));ring.rotation.x=Math.PI/2;ring.position.y=.1;g.add(ring);
  const sap=new T.Group();const trunk=new T.Mesh(keep(new T.CylinderGeometry(.08,.14,3.2,6)),keep(new T.MeshStandardMaterial({color:0x4b4134,roughness:1})));trunk.position.y=1.6;trunk.rotation.z=.08;
  const crown=new T.Mesh(keep(new T.IcosahedronGeometry(1.4,1)),keep(new T.MeshStandardMaterial({color:0x4f5f2c,roughness:.9,flatShading:true})));crown.position.set(.2,3.4,0);crown.scale.set(1,.8,1);sap.add(trunk,crown);sap.position.set(1.8,.05,-1.2);g.add(sap);
- g.userData.era=t=>{const k=Math.max(.001,t);if(water){water.material.opacity=1-t;water.visible=t<.999;}jetMat.opacity=.55*(1-t);jets.visible=t<.999;ring.scale.setScalar(k);ring.visible=t>.001;sap.scale.setScalar(k);sap.visible=t>.001;};g.userData.era(DECAY.value);
+ g.userData.era=t=>{const k=Math.max(.001,t);if(water){water.material.opacity=1-t;water.visible=t<.999;}ring.scale.setScalar(k);ring.visible=t>.001;sap.scale.setScalar(k);sap.visible=t>.001;};g.userData.era(DECAY.value);
  return g;}

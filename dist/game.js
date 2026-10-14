@@ -1,5 +1,6 @@
 import {DriveAudio} from './audio.js?v=24';
 import {Soundtrack} from './soundtrack.js?v=24';
+import {FountainAudio} from './fountain-audio.js?v=24';
 import {CityRenderer} from './renderer3d.js?v=24';
 import * as THREE from './vendor/three.module.js';
 import {perfOn} from './perf.js?v=24';
@@ -14,9 +15,9 @@ import {PBR} from './campus/atmosphere/pbr.js?v=24';
 migrateStorage();
 // Commencement: one place (Washington Square) and one vehicle (NYU Campus Safety unit 4, see vehicle.js).
 const $=id=>document.getElementById(id),canvas=$('world'),city=new CityRenderer(canvas),mini=$('mini').getContext('2d');
-const audio=new DriveAudio(),soundtrack=new Soundtrack();
+const audio=new DriveAudio(),soundtrack=new Soundtrack(),fountainAudio=new FountainAudio();
 // Sound starts on the first key press, click or tap (browsers require a gesture).
-const unlockAudio=()=>{audio.unlock();if(audio.ctx)soundtrack.init(audio.ctx);};window.addEventListener('pointerdown',unlockAudio);
+const unlockAudio=()=>{audio.unlock();if(audio.ctx){soundtrack.init(audio.ctx);fountainAudio.init(audio.ctx);}};window.addEventListener('pointerdown',unlockAudio);
 let simulation=new FixedVehicleLoop(VEHICLE),state=simulation.state,renderState=state,playing=false,paused=false,optionsOpen=false,introActive=true,mph=true,keys={},last=0,controls={},time=0,optionSnapshot=null,optionsReturnPaused=false,minimap=null;
 // The car sits at a real map position and the solver queries the campus surface (curbs, grass).
 function placeVehicle(at){const c=campus(),p=at||c.spawn,s=simulation.state;s.position.x=p.x;s.position.z=p.z;s.orientation.yaw=p.yaw;simulation.surface=c.surface;simulation.previous=structuredClone(s);state=s;renderState=s;if(!minimap)minimap=new CampusMinimap(c.data,c.streets);}
@@ -101,6 +102,7 @@ let skyNoteAt=0;function skyNote(t){if(t<skyNoteAt)return;skyNoteAt=t+1000;const
 function tick(t){const dt=Math.max(0,(t-last)/1000||0);last=t;fpsTick(t,dt);if(playing&&!paused&&!introActive)quality.tick(t,dt);skyNote(t);openingTick(t);
  if(playing&&!paused){renderState=simulation.advance(dt,inputFromKeys(keys),(s,h,simTime)=>{time=simTime;contacts(s);});state=simulation.state;controls=simulation.controls;}else{simulation.accumulator=0;simulation.previous=structuredClone(simulation.state);renderState=simulation.state;}
  render(dt);audio.update(state,controls,paused||optionsOpen||introActive,$('sound').value==='on');soundtrack.update(!paused&&!optionsOpen&&!introActive&&$('sound').value==='on'&&$('music').value==='on',{x:state.position?.x||0,z:state.position?.z||0},state.orientation?.yaw||0);
+ {const fw=city.world?.fountain;fountainAudio.update(!paused&&!optionsOpen&&!introActive&&$('sound').value==='on',{x:state.position?.x||0,z:state.position?.z||0},state.orientation?.yaw||0,fw&&{c:fw.c,level:fw.group.userData.water?.level||0});}
  $('speed').textContent=String(Math.round(Math.abs(state.speed)*(mph?2.237:3.6))).padStart(2,'0');$('gear').textContent=state.speed<-.3?'R':'D';$('damageBar').style.width=state.damage*100+'%';requestAnimationFrame(tick);}
 requestAnimationFrame(tick);
 // Developer: ?bench=auto runs the performance benchmark and profiler (dist/dev/bench.js).

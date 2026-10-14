@@ -37,3 +37,13 @@ Open question for Avi's photos: OSM maps only about 18 fences in the park, but t
 ## Fences (done 13 Oct)
 
 Inside the park, fences tagged 1 m or lower are low black posts (about 0.7 m, every 2.2 m, ball tops) with drooping chains; every other fence in the study area is a black picket railing at its OSM height (1.2 m where untagged), drawn as one cut-out panel mesh. Hedges are clipped privet boxes. Walls are unchanged.
+
+## From Avi's photo (Oct 2026, fountain plaza looking north)
+
+Avi's own photo is reference only and is not saved in the repository.
+- Benches: rebuilt with curved cast-iron frames (seat dipping to the back, back curving up and back) and armrests ending in a scroll; pale weathered slats.
+- Chains: Avi confirms the beds and lawns are edged with low black posts and drooping chains. Every lawn and planting-bed edge in the park that faces a walk now has them (99 runs, about 4.1 km), 0.15 m out from the edge; edges between two plantings have none. Still to confirm edge by edge on Street View.
+- Paths: hexagonal asphalt paving blocks on the park walks; the fountain plaza (30.5 m round the fountain) is smoother light granite in rings with darker radial bands.
+- Shrubs: in the park's planting beds, the scattered mound shrubs are replaced by low ground cover and rows of clipped round boxwoods along each bed's walk side (1,400, about 2 m apart, clear of trunks), as in the photo. Flower beds keep their flowers. This is a rule, not yet a bed-by-bed survey: which beds really have boxwood rows, and what else is planted, needs Street View and more photos.
+- Lamp glow: halos at night are tighter and softer (1.7 m across in clear air, faster falloff, about two thirds the brightness).
+- Lamp styles: still to settle. The plaza posts are drawn with a cluster of five globes (Sep 2015 photospheres); Avi mentions double-globe posts. A close photo of one plaza post would settle it.

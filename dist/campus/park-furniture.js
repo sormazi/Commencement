@@ -45,18 +45,26 @@ function merge(parts){const geos=parts.map(g=>g.index?g.toNonIndexed():g);let n=
  for(const g of geos){pos.set(g.attributes.position.array,o*3);nor.set(g.attributes.normal.array,o*3);o+=g.attributes.position.count;g.dispose();}
  const m=new T.BufferGeometry();m.setAttribute('position',new T.BufferAttribute(pos,3));m.setAttribute('normal',new T.BufferAttribute(nor,3));return m;}
 const box=(w,h,d,x,y,z,rx=0)=>{const g=new T.BoxGeometry(w,h,d);if(rx)g.rotateX(rx);return g.translate(x,y,z);};
-// A bench of unit length 1 along x (scaled per bench), the sitter facing +z. Slats run the whole length.
-function benchWood(){const p=[];for(let k=0;k<4;k++)p.push(box(1,.03,.09,0,SEAT_H,.2-k*.115));
- for(let k=0;k<3;k++)p.push(box(1,.09,.03,0,SEAT_H+.17+k*.12,-.27-k*.025,-.2));return merge(p);}
-// Iron end frame (leg, seat bearer, back standard, armrest), placed at each end and in the middle.
-function benchFrame(){return merge([box(.05,SEAT_H,.05,0,SEAT_H/2,.2),box(.05,SEAT_H,.05,0,SEAT_H/2,-.22),box(.05,.05,.52,0,SEAT_H-.03,-.02),box(.05,.5,.05,0,SEAT_H+.24,-.3,-.2),
- box(.05,.04,.42,0,SEAT_H+.24,.0),box(.05,.24,.04,0,SEAT_H+.12,.2)]);}
+// A bench of unit length 1 along x (scaled per bench), the sitter facing +z. Slats run the whole length and follow
+// the frame's curve (Avi's photo, Oct 2026: pale weathered slats on curved black cast-iron frames, scrolled arms).
+// Cross-section of the frame in (z, y): seat dipping slightly to the back, back curving up and back.
+const SEAT=[[.24,.45],[.12,.44],[0,.425],[-.12,.41],[-.2,.405]],BACK=[[-.22,.44],[-.27,.56],[-.31,.68],[-.34,.8],[-.355,.9]];
+const seg=(a,b,t=.045,x=0)=>{const dz=b[0]-a[0],dy=b[1]-a[1],L=Math.hypot(dz,dy);const g=new T.BoxGeometry(t,t,L+t*.6);g.rotateX(-Math.atan2(dy,dz));return g.translate(x,(a[1]+b[1])/2,(a[0]+b[0])/2);};
+function benchWood(){const p=[];for(const [z,y] of SEAT.slice(0,4))p.push(box(1,.028,.095,0,y+.035,z-.03));
+ for(let k=0;k<3;k++){const a=BACK[k+1],b=BACK[k+2]||BACK[k+1];const ang=Math.atan2(b[1]-a[1],b[0]-a[0]);const g=new T.BoxGeometry(1,.1,.026);g.rotateX(Math.PI/2+ang);p.push(g.translate(0,a[1]+.02,a[0]+.03));}return merge(p);}
+// Iron end frame: front and back legs splayed a little, the curved seat bearer, the curved back standard, and the
+// armrest that runs forward from the back and ends in a scroll curling down to the seat.
+function benchFrame(){const p=[seg([.2,0],[.23,.42]),seg([-.18,0],[-.22,.44]),seg([-.18,0],[.2,0],.035)];
+ for(let i=1;i<SEAT.length;i++)p.push(seg(SEAT[i-1],SEAT[i]));for(let i=1;i<BACK.length;i++)p.push(seg(BACK[i-1],BACK[i]));
+ p.push(seg([-.29,.64],[.12,.66],.04),seg([.12,.66],[.2,.64],.04));
+ const C=[.21,.59],R=.05;for(let k=0;k<7;k++){const a0=Math.PI/2-k*.8,a1=a0-.8;p.push(seg([C[0]+Math.cos(a0)*R,C[1]+Math.sin(a0)*R],[C[0]+Math.cos(a1)*R*.9,C[1]+Math.sin(a1)*R*.9],.03));}
+ p.push(seg([.2,.54],[.23,.45],.035));return merge(p);}
 function canGeometry(){const g=new T.LatheGeometry([[.0,0],[.3,0],[.3,.06],[.24,.14],[.27,.92],[.29,.95],[.0,.95]].map(([x,y])=>new T.Vector2(x,y)),18);return g;}
 function fountainGeometry(){return merge([new T.CylinderGeometry(.16,.22,.9,10).translate(0,.45,0),new T.CylinderGeometry(.27,.12,.14,14).translate(0,.97,0),
  new T.CylinderGeometry(.11,.15,.42,8).translate(.42,.21,0),new T.CylinderGeometry(.2,.1,.1,12).translate(.42,.47,0),box(.4,.08,.1,.22,.3,0)]);}
 export function buildParkFurniture(data,{groundY=.15,materials}={}){const g=new T.Group();g.name='park-furniture';const own=[],geos=[];
  const mat=(c,r=.7,m=0)=>{const x=new T.MeshStandardMaterial({color:c,roughness:r,metalness:m});own.push(x);return x;};
- const wood=mat(0x8b7a62,.85),iron=materials?.iron||mat(0x1d2124,.5,.6),granite=mat(0x5e5c58,.7),can=mat(0x18191a,.6,.3),castIron=mat(0x2a2c2c,.55,.5);
+ const wood=mat(0xa39580,.85),iron=materials?.iron||mat(0x1d2124,.5,.6),granite=mat(0x5e5c58,.7),can=mat(0x18191a,.6,.3),castIron=mat(0x2a2c2c,.55,.5);
  const benches=benchLayout(data.benches,data.paths),granites=graniteLayout(data.benchLines||[]);
  const o=new T.Object3D(),inst=(geo,material,list,place)=>{geos.push(geo);const im=new T.InstancedMesh(geo,material,Math.max(1,list.length));im.count=list.length;im.frustumCulled=false;im.castShadow=true;im.receiveShadow=true;
   list.forEach((it,k)=>{o.rotation.set(0,0,0);o.scale.set(1,1,1);place(it,o);o.updateMatrix();im.setMatrixAt(k,o.matrix);});g.add(im);return im;};
@@ -103,3 +111,24 @@ export function buildFences(barriers,{groundY=.15,inPark=()=>false,materials}={}
  const hm=new T.MeshStandardMaterial({color:0x3f5a2c,roughness:.95});own.push(hm);
  inst(new T.BoxGeometry(1,1,.8).translate(0,.5,0),hm,hed,(e,O)=>{O.position.set(e.p[0],groundY,-e.p[1]);O.rotation.y=e.a;O.scale.set(e.L+.3,e.h,1);});
  return {group:g,counts:{picketM:pos.length/18,posts:posts.length,links:chains.length,hedges:hed.length},dispose(){for(const m of own)m.dispose();for(const x of geos)x.dispose();}};}
+// ---- Lawn and bed edges (Avi, 14 Oct 2026, from his photo of the park): the beds and lawns are edged with low
+// black posts and drooping chains. OSM maps only a few of these fences, so every edge of a lawn or planting bed
+// inside the park that faces a walk gets one, 0.15 m out from the edge; edges shared with another lawn or bed
+// (where the outside is planting too) get none. Returned as barrier lines for buildFences (post-and-chain style).
+export function lawnEdgeChains(areas,{inPark,pip}){const soft=areas.filter(a=>(a.kind==='grass'||a.kind==='bed'||a.kind==='flowerbed'||a.kind==='shrubbery')&&a.ring.length>=3&&inPark(a.ring[0]));
+ const bbs=soft.map(a=>{const b=[1e9,1e9,-1e9,-1e9];for(const p of a.ring){b[0]=Math.min(b[0],p[0]);b[1]=Math.min(b[1],p[1]);b[2]=Math.max(b[2],p[0]);b[3]=Math.max(b[3],p[1]);}return b;});
+ const inSoft=(p,skip)=>soft.some((a,i)=>i!==skip&&p[0]>=bbs[i][0]&&p[0]<=bbs[i][2]&&p[1]>=bbs[i][1]&&p[1]<=bbs[i][3]&&pip(p,a.ring));
+ const lines=[];soft.forEach((a,ai)=>{const r=a.ring,n=r.length;let cur=null;
+  for(let i=0;i<n;i++){const p=r[i],q=r[(i+1)%n],dx=q[0]-p[0],dn=q[1]-p[1],L=Math.hypot(dx,dn);if(L<.3){continue;}
+   let nx=dn/L,nn=-dx/L;const m=[(p[0]+q[0])/2,(p[1]+q[1])/2];if(pip([m[0]+nx*.1,m[1]+nn*.1],r)){nx=-nx;nn=-nn;}// outward normal
+   const out=[m[0]+nx*.8,m[1]+nn*.8],keep=inPark(out)&&!inSoft(out,ai);
+   if(keep){const A=[p[0]+nx*.15,p[1]+nn*.15],B=[q[0]+nx*.15,q[1]+nn*.15];if(cur)cur.push(B);else{cur=[A,B];lines.push(cur);}}else cur=null;}});
+ return lines.filter(l=>{let s=0;for(let i=1;i<l.length;i++)s+=Math.hypot(l[i][0]-l[i-1][0],l[i][1]-l[i-1][1]);return s>1.5;}).map(pts=>({kind:'fence',height:.7,pts,edge:true}));}
+// Clipped boxwood balls along the walk side of each planting bed in the park (Avi's photo: rows of round, clipped
+// boxwoods just inside the bed edge), about 2 m apart and 0.7 m in, clear of tree trunks.
+export function boxwoodLayout(areas,trees,{inPark,pip}){const out=[];const h=x=>{const v=Math.sin(x*12.9898)*43758.5453;return v-Math.floor(v);};
+ for(const a of areas){if(a.kind!=='bed'||!inPark(a.ring[0]))continue;const r=a.ring,n=r.length;let carry=1;
+  for(let i=0;i<n;i++){const p=r[i],q=r[(i+1)%n],dx=q[0]-p[0],dn=q[1]-p[1],L=Math.hypot(dx,dn);if(L<.5)continue;let nx=dn/L,nn=-dx/L;const m=[(p[0]+q[0])/2,(p[1]+q[1])/2];if(!pip([m[0]+nx*.1,m[1]+nn*.1],r)){nx=-nx;nn=-nn;}// inward normal
+   for(let t=carry;t<L;t+=2.05){const c=[p[0]+dx/L*t+nx*.7,p[1]+dn/L*t+nn*.7];carry=t+2.05-L;if(!pip(c,r))continue;if(trees.some(tr=>Math.abs(tr.p[0]-c[0])<1.3&&Math.abs(tr.p[1]-c[1])<1.3))continue;if(out.some(o=>Math.abs(o.p[0]-c[0])<1.2&&Math.abs(o.p[1]-c[1])<1.2))continue;
+    const s=h(c[0]*3.7+c[1]);out.push({p:c,d:1.05+s*.35,y:.85+h(s*7)*.25});}}}
+ return out;}

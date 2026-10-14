@@ -10,7 +10,7 @@ const FLICKER=`float nvFlick(float t,float s){if(s<.55)return .85+.15*sin(t*1.7+
  float slow=step(.15,fract(sin(floor(t*.35+s*11.)*4.13)*913.7));return on*slow*(.6+.4*fract(sin(k*3.1)*99.));}`;
 export function flicker(t,s){if(s<.55)return .85+.15*Math.sin(t*1.7+s*40);const fr=x=>x-Math.floor(x);const k=Math.floor(t*7+s*93);
  const on=fr(Math.sin(k*12.9898+s*78.233)*43758.5453)>=.28?1:0,slow=fr(Math.sin(Math.floor(t*.35+s*11)*4.13)*913.7)>=.15?1:0;return on*slow*(.6+.4*fr(Math.sin(k*3.1)*99));}
-function haloTexture(){const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d'),r=g.createRadialGradient(32,32,0,32,32,32);r.addColorStop(0,'rgba(255,214,150,1)');r.addColorStop(.25,'rgba(255,190,120,.45)');r.addColorStop(1,'rgba(255,170,90,0)');g.fillStyle=r;g.fillRect(0,0,64,64);const t=new T.CanvasTexture(c);t.colorSpace=T.SRGBColorSpace;return t;}
+function haloTexture(){const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d'),r=g.createRadialGradient(32,32,0,32,32,32);r.addColorStop(0,'rgba(255,222,170,1)');r.addColorStop(.1,'rgba(255,205,140,.6)');r.addColorStop(.3,'rgba(255,190,120,.16)');r.addColorStop(.6,'rgba(255,180,110,.04)');r.addColorStop(1,'rgba(255,170,90,0)');g.fillStyle=r;g.fillRect(0,0,64,64);const t=new T.CanvasTexture(c);t.colorSpace=T.SRGBColorSpace;return t;}
 function fogTexture(){const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d');const r=(i=>()=>(i=(i*16807)%2147483647)/2147483647)(17);
  for(let i=0;i<40;i++){const x=20+r()*88,y=40+r()*48,s=14+r()*26,gr=g.createRadialGradient(x,y,0,x,y,s);gr.addColorStop(0,'rgba(200,210,220,.22)');gr.addColorStop(1,'rgba(200,210,220,0)');g.fillStyle=gr;g.fillRect(0,0,128,128);}
  const t=new T.CanvasTexture(c);return t;}
@@ -33,9 +33,10 @@ export function buildNight(world){const d=world.data,group=new T.Group();group.n
  const hg=keep(new T.PlaneGeometry(1,1));hg.setAttribute('aSeed',new T.InstancedBufferAttribute(seeds,1));hg.setAttribute('aAlive',new T.InstancedBufferAttribute(alive,1));const hm=new T.MeshBasicMaterial({map:keep(haloTexture()),transparent:true,depthWrite:false,blending:T.AdditiveBlending,color:0xffc890});keep(hm);
  hm.onBeforeCompile=sh=>{sh.uniforms.uTime=uniforms.uTime;sh.uniforms.uNight=uniforms.uNight;sh.uniforms.uDecay=DECAY;sh.uniforms.uFogGlow=uniforms.uFogGlow;
   sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nuniform float uTime;uniform float uNight;uniform float uDecay;uniform float uFogGlow;attribute float aSeed;attribute float aAlive;varying float vFl;\n'+FLICKER+LAMP).replace('#include <project_vertex>',`vFl=nvLamp(uTime,aSeed,aAlive)*uNight*(1.+.15*uFogGlow);
-// Glow in fog (Step A.4): the halo spreads wider as the low fog thickens.
-vec4 mvPosition=modelViewMatrix*instanceMatrix*vec4(0.,0.,0.,1.);mvPosition.xy+=position.xy*3.2*(1.+.55*uFogGlow);gl_Position=projectionMatrix*mvPosition;`);
-  sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nvarying float vFl;').replace('#include <opaque_fragment>','outgoingLight*=vFl;diffuseColor.a*=vFl;\n#include <opaque_fragment>');};
+// Glow in fog (Step A.4): the halo spreads wider as the low fog thickens. Tightened 14 Oct 2026 (Avi: halos too
+// large and strong): 1.7 m across in clear air, a little wider in fog, with a fast falloff from a small bright core.
+vec4 mvPosition=modelViewMatrix*instanceMatrix*vec4(0.,0.,0.,1.);mvPosition.xy+=position.xy*1.7*(1.+.35*uFogGlow);gl_Position=projectionMatrix*mvPosition;`);
+  sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nvarying float vFl;').replace('#include <opaque_fragment>','outgoingLight*=vFl*.65;diffuseColor.a*=vFl;\n#include <opaque_fragment>');};
  hm.customProgramCacheKey=()=>'nv-halo';const halo=new T.InstancedMesh(hg,hm,all.length);
  all.forEach((l,i)=>{o3.position.set(l.head[0],CURB_HEIGHT+l.head[1],-l.head[2]);o3.rotation.set(0,0,0);o3.scale.set(1.01,1.01,1.01);o3.updateMatrix();lantern.setMatrixAt(i,o3.matrix);halo.setMatrixAt(i,o3.matrix);});
  for(const m of [lantern,halo]){m.computeBoundingSphere();m.frustumCulled=false;group.add(m);}halo.renderOrder=3;
