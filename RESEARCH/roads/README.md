@@ -34,3 +34,14 @@ Bike symbols and BUS ONLY lettering, and the per-block Street View check (dates 
 - The orthoimagery and the map disagree by 2 to 5 m in places (building lean and registration), so it is used to decide what exists, not to place it.
 - Where OSM has no cycleway side for a one-way street, a conventional lane goes on the right. These are the first to check on Street View.
 - Lane counts and widths come from the city's centreline attributes; where the measured carriageway is too narrow for them, the lane count is reduced so no lane is under 2.7 m.
+
+## Pole audit (14 Oct 2026)
+
+Avi found sign and light poles standing in the lanes of W 8th St. The cause: the NYC DOT parking-sign points are not where the posts stand; most lie along the street centre line at the sign's distance from the intersection, and 2,076 of the 2,791 sign posts built from them stood in the roadway. Now (tools/lib/curbs.mjs, shared by the build tools and tests/poles.test.js):
+- Parking signs are moved to the curb on their own side of the street (`side_of_street`), 0.45 m in from the curb face. The `support` column decides the post: DR, POLE, PS, SPIG, VAB and the rarer codes get a post; SAME shares one; LP (lamp post), TS (signal pole) and BUSPOLE hang on poles already modelled, so they make no new post (880 signs). Signs within 0.8 m share a post. 177 signs with no curb on their side within 25 m are left out. Result: 2,124 posts, none in the roadway.
+- Hydrants in the roadway (45, offsets in the DEP points) move to the curb, 0.6 m in; one with no curb near is left out.
+- Street lamps in the roadway in OSM (16) move to the curb, 0.5 m in.
+- Signal poles whose corner bisector met a gap in the curbs (4) move to the curb.
+- tests/poles.test.js fails if any sign post, hydrant, bus stop pole, signal pole or street lamp stands in the roadway (roadbed minus sidewalks, plazas and raised medians).
+- Found along the way: about 100 street trees in the core "in the roadway" are on real sidewalks whose planimetric sidewalk polygon is missing (e.g. the north side of the street at x -150 to -60, n 280 to 310). Those are roadway-surface gaps for the artifact sweep, not misplaced trees.
+- Before and after: RESEARCH/screenshots/w8-poles-before-after-2026-10-14.png (W 8th St from Fifth Avenue looking west, noon).

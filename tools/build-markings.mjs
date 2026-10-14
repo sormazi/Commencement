@@ -16,6 +16,7 @@
 import fs from 'node:fs';
 import data from '../dist/campus/data/campus-data.js';
 import {makeProjection} from '../dist/campus/projection.js';
+import {curbIndex} from './lib/curbs.mjs';
 const root=new URL('../',import.meta.url),raw=f=>JSON.parse(fs.readFileSync(new URL('RESEARCH/data/raw/'+f,root)));
 const streets=raw('nightview-nyc-streets.json'),osm=raw('nightview-osm-washington-square.json');
 // Green paint is drawn only where the orthoimagery shows it (RESEARCH/roads/green-paint.json, written by
@@ -126,12 +127,14 @@ for(const s of S.segments){const pts=s.pts;for(let i=1;i<pts.length;i++){let a=p
 // both of its streets, a vehicle signal (for traffic coming through the intersection towards it) and a
 // pedestrian signal (for people crossing the other street towards it). Phase: the two axes alternate; every
 // intersection gets its own offset in the cycle.
-const poles=[];const hashN=k=>{const v=Math.sin(k*127.1+311.7)*43758.5453;return v-Math.floor(v);};
+const CI=curbIndex(data);const poles=[];const hashN=k=>{const v=Math.sin(k*127.1+311.7)*43758.5453;return v-Math.floor(v);};
 S.nodes.forEach((np,ni)=>{if((deg.get(ni)||0)<3||!near(signals,np,22))return;
  const dirs=[];for(const [a,b] of S.edges){if(a!==ni&&b!==ni)continue;const o=S.nodes[a===ni?b:a];dirs.push(Math.atan2(o[1]-np[1],o[0]-np[0]));}
  dirs.sort((x,y)=>x-y);const axis0=dirs[0];const off=Math.round(hashN(ni)*90);
  for(let k=0;k<dirs.length;k++){const a1=dirs[k],a2=k+1<dirs.length?dirs[k+1]:dirs[0]+2*Math.PI;if(a2-a1>Math.PI*1.25||a2-a1<.35)continue;const bis=(a1+a2)/2,d=[Math.cos(bis),Math.sin(bis)];
-  const h=hits(curbG,np,d,30)[0];if(h==null)continue;const p=[np[0]+d[0]*(h+.6),np[1]+d[1]*(h+.6)];
+  const h=hits(curbG,np,d,30)[0];if(h==null)continue;let p=[np[0]+d[0]*(h+.6),np[1]+d[1]*(h+.6)];
+  // Pole audit (14 Oct 2026): a corner whose bisector meets a gap in the curbs lands in a lane; move it to the curb or drop it.
+  if(CI.inRoad(p)){const s=CI.snap(p,.6,8);if(!s||CI.inRoad(s)){stats.polesDropped=(stats.polesDropped||0)+1;continue;}p=s;stats.polesMoved=(stats.polesMoved||0)+1;}
   // Which axis a street belongs to: within 45 degrees of the first street's line, or not.
   const ax=a=>{const t=Math.abs(((a-axis0)%Math.PI+Math.PI)%Math.PI);return Math.min(t,Math.PI-t)<Math.PI/4?0:1;};
   poles.push([q(p[0]),q(p[1]),Math.round(a1*1000)/1000,Math.round(a2*1000)/1000,ax(a1),ax(a2),off]);}});

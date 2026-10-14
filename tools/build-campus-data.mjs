@@ -6,6 +6,7 @@
 //   nightview-nyc-pluto.json               MapPLUTO / PLUTO, 64uk-42ks (NYC Open Data)
 //   nightview-nyc-planimetrics.json        NYC Planimetric Database layers, Centerline, Forestry Tree Points etc.
 import fs from 'node:fs';
+import {curbIndex} from './lib/curbs.mjs';
 import {makeProjection} from '../dist/campus/projection.js';
 const root=new URL('../',import.meta.url),raw=f=>JSON.parse(fs.readFileSync(new URL('RESEARCH/data/raw/'+f,root)));
 const osm=raw('nightview-osm-washington-square.json'),fp=raw('nightview-nyc-footprints.json'),pluto=raw('nightview-nyc-pluto.json'),plan=raw('nightview-nyc-planimetrics.json');
@@ -58,6 +59,10 @@ const barriers=[];for(const w of ways.values()){const b=w.tags?.barrier;if(!b||!
 const paths=[];for(const w of ways.values()){const t=w.tags;if(!t?.highway||!/footway|pedestrian|path|steps|cycleway|living_street|service/.test(t.highway))continue;if(t.footway==='sidewalk')continue;const p=wayPts(w);if(!p.some(v=>inside(v,10)))continue;paths.push({kind:t.highway,sub:t.footway||t.service||null,surface:t.surface||null,name:t.name||null,id:w.id,width:t.width?+t.width:null,area:t.area==='yes',pts:p});}
 const pointsOf=(test)=>els.filter(e=>e.type==='node'&&e.tags&&test(e.tags)).map(e=>({id:e.id,p:pt(e.lon,e.lat),t:e.tags})).filter(o=>inside(o.p,5));
 const lamps=pointsOf(t=>t.highway==='street_lamp').map(o=>({p:o.p,mount:o.t.lamp_mount||null,support:o.t.support||null}));
+// Street lamps standing in the roadway in OSM (a mapped point a few metres off) go to the nearest curb, 0.5 m in
+// (pole audit, 14 Oct 2026); lamps on raised medians and sidewalks stay where they are.
+{const CI=curbIndex({roadbed,sidewalk,plazas,median,medianKind});let moved=0;for(const l of lamps)if(CI.inRoad(l.p)){const s=CI.snap(l.p,.5,30);if(s&&!CI.inRoad(s.map(v=>Math.round(v*100)/100))){l.p=s.map(v=>Math.round(v*100)/100);moved++;}else l.drop=true;}
+ for(let i=lamps.length-1;i>=0;i--)if(lamps[i].drop)lamps.splice(i,1);console.log('lamps moved out of the roadway',moved,'kept',lamps.length);}
 const benches=pointsOf(t=>t.amenity==='bench').map(o=>({p:o.p,backrest:o.t.backrest||null}));
 const benchLines=[...ways.values()].filter(w=>w.tags?.amenity==='bench').map(w=>wayPts(w));
 const monuments=pointsOf(t=>t.historic||t.tourism==='artwork'||t.man_made==='flagpole'||t.memorial).map(o=>({p:o.p,name:o.t.name||null,kind:o.t.historic||o.t.tourism||o.t.man_made||'memorial',artist:o.t.artist_name||null,date:o.t.start_date||null,wikidata:o.t.wikidata||null,id:o.id}));
