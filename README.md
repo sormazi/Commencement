@@ -7,7 +7,7 @@
 
 <p align="center"><img src="docs/readme/arch_dusk.jpg" alt="The Washington Square Arch from Fifth Avenue at dusk" width="80%"></p>
 
-Commencement is Washington Square Park and the streets, buildings, businesses around it, rebuilt one to one.
+Commencement is Washington Square Park and the streets, buildings, businesses and people around it, rebuilt one to one.
 
 ## The haunted one
 
