@@ -2,13 +2,12 @@
 
 <h1 align="center">Commencement</h1>
 
-<p align="center"><em>Real places, made playable. Starting with Washington Square.</em></p>
 
 <p align="center"><a href="https://sormazi.github.io/Commencement/"><img src="https://img.shields.io/badge/Play%20in%20your%20browser-57068c?style=for-the-badge" alt="Play in your browser"></a></p>
 
 <p align="center"><img src="docs/readme/arch_dusk.jpg" alt="The Washington Square Arch from Fifth Avenue at dusk" width="80%"></p>
 
-Commencement is Washington Square and the streets around NYU, rebuilt one to one, as a place you can actually be in. Same streets, same buildings, same corner where you always wait too long for the light. Right now there's one way into it. A second one is on the way.
+Commencement is Washington Square Park and the streets, buildings, businesses around it, rebuilt one to one.
 
 ## The haunted one
 
@@ -29,13 +28,11 @@ Then, partway through, the world tears, and it's 2126. Nobody's left. Trees have
 
 ## Campus (coming, not playable yet)
 
-The other way in is Campus, a shared version of the same 2026 neighborhood. The idea is that you can walk around it with other people: find your friends, run into people you don't know yet, study together in Bobst, meet up with your club, and leave notes and recommendations at real places for whoever comes by next. It should show up for the same moments the real campus does, like move-in week, finals, the tree going up at the Arch, the Halloween parade, and Commencement itself. A few characters around campus won't be real people, and they'll be clearly marked as such.
-
-I'm building it now. It isn't available yet, and I'll update this when it is.
+The other way in is Campus, a shared version of the same 2026 neighborhood. The idea is that you can walk around it with other people: find your friends, run into people you don't know yet, study together in Bobst, meet up with your club, and leave notes and recommendations at real places for whoever comes by next. It should show up for the same moments the real campus does, like move-in week, finals, the tree going up at the Arch, the Halloween parade, and Commencement itself. There will be AI NPCs making the place lively and introducing new things to do. I'm building it now. It isn't available yet, and I'll update this when it is.
 
 ## Why I'm making this
 
-NYU doesn't have a quad. The campus is spread through the city, and it's easy to go a whole semester feeling like you're on your own in it, even surrounded by people. I wanted a version of this place where people can actually find each other.
+The campus is spread through the city, and it's easy to go a whole semester feeling like you're on your own in it, even surrounded by people. I wanted a version of this place where people can actually find each other.
 
 ## How close is it to the real thing?
 
@@ -53,7 +50,6 @@ As close as I can get it. The streets are the real streets at their real widths,
 | Put the car back on the street | R |
 | Pause | Esc |
 
-Sound starts after you click or press a key. The options menu (top right) has the time of day, the year, the weather (live, or pick one), graphics quality, sound and music. The music is an original jazz ballad written for the game, "Washington Square, After Hours".
 
 ## Run it yourself
 
@@ -77,5 +73,3 @@ Then open http://localhost:4173. If something else is already using that port, r
 ---
 
 Map data © OpenStreetMap contributors (ODbL) and NYC Open Data. Weather from [Open-Meteo](https://open-meteo.com/) (CC BY 4.0), with the [National Weather Service](https://www.weather.gov/) as a backup. Trees are grown with [EZ-Tree](https://github.com/dgreenheck/ez-tree) by Daniel Greenheck (MIT). Instrument sounds from FluidR3_GM (MIT). Reference photos are from Wikimedia Commons. Everything is credited in full in [the credits](dist/credits.html).
-
-Commencement is an unofficial fan project. It isn't affiliated with or endorsed by NYU.
